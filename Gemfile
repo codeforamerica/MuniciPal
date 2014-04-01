@@ -40,6 +40,9 @@ gem 'rgeo-geojson'
 gem 'activerecord-postgis-adapter'
 gem 'rgeo-shapefile'
 
+# Geocoding
+gem 'geokit'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 
