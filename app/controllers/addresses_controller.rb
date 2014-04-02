@@ -11,9 +11,13 @@ class AddressesController < ApplicationController
       if params[:address] != nil and !params[:address].empty?
         address = Geokit::Geocoders::MultiGeocoder.geocode(params[:address])
         @in_district = HistoricDistrict.inDistrict? address.lat, address.lng
+        @lat = address.lat
+        @lng = address.lng
       end
       if params[:lat] != nil  and params[:long] != nil and !params[:lat].empty? and !params[:long].empty?
         @in_district = HistoricDistrict.inDistrict? params[:lat], params[:long]
+        @lat = params[:lat]
+        @lng = params[:long]
       end
 
     end

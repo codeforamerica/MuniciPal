@@ -12,4 +12,4 @@
  *= require_tree .
  *= require leaflet
  */
-#map { height: 180px; }
+#map { height: 500px; }
