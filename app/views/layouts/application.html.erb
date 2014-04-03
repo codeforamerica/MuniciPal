@@ -5,14 +5,37 @@
   <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
   <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
   <%= csrf_meta_tags %>
+  <script src='https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js'></script>
+	<link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.css' rel='stylesheet' />
 </head>
 <body>
-<!-- 	<div id="map"></div>
-	map(:center => {
-    :latlng => [51.52238797921441, -0.08366235665359283],
-    :zoom => 18
-}) 	 -->
+
+	<div id="map"></div>
+
 	<%= yield %>
 
 </body>
+<script>
+		var map = L.mapbox.map('map', 'codeforamerica.hmebo8ll')
+    	.setView([29.423889, -98.493056], 12);
+
+    var historicDistrictLayer = L.mapbox.featureLayer(<%= raw @district_polygon %>)
+    .addTo(map);
+
+    var markerLayer = L.mapbox.featureLayer({
+                                              type: "FeatureCollection",
+                                              features: [{
+                                                          type: "Feature",
+                                                          geometry: {
+                                                                      type: "Point",
+                                                                      coordinates: [<%= @lng %>, <%= @lat %>]
+                                                                    },
+                                                          properties: { 
+                                                                        'marker-color': '#f00'
+                                                                      }
+                                                        }]
+                                          })
+    .addTo(map);
+
+ </script>
 </html>

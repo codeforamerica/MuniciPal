@@ -2,9 +2,5 @@ Lat: <%= @lat %>
 Long: <%= @lng %>
 Address: <%= params[:address] %>
 In Historical District? <%= @in_district %>
+<%= @district_polygon %>
 
-<%= map(:center => { :latlng => [29.424580,-98.494614], :zoom => 10 },
-				:markers => [
-											{
-												:latlng => [@lat, @lng]
-												}]) %>

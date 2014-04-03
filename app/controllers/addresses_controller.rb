@@ -13,6 +13,7 @@ class AddressesController < ApplicationController
         @in_district = HistoricDistrict.inDistrict? address.lat, address.lng
         @lat = address.lat
         @lng = address.lng
+        @district_polygon = HistoricDistrict.getDistrict address.lat, address.lng
       end
       if params[:lat] != nil  and params[:long] != nil and !params[:lat].empty? and !params[:long].empty?
         @in_district = HistoricDistrict.inDistrict? params[:lat], params[:long]
