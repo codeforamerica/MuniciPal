@@ -9,33 +9,149 @@
 	<link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.css' rel='stylesheet' />
 </head>
 <body>
+  <style>
+  .map-overlay {
+      position:absolute;
+      top:5px;
+      right:5px;
+      padding:5px;
+      /*background:#fff;*/
+      font-size:20px;
+      background-color: transparent;
+      font-family: Arial, Helvetica, sans-serif;
+  }
+  .map-overlay input {
+      font:inherit;
+  }
+  </style>
+
 
 	<div id="map"></div>
-
+  <div class='map-overlay'>
+      <!-- <label for='address'>Address</label><br /> -->
+      <input type='text' size='50' id='address' /><br />
+<!--       <label for='latitude'>latitude</label><br />
+      <input type='text' size='5' id='latitude' /><br />
+      <label for='longitude'>longitude</label><br />
+      <input type='text' size='5' id='longitude' /><br />
+      <label for='district_polygon'>district_polygon</label><br />
+      <input type='text' size='200' id='district_polygon' />  -->     
+  </div>
 	<%= yield %>
 
 </body>
 <script>
-		var map = L.mapbox.map('map', 'codeforamerica.hmebo8ll')
+    var prj = 'codeforamerica.hmebo8ll';
+		var map = L.mapbox.map('map', prj)
     	.setView([29.423889, -98.493056], 12);
 
-    var historicDistrictLayer = L.mapbox.featureLayer(<%= raw @district_polygon %>)
-    .addTo(map);
+     var historicDistrictLayer = L.mapbox.featureLayer()
+     .addTo(map);
 
-    var markerLayer = L.mapbox.featureLayer({
-                                              type: "FeatureCollection",
-                                              features: [{
-                                                          type: "Feature",
-                                                          geometry: {
-                                                                      type: "Point",
-                                                                      coordinates: [<%= @lng %>, <%= @lat %>]
-                                                                    },
-                                                          properties: { 
-                                                                        'marker-color': '#f00'
-                                                                      }
-                                                        }]
-                                          })
-    .addTo(map);
+    // var geocoderCtrlr = map
+    // .addControl(L.mapbox.geocoderControl(prj, {
+    //     keepOpen: true
+    // }));
+
+    // geocoderCtrlr.on('onkeyup', function(e) {
+    // alert(e.keyCode);
+    // });
+    // map.on('click', function(e) {
+    // alert(e.latlng); // e is an event object (MouseEvent in this case)
+    // });
+
+    
+    // get the form inputs we want to update
+    var address = document.getElementById('address');
+    // var latitude = document.getElementById('latitude');
+    // var longitude = document.getElementById('longitude');
+    // var district_polygon = document.getElementById('district_polygon');
+
+    // address.onkeyup = function(e) {
+    //   if (e.keyCode == 13) { //'enter pressed'
+    //     alert(address.value);
+
+    //   }
+    // };
+
+    $( "#address" ).keyup(function(e) {
+      if (e.keyCode == 13) { // enter pressed
+        //alert($(this).val());
+        $.ajax({
+          type: 'GET',
+          url: '/',
+          data: {
+                    'address': $(this).val(),
+                  },
+          dataType: 'json',
+          success: function( data ) {
+            var txt = "";
+              $.each( data, function( key, val ) {
+              txt += " Key: " + key + " Value: " + val;
+  });
+
+            // $("#latitude").val(data.lat);
+            // $("#longitude").val(data.lng);
+            // $("#district_polygon").val(data.district_polygon);
+            historicDistrictLayer.setGeoJSON($.parseJSON(data.district_polygon));
+
+
+
+            var marker = L.marker(new L.LatLng(data.lat, data.lng), {
+                        icon: L.mapbox.marker.icon({'marker-color': 'CC0033'}),
+                        draggable: false
+                        });
+
+            marker.addTo(map);
+          }
+
+        })
+      }
+    });
+
+  //       $.ajax({
+  //         type: 'GET',
+  //         url: '/',
+  //         data: {
+  //           'address': $(this).val,
+  //         },
+  //         dataType: 'json'
+  //         success: function( data ) {
+  //         $( "#weather-temp" ).html( "<strong>" + data + "</strong> degrees" );
+  // }
+  //         }
+  //     }
+  //   });   
+
+// $(".prod-name-input").keyup($.debounce(350, function(){
+//     searchword = $(this).val();
+
+//     if((searchword.length) > 3) {
+//         if (ajaxReq != null) ajaxReq.abort();
+//         var ajaxReq =  $.ajax({
+//             url: "invoice-get-data.php?searchword=" + searchword,
+//             dataType: "html",
+//             success: function(data){
+//                 $(".smart-suggestions").html(data);
+//              }
+//         });
+//     }
+// }));
+
+// var hiddenBox = $( "#banner-message" );
+// $( "#button-container button" ).on( "click", function( event ) {
+//   hiddenBox.show();
+// });
+
+// $.ajax({
+//   url: "/api/getWeather",
+//   data: {
+//     zipcode: 97201
+//   },
+//   success: function( data ) {
+//     $( "#weather-temp" ).html( "<strong>" + data + "</strong> degrees" );
+//   }
+// });
 
  </script>
 </html>

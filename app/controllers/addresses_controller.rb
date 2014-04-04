@@ -3,6 +3,8 @@ require 'geokit'
 
 class AddressesController < ApplicationController
 
+    respond_to :html, :json
+
     def index
 
       @in_district = false
@@ -21,6 +23,12 @@ class AddressesController < ApplicationController
         @lng = params[:long]
       end
 
+      @response = { :lat => @lat,
+                    :lng => @lng,
+                    :in_district => @in_district,
+                    :district_polygon => @district_polygon
+                  }
+      respond_with(@response)
     end
 end
 
