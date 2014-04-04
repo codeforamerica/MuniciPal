@@ -47,7 +47,11 @@
 
      var historicDistrictLayer = L.mapbox.featureLayer()
      .addTo(map);
-
+     var marker = L.marker(new L.LatLng(29.423889, -98.493056), {
+            icon: L.mapbox.marker.icon({'marker-color': 'CC0033'}),
+            draggable: false
+            });
+      marker.addTo(map);
     // var geocoderCtrlr = map
     // .addControl(L.mapbox.geocoderControl(prj, {
     //     keepOpen: true
@@ -94,15 +98,10 @@
             // $("#longitude").val(data.lng);
             // $("#district_polygon").val(data.district_polygon);
             historicDistrictLayer.setGeoJSON($.parseJSON(data.district_polygon));
+            marker.setLatLng(new L.LatLng(data.lat, data.lng));
+            map.setView([data.lat, data.lng], 15);
 
 
-
-            var marker = L.marker(new L.LatLng(data.lat, data.lng), {
-                        icon: L.mapbox.marker.icon({'marker-color': 'CC0033'}),
-                        draggable: false
-                        });
-
-            marker.addTo(map);
           }
 
         })
