@@ -17,10 +17,13 @@ class AddressesController < ApplicationController
         @lng = address.lng
         @district_polygon = HistoricDistrict.getDistrict address.lat, address.lng
       end
+      print params[:lat]
+      print params[:long]
       if params[:lat] != nil  and params[:long] != nil and !params[:lat].empty? and !params[:long].empty?
         @in_district = HistoricDistrict.inDistrict? params[:lat], params[:long]
         @lat = params[:lat]
         @lng = params[:long]
+        @district_polygon = HistoricDistrict.getDistrict params[:lat], params[:long]
       end
 
       @response = { :lat => @lat,

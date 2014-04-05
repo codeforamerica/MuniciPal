@@ -49,7 +49,7 @@
      .addTo(map);
      var marker = L.marker(new L.LatLng(29.423889, -98.493056), {
             icon: L.mapbox.marker.icon({'marker-color': 'CC0033'}),
-            draggable: false
+            draggable: true
             });
       marker.addTo(map);
     // var geocoderCtrlr = map
@@ -63,7 +63,18 @@
     // map.on('click', function(e) {
     // alert(e.latlng); // e is an event object (MouseEvent in this case)
     // });
+    // every time the marker is dragged, update the form
+    marker.on('dragend', ondragend);
 
+    // set the initial values in the form
+    //ondragend();
+
+    function ondragend() {
+        var ll = marker.getLatLng();
+        // latitude.value = ll.lat;
+        // longitude.value = ll.lng;
+        updateMarker({'lat': ll.lat, 'long': ll.lng});
+    }
     
     // get the form inputs we want to update
     var address = document.getElementById('address');
@@ -78,45 +89,50 @@
     //   }
     // };
 
+    function updateMarker(d) {
+      $.ajax({
+        type: 'GET',
+        url: '/',
+        data: d,
+        dataType: 'json',
+        success: function( data ) {
+          // var txt = "";
+          // $.each( data, function( key, val ) {
+          //   if (key != "st_asgeojson") {
+          //     txt += " Key: " + key + " Value: " + val;
+          //   }
+          //   alert(txt);
+          // });
+
+          // $("#latitude").val(data.lat);
+          // $("#longitude").val(data.lng);
+          // $("#district_polygon").val(data.district_polygon);
+          marker.setLatLng(new L.LatLng(data.lat, data.lng));
+          marker.bindPopup(new L.Popup()).openPopup();
+          var hisDisStr = "";
+          // alert("in District: " + data.in_district);
+          if (data.in_district) {
+            historicDistrictLayer.setGeoJSON($.parseJSON(data.district_polygon.st_asgeojson));
+            historicDistrictLayer.setFilter(function() { return true; });
+            hisDisStr = "<br>Historic District: " + data.district_polygon.name;
+          }
+          else {
+            historicDistrictLayer.setFilter(function() { return false; });
+          }
+          marker.setPopupContent( "Latitude: " + data.lat + 
+                                  "<br>Longitude: " + data.lng + 
+                                  hisDisStr);
+          map.setView([data.lat, data.lng], 15);
+
+
+        }
+
+      })
+    }
     $( "#address" ).keyup(function(e) {
       if (e.keyCode == 13) { // enter pressed
         //alert($(this).val());
-        $.ajax({
-          type: 'GET',
-          url: '/',
-          data: {
-                    'address': $(this).val(),
-                  },
-          dataType: 'json',
-          success: function( data ) {
-            // var txt = "";
-            // $.each( data, function( key, val ) {
-            //   if (key != "st_asgeojson") {
-            //     txt += " Key: " + key + " Value: " + val;
-            //   }
-            //   alert(txt);
-            // });
-
-            // $("#latitude").val(data.lat);
-            // $("#longitude").val(data.lng);
-            // $("#district_polygon").val(data.district_polygon);
-            marker.setLatLng(new L.LatLng(data.lat, data.lng));
-            marker.bindPopup(new L.Popup()).openPopup();
-            var hisDisStr = "";
-            // alert("in District: " + data.in_district);
-            if (data.in_district) {
-              historicDistrictLayer.setGeoJSON($.parseJSON(data.district_polygon.st_asgeojson));
-              hisDisStr = "<br>Historic District: " + data.district_polygon.name;
-            }
-            marker.setPopupContent( "Latitude: " + data.lat + 
-                                    "<br>Longitude: " + data.lng + 
-                                    hisDisStr);
-            map.setView([data.lat, data.lng], 15);
-
-
-          }
-
-        })
+        updateMarker({'address': $(this).val()});
       }
     });
 
