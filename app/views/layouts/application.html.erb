@@ -89,16 +89,28 @@
                   },
           dataType: 'json',
           success: function( data ) {
-            var txt = "";
-              $.each( data, function( key, val ) {
-              txt += " Key: " + key + " Value: " + val;
-  });
+            // var txt = "";
+            // $.each( data, function( key, val ) {
+            //   if (key != "st_asgeojson") {
+            //     txt += " Key: " + key + " Value: " + val;
+            //   }
+            //   alert(txt);
+            // });
 
             // $("#latitude").val(data.lat);
             // $("#longitude").val(data.lng);
             // $("#district_polygon").val(data.district_polygon);
-            historicDistrictLayer.setGeoJSON($.parseJSON(data.district_polygon));
             marker.setLatLng(new L.LatLng(data.lat, data.lng));
+            marker.bindPopup(new L.Popup()).openPopup();
+            var hisDisStr = "";
+            // alert("in District: " + data.in_district);
+            if (data.in_district) {
+              historicDistrictLayer.setGeoJSON($.parseJSON(data.district_polygon.st_asgeojson));
+              hisDisStr = "<br>Historic District: " + data.district_polygon.name;
+            }
+            marker.setPopupContent( "Latitude: " + data.lat + 
+                                    "<br>Longitude: " + data.lng + 
+                                    hisDisStr);
             map.setView([data.lat, data.lng], 15);
 
 

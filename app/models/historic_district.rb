@@ -32,7 +32,8 @@ class HistoricDistrict < ActiveRecord::Base
 # where ST_Contains(historicdistricts.geom, ST_SetSRID(ST_Transform(ST_SetSRID(ST_MakePoint(-98.491842, 29.414678),4326), 2278), 0));
     @row = @area_in_geojson.first
     if @row
-      @geojson = @row.st_asgeojson
+      #@geojson = @row.st_asgeojson
+      @geojson = @row
     end
 
     return @geojson
