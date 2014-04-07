@@ -16,7 +16,7 @@
       right:5px;
       padding:5px;
       /*background:#fff;*/
-      font-size:20px;
+      font-size: 30px;
       background-color: transparent;
       font-family: Arial, Helvetica, sans-serif;
   }
@@ -29,7 +29,7 @@
 	<div id="map"></div>
   <div class='map-overlay'>
       <!-- <label for='address'>Address</label><br /> -->
-      <input type='text' size='50' id='address' /><br />
+      <input type='search' size='50' id='address' placeholder='Enter Address'/><br />
 <!--       <label for='latitude'>latitude</label><br />
       <input type='text' size='5' id='latitude' /><br />
       <label for='longitude'>longitude</label><br />
@@ -119,9 +119,7 @@
           else {
             historicDistrictLayer.setFilter(function() { return false; });
           }
-          marker.setPopupContent( "Latitude: " + data.lat + 
-                                  "<br>Longitude: " + data.lng + 
-                                  hisDisStr);
+          marker.setPopupContent("Address: " + data.address + hisDisStr);
           map.setView([data.lat, data.lng], 15);
 
 

@@ -11,23 +11,27 @@ class AddressesController < ApplicationController
 
 
       if params[:address] != nil and !params[:address].empty?
-        address = Geokit::Geocoders::MultiGeocoder.geocode(params[:address])
+        address = Geokit::Geocoders::MultiGeocoder.geocode params[:address]
         @in_district = HistoricDistrict.inDistrict? address.lat, address.lng
         @lat = address.lat
         @lng = address.lng
+        @addr = address.full_address
         @district_polygon = HistoricDistrict.getDistrict address.lat, address.lng
       end
       print params[:lat]
       print params[:long]
       if params[:lat] != nil  and params[:long] != nil and !params[:lat].empty? and !params[:long].empty?
+        address = Geokit::Geocoders::MultiGeocoder.reverse_geocode "#{params[:lat]}, #{params[:long]}"
         @in_district = HistoricDistrict.inDistrict? params[:lat], params[:long]
         @lat = params[:lat]
         @lng = params[:long]
+        @addr = address.full_address
         @district_polygon = HistoricDistrict.getDistrict params[:lat], params[:long]
       end
 
       @response = { :lat => @lat,
                     :lng => @lng,
+                    :address => @addr,
                     :in_district => @in_district,
                     :district_polygon => @district_polygon
                   }
