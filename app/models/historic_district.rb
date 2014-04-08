@@ -17,8 +17,7 @@ class HistoricDistrict < ActiveRecord::Base
 
     return @spec_area.exists?
   end
-  #select * from historicdistricts where ST_Contains(historicdistricts.geom, ST_SetSRID(ST_Transform(ST_SetSRID(ST_MakePoint(-98.491842, 29.414678),4326), 2278), 0));
-
+ 
   def self.getDistrict lat, long
     # figure out if it is in a specific area in historical district
     @area_in_geojson = HistoricDistrict.find_by_sql("select name, acres, shape_leng, shape_area, ST_AsGeoJSON(ST_Transform(ST_SetSRID(geom, #{COORD_SYS_AREA}), #{COORD_SYS_REF}))
@@ -26,17 +25,8 @@ class HistoricDistrict < ActiveRecord::Base
                                                      where ST_Contains(historicdistricts.geom,
                                                      ST_SetSRID(ST_Transform(ST_SetSRID(ST_MakePoint(#{long}, #{lat}),#{COORD_SYS_REF}), #{COORD_SYS_AREA}), #{COORD_SYS_ZONE}))")
 
-
-# select name, acres, shape_leng, shape_area, ST_AsGeoJSON(ST_Transform(ST_SetSRID(geom, 2278),4326))
-# from historicdistricts 
-# where ST_Contains(historicdistricts.geom, ST_SetSRID(ST_Transform(ST_SetSRID(ST_MakePoint(-98.491842, 29.414678),4326), 2278), 0));
-    @row = @area_in_geojson.first
-    if @row
-      #@geojson = @row.st_asgeojson
-      @geojson = @row
-    end
-
-    return @geojson
+    
+    return @area_in_geojson.first
   end
 
 end

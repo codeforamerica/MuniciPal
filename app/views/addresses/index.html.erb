@@ -1,2 +1,12 @@
+<% content_for :head do %>
+  
+  <%= javascript_include_tag  "https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js" %>
+  <%= stylesheet_link_tag     "https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.css" %>
 
+<% end %>
 
+<div id="map"></div>
+<div class='map-overlay'>
+  <input type='search' size='50' id='address' placeholder='Enter Address'/><br />    
+</div>
+<%= javascript_include_tag "addresses", "data-turbolinks-track" => true %> 

@@ -1,3 +1,19 @@
 // Place all the styles related to the Addresses controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+#map { height: 500px; }
+
+.map-overlay {
+    position:absolute;
+    top:5px;
+    right:5px;
+    padding:5px;
+    font-size: 30px;
+    background-color: transparent;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.map-overlay input {
+    font:inherit;
+}
