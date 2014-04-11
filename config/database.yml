@@ -60,6 +60,4 @@ production:
   encoding: unicode
   database: zone_production
   pool: 5
-  username: zone
-  password:
   schema_search_path: "public,postgis"
