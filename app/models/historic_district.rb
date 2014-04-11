@@ -1,6 +1,6 @@
 class HistoricDistrict < ActiveRecord::Base
-  self.primary_key = 'gid'
-  self.table_name = 'historicdistricts'
+  # self.primary_key = 'gid'
+  # self.table_name = 'historicdistricts'
 
   COORD_SYS_REF = 4326;   # The coordinate system that will be used as the reference and is now Latitude and Longitude Coord System
   COORD_SYS_AREA = 2278;  # The coordinate system used in the data Texas South Central Coordinate System
@@ -21,8 +21,8 @@ class HistoricDistrict < ActiveRecord::Base
   def self.getDistrict lat, long
     # figure out if it is in a specific area in historical district
     @area_in_geojson = HistoricDistrict.find_by_sql("select name, acres, shape_leng, shape_area, ST_AsGeoJSON(ST_Transform(ST_SetSRID(geom, #{COORD_SYS_AREA}), #{COORD_SYS_REF}))
-                                                     from historicdistricts 
-                                                     where ST_Contains(historicdistricts.geom,
+                                                     from historic_districts 
+                                                     where ST_Contains(geom,
                                                      ST_SetSRID(ST_Transform(ST_SetSRID(ST_MakePoint(#{long}, #{lat}),#{COORD_SYS_REF}), #{COORD_SYS_AREA}), #{COORD_SYS_ZONE}))")
 
     
