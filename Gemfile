@@ -35,10 +35,10 @@ group :doc do
 end
 
 # GIS 	
-gem 'rgeo', '0.3.20'
-gem 'rgeo-geojson', '0.2.3'
-gem 'activerecord-postgis-adapter', '0.6.5'
-gem 'rgeo-shapefile', '0.2.3'
+# gem 'rgeo', '0.3.20'
+# gem 'rgeo-geojson', '0.2.3'
+# gem 'activerecord-postgis-adapter', '0.6.5'
+# gem 'rgeo-shapefile', '0.2.3'
 
 # Geocoding
 gem 'geokit', '1.8.4'
