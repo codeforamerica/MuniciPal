@@ -2,6 +2,10 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 require 'active_record/connection_adapters/postgis_adapter/railtie'
+require "#{Rails.root}/app/models/settings.rb"
+config.assets.paths << "#{Rails.root}/app/assets/stylesheets"
+config.assets.paths << "#{Rails.root}/app/assets/images"
+config.assets.paths << "#{Rails.root}/app/assets/javascripts"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
