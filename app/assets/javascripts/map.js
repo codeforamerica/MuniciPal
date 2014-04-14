@@ -4,7 +4,7 @@
 
    var historicDistrictLayer = L.mapbox.featureLayer()
    .addTo(map);
-   var cosaDistrictLayer = L.mapbox.featureLayer()
+   var cosaDistrictLayer = L.mapbox.featureLayer(null, {fill: 'red'})
    .addTo(map);
 
    var marker = L.marker(new L.LatLng(29.423889, -98.493056), {
@@ -31,7 +31,12 @@
           marker.bindPopup(new L.Popup()).openPopup();
           var histDisStr = "";
           if (data.in_hist_district) {
-            historicDistrictLayer.setGeoJSON($.parseJSON(data.hist_district_polygon.st_asgeojson));
+            var geoJSON = $.parseJSON(data.hist_district_polygon.st_asgeojson);
+            console.log(geoJSON);
+            geoJSON.properties= {};
+            geoJSON.properties.fill = 'red';
+            historicDistrictLayer.setGeoJSON(geoJSON);
+            
             historicDistrictLayer.setFilter(function() { return true; });
             histDisStr = "<br>Historic District: " + data.hist_district_polygon.name;
           }
