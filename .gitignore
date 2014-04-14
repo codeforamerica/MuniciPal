@@ -17,3 +17,6 @@
 
 # Ignore environment variables.
 .env
+
+#Ignore precompile.
+/public/assets/*
