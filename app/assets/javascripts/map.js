@@ -4,6 +4,9 @@
 
    var historicDistrictLayer = L.mapbox.featureLayer()
    .addTo(map);
+   var cosaDistrictLayer = L.mapbox.featureLayer()
+   .addTo(map);
+
    var marker = L.marker(new L.LatLng(29.423889, -98.493056), {
           icon: L.mapbox.marker.icon({'marker-color': 'CC0033'}),
           draggable: true
@@ -26,16 +29,28 @@
         success: function( data ) {
           marker.setLatLng(new L.LatLng(data.lat, data.lng));
           marker.bindPopup(new L.Popup()).openPopup();
-          var hisDisStr = "";
-          if (data.in_district) {
-            historicDistrictLayer.setGeoJSON($.parseJSON(data.district_polygon.st_asgeojson));
+          var histDisStr = "";
+          if (data.in_hist_district) {
+            historicDistrictLayer.setGeoJSON($.parseJSON(data.hist_district_polygon.st_asgeojson));
             historicDistrictLayer.setFilter(function() { return true; });
-            hisDisStr = "<br>Historic District: " + data.district_polygon.name;
+            histDisStr = "<br>Historic District: " + data.hist_district_polygon.name;
           }
           else {
             historicDistrictLayer.setFilter(function() { return false; });
           }
-          marker.setPopupContent("Address: " + data.address + hisDisStr);
+
+          var cosaDisStr = "";
+          if (data.in_cosa_district) {
+            cosaDistrictLayer.setGeoJSON($.parseJSON(data.cosa_district_polygon.st_asgeojson));
+            cosaDistrictLayer.setFilter(function() { return true; });
+            cosaDisStr = "<br>COSA District: " + data.cosa_district_polygon.district +
+                          "<br>City Council: " + data.cosa_district_polygon.name;
+          }
+          else {
+            cosaDistrictLayer.setFilter(function() { return false; });
+          }
+
+          marker.setPopupContent("Address: " + data.address + cosaDisStr + histDisStr);
           map.setView([data.lat, data.lng], 15);
         }
       })
