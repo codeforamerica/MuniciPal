@@ -11,7 +11,6 @@ namespace :cosa_council_districts do
       puts "File contains #{file.num_records} records"
       file.each do |n|
          record = n.attributes
-         puts n.attributes
          CosaCouncilDistrict.create(:district => record["District"],
                                     :name => record["Name"], 
                                     :sqmiles => record["SqMiles"],
