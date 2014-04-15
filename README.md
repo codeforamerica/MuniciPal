@@ -30,6 +30,10 @@ This application is still being developed, and is in a very early alpha iteratio
 
 *If you want to update or change these specific shapefiles, they exist in the lib/asset folder in the application.*
 
+#### Run your application
+
+    rails server
+
 #### You did it!
 
 Now you can access your application at http://0.0.0.0:3000

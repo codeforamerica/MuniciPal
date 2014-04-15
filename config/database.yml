@@ -19,8 +19,7 @@ development:
   encoding: unicode
   database: zone_development
   pool: 5
-  username: amymok
-  password:
+  host: localhost
   schema_search_path: "public,postgis"
   script_dir: "/Applications/Postgres.app/Contents/Versions/9.3/share/postgresql/contrib/postgis-2.1"
 
@@ -50,8 +49,7 @@ test:
   encoding: unicode
   database: zone_test
   pool: 5
-  username: amymok
-  password:
+  host: localhost
   schema_search_path: "public,postgis"
   script_dir: "/Applications/Postgres.app/Contents/Versions/9.3/share/postgresql/contrib/postgis-2.1"
 
