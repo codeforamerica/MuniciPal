@@ -4,18 +4,13 @@ The SA Zone tool is the beginnings of an address-based search tool that will all
 
 This application is still being developed, and is in a very early alpha iteration. If you'd like to deploy it, please follow the below instructions. But keep in mind, many things are still in the works.
 
-# Requirements
-
-This application requires Ruby, Rails and PostgreSQL.
-
-# Installation
-
-## Pre-install Requirements:
+# Prerequisites 
 
 * This application requires Ruby. If you don't have it, [download and install here](https://www.ruby-lang.org/en/installation/).
+* This application requires Rails.
 * This application also requires Postgres SQL. If you don't have it, [download and install here](http://postgresapp.com/).
 
-# Installation instructions:
+# Installation instructions
 
 #### Clone the app to your machine:
 
