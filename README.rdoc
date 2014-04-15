@@ -1,28 +1,44 @@
-== README
+# SA Zone
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+The SA Zone tool is the beginnings of an address-based search tool that will allow homeowners, developers, government officials and anyone else who is interested to search and learn more about specific properties. 
 
-Things you may want to cover:
+This application is still being developed, and is in a very early alpha iteration. If you'd like to deploy it, please follow the below instructions. But keep in mind, many things are still in the works.
 
-* Ruby version
+# Requirements
 
-* System dependencies
+This application requires Ruby, Rails and PostgreSQL.
 
-* Configuration
+# Installation
 
-* Database creation
+## Pre-install Requirements:
 
-* Database initialization
+* This application requires Ruby. If you don't have it, [download and install here](https://www.ruby-lang.org/en/installation/).
+* This application also requires Postgres SQL. If you don't have it, [download and install here](http://postgresapp.com/).
 
-* How to run the test suite
+# Installation instructions:
 
-* Services (job queues, cache servers, search engines, etc.)
+#### Clone the app to your machine:
 
-* Deployment instructions
+    git clone https://github.com/codeforamerica/sa-zone.git
+    cd sa-zone
 
-* ...
+#### Install the dependencies:
 
+    bundle install
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+#### Create the database:
+
+    bundle exec rake db:create
+    bundle exec rake db:migrate
+    bundle exec rake historic_districts:load
+    bundle exec rake cosa_council_districts:load
+
+*If you want to update or change these specific shapefiles, they exist in the lib/asset folder in the application.*
+
+#### You did it!
+
+Now you can access your application at http://0.0.0.0:3000
+
+# Copyright
+
+Copyright (c) 2014 Code for America. Created by the Techzans team working in San Antonio (Amy Mok, Maya Benari, David Leonard). Released under the BSD license.
