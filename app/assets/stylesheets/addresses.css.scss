@@ -143,9 +143,20 @@ input
  * CSS Queries
  */
 
+@media only screen and (max-width: 1302px) {
+    .header h1
+    {
+        font-size:3.8em;
+        line-height:0.8em;
+        margin-bottom:0;
+    }
+    .header p
+    {
+        font-size:0.9em;
+    }
+}
 
-@media only screen and (max-width: 650px) 
-{
+@media only screen and (max-width: 630px) {
     .col-1-3, .col-2-3, .info-container, .results-container, .header-container, #map
     {
         width:100%;
@@ -164,19 +175,3 @@ input
         padding:20px;
     }
 }
-
-
-@media only screen and (max-width: 1302px) 
-{
-    .header h1
-    {
-        font-size:3.8em;
-        line-height:0.8em;
-        margin-bottom:0;
-    }
-    .header p
-    {
-        font-size:0.9em;
-    }
-}
-

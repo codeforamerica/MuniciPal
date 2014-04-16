@@ -1,5 +1,3 @@
-
-
     var prj = 'codeforamerica.hmebo8ll';
 		var map = L.mapbox.map('map', prj)
     	.setView([29.423889, -98.493056], 12);
