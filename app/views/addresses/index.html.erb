@@ -1,12 +1,47 @@
 <% content_for :head do %>
   
-  <%= javascript_include_tag  "https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js" %>
-  <%= stylesheet_link_tag     "https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.css" %>
+    <%= javascript_include_tag  "https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js" %>
+    <%= stylesheet_link_tag     "https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.css" %>
 
 <% end %>
 
-<div id="map"></div>
-<div class='map-overlay'>
-  <input type='search' size='50' id='address' placeholder='Enter Address'/><br />    
+<div class="grid">
+    <div class="col-1-3 info-container">
+
+        <!--HEADER CONTAINER-->
+        <div class="header-container">
+            <div class="colortest"></div>
+            <div class="header">
+                <h1 id="fittext1">Zoning SA</h1>
+                <p>Learn more about your home in San Antonio.<br>
+                <strong>Type your address in below and hit enter.</strong></p>
+            </div>
+            <div class="address-box">
+                <input type="search" size="50" id="address" placeholder="Enter Address"/><br />    
+            </div>
+        </div>
+        <!-- END HEADER CONTAINER -->
+
+        <!-- RESULTS CONTAINER -->
+        <div class="results-container">
+            <!--<div class="results-inner">
+                <h3>This is what we know about your home:</h3>
+                <p class="kicker">Address</p>
+                <p>302 Madison Street, San Antonio, TX 78204, USA</p>
+                <p class="kicker">Council District</p>
+                <p>District 1</p>
+                <p class="kicker">Council Representative</p>
+                <p>Diego Bernal</p>
+                <p class="kicker">Historic District</p>
+                <p>King William</p>
+            </div>-->
+        </div>
+        <!-- END RESULTS CONTAINER -->
+
+    </div>
+
+    <div class="col-2-3" id="map"></div>
 </div>
-<%= javascript_include_tag "addresses", "data-turbolinks-track" => true %> 
+<%= javascript_include_tag "addresses", "data-turbolinks-track" => true %>
+<%= javascript_include_tag "text", "data-turbolinks-track" => true %>
+

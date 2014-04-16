@@ -1,3 +1,5 @@
+
+
     var prj = 'codeforamerica.hmebo8ll';
 		var map = L.mapbox.map('map', prj)
     	.setView([29.423889, -98.493056], 12);
@@ -28,7 +30,7 @@
         dataType: 'json',
         success: function( data ) {
           marker.setLatLng(new L.LatLng(data.lat, data.lng));
-          marker.bindPopup(new L.Popup()).openPopup();
+          // marker.bindPopup(new L.Popup()).openPopup();
           var histDisStr = "";
           if (data.in_hist_district) {
             var geoJSON = $.parseJSON(data.hist_district_polygon.st_asgeojson);
@@ -39,6 +41,7 @@
             
             historicDistrictLayer.setFilter(function() { return true; });
             histDisStr = "<br>Historic District: " + data.hist_district_polygon.name;
+            histDisStrPretty = "<p class=\"kicker\">Historic District</p><p>" + data.hist_district_polygon.name + "</p>"; 
           }
           else {
             historicDistrictLayer.setFilter(function() { return false; });
@@ -50,12 +53,16 @@
             cosaDistrictLayer.setFilter(function() { return true; });
             cosaDisStr = "<br>COSA District: " + data.cosa_district_polygon.district +
                           "<br>City Council: " + data.cosa_district_polygon.name;
+            cosaDisStrPretty =  "<p class=\"kicker\">Council District</p><p>District " + data.cosa_district_polygon.district + "</p>" +
+                                "<p class=\"kicker\">Council Representative</p><p>" + data.cosa_district_polygon.name + "</p>";
+
           }
           else {
             cosaDistrictLayer.setFilter(function() { return false; });
           }
 
-          marker.setPopupContent("Address: " + data.address + cosaDisStr + histDisStr);
+          // marker.setPopupContent("Address: " + data.address + cosaDisStr + histDisStr);
+          $( "div.results-container" ).replaceWith( "<div class=\"results-container\"><div class=\"results-inner\"><h3>This is what we know about this address:</h3><p class=\"kicker\">Address</p><p>" + data.address + "</p>" + cosaDisStrPretty + histDisStrPretty + "</div></div>" );
           map.setView([data.lat, data.lng], 15);
         }
       })

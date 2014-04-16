@@ -41,6 +41,8 @@ GEM
     erubis (2.7.0)
     execjs (2.0.2)
     fastercsv (1.5.5)
+    fittextjs_rails (1.2.0.1)
+      railties (>= 3.1)
     geokit (1.8.4)
       multi_json (>= 1.3.2)
     hike (1.2.3)
@@ -131,6 +133,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord-postgis-adapter (= 0.6.5)
   coffee-rails (= 4.0.1)
+  fittextjs_rails
   geokit (= 1.8.4)
   jbuilder (= 1.5.3)
   jquery-rails (= 3.1.0)
