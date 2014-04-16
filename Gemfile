@@ -44,7 +44,7 @@ gem 'rgeo-shapefile', '0.2.3'
 gem 'geokit', '1.8.4'
 
 # Fittext JS plugin
-# gem 'fittextjs_rails'
+gem 'fittextjs_rails'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'

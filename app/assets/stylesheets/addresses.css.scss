@@ -10,11 +10,12 @@ body
 {
     width:100%;
     margin:0;
+    font-size:12pt;
 }
 
 h1, h2, h3, h4, h5, h6, p
 {
-    font-family: Helvetica, Arial, sans-serif;
+    font-family:Helvetica, Arial, sans-serif;
 }
 
 .grid:after 
@@ -83,11 +84,6 @@ input
     width:100%;
 } 
 
-.address-box input
-{
-
-}
-
 .header h1 
 {
     font-size:5em;
@@ -143,7 +139,8 @@ input
  * CSS Queries
  */
 
-@media only screen and (max-width: 1302px) {
+@media only screen and (max-width: 1302px) 
+{
     .header h1
     {
         font-size:3.8em;
@@ -156,7 +153,8 @@ input
     }
 }
 
-@media only screen and (max-width: 630px) {
+@media only screen and (max-width: 630px) 
+{
     .col-1-3, .col-2-3, .info-container, .results-container, .header-container, #map
     {
         width:100%;
