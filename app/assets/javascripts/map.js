@@ -1,5 +1,3 @@
-
-
     var prj = 'codeforamerica.hmebo8ll';
 		var map = L.mapbox.map('map', prj)
     	.setView([29.423889, -98.493056], 12);
@@ -32,6 +30,7 @@
           marker.setLatLng(new L.LatLng(data.lat, data.lng));
           // marker.bindPopup(new L.Popup()).openPopup();
           var histDisStr = "";
+          var histDisStrPretty = "";
           if (data.in_hist_district) {
             var geoJSON = $.parseJSON(data.hist_district_polygon.st_asgeojson);
             console.log(geoJSON);
@@ -48,6 +47,7 @@
           }
 
           var cosaDisStr = "";
+          var cosaDisStrPretty = "";
           if (data.in_cosa_district) {
             cosaDistrictLayer.setGeoJSON($.parseJSON(data.cosa_district_polygon.st_asgeojson));
             cosaDistrictLayer.setFilter(function() { return true; });
