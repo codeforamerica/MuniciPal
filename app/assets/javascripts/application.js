@@ -13,6 +13,5 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
-
-
-
+//= require fittext
+//= require text
