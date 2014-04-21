@@ -15,3 +15,4 @@
 //= require turbolinks
 //= require fittext
 //= require text
+//= require getparam.js
