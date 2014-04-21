@@ -36,8 +36,10 @@
             console.log(geoJSON);
             geoJSON.properties= {};
             geoJSON.properties.fill = 'red';
+
+            geoJSON.properties.opacity = 1.0;
             historicDistrictLayer.setGeoJSON(geoJSON);
-            
+            console.log(historicDistrictLayer);
             historicDistrictLayer.setFilter(function() { return true; });
             histDisStr = "<br>Historic District: " + data.hist_district_polygon.name;
             histDisStrPretty = "<p class=\"kicker\">Historic District</p><p>" + data.hist_district_polygon.name + "</p>"; 
@@ -49,7 +51,10 @@
           var cosaDisStr = "";
           var cosaDisStrPretty = "";
           if (data.in_cosa_district) {
-            cosaDistrictLayer.setGeoJSON($.parseJSON(data.cosa_district_polygon.st_asgeojson));
+            var geoJSONcosa = $.parseJSON(data.cosa_district_polygon.st_asgeojson);
+            geoJSONcosa.properties= {};
+            geoJSONcosa.properties.fill = 'blue';
+            cosaDistrictLayer.setGeoJSON(geoJSONcosa);
             cosaDistrictLayer.setFilter(function() { return true; });
             cosaDisStr = "<br>COSA District: " + data.cosa_district_polygon.district +
                           "<br>City Council: " + data.cosa_district_polygon.name;
@@ -62,7 +67,9 @@
           }
 
           // marker.setPopupContent("Address: " + data.address + cosaDisStr + histDisStr);
-          $( "div.results-container" ).replaceWith( "<div class=\"results-container\"><div class=\"results-inner\"><h3>This is what we know about this address:</h3><p class=\"kicker\">Address</p><p>" + data.address + "</p>" + cosaDisStrPretty + histDisStrPretty + "</div></div>" );
+          $( "div.results-container" ).replaceWith( 
+              "<div class=\"results-container\"><div class=\"results-inner\"><h3>This is what we know about this address:</h3><p class=\"kicker\">Address</p><p>" + 
+              data.address + "</p>" + cosaDisStrPretty + histDisStrPretty + "</div></div>" );
           map.setView([data.lat, data.lng], 15);
         }
       })
