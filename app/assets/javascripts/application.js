@@ -16,3 +16,4 @@
 //= require fittext
 //= require text
 //= require getparam.js
+//= require analytics
