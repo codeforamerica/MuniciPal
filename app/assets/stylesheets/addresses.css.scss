@@ -182,3 +182,28 @@ input
         padding:20px;
     }
 }
+
+
+ul.ordering {  list-style:none; }
+ul.ordering li
+{ 
+  font-size: 100%;
+  display:block;
+  clear:left; 
+  vertical-align:left;
+  line-height: 20px;
+  margin-left: -25px;
+  padding-left: 0%; 
+}
+
+ul.ordering li span
+{  
+    width: 12px; 
+    height: 12px; 
+    opacity: 0.5;  
+    display:inline-block; 
+    margin-right:6px; 
+    font-size:50%; 
+}
+    
+
