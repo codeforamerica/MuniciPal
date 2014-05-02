@@ -20,3 +20,6 @@
 
 #Ignore precompile.
 public/assets/**
+
+#Ignore DS_Store
+.DS_Store

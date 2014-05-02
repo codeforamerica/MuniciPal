@@ -77,7 +77,7 @@ function updateMarker(d) {
         cosaDisStrPretty =  "<p class=\"kicker\">Council District</p><p>District " + data.cosa_district_polygon.district + "</p>" +
                             "<p class=\"kicker\">Council Representative</p><p>" + data.cosa_district_polygon.name + "</p>";
 
-        cosaDistLegend = "<li><span style='background:" + cosaDistColor + ";'></span>COSA District</li>";
+        cosaDistLegend = "<li><span style='background:" + cosaDistColor + ";'></span>Council District</li>";
         hasLegend = true;
       }
       else {
