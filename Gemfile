@@ -6,6 +6,7 @@ gem 'rails', '4.0.2'
 
 group :development, :test do
   gem 'rspec-rails', '2.14.2'
+  gem 'shoulda-matchers', '2.6.1'
 end
 
 group :test do

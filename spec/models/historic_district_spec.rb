@@ -3,34 +3,44 @@ require 'rake'
 
 describe HistoricDistrict do
 
-  before do
-    Zone::Application.load_tasks
-    Rake::Task['historic_districts:load'].invoke 
+  before(:all) do 
+    @king_william = FactoryGirl.create(:historic_district)
   end
 
-  it "returns true if latitude and longitude is in any Historic district" do 
-    # Lat Long of 302 Madison St, San Antonio
-    HistoricDistrict.inDistrict?(29.414432, -98.491916).should be_true
+  describe ".inDistrict?" do
+    context 'when lat long is in' do
+      # Lat Long of 302 Madison St, San Antonio
+      let (:answer) { HistoricDistrict.inDistrict? 29.414432, -98.491916 }
+
+      it { expect(answer).to be_true }
+    end
+
+    context 'when lat long is not in' do
+      # Lat Long of 155 9th St, San Francisco
+      let (:answer) { HistoricDistrict.inDistrict? 37.775518,-122.413821 }
+
+      it { expect(answer).to be_false }
+    end
   end
 
-  it "returns false if latitude and longitude is not in any Historic district" do
-    # Lat Long of 155 9th St, San Francisco
-    HistoricDistrict.inDistrict?(37.775518,-122.413821).should be_false
+  describe ".getDistrict" do
+    context 'when lat long is in' do
+      # Lat Long of 302 Madison St, San Antonio
+      let (:district) { HistoricDistrict.getDistrict 29.414432, -98.491916 }
+
+      it { expect(district.name).to be == "King William" }
+    end
+
+    context 'when lat long is not in' do
+      # Lat Long of 155 9th St, San Francisco
+      let (:district) { HistoricDistrict.getDistrict 37.775518,-122.413821 }
+
+      it { expect(district).to be_nil }
+    end
   end
 
-  it "returns info and geojson of a specific district if latitude and longitude is in a Historic district" do
-    district = HistoricDistrict.getDistrict(29.414432, -98.491916)
-    # name, acres, shape_leng, shape_area, ST_AsGeoJSON
-    district.name.should == "King William"
+  after(:all) do
+    @king_william.destroy
   end
 
-  it "returns null if latitude and longitude is not in a Historic district" do
-    # Lat Long of 155 9th St, San Francisco
-    HistoricDistrict.getDistrict(37.775518,-122.413821).should be_nil
-
-  end
-
-  after do
-    Rake::Task['historic_districts:drop'].invoke 
-  end
 end

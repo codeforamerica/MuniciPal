@@ -3,9 +3,7 @@ require 'rake'
 
 describe CosaCouncilDistrict do
 
-  before(:all) do
-    # Zone::Application.load_tasks
-    # Rake::Task['cosa_council_districts:load'].invoke 
+  before(:all) do 
     @city_council_1 = FactoryGirl.create(:cosa_council_district)
   end
 
@@ -43,7 +41,6 @@ describe CosaCouncilDistrict do
   end
 
   after(:all) do
-    #Rake::Task['cosa_council_districts:drop'].invoke 
     @city_council_1.destroy
   end
 
