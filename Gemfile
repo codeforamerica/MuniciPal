@@ -48,7 +48,7 @@ end
 # GIS 	
 gem 'rgeo', '0.3.20'
 gem 'rgeo-geojson', '0.2.3'
-gem 'activerecord-postgis-adapter', '0.6.5'
+gem 'activerecord-postgis-adapter', '1.0.0'
 gem 'rgeo-shapefile', '0.2.3'
 
 # Geocoding
