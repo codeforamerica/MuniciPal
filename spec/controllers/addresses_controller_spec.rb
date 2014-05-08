@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe AddressesController do
     before(:all) do 
-    @city_council_1 = FactoryGirl.create(:cosa_council_district)
+    @city_council_1 = FactoryGirl.create(:council_district)
     @king_william = FactoryGirl.create(:historic_district)
   end
 
@@ -15,8 +15,8 @@ describe AddressesController do
       it { expect(json['lng']).to be_within(0.01).of(-98.491916) }
       it { expect(json['in_hist_district']).to be_true }
       it { expect(json['hist_district_polygon']).not_to be_nil }
-      it { expect(json['in_cosa_district']).to be_true }
-      it { expect(json['cosa_district_polygon']).not_to be_nil }
+      it { expect(json['in_district']).to be_true }
+      it { expect(json['district_polygon']).not_to be_nil }
 
       it { should respond_with 200 }
     end
@@ -28,8 +28,8 @@ describe AddressesController do
       it { expect(json['lng']).to be_within(0.01).of(-122.413821) }
       it { expect(json['in_hist_district']).to be_false }
       it { expect(json['hist_district_polygon']).to be_nil }
-      it { expect(json['in_cosa_district']).to be_false }
-      it { expect(json['cosa_district_polygon']).to be_nil }
+      it { expect(json['in_district']).to be_false }
+      it { expect(json['district_polygon']).to be_nil }
 
       it { should respond_with 200 }
     end
@@ -43,8 +43,8 @@ describe AddressesController do
       # it { expect(json['lng']).to be_within(0.01).of(-98.491916) }
       it { expect(json['in_hist_district']).to be_true }
       it { expect(json['hist_district_polygon']).not_to be_nil }
-      it { expect(json['in_cosa_district']).to be_true }
-      it { expect(json['cosa_district_polygon']).not_to be_nil }
+      it { expect(json['in_district']).to be_true }
+      it { expect(json['district_polygon']).not_to be_nil }
 
       it { should respond_with 200 }
     end
@@ -58,8 +58,8 @@ describe AddressesController do
       # it { expect(json['lng']).to be_within(0.01).of(-122.413821) }
       it { expect(json['in_hist_district']).to be_false }
       it { expect(json['hist_district_polygon']).to be_nil }
-      it { expect(json['in_cosa_district']).to be_false }
-      it { expect(json['cosa_district_polygon']).to be_nil }
+      it { expect(json['in_district']).to be_false }
+      it { expect(json['district_polygon']).to be_nil }
 
       it { should respond_with 200 }
     end

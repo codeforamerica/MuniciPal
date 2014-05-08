@@ -1,14 +1,12 @@
 var prj = 'codeforamerica.hmebo8ll';
 
 var map = L.mapbox.map('map', prj)
-	.setView([29.423889, -98.493056], 12);
+	.setView([33.4019, -111.717], 12);
 
-var historicDistrictLayer = L.mapbox.featureLayer()
-.addTo(map);
-var cosaDistrictLayer = L.mapbox.featureLayer(null, {fill: 'red'})
+var DistrictLayer = L.mapbox.featureLayer(null, {fill: 'red'})
 .addTo(map);
 
-var marker = L.marker(new L.LatLng(29.423889, -98.493056), {
+var marker = L.marker(new L.LatLng(33.4019, -111.717), {
       icon: L.mapbox.marker.icon({'marker-color': 'CC0033'}),
       draggable: true
       });
@@ -39,60 +37,37 @@ function updateMarker(d) {
       history.pushState(stateObj, "zone", "?address=" + data.address + "&lat=" + data.lat + "&long=" + data.lng);
       marker.setLatLng(new L.LatLng(data.lat, data.lng));
       // marker.bindPopup(new L.Popup()).openPopup();
-      var histDisStr = "";
-      var histDisStrPretty = "";
-      var histDistLegend = "";
-      var histDistColor = 'red';
-      if (data.in_hist_district) {
-        var geoJSON = $.parseJSON(data.hist_district_polygon.st_asgeojson);
-        console.log(geoJSON);
+
+      var DisStr = "";
+      var DisStrPretty = "";
+      var DistLegend = "";
+      var DistColor = 'blue';
+      if (data.in_district) {
+        var geoJSON = $.parseJSON(data.district_polygon.st_asgeojson);
         geoJSON.properties= {};
-        geoJSON.properties.fill = histDistColor;
+        geoJSON.properties.fill = DistColor;
+        DistrictLayer.setGeoJSON(geoJSON);
+        DistrictLayer.setFilter(function() { return true; });
+        DisStr = "<br>District: " + data.district_polygon.district;
+        DisStrPretty =  "<p class=\"kicker\">Council District</p><p>District " + data.district_polygon.district + "</p>" +
+                            "<p class=\"kicker\">Council Representative</p><p>" + data.district_polygon.name + "</p>";
 
-        geoJSON.properties.opacity = 1.0;
-        historicDistrictLayer.setGeoJSON(geoJSON);
-        console.log(historicDistrictLayer);
-        historicDistrictLayer.setFilter(function() { return true; });
-        histDisStr = "<br>Historic District: " + data.hist_district_polygon.name;
-        histDisStrPretty = "<p class=\"kicker\">Historic District</p><p>" + data.hist_district_polygon.name + "</p>"; 
-        histDistLegend = "<li><span style='background:" + histDistColor + ";'></span>Historic District</li>";
+        DistLegend = "<li><span style='background:" + DistColor + ";'></span>Council District</li>";
         hasLegend = true;
       }
       else {
-        historicDistrictLayer.setFilter(function() { return false; });
+        DistrictLayer.setFilter(function() { return false; });
       }
 
-      var cosaDisStr = "";
-      var cosaDisStrPretty = "";
-      var cosaDistLegend = "";
-      var cosaDistColor = 'blue';
-      if (data.in_cosa_district) {
-        var geoJSONcosa = $.parseJSON(data.cosa_district_polygon.st_asgeojson);
-        geoJSONcosa.properties= {};
-        geoJSONcosa.properties.fill = cosaDistColor;
-        cosaDistrictLayer.setGeoJSON(geoJSONcosa);
-        cosaDistrictLayer.setFilter(function() { return true; });
-        cosaDisStr = "<br>COSA District: " + data.cosa_district_polygon.district +
-                      "<br>City Council: " + data.cosa_district_polygon.name;
-        cosaDisStrPretty =  "<p class=\"kicker\">Council District</p><p>District " + data.cosa_district_polygon.district + "</p>" +
-                            "<p class=\"kicker\">Council Representative</p><p>" + data.cosa_district_polygon.name + "</p>";
-
-        cosaDistLegend = "<li><span style='background:" + cosaDistColor + ";'></span>Council District</li>";
-        hasLegend = true;
-      }
-      else {
-        cosaDistrictLayer.setFilter(function() { return false; });
-      }
-
-      // marker.setPopupContent("Address: " + data.address + cosaDisStr + histDisStr);
+      // marker.setPopupContent("Address: " + data.address + DisStr + histDisStr);
       $( "div.results-container" ).replaceWith( 
           "<div class=\"results-container\"><div class=\"results-inner\"><h3>This is what we know about this address:</h3><p class=\"kicker\">Address</p><p>" + 
-          data.address + "</p>" + cosaDisStrPretty + histDisStrPretty + "</div></div>" );
+          data.address + "</p>" + DisStrPretty + "</div></div>" );
       if (hasLegend)
       {
         $("#legend-content").replaceWith("<div id='legend-content' style='display: none;'><ul class=\"ordering\">" +
           histDistLegend + 
-          cosaDistLegend + 
+          DistLegend + 
           "</ul><div class='legend-source'>Source: <a href=\"http://www.sanantonio.gov/GIS\">San Antonio GIS Data</a></div></div>");
 
         console.log(document.getElementById('legend-content').innerHTML);

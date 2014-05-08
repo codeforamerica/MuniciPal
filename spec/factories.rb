@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :cosa_council_district do
+  factory :council_district do
     district    1
     name        "Diego M. Bernal"
     sqmiles     25.0
