@@ -11,7 +11,8 @@ namespace :mesa_councils do
       puts "File contains #{file.num_records} records"
       file.each do |n|
          record = n.attributes
-         CouncilDistrict.create(:district => record["DISTRICT"], 
+         CouncilDistrict.create(:district => record["DISTRICT"],
+                                :name => record["NAME"], 
                                     :geom => n.geometry)
       end
     end
