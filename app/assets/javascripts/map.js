@@ -63,16 +63,33 @@ function updateMarker(d) {
       $( "div.results-container" ).replaceWith( 
           "<div class=\"results-container\"><div class=\"results-inner\"><h3>This is what we know about this address:</h3><p class=\"kicker\">Address</p><p>" + 
           data.address + "</p>" + DisStrPretty + "</div></div>" );
-      if (hasLegend)
-      {
-        $("#legend-content").replaceWith("<div id='legend-content' style='display: none;'><ul class=\"ordering\">" +
-          histDistLegend + 
-          DistLegend + 
-          "</ul><div class='legend-source'>Source: <a href=\"http://www.sanantonio.gov/GIS\">San Antonio GIS Data</a></div></div>");
+      // if (hasLegend)
+      // {
+      //   $("#legend-content").replaceWith("<div id='legend-content' style='display: none;'><ul class=\"ordering\">" +
+      //     histDistLegend + 
+      //     DistLegend + 
+      //     "</ul><div class='legend-source'>Source: <a href=\"http://www.sanantonio.gov/GIS\">San Antonio GIS Data</a></div></div>");
 
-        console.log(document.getElementById('legend-content').innerHTML);
-        map.legendControl.addLegend(document.getElementById('legend-content').innerHTML);
-      }
+      //   console.log(document.getElementById('legend-content').innerHTML);
+      //   map.legendControl.addLegend(document.getElementById('legend-content').innerHTML);
+      // }
+
+
+      // var full_name = 'Dennis Ka....'; 
+      var councilmember_first_name = data.district_polygon.name.split(' ')[0]; //data.district_polygon.name.split(" ")[0];
+      var twitter_widget_id = data.district_polygon.twit_wdgt; //'465941592985968641'; //d
+      var twitter_user = data.district_polygon.twit_name; // 'MesaDistrict3'; //
+
+
+      $("#social").empty().append(
+        '<h1 style="text-align: center;">Talk to ' + councilmember_first_name + '</h1>' +
+        '<a class="twitter-timeline" href="https://twitter.com/' + twitter_user +'" data-widget-id="' + twitter_widget_id + '">Tweets by @' + twitter_user + '</a>'
+        
+        //"<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','twitter-wjs');</script>"
+      );
+
+
+      jQuery.getScript('http://widgets.twimg.com/j/2/widget.js');
 
       $( "#address").val(data.address);
       map.setView([data.lat, data.lng], 15);
