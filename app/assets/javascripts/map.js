@@ -81,15 +81,16 @@ function updateMarker(d) {
       var twitter_user = data.district_polygon.twit_name; // 'MesaDistrict3'; //
 
 
-      $("#social").empty().append(
-        '<h1 style="text-align: center;">Talk to ' + councilmember_first_name + '</h1>' +
-        '<a class="twitter-timeline" href="https://twitter.com/' + twitter_user +'" data-widget-id="' + twitter_widget_id + '">Tweets by @' + twitter_user + '</a>'
+      
+
+      // $("#social").empty().append(
+      //   '<h1 style="text-align: center;">Talk to ' + councilmember_first_name + '</h1>' +
+      //   '<a class="twitter-timeline" href="https://twitter.com/' + twitter_user +'" data-widget-id="' + twitter_widget_id + '">Tweets by @' + twitter_user + '</a>'
         
-        //"<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','twitter-wjs');</script>"
-      );
+      //   //"<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','twitter-wjs');</script>"
+      // );
 
 
-      jQuery.getScript('http://widgets.twimg.com/j/2/widget.js');
 
       $( "#address").val(data.address);
       map.setView([data.lat, data.lng], 15);
