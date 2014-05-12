@@ -8,12 +8,12 @@ class CouncilDistrict < ActiveRecord::Base
 
   def self.inDistrict? lat, long
     # figure out if it is in a specific area in 
-    @spec_area = CouncilDistrict.where("ST_Contains(geom, ST_SetSRID(ST_Transform(ST_SetSRID(ST_MakePoint(?, ?), ?), ?), ?)),
+    @spec_area = CouncilDistrict.where("ST_Contains(geom, ST_SetSRID(ST_Transform(ST_SetSRID(ST_MakePoint(?, ?), ?), ?), ?))",
                                               long,
                                               lat,
                                               COORD_SYS_REF,
                                               COORD_SYS_AREA,
-                                              COORD_SYS_ZONE")
+                                              COORD_SYS_ZONE)
 
     return @spec_area.exists?
   end
