@@ -12,8 +12,10 @@ namespace :mesa_councils do
       file.each do |n|
          record = n.attributes
          CouncilDistrict.create(:district => record["DISTRICT"],
-                                :name => record["NAME"], 
-                                    :geom => n.geometry)
+                                :name => record["NAME"],
+                                :twit_name => record["twit_name"],
+                                :twit_wdgt => record["twit_wdgt"],
+                                :geom => n.geometry)
       end
     end
   end

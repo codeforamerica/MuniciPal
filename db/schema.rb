@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(version: 20140414080232) do
   create_table "council_districts", force: true do |t|
     t.integer  "district"
     t.string   "name"
+    t.string   "twit_name"
+    t.string   "twit_wdgt"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.spatial  "geom",       limit: {:srid=>0, :type=>"geometry"}
