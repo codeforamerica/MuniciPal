@@ -20,7 +20,7 @@ class CouncilDistrict < ActiveRecord::Base
  
   def self.getDistrict lat, long
     # figure out if it is in a specific area in historical district
-    @area_in_geojson = CouncilDistrict.find_by_sql("select district, name, twit_name, twit_wdgt ST_AsGeoJSON(ST_Transform(ST_SetSRID(geom, #{COORD_SYS_AREA}), #{COORD_SYS_REF}))
+    @area_in_geojson = CouncilDistrict.find_by_sql("select district, name, twit_name, twit_wdgt, ST_AsGeoJSON(ST_Transform(ST_SetSRID(geom, #{COORD_SYS_AREA}), #{COORD_SYS_REF}))
                                                         from council_districts 
                                                         where ST_Contains(geom,
                                                         ST_SetSRID(ST_Transform(ST_SetSRID(ST_MakePoint(#{long}, #{lat}),#{COORD_SYS_REF}), #{COORD_SYS_AREA}), #{COORD_SYS_ZONE}))")
