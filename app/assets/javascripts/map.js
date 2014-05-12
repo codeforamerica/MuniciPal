@@ -80,8 +80,8 @@ function updateMarker(d) {
       var twitter_widget_id = data.district_polygon.twit_wdgt; //'465941592985968641'; //d
       var twitter_user = data.district_polygon.twit_name; // 'MesaDistrict3'; //
 
-
-      
+      $(".twit-widget").hide();
+      $("#council-" + data.district_polygon.district).toggle();
 
       // $("#social").empty().append(
       //   '<h1 style="text-align: center;">Talk to ' + councilmember_first_name + '</h1>' +
