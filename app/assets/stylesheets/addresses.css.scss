@@ -32,6 +32,11 @@ h1, h2, h3, h4, h5, h6, p
   box-sizing:border-box;
 }
 
+.col-3-3 
+{
+  width:100%;
+}
+
 .col-2-3 
 {
   width:66.66%;
@@ -138,10 +143,11 @@ input
 
 .descript
 {
-    font-size:0.8em;
+    font-size:0.5em;
     font-weight:light;
     font-style:italic;
     color:grey;
+    z-index:5
 }
 
 /*
