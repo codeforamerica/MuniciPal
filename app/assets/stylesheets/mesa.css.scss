@@ -1,0 +1,35 @@
+.results-container 
+{
+    margin-top: 0px;
+}
+
+
+#fittext1 {
+	margin-top: 20px;
+	// background: yellow;
+}
+
+#map {
+	float: left;
+}
+
+#social {
+	float: right;
+}
+
+.header h1 {
+	line-height: 1;
+	font-size: 70px;
+}
+
+.header-container {
+	padding: 3%;
+
+	#intro {
+		margin-bottom: .5em;
+	}
+}
+
+.initial .results {
+	display: none;
+}
