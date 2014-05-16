@@ -28,7 +28,7 @@ function updateMarker(d) {
     success: function( data ) {
 
       $('body').removeClass('initial');
-      $('.results-text').empty().append('You live in District ' + data.district_polygon.district + '. <br> Your Council Representative is ' + data.district_polygon.name + '.');
+      $('.results-text').empty().append('You Live in District ' + data.district_polygon.district + '. <br> Your Council Representative is ' + data.district_polygon.name + '.');
 
       if (document.getElementById('legend-content'))
       {
