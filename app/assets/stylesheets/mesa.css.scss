@@ -32,7 +32,7 @@
     z-index:2;
 
 
-    background: rgba(255, 255, 255, 0);
+    background: white;
     padding: 20px;
     line-height: 1.7;
     margin-top: 0;
@@ -40,6 +40,7 @@
     color: black;
     font-weight: bold;
     text-shadow: 0px 0px 1px white, 0px 0px 2px white, 0px 0px 3px white, 0px 0px 4px white;
+    font-family: 'Montserrat', sans-serif;
 
 
 }
@@ -54,6 +55,7 @@
 	padding-bottom: 1%;
 	#intro {
 		margin-bottom: .5em;
+		font-family: 'Montserrat', sans-serif;
 	}
 }
 
