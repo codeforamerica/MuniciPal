@@ -40,9 +40,10 @@
     color: black;
     font-weight: bold;
     text-shadow: 0px 0px 1px white, 0px 0px 2px white, 0px 0px 3px white, 0px 0px 4px white;
-    font-family: 'Montserrat', sans-serif;
+}
 
-
+.results-text, .header-container, #contact-card {
+	font-family: 'Montserrat', sans-serif;
 }
 
 .header h1 {
@@ -55,7 +56,6 @@
 	padding-bottom: 1%;
 	#intro {
 		margin-bottom: .5em;
-		font-family: 'Montserrat', sans-serif;
 	}
 }
 
@@ -86,3 +86,10 @@
 	margin-top: 400px;
 }
 
+
+#contact-card {
+	background: white;
+	padding: 10px;
+	height: 400px;
+	display: none; // hide by default
+}
