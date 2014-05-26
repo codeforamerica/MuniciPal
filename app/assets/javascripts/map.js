@@ -101,8 +101,13 @@ function updateMarker(d) {
   })
 }
 
+
 $( "#address" ).keyup(function(e) {
   if (e.keyCode == 13) { // enter pressed
-    updateMarker({'address': $(this).val()});
+    $( "#search-btn").click();
   }
+});
+
+$( "#search-btn" ).click(function(e) {
+    updateMarker({'address': $( "#address" ).val()});
 });
