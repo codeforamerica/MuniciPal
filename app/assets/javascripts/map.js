@@ -37,15 +37,6 @@ function updateMarker(d) {
 
       g_data = data;
 
-      $('body').removeClass('initial');
-      var district = data.district_polygon.district;
-
-      var member = find_member(district);
-
-      $('.results-text').empty().append(
-        'You Live in District ' + district +
-        '. <br> Your Council Representative is <a href="' + member.website + '">'  + data.district_polygon.name + '</a>.');
-
       if (document.getElementById('legend-content'))
       {
         map.legendControl.removeLegend(document.getElementById('legend-content').innerHTML);
@@ -61,6 +52,7 @@ function updateMarker(d) {
       var DisStrPretty = "";
       var DistLegend = "";
       var DistColor = 'blue';
+
       if (data.in_district) {
         var geoJSON = $.parseJSON(data.district_polygon.st_asgeojson);
         geoJSON.properties= {};
@@ -73,9 +65,33 @@ function updateMarker(d) {
 
         DistLegend = "<li><span style='background:" + DistColor + ";'></span>Council District</li>";
         hasLegend = true;
-      }
-      else {
+
+        $('body').removeClass('initial');
+        var district = data.district_polygon.district;
+
+        var member = find_member(district);
+
+        $('.results-text').empty().append(
+          'You Live in District ' + district +
+          '. <br> Your Council Representative is <a href="' + member.website + '">'  + data.district_polygon.name + '</a>.'
+        );
+
+        // var full_name = 'Dennis Ka....';
+        var councilmember_first_name = data.district_polygon.name.split(' ')[0]; //data.district_polygon.name.split(" ")[0];
+        var twitter_widget_id = data.district_polygon.twit_wdgt; //'465941592985968641'; //d
+        var twitter_user = data.district_polygon.twit_name; // 'MesaDistrict3'; //
+
+        $(".twit-widget").hide();
+        $("#council-" + data.district_polygon.district).toggle();
+        $('#results-area').show();
+
+      } else {
         DistrictLayer.setFilter(function() { return false; });
+        $('.results-text').empty().append(
+          'It looks like you\'re outside of Mesa.<br>' +
+          'Maybe you want the <a href="http://www.mesaaz.gov/Council/">council webpage</a>?'
+        );
+        $('#results-area').hide();
       }
 
       // marker.setPopupContent("Address: " + data.address + DisStr + histDisStr);
@@ -93,23 +109,12 @@ function updateMarker(d) {
       //   map.legendControl.addLegend(document.getElementById('legend-content').innerHTML);
       // }
 
-
-      // var full_name = 'Dennis Ka....';
-      var councilmember_first_name = data.district_polygon.name.split(' ')[0]; //data.district_polygon.name.split(" ")[0];
-      var twitter_widget_id = data.district_polygon.twit_wdgt; //'465941592985968641'; //d
-      var twitter_user = data.district_polygon.twit_name; // 'MesaDistrict3'; //
-
-      $(".twit-widget").hide();
-      $("#council-" + data.district_polygon.district).toggle();
-
       // $("#social").empty().append(
       //   '<h1 style="text-align: center;">Talk to ' + councilmember_first_name + '</h1>' +
       //   '<a class="twitter-timeline" href="https://twitter.com/' + twitter_user +'" data-widget-id="' + twitter_widget_id + '">Tweets by @' + twitter_user + '</a>'
 
       //   //"<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','twitter-wjs');</script>"
       // );
-
-
 
       $( "#address").val(data.address);
       map.setView([data.lat, data.lng], 12);
