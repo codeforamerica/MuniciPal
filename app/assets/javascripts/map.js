@@ -77,6 +77,13 @@ function updateMarker(d) {
           '. <br> Your Council Representative is <a href="' + member.website + '">'  + data.district_polygon.name + '</a>.'
         );
 
+        $('#contact-card .phone').empty().append(member.phone);
+        $('#contact-card .email').empty().append(member.email);
+        $('#contact-card .mail').empty().append(member.address);
+        $('#contact-card .bio').empty().append(member.bio);
+
+
+
         // var full_name = 'Dennis Ka....';
         var councilmember_first_name = data.district_polygon.name.split(' ')[0]; //data.district_polygon.name.split(" ")[0];
         var twitter_widget_id = data.district_polygon.twit_wdgt; //'465941592985968641'; //d
