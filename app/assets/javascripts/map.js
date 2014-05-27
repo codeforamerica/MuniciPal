@@ -19,6 +19,14 @@ function ondragend() {
     updateMarker({'lat': ll.lat, 'long': ll.lng});
 }
 
+var g_data;
+
+
+function find_member(district) {
+  return _.find(council, function(member){ return member.district == district });
+}
+
+
 function updateMarker(d) {
   $.ajax({
     type: 'GET',
@@ -27,8 +35,16 @@ function updateMarker(d) {
     dataType: 'json',
     success: function( data ) {
 
+      g_data = data;
+
       $('body').removeClass('initial');
-      $('.results-text').empty().append('You Live in District ' + data.district_polygon.district + '. <br> Your Council Representative is ' + data.district_polygon.name + '.');
+      var district = data.district_polygon.district;
+
+      var member = find_member(district);
+
+      $('.results-text').empty().append(
+        'You Live in District ' + district +
+        '. <br> Your Council Representative is <a href="' + member.website + '">'  + data.district_polygon.name + '</a>.');
 
       if (document.getElementById('legend-content'))
       {

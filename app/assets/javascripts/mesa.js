@@ -20,7 +20,7 @@ $('#controls-twitter').click(toggleCards);
 // var public_spreadsheet_url = 'https://docs.google.com/spreadsheet/pub?hl=en_US&hl=en_US&key=0AmYzu_s7QHsmdDNZUzRlYldnWTZCLXdrMXlYQzVxSFE&output=html';
 
 // function init() {
-// 	Tabletop.init( 
+// 	Tabletop.init(
 // 		{ key: '16XlcsycmfTtTed-5HAPN0LMcMxIEYiWl7pJvCQTm6x4',
 // 	         callback: showInfo,
 // 	         simpleSheet: true 
@@ -33,7 +33,7 @@ $('#controls-twitter').click(toggleCards);
 // }
 
 
-var people = [
+var council = [
     {
         "name": "Dave Richins",
         "district": 1,
@@ -46,7 +46,8 @@ var people = [
         "address": "P.O. Box 1466 Mesa, AZ 85211-1466",
         "assistant": "Alicia White",
         "assistantphone": "480-644-5296",
-        "assistantemail": "alicia.white@mesaaz.gov"
+        "assistantemail": "alicia.white@mesaaz.gov",
+        "website": "http://www.mesaaz.gov/council/richins"
     },
     {
         "name": "Terry Benelli",
@@ -60,7 +61,8 @@ var people = [
         "address": "P.O. Box 1466\nMesa, AZ 85211-1466",
         "assistant": "Ian Linssen",
         "assistantphone": "480-644-5295",
-        "assistantemail": "ian.linssen@mesaaz.gov"
+        "assistantemail": "ian.linssen@mesaaz.gov",
+        "website": "http://www.mesaaz.gov/council/benelli/"
     },
     {
         "name": "Dennis Kavanaugh ",
@@ -74,7 +76,8 @@ var people = [
         "address": "P.O. Box 1466 \nMesa, AZ 85211-1466",
         "assistant": "Jared Archambault",
         "assistantphone": "480-644-6275",
-        "assistantemail": "jared.archambault@Mesaaz.gov"
+        "assistantemail": "jared.archambault@Mesaaz.gov",
+        "website": "http://www.mesaaz.gov/council/kavanaugh"
     },
     {
         "name": "Christopher Glover ",
@@ -88,7 +91,8 @@ var people = [
         "address": "P.O. Box 1466\nMesa, AZ 85211-1466",
         "assistant": "Andrew Calhoun",
         "assistantphone": "480-644-2190",
-        "assistantemail": "andrew.calhoun@mesaaz.gov"
+        "assistantemail": "andrew.calhoun@mesaaz.gov",
+        "website": "http://www.mesaaz.gov/council/glover"
     },
     {
         "name": "David Luna",
@@ -102,7 +106,8 @@ var people = [
         "address": "P.O. Box 1466\nMesa, AZ 85211-1466",
         "assistant": "Charlotte McDermott",
         "assistantphone": "480-644-5294",
-        "assistantemail": "District5@mesaaz.gov"
+        "assistantemail": "District5@mesaaz.gov",
+        "website": "http://www.mesaaz.gov/council/luna"
     },
     {
         "name": "Scott Somers",
@@ -116,6 +121,7 @@ var people = [
         "address": "P.O. Box 1466\nMesa, AZ 85211-1466",
         "assistant": "Matt Clark",
         "assistantphone": "480-644-4745",
-        "assistantemail": "matthew.clark@mesaaz.gov"
+        "assistantemail": "matthew.clark@mesaaz.gov",
+        "website": "http://www.mesaaz.gov/council/somers"
     }
-];
+]
