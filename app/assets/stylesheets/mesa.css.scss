@@ -86,6 +86,7 @@
 
 .address-box input {
 	padding: 0.5em;
+	background: #fafafa;
 }
 
 * { box-sizing: border-box; } // http://www.paulirish.com/2012/box-sizing-border-box-ftw/
@@ -98,7 +99,7 @@
 	width: 90%;
 	width: calc(100% - 1em);
 	border: 0;
-	border-bottom: 1px solid #c8c8c8;
+	border-bottom: 1px solid #DBDBDB;
 
 	font-family: serif;
 	font-style: italic;
