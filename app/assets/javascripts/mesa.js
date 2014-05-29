@@ -42,7 +42,7 @@ var council = [
         "email": "District1@mesaaz.gov",
         "fax": "480-644-2175",
         "facebook": "http://www.facebook.com/pages/Councilmember-Dave-Richins/81014664076",
-        "twitter": "NA",
+        "twitter": "https://twitter.com/dlrichins",
         "address": "P.O. Box 1466 Mesa, AZ 85211-1466",
         "assistant": "Alicia White",
         "assistantphone": "480-644-5296",
@@ -123,5 +123,20 @@ var council = [
         "assistantphone": "480-644-4745",
         "assistantemail": "matthew.clark@mesaaz.gov",
         "website": "http://www.mesaaz.gov/council/somers"
+    },
+    {
+        "name": "Alex Finter",
+        "district": 0,
+        "bio": "Alex Finter became Mayor of Mesa, the 3rd largest city in Arizona and 38th largest in America, in April of 2014 following the resignation of Mayor Scott Smith. Elected to represent District 2 on the Mesa City Council in June of 2008 and re-elected uncontested to a second term in August of 2012, Alex Finter was named Vice Mayor of Mesa in January of 2013. In the private-sector, Finter is a businessman and partner at Worldwide Investments LLC. ",
+        "phone": "480-644-2388",
+        "email": "mayor@Mesaaz.gov",
+        "facebook": "https://www.facebook.com/MesaMayorsOffice",
+        "twitter": "https://twitter.com/MesaMayorOffice",
+        "address": "Office of the Mayor\nP.O. Box 1466\nMesa, AZ 85211-1466",
+        "assistant": "Misty Wells",
+        "assistantphone": "480-644-2396",
+        "assistantemail": "misty.wells@mesaaz.gov",
+        "website": "http://www.mesaaz.gov/mayor/"
     }
 ]
+
