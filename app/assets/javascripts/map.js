@@ -71,10 +71,13 @@ function updateMarker(d) {
         var district = data.district_polygon.district;
 
         var member = find_member(district);
+        var mayor = find_member(0); // 0 = mayor. for now anyway.
 
         $('.results-text').empty().append(
           'You Live in District ' + district +
-          '. <br> Your Council Representative is <a href="' + member.website + '">'  + data.district_polygon.name + '</a>.'
+          '. <br> Your Council Representative is <a href="' + member.website + '">'  + data.district_polygon.name + '</a>.' +
+          '<br>(And you know about <a href="' + mayor.website + '">Mayor ' + mayor.name + '</a> and those <a href="' +
+            mayor.twitter + '">tweets</a> right?)'
         );
 
         $('#contact-card .phone').empty().append(member.phone);
@@ -98,7 +101,7 @@ function updateMarker(d) {
         DistrictLayer.setFilter(function() { return false; });
         $('.results-text').empty().append(
           'It looks like you\'re outside of Mesa.<br>' +
-          'Maybe you want the <a href="http://www.mesaaz.gov/Council/">council webpage</a>?'
+          'Maybe you want the <a href="http://www.mesaaz.gov/Council/">council and mayor webpage</a>?'
         );
         $('#results-area').hide();
 
