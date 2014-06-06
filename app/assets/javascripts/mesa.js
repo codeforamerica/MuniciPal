@@ -4,6 +4,7 @@
 function toggleCards(event) {
 	$('#contact-card').toggle();
 	$('#twitter-card').toggle();
+ //    $('#card').toggleClass('flipped');
 	console.log("toggling visibility of contacts/tweets")
 	event.preventDefault();
 }
@@ -11,6 +12,8 @@ function toggleCards(event) {
 $('#controls-contact').click(toggleCards);
 
 $('#controls-twitter').click(toggleCards);
+
+
 
 
 // example code from https://github.com/jsoma/tabletop

@@ -5,6 +5,7 @@
 
 <% end %>
 
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 
 <!--HEADER CONTAINER-->
 <div class="header-container">
@@ -36,49 +37,58 @@
 
         <div id="results-area">
 
-            <div id="controls">
-                <a id="controls-twitter" href="#">Tweets</a>
-                <a id="controls-contact" href="#">Contact Info</a>
+            <div id="controls" class="pure-menu pure-menu-horizontal">
+                <li class="pure-menu-selected"> <a id="controls-twitter"  href="#">Tweets</a></li>
+                <li><a id="controls-contact" href="#">Contact</a></li>
             </div>
 
-            <div id="contact-card">
-                Phone: <span class="phone">555-555-1234</span><br><br>
-                Email: <span class="email">?@mesaaz.gov</span><br><br>
-                Mail: <span class="mail">? Main Street </span><br><br>
-                Bio: <span class="bio">foo bar</span>
-            </div>
+            <section class="container">
+                <div id="card">
+                
+                    <div class="face front" id="contact-card">
+                        Phone: <span class="phone">555-555-1234</span><br><br>
+                        Email: <span class="email">?@mesaaz.gov</span><br><br>
+                        Mail: <span class="mail">? Main Street </span><br><br>
+                        Bio: <span class="bio">foo bar</span>
+                    </div>
 
-            <div id="twitter-card">
+                    <div class="face back" id="twitter-card">
 
-                <div class="twit-widget">
-                   <a class="twitter-timeline" href="https://twitter.com/techieshark/lists/mesaaz-gov" data-widget-id="465957406787112960" data-chrome="noheader">Tweets from https://twitter.com/techieshark/lists/mesaaz-gov</a>
-                   <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+                        <div class="twit-widget">
+                           <a class="twitter-timeline" href="https://twitter.com/techieshark/lists/mesaaz-gov" data-widget-id="465957406787112960" data-chrome="noheader">Tweets from https://twitter.com/techieshark/lists/mesaaz-gov</a>
+                        </div>
+
+                        <div class="twit-widget" id="council-1" style="display:none" >
+                            <a class="twitter-timeline" href="https://twitter.com/dlrichins" data-widget-id="465935532589993984" data-chrome="noheader">Tweets by @dlrichins</a>
+                        </div>
+
+                        <div class="twit-widget" id="council-2" style="display:none" >
+                            <a class="twitter-timeline" href="https://twitter.com/MesaDistrict2" data-widget-id="465941398470922240" data-chrome="noheader">Tweets by @MesaDistrict2</a>
+                        </div>
+
+                        <div class="twit-widget" id="council-3" style="display:none" >
+                            <a class="twitter-timeline" href="https://twitter.com/MesaDistrict3" data-widget-id="465941592985968641" data-chrome="noheader">Tweets by @MesaDistrict3</a>
+                        </div>
+
+                        <div class="twit-widget" id="council-4" style="display:none" >
+                            <a class="twitter-timeline" href="https://twitter.com/MesaDistrict4" data-widget-id="465941739635613696" data-chrome="noheader">Tweets by @MesaDistrict4</a>
+                        </div>
+
+                        <div class="twit-widget" id="council-5" style="display:none" >
+                            <a class="twitter-timeline" href="https://twitter.com/MesaDistrict5" data-widget-id="465941843922792448" data-chrome="noheader">Tweets by @MesaDistrict5</a>
+                        </div>
+
+                        <div class="twit-widget" id="council-6" style="display:none" >
+                            <a class="twitter-timeline" href="https://twitter.com/MesaDistrict6" data-widget-id="465941964072828928" data-chrome="noheader">Tweets by @MesaDistrict6</a>
+                        </div>
+                    </div>
+
                 </div>
+            </section> 
 
-                <div class="twit-widget" id="council-1" style="display:none" >
-                    <a class="twitter-timeline" href="https://twitter.com/dlrichins" data-widget-id="465935532589993984" data-chrome="noheader">Tweets by @dlrichins</a>
-                </div>
+           
 
-                <div class="twit-widget" id="council-2" style="display:none" >
-                    <a class="twitter-timeline" href="https://twitter.com/MesaDistrict2" data-widget-id="465941398470922240" data-chrome="noheader">Tweets by @MesaDistrict2</a>
-                </div>
-
-                <div class="twit-widget" id="council-3" style="display:none" >
-                    <a class="twitter-timeline" href="https://twitter.com/MesaDistrict3" data-widget-id="465941592985968641" data-chrome="noheader">Tweets by @MesaDistrict3</a>
-                </div>
-
-                <div class="twit-widget" id="council-4" style="display:none" >
-                    <a class="twitter-timeline" href="https://twitter.com/MesaDistrict4" data-widget-id="465941739635613696" data-chrome="noheader">Tweets by @MesaDistrict4</a>
-                </div>
-
-                <div class="twit-widget" id="council-5" style="display:none" >
-                    <a class="twitter-timeline" href="https://twitter.com/MesaDistrict5" data-widget-id="465941843922792448" data-chrome="noheader">Tweets by @MesaDistrict5</a>
-                </div>
-
-                <div class="twit-widget" id="council-6" style="display:none" >
-                    <a class="twitter-timeline" href="https://twitter.com/MesaDistrict6" data-widget-id="465941964072828928" data-chrome="noheader">Tweets by @MesaDistrict6</a>
-                </div>
-            </div> <!-- end twitter widgets -->
+            
         </div> <!-- end results area -->
     </div> <!-- end social -->
 
