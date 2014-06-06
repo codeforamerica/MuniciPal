@@ -1,0 +1,157 @@
+<%= form_for(@event_item) do |f| %>
+  <% if @event_item.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@event_item.errors.count, "error") %> prohibited this event_item from being saved:</h2>
+
+      <ul>
+      <% @event_item.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :event_id %><br>
+    <%= f.number_field :event_id %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemId %><br>
+    <%= f.number_field :EventItemId %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemGuid %><br>
+    <%= f.text_field :EventItemGuid %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemLastModified %><br>
+    <%= f.text_field :EventItemLastModified %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemLastModifiedUtc %><br>
+    <%= f.text_field :EventItemLastModifiedUtc %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemRowVersion %><br>
+    <%= f.text_field :EventItemRowVersion %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemEventId %><br>
+    <%= f.number_field :EventItemEventId %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemAgendaSequence %><br>
+    <%= f.number_field :EventItemAgendaSequence %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemMinutesSequence %><br>
+    <%= f.number_field :EventItemMinutesSequence %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemAgendaNumber %><br>
+    <%= f.text_field :EventItemAgendaNumber %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemVideo %><br>
+    <%= f.text_field :EventItemVideo %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemVideoIndex %><br>
+    <%= f.number_field :EventItemVideoIndex %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemVersion %><br>
+    <%= f.text_field :EventItemVersion %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemAgendaNote %><br>
+    <%= f.text_field :EventItemAgendaNote %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemMinutesNote %><br>
+    <%= f.text_field :EventItemMinutesNote %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemActionId %><br>
+    <%= f.number_field :EventItemActionId %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemAction %><br>
+    <%= f.text_field :EventItemAction %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemActionText %><br>
+    <%= f.text_area :EventItemActionText %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemPassedFlag %><br>
+    <%= f.number_field :EventItemPassedFlag %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemPassedFlagText %><br>
+    <%= f.text_field :EventItemPassedFlagText %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemRollCallFlag %><br>
+    <%= f.number_field :EventItemRollCallFlag %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemFlagExtra %><br>
+    <%= f.text_field :EventItemFlagExtra %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemTitle %><br>
+    <%= f.text_area :EventItemTitle %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemTally %><br>
+    <%= f.text_field :EventItemTally %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemConsent %><br>
+    <%= f.number_field :EventItemConsent %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemMoverId %><br>
+    <%= f.number_field :EventItemMoverId %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemMover %><br>
+    <%= f.text_field :EventItemMover %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemSeconderId %><br>
+    <%= f.number_field :EventItemSeconderId %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemSeconder %><br>
+    <%= f.text_field :EventItemSeconder %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemMatterId %><br>
+    <%= f.number_field :EventItemMatterId %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemMatterGuid %><br>
+    <%= f.text_field :EventItemMatterGuid %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemMatterFile %><br>
+    <%= f.text_field :EventItemMatterFile %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemMatterName %><br>
+    <%= f.text_field :EventItemMatterName %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemMatterType %><br>
+    <%= f.text_field :EventItemMatterType %>
+  </div>
+  <div class="field">
+    <%= f.label :EventItemMatterStatus %><br>
+    <%= f.text_field :EventItemMatterStatus %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

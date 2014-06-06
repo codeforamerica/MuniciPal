@@ -1,0 +1,51 @@
+<h1>Listing events</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Eventid</th>
+      <th>Eventguid</th>
+      <th>Eventlastmodified</th>
+      <th>Eventlastmodifiedutc</th>
+      <th>Eventrowversion</th>
+      <th>Eventbodyid</th>
+      <th>Eventbodyname</th>
+      <th>Eventdate</th>
+      <th>Eventtime</th>
+      <th>Eventvideostatus</th>
+      <th>Eventagendastatusid</th>
+      <th>Eventminutesstatusid</th>
+      <th>Eventlocation</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @events.each do |event| %>
+      <tr>
+        <td><%= event.EventId %></td>
+        <td><%= event.EventGuid %></td>
+        <td><%= event.EventLastModified %></td>
+        <td><%= event.EventLastModifiedUtc %></td>
+        <td><%= event.EventRowVersion %></td>
+        <td><%= event.EventBodyId %></td>
+        <td><%= event.EventBodyName %></td>
+        <td><%= event.EventDate %></td>
+        <td><%= event.EventTime %></td>
+        <td><%= event.EventVideoStatus %></td>
+        <td><%= event.EventAgendaStatusId %></td>
+        <td><%= event.EventMinutesStatusId %></td>
+        <td><%= event.EventLocation %></td>
+        <td><%= link_to 'Show', event %></td>
+        <td><%= link_to 'Edit', edit_event_path(event) %></td>
+        <td><%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Event', new_event_path %>

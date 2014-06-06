@@ -1,0 +1,95 @@
+<h1>Listing event_items</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Event</th>
+      <th>Eventitemid</th>
+      <th>Eventitemguid</th>
+      <th>Eventitemlastmodified</th>
+      <th>Eventitemlastmodifiedutc</th>
+      <th>Eventitemrowversion</th>
+      <th>Eventitemeventid</th>
+      <th>Eventitemagendasequence</th>
+      <th>Eventitemminutessequence</th>
+      <th>Eventitemagendanumber</th>
+      <th>Eventitemvideo</th>
+      <th>Eventitemvideoindex</th>
+      <th>Eventitemversion</th>
+      <th>Eventitemagendanote</th>
+      <th>Eventitemminutesnote</th>
+      <th>Eventitemactionid</th>
+      <th>Eventitemaction</th>
+      <th>Eventitemactiontext</th>
+      <th>Eventitempassedflag</th>
+      <th>Eventitempassedflagtext</th>
+      <th>Eventitemrollcallflag</th>
+      <th>Eventitemflagextra</th>
+      <th>Eventitemtitle</th>
+      <th>Eventitemtally</th>
+      <th>Eventitemconsent</th>
+      <th>Eventitemmoverid</th>
+      <th>Eventitemmover</th>
+      <th>Eventitemseconderid</th>
+      <th>Eventitemseconder</th>
+      <th>Eventitemmatterid</th>
+      <th>Eventitemmatterguid</th>
+      <th>Eventitemmatterfile</th>
+      <th>Eventitemmattername</th>
+      <th>Eventitemmattertype</th>
+      <th>Eventitemmatterstatus</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @event_items.each do |event_item| %>
+      <tr>
+        <td><%= event_item.event_id %></td>
+        <td><%= event_item.EventItemId %></td>
+        <td><%= event_item.EventItemGuid %></td>
+        <td><%= event_item.EventItemLastModified %></td>
+        <td><%= event_item.EventItemLastModifiedUtc %></td>
+        <td><%= event_item.EventItemRowVersion %></td>
+        <td><%= event_item.EventItemEventId %></td>
+        <td><%= event_item.EventItemAgendaSequence %></td>
+        <td><%= event_item.EventItemMinutesSequence %></td>
+        <td><%= event_item.EventItemAgendaNumber %></td>
+        <td><%= event_item.EventItemVideo %></td>
+        <td><%= event_item.EventItemVideoIndex %></td>
+        <td><%= event_item.EventItemVersion %></td>
+        <td><%= event_item.EventItemAgendaNote %></td>
+        <td><%= event_item.EventItemMinutesNote %></td>
+        <td><%= event_item.EventItemActionId %></td>
+        <td><%= event_item.EventItemAction %></td>
+        <td><%= event_item.EventItemActionText %></td>
+        <td><%= event_item.EventItemPassedFlag %></td>
+        <td><%= event_item.EventItemPassedFlagText %></td>
+        <td><%= event_item.EventItemRollCallFlag %></td>
+        <td><%= event_item.EventItemFlagExtra %></td>
+        <td><%= event_item.EventItemTitle %></td>
+        <td><%= event_item.EventItemTally %></td>
+        <td><%= event_item.EventItemConsent %></td>
+        <td><%= event_item.EventItemMoverId %></td>
+        <td><%= event_item.EventItemMover %></td>
+        <td><%= event_item.EventItemSeconderId %></td>
+        <td><%= event_item.EventItemSeconder %></td>
+        <td><%= event_item.EventItemMatterId %></td>
+        <td><%= event_item.EventItemMatterGuid %></td>
+        <td><%= event_item.EventItemMatterFile %></td>
+        <td><%= event_item.EventItemMatterName %></td>
+        <td><%= event_item.EventItemMatterType %></td>
+        <td><%= event_item.EventItemMatterStatus %></td>
+        <td><%= link_to 'Show', event_item %></td>
+        <td><%= link_to 'Edit', edit_event_item_path(event_item) %></td>
+        <td><%= link_to 'Destroy', event_item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Event item', new_event_item_path %>

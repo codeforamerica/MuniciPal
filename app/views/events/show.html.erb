@@ -1,0 +1,69 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Eventid:</strong>
+  <%= @event.EventId %>
+</p>
+
+<p>
+  <strong>Eventguid:</strong>
+  <%= @event.EventGuid %>
+</p>
+
+<p>
+  <strong>Eventlastmodified:</strong>
+  <%= @event.EventLastModified %>
+</p>
+
+<p>
+  <strong>Eventlastmodifiedutc:</strong>
+  <%= @event.EventLastModifiedUtc %>
+</p>
+
+<p>
+  <strong>Eventrowversion:</strong>
+  <%= @event.EventRowVersion %>
+</p>
+
+<p>
+  <strong>Eventbodyid:</strong>
+  <%= @event.EventBodyId %>
+</p>
+
+<p>
+  <strong>Eventbodyname:</strong>
+  <%= @event.EventBodyName %>
+</p>
+
+<p>
+  <strong>Eventdate:</strong>
+  <%= @event.EventDate %>
+</p>
+
+<p>
+  <strong>Eventtime:</strong>
+  <%= @event.EventTime %>
+</p>
+
+<p>
+  <strong>Eventvideostatus:</strong>
+  <%= @event.EventVideoStatus %>
+</p>
+
+<p>
+  <strong>Eventagendastatusid:</strong>
+  <%= @event.EventAgendaStatusId %>
+</p>
+
+<p>
+  <strong>Eventminutesstatusid:</strong>
+  <%= @event.EventMinutesStatusId %>
+</p>
+
+<p>
+  <strong>Eventlocation:</strong>
+  <%= @event.EventLocation %>
+</p>
+
+<%= link_to 'Edit', edit_event_path(@event) %> |
+<%= link_to 'Back', events_path %>

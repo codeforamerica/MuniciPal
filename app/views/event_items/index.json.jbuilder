@@ -1,0 +1,4 @@
+json.array!(@event_items) do |event_item|
+  json.extract! event_item, :id, :event_id, :EventItemId, :EventItemGuid, :EventItemLastModified, :EventItemLastModifiedUtc, :EventItemRowVersion, :EventItemEventId, :EventItemAgendaSequence, :EventItemMinutesSequence, :EventItemAgendaNumber, :EventItemVideo, :EventItemVideoIndex, :EventItemVersion, :EventItemAgendaNote, :EventItemMinutesNote, :EventItemActionId, :EventItemAction, :EventItemActionText, :EventItemPassedFlag, :EventItemPassedFlagText, :EventItemRollCallFlag, :EventItemFlagExtra, :EventItemTitle, :EventItemTally, :EventItemConsent, :EventItemMoverId, :EventItemMover, :EventItemSeconderId, :EventItemSeconder, :EventItemMatterId, :EventItemMatterGuid, :EventItemMatterFile, :EventItemMatterName, :EventItemMatterType, :EventItemMatterStatus
+  json.url event_item_url(event_item, format: :json)
+end

@@ -1,0 +1,69 @@
+<%= form_for(@event) do |f| %>
+  <% if @event.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h2>
+
+      <ul>
+      <% @event.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :EventId %><br>
+    <%= f.number_field :EventId %>
+  </div>
+  <div class="field">
+    <%= f.label :EventGuid %><br>
+    <%= f.text_field :EventGuid %>
+  </div>
+  <div class="field">
+    <%= f.label :EventLastModified %><br>
+    <%= f.text_field :EventLastModified %>
+  </div>
+  <div class="field">
+    <%= f.label :EventLastModifiedUtc %><br>
+    <%= f.text_field :EventLastModifiedUtc %>
+  </div>
+  <div class="field">
+    <%= f.label :EventRowVersion %><br>
+    <%= f.text_field :EventRowVersion %>
+  </div>
+  <div class="field">
+    <%= f.label :EventBodyId %><br>
+    <%= f.number_field :EventBodyId %>
+  </div>
+  <div class="field">
+    <%= f.label :EventBodyName %><br>
+    <%= f.text_field :EventBodyName %>
+  </div>
+  <div class="field">
+    <%= f.label :EventDate %><br>
+    <%= f.text_field :EventDate %>
+  </div>
+  <div class="field">
+    <%= f.label :EventTime %><br>
+    <%= f.text_field :EventTime %>
+  </div>
+  <div class="field">
+    <%= f.label :EventVideoStatus %><br>
+    <%= f.text_field :EventVideoStatus %>
+  </div>
+  <div class="field">
+    <%= f.label :EventAgendaStatusId %><br>
+    <%= f.number_field :EventAgendaStatusId %>
+  </div>
+  <div class="field">
+    <%= f.label :EventMinutesStatusId %><br>
+    <%= f.number_field :EventMinutesStatusId %>
+  </div>
+  <div class="field">
+    <%= f.label :EventLocation %><br>
+    <%= f.text_field :EventLocation %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
