@@ -47,6 +47,10 @@
     // text-shadow: 0px 0px 1px white, 0px 0px 2px white, 0px 0px 3px white, 0px 0px 4px white;
 }
 
+#results-area {
+	background: white;
+}
+
 #intro, .results-text, .header-container, #contact-card {
 	font-family: 'Montserrat', sans-serif;
 }
@@ -140,6 +144,9 @@
     background-color: transparent;
 }
 
+.pure-menu-selected {
+	background: #f7f7f7;
+}
 
 /* ------------------------------------------
  * Stuff from addresses.css.scss that we need */
