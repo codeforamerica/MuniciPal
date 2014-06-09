@@ -13,8 +13,8 @@ function toggleCards(e) {
 }
 
 $('#controls-contact').click(toggleCards);
-
 $('#controls-twitter').click(toggleCards);
+$('#controls-facebook').click(toggleCards);
 
 // initally we want to show just the twitter card
 $('#cards .card').hide();
