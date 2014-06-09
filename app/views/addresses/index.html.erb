@@ -7,6 +7,9 @@
 
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 
+<div class="col-3-3" id="map"></div>
+<div id='legend-content' style='display: none;'></div>
+
 <!--HEADER CONTAINER-->
 <div class="header-container">
 
@@ -92,14 +95,5 @@
         </div> <!-- end results area -->
     </div> <!-- end social -->
 
-
-    <div class="col-3-3" id="map"></div>
-
-
-
-
-
-
-    <div id='legend-content' style='display: none;'></div>
 </div>
 <%= javascript_include_tag "addresses", "data-turbolinks-track" => true %>

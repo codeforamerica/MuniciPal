@@ -61,10 +61,17 @@
 }
 
 .header-container {
-	padding: 0 10% 1em 10%;
+    clear: both;
+	padding: 1em 10% 1em 10%;
+    margin-top: 0;
+
 	#intro {
 		margin-bottom: .5em;
 	}
+
+
+
+
 }
 
 .results.grid {
@@ -153,7 +160,7 @@
 
 #map
 {
-    height:100vh;
+    height:30vh;
     float:right;
 }
 
