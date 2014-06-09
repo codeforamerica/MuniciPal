@@ -14,22 +14,41 @@
 	padding-left: 5px;
 }
 
+#social a {
+	text-decoration: none;
+}
+
+#controls {
+	background: white;
+	padding: 1em;
+
+	a {
+		margin-right: 1em;
+	}
+}
+
+
 .results-text
 {
     //position: absolute;
     //bottom:20px;
     //left:13px;
-    z-index:2;
+    //z-index:2;
 
 
     background: white;
     padding: 20px;
-    line-height: 1.7;
+    //line-height: 1.7;
     margin-top: 0;
     margin-bottom: 8px;
-    color: black;
-    font-weight: bold;
-    text-shadow: 0px 0px 1px white, 0px 0px 2px white, 0px 0px 3px white, 0px 0px 4px white;
+    
+    //color: black;
+    //font-weight: bold;
+    // text-shadow: 0px 0px 1px white, 0px 0px 2px white, 0px 0px 3px white, 0px 0px 4px white;
+}
+
+#results-area {
+	background: white;
 }
 
 #intro, .results-text, .header-container, #contact-card {
@@ -125,6 +144,9 @@
     background-color: transparent;
 }
 
+.pure-menu-selected {
+	background: #f7f7f7;
+}
 
 /* ------------------------------------------
  * Stuff from addresses.css.scss that we need */

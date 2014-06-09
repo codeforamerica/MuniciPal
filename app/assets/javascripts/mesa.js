@@ -1,10 +1,24 @@
 // mesa.js
 // code specific to the mesa app
 
-function toggleCards(event) {
-	$('#contact-card').toggle();
-	$('#twitter-card').toggle();
-	console.log("toggling visibility of contacts/tweets")
+function toggleCards(e) {
+
+    // show just the card that is associated with the link that was clicked
+
+    // if the currently selected card was clicked, nothing to do; ignore click.
+    if ($(this).parent().hasClass('pure-menu-selected')) {
+        console.log('ignoring useless click');
+        event.preventDefault();
+        return;
+    }
+
+    $('#cards .card').hide();
+    var selected = $(this).attr('data-card');
+    $('#' + selected).show();
+
+    var clicked = $(this).parent().parent().find('.pure-menu-selected').removeClass('pure-menu-selected');
+    $(this).parent().addClass('pure-menu-selected');
+
 	event.preventDefault();
 }
 
@@ -12,6 +26,9 @@ $('#controls-contact').click(toggleCards);
 
 $('#controls-twitter').click(toggleCards);
 
+// initally we want to show just the twitter card
+$('#cards .card').hide();
+$('#cards #twitter-card').show();
 
 // example code from https://github.com/jsoma/tabletop
 
