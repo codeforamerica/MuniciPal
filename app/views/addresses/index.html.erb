@@ -7,6 +7,16 @@
 
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=612274872174090&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
 <div class="col-3-3" id="map"></div>
 <div id='legend-content' style='display: none;'></div>
 
@@ -42,6 +52,7 @@
 
             <div id="controls" class="pure-menu pure-menu-open pure-menu-horizontal">
                 <li class="pure-menu-selected"> <a id="controls-twitter" data-card="twitter-card" href="#">Tweets</a></li>
+                <li class=""> <a id="controls-facebook" data-card="facebook-card" href="#">Facebook</a></li>
                 <li><a id="controls-contact" data-card="contact-card" href="#">Contact</a></li>
             </div>
 
@@ -54,6 +65,11 @@
                         Mail: <span class="mail">? Main Street </span><br><br>
                         Bio: <span class="bio">foo bar</span>
                     </div>
+
+                    <div class="card" id="facebook-card">
+                        <div class="fb-like-box" data-href="https://www.facebook.com/MesaMayorsOffice" data-width="495" data-height="468" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="true" data-show-border="false"></div>
+                    </div>
+
 
                     <div class="card" id="twitter-card">
 
