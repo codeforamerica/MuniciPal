@@ -6,7 +6,7 @@
 
 #social {
     position: absolute;
-    top:13px;
+    top:0px;
     right:13px;
     width:500px;
 	float: right;
@@ -61,10 +61,14 @@
 }
 
 .header-container {
-	padding: 0 10% 1em 10%;
+    clear: both;
+	padding: 1em 10% 1em 10%;
+    margin-top: 0;
+
 	#intro {
 		margin-bottom: .5em;
 	}
+
 }
 
 .results.grid {
@@ -153,7 +157,7 @@
 
 #map
 {
-    height:100vh;
+    height:40vh;
     float:right;
 }
 
