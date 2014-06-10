@@ -1,7 +1,8 @@
 require 'rgeo/shapefile'
+require 'shellwords'
 
 namespace :legistar_events do
-  desc "Load Legistar events into database"
+  desc "Load Legistar events into database from JSON file"
   task :load => :environment do
 
     eventfile = "#{Rails.root}/lib/assets/Mesa/events.json"
@@ -22,6 +23,12 @@ namespace :legistar_events do
                                 :EventMinutesStatusId => record["EventMinutesStatusId"],
                                 :EventLocation => record["EventLocation"])
     }
+  end
+
+  desc "Load Legistar events into database from SQL file"
+  task :load_sql do
+    source = "#{Rails.root}/lib/assets/Mesa/legistar_import.sql"
+    sh "psql zone_development < #{Shellwords.escape(source)}" # hack -- need to get db, user, pw from env
   end
 
 desc "Empty legistar events table"  
