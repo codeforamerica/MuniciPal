@@ -3,7 +3,7 @@ require 'net/http'
 require 'json'
 
 def get_event_items(event_id)
-	sleep(60)
+	sleep(5)
 	uri = URI("http://webapi.legistar.com/v1/mesa/events/"+ event_id.to_s + "/eventitems")
 	#params = { <query_hash> }
 	headers = { 'ACCEPT'  => 'text/json' }

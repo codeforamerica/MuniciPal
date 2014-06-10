@@ -36,6 +36,7 @@ class CreateEventItems < ActiveRecord::Migration
       t.string :EventItemMatterName
       t.string :EventItemMatterType
       t.string :EventItemMatterStatus
+      t.integer :council_district_id
 
       t.timestamps
     end
