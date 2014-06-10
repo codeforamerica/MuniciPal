@@ -11,14 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140604040701) do
+ActiveRecord::Schema.define(version: 20140606224823) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
 
-  create_table "council_districts", force: true do |t|
-    t.integer  "district"
+  create_table "council_districts", id: false, force: true do |t|
+    t.integer  "id"
     t.string   "name"
     t.string   "twit_name"
     t.string   "twit_wdgt"
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 20140604040701) do
     t.string   "EventItemMatterStatus"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "council_council_district_id"
   end
 
   create_table "events", force: true do |t|

@@ -4,7 +4,13 @@ class EventItemsController < ApplicationController
   # GET /event_items
   # GET /event_items.json
   def index
-    @event_items = EventItem.all
+    @council_district = CouncilDistrict.find(params[:council_district_id])
+    @event_items = @council_district.event_items
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render :json => @lines }
+    end
   end
 
   # GET /event_items/1

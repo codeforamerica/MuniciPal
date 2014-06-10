@@ -60,15 +60,15 @@ function updateMarker(d) {
         geoJSON.properties.fill = DistColor;
         DistrictLayer.setGeoJSON(geoJSON);
         DistrictLayer.setFilter(function() { return true; });
-        DisStr = "<br>District: " + data.district_polygon.district;
-        DisStrPretty =  "<p class=\"kicker\">Council District</p><p>District " + data.district_polygon.district + "</p>" +
+        DisStr = "<br>District: " + data.district_polygon.id;
+        DisStrPretty =  "<p class=\"kicker\">Council District</p><p>District " + data.district_polygon.id + "</p>" +
                             "<p class=\"kicker\">Council Representative</p><p>" + data.district_polygon.name + "</p>";
 
         DistLegend = "<li><span style='background:" + DistColor + ";'></span>Council District</li>";
         hasLegend = true;
 
         $('body').removeClass('initial');
-        var district = data.district_polygon.district;
+        var district = data.district_polygon.id;
 
         var member = find_member(district);
         var mayor = find_member(0); // 0 = mayor. for now anyway.
@@ -93,7 +93,7 @@ function updateMarker(d) {
         var twitter_user = data.district_polygon.twit_name; // 'MesaDistrict3'; //
 
         $(".twit-widget").hide();
-        $("#council-" + data.district_polygon.district).toggle();
+        $("#council-" + data.district_polygon.id).toggle();
         $('#results-area').show();
 
       } else {
