@@ -49,6 +49,22 @@ $('#cards #twitter-card').show();
 // 	console.log(data);
 // }
 
+// (function init_kodos() {
+
+//     // initialize the kudoer
+//     $("figure.kudo").kudoable();
+
+//     // bind to events on the kudos
+//     $("figure.kudo").on("kudo:added", function(event)
+//     {
+//       var element = $(this);
+//       var id = element.data('id');
+//       // send the data to your server...
+//       console.log("Kudod!", element);
+//     });
+// })();
+
+
 
 var council = [
     {
