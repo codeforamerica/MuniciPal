@@ -34,6 +34,12 @@ This application is still being developed, and is in a very early alpha iteratio
 
     rails server
 
+#### Troubleshooting
+
+Make sure the postgis extension is properly loaded.
+
+    SELECT POSTGIS_VERSION(); # succeeds if PostGIS objects are present.
+
 #### You did it!
 
 Now you can access your application at http://0.0.0.0:3000
