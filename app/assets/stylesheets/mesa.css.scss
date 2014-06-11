@@ -51,13 +51,13 @@
 	background: white;
 }
 
-#intro, .results-text, .header-container, #contact-card {
+#intro, .results-text, .header-container, #contact-card, #legislative {
 	font-family: 'Montserrat', sans-serif;
 }
 
 .header h1 {
-	line-height: 1;
-	font-size: 70px;
+	// line-height: 1;
+	// font-size: 70px;
 }
 
 .header-container {
@@ -151,6 +151,37 @@
 .pure-menu-selected {
 	background: #f7f7f7;
 }
+
+#legislative {
+	padding-left: 2em;
+
+	h1 {
+		padding-left: 68px; //hack
+	}
+}
+
+.legislation {
+	padding: 2em;
+
+	.type,.like,.share,.comment {
+	    padding-top: 41px;
+	    text-align: center;
+	}
+}
+
+.legislation .title {
+
+    // background: blue;
+    // color: white;
+    padding: 1em;
+
+}
+.legislation .share {
+    background: orange;
+    color: white;
+}
+
+
 
 /* ------------------------------------------
  * Stuff from addresses.css.scss that we need */
