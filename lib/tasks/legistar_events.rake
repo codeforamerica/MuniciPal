@@ -8,7 +8,7 @@ namespace :legistar_events do
     jsond = File.read(eventfile)
     obj = JSON.parse(jsond)
       obj.each{|record|
-        Event.create(:EventId => record["EventId"],
+        Event.create(:id => record["EventId"],
                                 :EventGuid => record["EventGuid"],
                                 :EventLastModified => record["EventLastModified"],
                                 :EventLastModifiedUtc => record["EventLastModifiedUtc"],

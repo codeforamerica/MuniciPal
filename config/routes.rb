@@ -1,7 +1,9 @@
 Zone::Application.routes.draw do
   resources :event_items
 
-  resources :events
+  resources :events do 
+    resources :event_items
+  end
 
   resources :council_districts do
     resources :event_items

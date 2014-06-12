@@ -25,7 +25,7 @@ class AddressesController < ApplicationController
     if @address != nil 
       @addr = @address.full_address
       @district_polygon = CouncilDistrict.getDistrict @lat, @lng 
-      @event_items = CouncilDistrict.find(@district_polygon.id).event_items.limit(10)
+      @event_items = EventItem.joins(:event).where('"events"."EventDate" > ?', 1.month.ago).where(council_district_id: @district_polygon.id)
     end
     
     @response = { :lat                    => @lat,
