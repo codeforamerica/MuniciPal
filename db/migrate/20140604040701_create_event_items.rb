@@ -2,6 +2,7 @@ class CreateEventItems < ActiveRecord::Migration
   def change
     create_table :event_items do |t|
       t.integer :event_id
+      t.integer :council_district_id
       t.integer :EventItemId
       t.string :EventItemGuid
       t.string :EventItemLastModified
