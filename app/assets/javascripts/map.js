@@ -94,6 +94,43 @@ function updateMarker(d) {
 
         $(".twit-widget").hide();
         $("#council-" + data.district_polygon.id).toggle();
+
+
+
+        var legislative_item_start = '<div class="legislation pure-g">\
+            <div class="type pure-u-1 pure-u-md-1-8">\
+                <i class="fa fa-cutlery fa-2x"></i>\
+            </div>\
+            <div class="title pure-u-1 pure-u-md-1-2">';
+
+        var legislative_item_end = '</div>\
+            <div class="like pure-u-1 pure-u-md-1-8">\
+                <div class="icon"><i class="fa fa-thumbs-o-up fa-2x"></i></div>\
+                <div class="label">Like</div>\
+            </div>\
+            <div class="share pure-u-1 pure-u-md-1-8">\
+                <div class="icon"><i class="fa fa-bullhorn fa-2x"></i></div>\
+                <div class="label">Share</div>\
+             </div>\
+             <div class="comment pure-u-1 pure-u-md-1-8">\
+                <div class="icon"><i class="fa fa-comment fa-2x"></i></div>\
+                <div class="label">Comment</div>\
+            </div>\
+        </div>';
+
+
+        // stick some event items in the frontend
+
+        var items = _.map(data.event_items, function(item) {
+          return legislative_item_start +
+            item.EventItemTitle +
+            legislative_item_end;
+        }).join('');
+        $(".legislative-items").empty().append(items);
+
+
+
+
         $('#results-area').show();
 
       } else {
