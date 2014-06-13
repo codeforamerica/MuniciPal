@@ -28,7 +28,7 @@ class AddressesController < ApplicationController
       @addr = @address.full_address
       @district_polygon = CouncilDistrict.getDistrict @lat, @lng 
       if @district_polygon and @district_polygon.id
-        @event_items = EventItem.joins(:event).where('"events"."EventDate" > ?', 1.month.ago).where(council_district_id: @district_polygon.id)
+        @event_items = EventItem.joins(:event).where('"events"."EventDate" BETWEEN ? AND ?', 1.month.ago, 1.month.from.now ).where(council_district_id: @district_polygon.id)
       else
         puts "ERROR: Whaaaaaat?! No district/id. You ran rake mesa_councils:load to populate the table right?"
       end
