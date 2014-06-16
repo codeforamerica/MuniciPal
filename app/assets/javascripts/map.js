@@ -76,8 +76,8 @@ function updateMarker(d) {
         $('.results-text').empty().append(
           'You Live in District ' + district +
           '. <br> Your Council Representative is <a href="' + member.website + '">'  + data.district_polygon.name + '</a>.' +
-          '<br>(And you know about <a href="' + mayor.website + '">Mayor ' + mayor.name + '</a> and those <a href="' +
-            mayor.twitter + '">tweets</a> right?)'
+/*          '<br>(And you know about <a href="' + mayor.website + '">Mayor ' + mayor.name + '</a> and those <a href="' +
+            mayor.twitter + '">tweets</a> right?)'*/
         );
 
         $('#contact-card .phone').empty().append(member.phone);
