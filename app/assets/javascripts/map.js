@@ -75,7 +75,7 @@ function updateMarker(d) {
 
         $('.results-text').empty().append(
           'You Live in District ' + district +
-          '. <br> Your Council Representative is <a href="' + member.website + '">'  + data.district_polygon.name + '</a>.' 
+          '. <br> Your Council Representative is <a href="' + member.website + '">'  + data.district_polygon.name + '</a>.'
 /*          '<br>(And you know about <a href="' + mayor.website + '">Mayor ' + mayor.name + '</a> and those <a href="' +
             mayor.twitter + '">tweets</a> right?)'*/
         );
@@ -94,12 +94,11 @@ function updateMarker(d) {
 
         $(".twit-widget").hide();
         $("#council-" + data.district_polygon.id).toggle();
-
-
+        $("#mention-" + data.district_polygon.id).toggle();
 
         var legislative_item_start = '<div class="legislation pure-g">\
             <div class="type pure-u-1 pure-u-md-1-8">\
-                <i class="fa fa-cutlery fa-2x"></i>\
+                <i class="fa fa-glass fa-2x"></i>\
             </div>\
             <div class="title pure-u-1 pure-u-md-1-2">';
 
