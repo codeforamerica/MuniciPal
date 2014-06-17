@@ -105,8 +105,7 @@ function updateMarker(d) {
 
         var legislative_item_end = '</div>\
             <div class="like pure-u-1 pure-u-md-1-8">\
-                <div class="icon"><i class="fa fa-thumbs-o-up fa-2x"></i></div>\
-                <div class="label">Like</div>\
+                <div class="fb-like post-footer-like" data-send="false" data-width="300" href="http://yerhere.herokuapp.com" data-show-faces="false" data-layout="button"></div>\
             </div>\
             <div class="share pure-u-1 pure-u-md-1-8">\
                 <div class="icon"><i class="fa fa-bullhorn fa-2x"></i></div>\
