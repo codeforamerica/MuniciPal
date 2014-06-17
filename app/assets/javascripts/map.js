@@ -6,7 +6,7 @@ var map = L.mapbox.map('map', prj)
 var DistrictLayer = L.mapbox.featureLayer(null, {fill: 'red'})
 .addTo(map);
 
-var marker = L.marker(new L.LatLng(33.4019, -111.717), {
+var marker = L.marker(new L.LatLng(33.42, -111.835), {
       icon: L.mapbox.marker.icon({'marker-color': 'CC0033'}),
       draggable: true
       });
