@@ -4,15 +4,33 @@
 	z-index:1;
 }
 
+.you-live-in {
+
+    font-size: 50px;
+    font-family: Montserrat;
+    margin: 0;
+    padding-left: 2rem;
+    border-bottom: 10px solid rgba(215, 215, 215, 0.1);
+
+    display: none; // initial state
+
+}
+
+.you-live-in.no-district {
+	border-bottom: none;
+}
+
+.results {
+
+    background: rgba(215, 215, 215, 0.1);
+    margin-top: 0;
+
+}
+
 #social {
 
- //    position: absolute;
- //    top:0px;
- //    right:13px;
- //    width:500px;
-	// float: right;
-	// z-index:2;
-	padding-left: 5px;
+	padding: 0 1em 0 1em;
+
 }
 
 #social a {
@@ -63,7 +81,7 @@
 
 .header-container {
     clear: both;
-	padding: 1em 10% 1em 10%;
+	padding: 1em 16px 1em 36px;
     margin-top: 0;
 
 	#intro {
@@ -91,7 +109,6 @@
 	-ms-transition: all 1s ease;
 	-o-transition: all 1s ease;
 	transition: all 1s ease;
-	margin-top: 1em;
 }
 
 
@@ -154,15 +171,13 @@
 }
 
 #legislative {
-	padding-left: 2em;
 
 	h1 {
-		padding-left: 68px; //hack
+		padding-left: 38px; //hack
 	}
 }
 
 .legislation {
-	padding: 2em;
 
 	.type,.like,.share,.comment {
 	    padding-top: 41px;
