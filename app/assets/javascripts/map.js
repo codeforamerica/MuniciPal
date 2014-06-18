@@ -126,8 +126,8 @@ function updateMarker(d) {
         }).join('');
         $(".legislative-items").empty().append(items);
 
-
-
+        // twitter only renders on page load, so on reload we need to ask it to render the buttons we just added
+        twttr.widgets.load();
 
         $('#results-area').show();
 
