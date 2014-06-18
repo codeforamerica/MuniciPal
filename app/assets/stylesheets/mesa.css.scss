@@ -179,13 +179,17 @@
 
 .legislation {
 
-	.type,.like,.share,.comment {
-	    padding-top: 41px;
+	padding-right: 1rem;
+
+	.type,.like,.comment {
 	    text-align: center;
 	}
 
-	.like,.comment {
-		padding-top: 60px;
+	.comment {
+		padding-top: 29px;
+	}
+	.like {
+		padding-top: 35px;
 	}
 }
 
@@ -196,11 +200,6 @@
     padding: 1em;
 
 }
-.legislation .share {
-    background: orange;
-    color: white;
-}
-
 
 
 /* ------------------------------------------
