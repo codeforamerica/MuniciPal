@@ -124,8 +124,10 @@ function updateMarker(d) {
         }).join('');
         $(".legislative-items").empty().append(items);
 
-        // twitter only renders on page load, so on reload we need to ask it to render the buttons we just added
+        // twitter & facebook only render on page load by default, so
+        // we need to call on them to parse & render the new content
         twttr.widgets.load();
+        FB.XFBML.parse(); // pass document.getElementById('legislative') for efficiency.
 
         $('#results-area').show();
 
