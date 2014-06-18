@@ -112,13 +112,11 @@ function updateMarker(d) {
                 <div class="label">Share</div>\
              </div>\
              <div class="comment pure-u-1 pure-u-md-1-8">\
-                <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en" data-url="http://localhost/citymatters/1" data-via="techieshark" data-text="@wfong_sf Let\'s talk about this. [INSERT COMMENT HERE]" data-related="tombuckley:A really fun guy!,mesaazgov:The City of Mesa,MesaDistrict3:Your City Councilmember" data-hashtags="mesatalk" data-size="large" data-count="vertical">Tweet</a>\
+                <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en" data-url="http://localhost/citymatters/1" data-via="techieshark" data-text="@wfong_sf Let\'s talk about this. [INSERT COMMENT HERE]" data-related="buckley_tom:A really fun guy!,mesaazgov:The City of Mesa,MesaDistrict3:Your City Councilmember" data-hashtags="mesatalk" data-size="large" data-count="vertical">Tweet</a>\
             </div>\
         </div>';
 
-
         // stick some event items in the frontend
-
         var items = _.map(data.event_items, function(item) {
           return legislative_item_start +
             item.EventItemTitle +
