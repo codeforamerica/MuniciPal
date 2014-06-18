@@ -6,7 +6,7 @@ var map = L.mapbox.map('map', prj)
 var DistrictLayer = L.mapbox.featureLayer(null, {fill: 'red'})
 .addTo(map);
 
-var marker = L.marker(new L.LatLng(33.4019, -111.717), {
+var marker = L.marker(new L.LatLng(33.42, -111.835), {
       icon: L.mapbox.marker.icon({'marker-color': 'CC0033'}),
       draggable: true
       });
@@ -73,12 +73,13 @@ function updateMarker(d) {
         var member = find_member(district);
         var mayor = find_member(0); // 0 = mayor. for now anyway.
 
+        $('.you-live-in').empty().append('District ' + district).removeClass("no-district").show();
         $('.results-text').empty().append(
-          'You Live in District ' + district +
-          '. <br> Your Council Representative is <a href="' + member.website + '">'  + data.district_polygon.name + '</a>.'
+          'Your Council Representative is <a href="' + member.website + '">'  + data.district_polygon.name + '</a>.'
 /*          '<br>(And you know about <a href="' + mayor.website + '">Mayor ' + mayor.name + '</a> and those <a href="' +
             mayor.twitter + '">tweets</a> right?)'*/
         );
+        $('.results').show();
 
         $('#contact-card .phone').empty().append(member.phone);
         $('#contact-card .email').empty().append(member.email);
@@ -100,43 +101,36 @@ function updateMarker(d) {
             <div class="type pure-u-1 pure-u-md-1-8">\
                 <i class="fa fa-glass fa-2x"></i>\
             </div>\
-            <div class="title pure-u-1 pure-u-md-1-2">';
+            <div class="title pure-u-1 pure-u-md-17-24">';
 
         var legislative_item_start_etc = '<div class="legislation pure-g">\
             <div class="type pure-u-1 pure-u-md-1-8">\
                 <i class="fa fa-cog fa-2x"></i>\
             </div>\
-            <div class="title pure-u-1 pure-u-md-1-2">';
+            <div class="title pure-u-1 pure-u-md-17-24">';
 
         var legislative_item_start_r = '<div class="legislation pure-g">\
             <div class="type pure-u-1 pure-u-md-1-8">\
                 <i class="fa fa-legal fa-2x"></i>\
             </div>\
-            <div class="title pure-u-1 pure-u-md-1-2">';
+            <div class="title pure-u-1 pure-u-md-17-24">';
 
         var legislative_item_start_c = '<div class="legislation pure-g">\
             <div class="type pure-u-1 pure-u-md-1-8">\
                 <i class="fa fa-file-text fa-2x"></i>\
             </div>\
-            <div class="title pure-u-1 pure-u-md-1-2">';
+            <div class="title pure-u-1 pure-u-md-17-24">';
 
         var legislative_item_end = '</div>\
-            <div class="like pure-u-1 pure-u-md-1-8">\
-                <div class="icon"><i class="fa fa-thumbs-o-up fa-2x"></i></div>\
-                <div class="label">Like</div>\
+            <div class="like pure-u-1 pure-u-md-1-12">\
+                <div class="fb-like post-footer-like" data-send="false" data-width="300" href="http://yerhere.herokuapp.com" data-show-faces="false" data-layout="button"></div>\
             </div>\
-            <div class="share pure-u-1 pure-u-md-1-8">\
-                <div class="icon"><i class="fa fa-bullhorn fa-2x"></i></div>\
-                <div class="label">Share</div>\
-             </div>\
-             <div class="comment pure-u-1 pure-u-md-1-8">\
-                <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en" data-url="http://localhost/citymatters/1" data-via="techieshark" data-text="@wfong_sf Let\'s talk about this. [INSERT COMMENT HERE]" data-related="tombuckley:A really fun guy!,mesaazgov:The City of Mesa,MesaDistrict3:Your City Councilmember" data-hashtags="mesatalk" data-size="large" data-count="vertical">Tweet</a>\
+             <div class="comment pure-u-1 pure-u-md-1-12">\
+                <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en" data-url="http://localhost/citymatters/1" data-via="techieshark" data-text="@wfong_sf Let\'s talk about this. [INSERT COMMENT HERE]" data-related="buckley_tom:A really fun guy!,mesaazgov:The City of Mesa,MesaDistrict3:Your City Councilmember" data-hashtags="mesatalk" data-size="large" data-count="vertical">Tweet</a>\
             </div>\
         </div>';
 
-
         // stick some event items in the frontend
-
         var items = _.map(data.event_items, function(item) {
           if (item.EventItemMatterType == "Contract"){
             return legislative_item_start_c +
@@ -161,21 +155,21 @@ function updateMarker(d) {
         }).join('');
         $(".legislative-items").empty().append(items);
 
-       
-
-
-
+        // twitter & facebook only render on page load by default, so
+        // we need to call on them to parse & render the new content
+        twttr.widgets.load();
+        FB.XFBML.parse(); // pass document.getElementById('legislative') for efficiency.
 
         $('#results-area').show();
 
       } else {
 
         DistrictLayer.setFilter(function() { return false; });
-        $('.results-text').empty().append(
+        $('.you-live-in').empty().append(
           'It looks like you\'re outside of Mesa.<br>' +
           'Maybe you want the <a href="http://www.mesaaz.gov/Council/">council and mayor webpage</a>?'
-        );
-        $('#results-area').hide();
+        ).addClass("no-district").show();
+        $('.results').hide();
 
       }
 
