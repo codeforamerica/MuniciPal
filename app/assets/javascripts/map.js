@@ -48,8 +48,6 @@ function updateMarker(d) {
       marker.setLatLng(new L.LatLng(data.lat, data.lng));
       // marker.bindPopup(new L.Popup()).openPopup();
 
-      var DisStr = "";
-      var DisStrPretty = "";
       var DistLegend = "";
       var DistColor = 'blue';
 
@@ -60,9 +58,6 @@ function updateMarker(d) {
         geoJSON.properties.fill = DistColor;
         DistrictLayer.setGeoJSON(geoJSON);
         DistrictLayer.setFilter(function() { return true; });
-        DisStr = "<br>District: " + data.district_polygon.id;
-        DisStrPretty =  "<p class=\"kicker\">Council District</p><p>District " + data.district_polygon.id + "</p>" +
-                            "<p class=\"kicker\">Council Representative</p><p>" + data.district_polygon.name + "</p>";
 
         DistLegend = "<li><span style='background:" + DistColor + ";'></span>Council District</li>";
         hasLegend = true;
