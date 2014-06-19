@@ -3,8 +3,8 @@ var prj = 'codeforamerica.hmebo8ll';
 var map = L.mapbox.map('map', prj)
 	.setView([33.4019, -111.717], 12);
 
-var DistrictLayer = L.mapbox.featureLayer(null, {fill: 'red'})
-.addTo(map);
+var DistrictLayer = L.mapbox.featureLayer(null, {fill: 'red'}).addTo(map);
+var otherDistrictsLayer;
 
 var marker = L.marker(new L.LatLng(33.42, -111.835), {
       icon: L.mapbox.marker.icon({'marker-color': 'CC0033'}),
@@ -19,13 +19,12 @@ function ondragend() {
     updateMarker({'lat': ll.lat, 'long': ll.lng});
 }
 
-var g_data;
+var g_data, g_districts;
 
 
 function find_member(district) {
   return _.find(council, function(member){ return member.district == district });
 }
-
 
 function updateMarker(d) {
   $.ajax({
@@ -58,6 +57,72 @@ function updateMarker(d) {
         geoJSON.properties.fill = DistColor;
         DistrictLayer.setGeoJSON(geoJSON);
         DistrictLayer.setFilter(function() { return true; });
+
+      // HACK. this stuff should go in initializer on page load.
+      // see http://leafletjs.com/examples/choropleth.html
+      function highlightFeature(e) {
+            var layer = e.target;
+
+            layer.setStyle({
+                weight: 3,
+                color: '#2262CC',
+                dashArray: '',
+                opacity: 0.6,
+                fillOpacity: 0.65,
+            });
+
+            if (!L.Browser.ie && !L.Browser.opera) {
+                layer.bringToFront();
+            }
+        }
+
+        function resetHighlight(e) {
+          otherDistrictsLayer.resetStyle(e.target);
+        }
+
+        function jumpToFeature(e) {
+          updateMarker({'lat': e.latlng.lat, 'long': e.latlng.lng});
+          console.log("jumping to district ");
+        }
+
+
+        g_districts = districts = {
+          type: "FeatureCollection",
+          features: _.map(data.districts, function(district) {
+            return {
+              type: "Feature",
+              geometry: jQuery.parseJSON(district.geom),
+              properties: {
+                name: district.name,
+                twit_name: district.twit_name,
+                twit_wdgt: district.twit_wdgt,
+              },
+              id: district.id,
+            }
+          }),
+        };
+
+        otherDistrictsJSON = districts;
+        otherDistrictsLayer = L.geoJson(otherDistrictsJSON, {
+          style: function (feature) {
+            return {
+                fillColor: 'white',
+                weight: 1,
+                opacity: 0.6,
+                fillOpacity: 0.3,
+                color: 'black',
+                dashArray: '3',
+            };
+          },
+          onEachFeature: function (feature, layer) {
+            layer.on({
+                mouseover: highlightFeature,
+                mouseout: resetHighlight,
+                click: jumpToFeature
+            });
+          }
+        }).addTo(map);
+
 
         DistLegend = "<li><span style='background:" + DistColor + ";'></span>Council District</li>";
         hasLegend = true;
@@ -99,13 +164,11 @@ function updateMarker(d) {
           'Liquor License': 'fa-glass',
           'miscellaneous': 'fa-cog',
           get: function(matterType) {
-            console.log("looking up " + matterType);
             return (this[matterType] ? this[matterType] : this['miscellaneous']);
           }
         };
 
         function legislative_item_start(icon) {
-          console.log("leg_item_start("+icon+")");
           return '<div class="legislation pure-g">\
             <div class="type pure-u-1 pure-u-md-1-8">\
                 <i class="fa ' + icon + ' fa-2x"></i>\

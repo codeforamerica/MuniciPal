@@ -25,9 +25,14 @@ class CouncilDistrict < ActiveRecord::Base
                                                         from council_districts 
                                                         where ST_Contains(geom,
                                                         ST_SetSRID(ST_Transform(ST_SetSRID(ST_MakePoint(#{long}, #{lat}),#{COORD_SYS_REF}), #{COORD_SYS_AREA}), #{COORD_SYS_ZONE}))")
-
-    
     return @area_in_geojson.first
   end
+
+  def self.getDistricts
+    # The user might want to map all the districts, so send 'em all.
+    @districts_as_geojson = CouncilDistrict.find_by_sql("select id, name, twit_name, twit_wdgt, ST_AsGeoJSON(ST_Transform(ST_SetSRID(geom, #{COORD_SYS_AREA}), #{COORD_SYS_REF})) as geom from council_districts");
+    return @districts_as_geojson;
+  end
+
 
 end

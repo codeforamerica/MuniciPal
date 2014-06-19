@@ -33,13 +33,14 @@ class AddressesController < ApplicationController
         puts "ERROR: Whaaaaaat?! No district/id. You ran rake mesa_councils:load to populate the table right?"
       end
     end
-    
+
     @response = { :lat                    => @lat,
                   :lng                    => @lng,
                   :address                => @addr,
                   :in_district       => @in_district,
                   :district_polygon  => @district_polygon,
-                  :event_items       => @event_items
+                  :event_items       => @event_items,
+                  :districts         => CouncilDistrict.getDistricts
                 }
     respond_with(@response)
   end
