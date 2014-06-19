@@ -1,4 +1,12 @@
 
+#topbar {
+	background: black;
+
+	.pure-menu-heading {
+		color: white;
+	}
+}
+
 #map {
 	float: left;
 	z-index:1;
