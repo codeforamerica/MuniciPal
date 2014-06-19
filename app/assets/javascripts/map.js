@@ -68,7 +68,7 @@ function updateMarker(d) {
                 color: '#2262CC',
                 dashArray: '',
                 opacity: 0.6,
-                fillOpacity: 0.65,
+                fillOpacity: 0.4,
             });
 
             if (!L.Browser.ie && !L.Browser.opera) {
@@ -108,8 +108,8 @@ function updateMarker(d) {
             return {
                 fillColor: 'white',
                 weight: 1,
-                opacity: 0.6,
-                fillOpacity: 0.3,
+                opacity: 0.7,
+                fillOpacity: 0.2,
                 color: 'black',
                 dashArray: '3',
             };
