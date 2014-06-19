@@ -92,29 +92,26 @@ function updateMarker(d) {
         $("#council-" + data.district_polygon.id).toggle();
         $("#mention-" + data.district_polygon.id).toggle();
 
-        var legislative_item_start_l = '<div class="legislation pure-g">\
-            <div class="type pure-u-1 pure-u-md-1-8">\
-                <i class="fa fa-glass fa-2x"></i>\
-            </div>\
-            <div class="title pure-u-1 pure-u-md-17-24">';
 
-        var legislative_item_start_etc = '<div class="legislation pure-g">\
-            <div class="type pure-u-1 pure-u-md-1-8">\
-                <i class="fa fa-cog fa-2x"></i>\
-            </div>\
-            <div class="title pure-u-1 pure-u-md-17-24">';
+        var icons = {
+          'Contract': 'fa-file-text',
+          'Resolution': 'fa-legal',
+          'Liquor License': 'fa-glass',
+          'miscellaneous': 'fa-cog',
+          get: function(matterType) {
+            console.log("looking up " + matterType);
+            return (this[matterType] ? this[matterType] : this['miscellaneous']);
+          }
+        };
 
-        var legislative_item_start_r = '<div class="legislation pure-g">\
+        function legislative_item_start(icon) {
+          console.log("leg_item_start("+icon+")");
+          return '<div class="legislation pure-g">\
             <div class="type pure-u-1 pure-u-md-1-8">\
-                <i class="fa fa-legal fa-2x"></i>\
+                <i class="fa ' + icon + ' fa-2x"></i>\
             </div>\
             <div class="title pure-u-1 pure-u-md-17-24">';
-
-        var legislative_item_start_c = '<div class="legislation pure-g">\
-            <div class="type pure-u-1 pure-u-md-1-8">\
-                <i class="fa fa-file-text fa-2x"></i>\
-            </div>\
-            <div class="title pure-u-1 pure-u-md-17-24">';
+        }
 
         var legislative_item_end = '</div>\
             <div class="like pure-u-1 pure-u-md-1-12">\
@@ -127,26 +124,7 @@ function updateMarker(d) {
 
         // stick some event items in the frontend
         var items = _.map(data.event_items, function(item) {
-          if (item.EventItemMatterType == "Contract"){
-            return legislative_item_start_c +
-            item.EventItemTitle +
-            legislative_item_end;
-          }
-          else if (item.EventItemMatterType == "Resolution") {
-            return legislative_item_start_r +
-            item.EventItemTitle +
-            legislative_item_end;
-          }
-          else if (item.EventItemMatterType == "Liquor License") {
-            return legislative_item_start_l +
-            item.EventItemTitle +
-            legislative_item_end;
-          }
-          else {
-            return legislative_item_start_etc +
-            item.EventItemTitle +
-            legislative_item_end;
-          }
+            return legislative_item_start(icons.get(item.EventItemMatterType)) + item.EventItemTitle + legislative_item_end;
         }).join('');
         $(".legislative-items").empty().append(items);
 
