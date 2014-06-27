@@ -134,8 +134,8 @@ function updatePageContent(data) {
   var twitter_user = data.district_polygon.twit_name; // 'MesaDistrict3'; //
 
   $(".twit-widget").hide();
-  $("#council-" + district).toggle();
-  $("#mention-" + district).toggle();
+  $(".twit-widget#council-" + district).show();
+  $(".twit-widget#mention-" + district).show();
 
   // stick some event items in the frontend
   var items = _.map(data.event_items, function(item) {
