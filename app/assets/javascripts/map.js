@@ -129,9 +129,9 @@ function updatePageContent(data) {
   $('#contact-card .bio').empty().append(member.bio);
 
   // var full_name = 'Dennis Ka....';
-  var councilmember_first_name = data.district_polygon.name.split(' ')[0]; //data.district_polygon.name.split(" ")[0];
-  var twitter_widget_id = data.district_polygon.twit_wdgt; //'465941592985968641'; //d
-  var twitter_user = data.district_polygon.twit_name; // 'MesaDistrict3'; //
+  // var councilmember_first_name = data.district_polygon.name.split(' ')[0]; //data.district_polygon.name.split(" ")[0];
+  // var twitter_widget_id = data.district_polygon.twit_wdgt; //'465941592985968641'; //d
+  // var twitter_user = data.district_polygon.twit_name; // 'MesaDistrict3'; //
 
   $(".twit-widget").hide();
   $(".twit-widget#council-" + district).show();
