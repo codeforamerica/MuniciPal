@@ -3,11 +3,11 @@ var prj = 'codeforamerica.hmebo8ll';
 /* settings to change for different places. */
 var MAP_CENTER_LOCATION = [33.4019, -111.717];
 var MAP_MARKER_LOCATION = [33.42, -111.835];
-var MAP_STARTZOOM = 12;
+var MAP_START_ZOOM = 12;
 var DISTRICT_FILL = 'white';
 
 var map = L.mapbox.map('map', prj)
-	.setView(MAP_CENTER_LOCATION, MAP_STARTZOOM);
+	.setView(MAP_CENTER_LOCATION, MAP_START_ZOOM);
 
 var DistrictLayer = L.mapbox.featureLayer(null, {}).addTo(map);
 var otherDistrictsLayer;
