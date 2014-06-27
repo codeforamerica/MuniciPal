@@ -31,32 +31,7 @@ function find_member(district) {
   return _.find(council, function(member){ return member.district == district });
 }
 
-// HACK. this stuff should go in initializer on page load.
-// see http://leafletjs.com/examples/choropleth.html
-function highlightFeature(e) {
-  var layer = e.target;
 
-  layer.setStyle({
-      weight: 3,
-      color: '#2262CC',
-      dashArray: '',
-      opacity: 0.6,
-      fillOpacity: 0.4,
-  });
-
-  if (!L.Browser.ie && !L.Browser.opera) {
-      layer.bringToFront();
-  }
-}
-
-function resetHighlight(e) {
-  otherDistrictsLayer.resetStyle(e.target);
-}
-
-function jumpToFeature(e) {
-  updatePage({'lat': e.latlng.lat, 'long': e.latlng.lng});
-  console.log("jumping to district ");
-}
 
 
 function legislative_item_start(icon) {
@@ -107,42 +82,9 @@ function updatePage(ll) {
         DistrictLayer.setGeoJSON(geoJSON);
         DistrictLayer.setFilter(function() { return true; });
 
+        // HACK. this stuff should go in initializer on page load.
         // todo : on page load, hit a URL that will return just the districts. 
-        g_districts = otherDistrictsJSON = {
-          type: "FeatureCollection",
-          features: _.map(data.districts, function(district) {
-            return {
-              type: "Feature",
-              geometry: jQuery.parseJSON(district.geom),
-              properties: {
-                name: district.name,
-                twit_name: district.twit_name,
-                twit_wdgt: district.twit_wdgt,
-              },
-              id: district.id,
-            }
-          }),
-        };
-
-        otherDistrictsLayer = L.geoJson(otherDistrictsJSON, {
-          style: function (feature) {
-            return {
-                fillColor: DISTRICT_FILL,
-                weight: 1,
-                opacity: 0.7,
-                fillOpacity: 0.2,
-                color: 'black',
-                dashArray: '3',
-            };
-          },
-          onEachFeature: function (feature, layer) {
-            layer.on({
-                mouseover: highlightFeature,
-                mouseout: resetHighlight,
-                click: jumpToFeature
-            });
-          }
-        }).addTo(map);
+        addDistrictsToMap(data.districts);
 
         $('body').removeClass('initial');
         var district = data.district_polygon.id;
@@ -200,6 +142,77 @@ function updatePage(ll) {
       map.setView([data.lat, data.lng], 12);
     }
   })
+}
+
+
+
+// see http://leafletjs.com/examples/choropleth.html
+function highlightFeature(e) {
+  var layer = e.target;
+
+  layer.setStyle({
+      weight: 3,
+      color: '#2262CC',
+      dashArray: '',
+      opacity: 0.6,
+      fillOpacity: 0.4,
+  });
+
+  if (!L.Browser.ie && !L.Browser.opera) {
+      layer.bringToFront();
+  }
+}
+
+
+function resetHighlight(e) {
+  otherDistrictsLayer.resetStyle(e.target);
+}
+
+
+function jumpToFeature(e) {
+  updatePage({'lat': e.latlng.lat, 'long': e.latlng.lng});
+  console.log("jumping to district ");
+}
+
+
+function addDistrictsToMap(districts) {
+
+  g_districts = otherDistrictsJSON = {
+    type: "FeatureCollection",
+    features: _.map(districts, function(district) {
+      return {
+        type: "Feature",
+        geometry: jQuery.parseJSON(district.geom),
+        properties: {
+          name: district.name,
+          twit_name: district.twit_name,
+          twit_wdgt: district.twit_wdgt,
+        },
+        id: district.id,
+      }
+    }),
+  };
+
+
+  otherDistrictsLayer = L.geoJson(otherDistrictsJSON, {
+    style: function (feature) {
+      return {
+          fillColor: DISTRICT_FILL,
+          weight: 1,
+          opacity: 0.7,
+          fillOpacity: 0.2,
+          color: 'black',
+          dashArray: '3',
+      };
+    },
+    onEachFeature: function (feature, layer) {
+      layer.on({
+          mouseover: highlightFeature,
+          mouseout: resetHighlight,
+          click: jumpToFeature
+      });
+    }
+  }).addTo(map);
 }
 
 
