@@ -48,7 +48,7 @@ function updateMarker(d) {
       // marker.bindPopup(new L.Popup()).openPopup();
 
       var DistLegend = "";
-      var DistColor = 'blue';
+      var DistColor = 'white';
 
       if (data.in_district) {
 
