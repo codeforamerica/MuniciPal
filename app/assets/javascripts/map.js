@@ -15,11 +15,11 @@ var marker = L.marker(map_marker_location, {
       draggable: true
       });
 marker.addTo(map);
-marker.on('dragend', ondragend);
+marker.on('dragend', onDragEnd);
 
-function ondragend() {
+function onDragEnd() {
     var ll = marker.getLatLng();
-    updateMarker({'lat': ll.lat, 'long': ll.lng});
+    updatePage({'lat': ll.lat, 'long': ll.lng});
 }
 
 var g_data, g_districts;
@@ -29,16 +29,71 @@ function find_member(district) {
   return _.find(council, function(member){ return member.district == district });
 }
 
-function updateMarker(d) {
+// HACK. this stuff should go in initializer on page load.
+// see http://leafletjs.com/examples/choropleth.html
+function highlightFeature(e) {
+  var layer = e.target;
+
+  layer.setStyle({
+      weight: 3,
+      color: '#2262CC',
+      dashArray: '',
+      opacity: 0.6,
+      fillOpacity: 0.4,
+  });
+
+  if (!L.Browser.ie && !L.Browser.opera) {
+      layer.bringToFront();
+  }
+}
+
+function resetHighlight(e) {
+  otherDistrictsLayer.resetStyle(e.target);
+}
+
+function jumpToFeature(e) {
+  updatePage({'lat': e.latlng.lat, 'long': e.latlng.lng});
+  console.log("jumping to district ");
+}
+
+
+function legislative_item_start(icon) {
+  return '<div class="legislation pure-g">\
+    <div class="type pure-u-1 pure-u-md-1-8">\
+        <i class="fa ' + icon + ' fa-2x"></i>\
+    </div>\
+    <div class="title pure-u-1 pure-u-md-17-24">';
+}
+
+var legislative_item_end = '</div>\
+    <div class="like pure-u-1 pure-u-md-1-12">\
+        <div class="fb-like post-footer-like" data-send="false" data-width="300" href="http://yerhere.herokuapp.com" data-show-faces="false" data-layout="button"></div>\
+    </div>\
+     <div class="comment pure-u-1 pure-u-md-1-12">\
+        <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en" data-url="http://localhost/citymatters/1" data-via="techieshark" data-text="@wfong_sf Let\'s talk about this. [INSERT COMMENT HERE]" data-related="buckley_tom:A really fun guy!,mesaazgov:The City of Mesa,MesaDistrict3:Your City Councilmember" data-hashtags="mesatalk" data-size="large" data-count="vertical">Tweet</a>\
+    </div>\
+</div>';
+
+var icons = {
+  'Contract': 'fa-file-text',
+  'Resolution': 'fa-legal',
+  'Liquor License': 'fa-glass',
+  'miscellaneous': 'fa-cog',
+  get: function(matterType) {
+    return (this[matterType] ? this[matterType] : this['miscellaneous']);
+  }
+};
+
+/* Update the page, given a new lat/lng (ll). */
+function updatePage(ll) {
   $.ajax({
     type: 'GET',
     url: '/',
-    data: d,
+    data: ll,
     dataType: 'json',
     success: function( data ) {
 
       g_data = data;
-
 
       var stateObj = { foo: "bar" };
       history.pushState(stateObj, "zone", "?address=" + data.address + "&lat=" + data.lat + "&long=" + data.lng);
@@ -54,34 +109,6 @@ function updateMarker(d) {
         geoJSON.properties.fill = DistColor;
         DistrictLayer.setGeoJSON(geoJSON);
         DistrictLayer.setFilter(function() { return true; });
-
-      // HACK. this stuff should go in initializer on page load.
-      // see http://leafletjs.com/examples/choropleth.html
-      function highlightFeature(e) {
-            var layer = e.target;
-
-            layer.setStyle({
-                weight: 3,
-                color: '#2262CC',
-                dashArray: '',
-                opacity: 0.6,
-                fillOpacity: 0.4,
-            });
-
-            if (!L.Browser.ie && !L.Browser.opera) {
-                layer.bringToFront();
-            }
-        }
-
-        function resetHighlight(e) {
-          otherDistrictsLayer.resetStyle(e.target);
-        }
-
-        function jumpToFeature(e) {
-          updateMarker({'lat': e.latlng.lat, 'long': e.latlng.lng});
-          console.log("jumping to district ");
-        }
-
 
         g_districts = districts = {
           type: "FeatureCollection",
@@ -139,8 +166,6 @@ function updateMarker(d) {
         $('#contact-card .mail').empty().append(member.address);
         $('#contact-card .bio').empty().append(member.bio);
 
-
-
         // var full_name = 'Dennis Ka....';
         var councilmember_first_name = data.district_polygon.name.split(' ')[0]; //data.district_polygon.name.split(" ")[0];
         var twitter_widget_id = data.district_polygon.twit_wdgt; //'465941592985968641'; //d
@@ -149,34 +174,6 @@ function updateMarker(d) {
         $(".twit-widget").hide();
         $("#council-" + data.district_polygon.id).toggle();
         $("#mention-" + data.district_polygon.id).toggle();
-
-
-        var icons = {
-          'Contract': 'fa-file-text',
-          'Resolution': 'fa-legal',
-          'Liquor License': 'fa-glass',
-          'miscellaneous': 'fa-cog',
-          get: function(matterType) {
-            return (this[matterType] ? this[matterType] : this['miscellaneous']);
-          }
-        };
-
-        function legislative_item_start(icon) {
-          return '<div class="legislation pure-g">\
-            <div class="type pure-u-1 pure-u-md-1-8">\
-                <i class="fa ' + icon + ' fa-2x"></i>\
-            </div>\
-            <div class="title pure-u-1 pure-u-md-17-24">';
-        }
-
-        var legislative_item_end = '</div>\
-            <div class="like pure-u-1 pure-u-md-1-12">\
-                <div class="fb-like post-footer-like" data-send="false" data-width="300" href="http://yerhere.herokuapp.com" data-show-faces="false" data-layout="button"></div>\
-            </div>\
-             <div class="comment pure-u-1 pure-u-md-1-12">\
-                <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en" data-url="http://localhost/citymatters/1" data-via="techieshark" data-text="@wfong_sf Let\'s talk about this. [INSERT COMMENT HERE]" data-related="buckley_tom:A really fun guy!,mesaazgov:The City of Mesa,MesaDistrict3:Your City Councilmember" data-hashtags="mesatalk" data-size="large" data-count="vertical">Tweet</a>\
-            </div>\
-        </div>';
 
         // stick some event items in the frontend
         var items = _.map(data.event_items, function(item) {
@@ -216,5 +213,5 @@ $( "#address" ).keyup(function(e) {
 });
 
 $( "#search-btn" ).click(function(e) {
-    updateMarker({'address': $( "#address" ).val()});
+    updatePage({'address': $( "#address" ).val()});
 });

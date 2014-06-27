@@ -7,10 +7,10 @@ $( document ).ready(function() {
   console.log(urlLat);
   console.log(urlLong);
   if(urlAddress && urlAddress != '') {
-    updateMarker({'address': urlAddress});
+    updatePage({'address': urlAddress});
     console.log("address is not empty");
   } else if (urlLat && urlLat != '' && urlLong && urlLong != '') {
-    updateMarker({'lat': urlLat, 'long': urlLong});
+    updatePage({'lat': urlLat, 'long': urlLong});
     console.log("lat and long are not empty");
   }
 });
