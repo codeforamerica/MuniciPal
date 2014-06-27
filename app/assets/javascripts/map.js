@@ -57,6 +57,7 @@ function linesToMap(tomsline) {
 function textToGeo(text) {
    $.ajax({
     type: 'POST',
+    crossDomain: true,
     url: 'http://findlines.herokuapp.com/',
     data: { fileupload: text},
     dataType: 'json',
@@ -174,7 +175,7 @@ function updatePageContent(data) {
 
   // stick some event items in the frontend
   var items = _.map(data.event_items, function(item) {
-      textToGeo(item);
+      textToGeo(item.EventItemTitle);
 
       return legislative_item_start(icons.get(item.EventItemMatterType)) + item.EventItemTitle + legislative_item_end;
   }).join('');
