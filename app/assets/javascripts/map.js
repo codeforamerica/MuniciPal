@@ -95,10 +95,9 @@ function updatePage(ll) {
 
       g_data = data;
 
-      var stateObj = { foo: "bar" };
+      var stateObj = {};
       history.pushState(stateObj, "zone", "?address=" + data.address + "&lat=" + data.lat + "&long=" + data.lng);
       marker.setLatLng(new L.LatLng(data.lat, data.lng));
-      // marker.bindPopup(new L.Popup()).openPopup();
 
       var DistColor = 'white';
 
