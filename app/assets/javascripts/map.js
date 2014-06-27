@@ -9,7 +9,7 @@ var DISTRICT_FILL = 'white';
 var map = L.mapbox.map('map', prj)
 	.setView(MAP_CENTER_LOCATION, MAP_START_ZOOM);
 
-var DistrictLayer = L.mapbox.featureLayer(null, {}).addTo(map);
+var districtLayer = L.mapbox.featureLayer(null, {}).addTo(map);
 var otherDistrictsLayer;
 
 var marker = L.marker(MAP_MARKER_LOCATION, {
@@ -79,8 +79,8 @@ function updatePage(ll) {
 
         var geoJSON = $.parseJSON(data.district_polygon.st_asgeojson);
         geoJSON.properties = { fill: DISTRICT_FILL };
-        DistrictLayer.setGeoJSON(geoJSON);
-        DistrictLayer.setFilter(function() { return true; });
+        districtLayer.setGeoJSON(geoJSON);
+        districtLayer.setFilter(function() { return true; });
 
         // HACK. this stuff should go in initializer on page load.
         // todo : on page load, hit a URL that will return just the districts. 
@@ -90,7 +90,7 @@ function updatePage(ll) {
 
       } else {
 
-        DistrictLayer.setFilter(function() { return false; });
+        districtLayer.setFilter(function() { return false; });
         $('.you-live-in').empty().append(
           'It looks like you\'re outside of Mesa.<br>' +
           'Maybe you want the <a href="http://www.mesaaz.gov/Council/">council and mayor webpage</a>?'
