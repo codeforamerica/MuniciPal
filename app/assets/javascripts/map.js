@@ -97,20 +97,18 @@ function updatePage(ll) {
 
       g_data = data;
 
-      var stateObj = {};
-      history.pushState(stateObj, "zone", "?address=" + data.address + "&lat=" + data.lat + "&long=" + data.lng);
+      history.pushState({}, "", "?address=" + data.address + "&lat=" + data.lat + "&long=" + data.lng);
       marker.setLatLng(new L.LatLng(data.lat, data.lng));
-
 
       if (data.in_district) {
 
         var geoJSON = $.parseJSON(data.district_polygon.st_asgeojson);
-        geoJSON.properties= {};
-        geoJSON.properties.fill = DISTRICT_FILL;
+        geoJSON.properties = { fill: DISTRICT_FILL };
         DistrictLayer.setGeoJSON(geoJSON);
         DistrictLayer.setFilter(function() { return true; });
 
-        g_districts = districts = {
+        // todo : on page load, hit a URL that will return just the districts. 
+        g_districts = otherDistrictsJSON = {
           type: "FeatureCollection",
           features: _.map(data.districts, function(district) {
             return {
@@ -126,7 +124,6 @@ function updatePage(ll) {
           }),
         };
 
-        otherDistrictsJSON = districts;
         otherDistrictsLayer = L.geoJson(otherDistrictsJSON, {
           style: function (feature) {
             return {
