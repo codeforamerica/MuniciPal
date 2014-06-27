@@ -3,7 +3,7 @@ var prj = 'codeforamerica.hmebo8ll';
 var map = L.mapbox.map('map', prj)
 	.setView([33.4019, -111.717], 12);
 
-var DistrictLayer = L.mapbox.featureLayer(null, {fill: 'red'}).addTo(map);
+var DistrictLayer = L.mapbox.featureLayer(null, {}).addTo(map);
 var otherDistrictsLayer;
 
 var marker = L.marker(new L.LatLng(33.42, -111.835), {
