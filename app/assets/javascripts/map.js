@@ -1,17 +1,20 @@
 var prj = 'codeforamerica.hmebo8ll';
 
+var map_center_location = [33.4019, -111.717];
+var map_marker_location = [33.42, -111.835];
+var map_startzoom = 12;
+
 var map = L.mapbox.map('map', prj)
-	.setView([33.4019, -111.717], 12);
+	.setView(map_center_location, map_startzoom);
 
 var DistrictLayer = L.mapbox.featureLayer(null, {}).addTo(map);
 var otherDistrictsLayer;
 
-var marker = L.marker(new L.LatLng(33.42, -111.835), {
+var marker = L.marker(map_marker_location, {
       icon: L.mapbox.marker.icon({'marker-color': 'CC0033'}),
       draggable: true
       });
 marker.addTo(map);
-
 marker.on('dragend', ondragend);
 
 function ondragend() {
