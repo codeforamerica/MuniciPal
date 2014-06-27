@@ -39,18 +39,12 @@ function updateMarker(d) {
 
       g_data = data;
 
-      if (document.getElementById('legend-content'))
-      {
-        map.legendControl.removeLegend(document.getElementById('legend-content').innerHTML);
-      }
 
       var stateObj = { foo: "bar" };
-      var hasLegend = false;
       history.pushState(stateObj, "zone", "?address=" + data.address + "&lat=" + data.lat + "&long=" + data.lng);
       marker.setLatLng(new L.LatLng(data.lat, data.lng));
       // marker.bindPopup(new L.Popup()).openPopup();
 
-      var DistLegend = "";
       var DistColor = 'white';
 
       if (data.in_district) {
@@ -125,10 +119,6 @@ function updateMarker(d) {
             });
           }
         }).addTo(map);
-
-
-        DistLegend = "<li><span style='background:" + DistColor + ";'></span>Council District</li>";
-        hasLegend = true;
 
         $('body').removeClass('initial');
         var district = data.district_polygon.id;
