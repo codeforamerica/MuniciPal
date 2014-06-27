@@ -86,46 +86,7 @@ function updatePage(ll) {
         // todo : on page load, hit a URL that will return just the districts. 
         addDistrictsToMap(data.districts);
 
-        $('body').removeClass('initial');
-        var district = data.district_polygon.id;
-
-        var member = find_member(district);
-        var mayor = find_member(0); // 0 = mayor. for now anyway.
-
-        $('.you-live-in').empty().append('District ' + district).removeClass("no-district").show();
-        $('.results-text').empty().append(
-          'Your Council Representative is <a href="' + member.website + '">'  + data.district_polygon.name + '</a>.'
-/*          '<br>(And you know about <a href="' + mayor.website + '">Mayor ' + mayor.name + '</a> and those <a href="' +
-            mayor.twitter + '">tweets</a> right?)'*/
-        );
-        $('.results').show();
-
-        $('#contact-card .phone').empty().append(member.phone);
-        $('#contact-card .email').empty().append(member.email);
-        $('#contact-card .mail').empty().append(member.address);
-        $('#contact-card .bio').empty().append(member.bio);
-
-        // var full_name = 'Dennis Ka....';
-        var councilmember_first_name = data.district_polygon.name.split(' ')[0]; //data.district_polygon.name.split(" ")[0];
-        var twitter_widget_id = data.district_polygon.twit_wdgt; //'465941592985968641'; //d
-        var twitter_user = data.district_polygon.twit_name; // 'MesaDistrict3'; //
-
-        $(".twit-widget").hide();
-        $("#council-" + district).toggle();
-        $("#mention-" + district).toggle();
-
-        // stick some event items in the frontend
-        var items = _.map(data.event_items, function(item) {
-            return legislative_item_start(icons.get(item.EventItemMatterType)) + item.EventItemTitle + legislative_item_end;
-        }).join('');
-        $(".legislative-items").empty().append(items);
-
-        // twitter & facebook only render on page load by default, so
-        // we need to call on them to parse & render the new content
-        twttr.widgets.load();
-        FB.XFBML.parse(); // pass document.getElementById('legislative') for efficiency.
-
-        $('#results-area').show();
+        updatePageContent(data);
 
       } else {
 
@@ -144,6 +105,51 @@ function updatePage(ll) {
   })
 }
 
+
+
+function updatePageContent(data) {
+
+  $('body').removeClass('initial');
+  var district = data.district_polygon.id;
+
+  var member = find_member(district);
+  var mayor = find_member(0); // 0 = mayor. for now anyway.
+
+  $('.you-live-in').empty().append('District ' + district).removeClass("no-district").show();
+  $('.results-text').empty().append(
+    'Your Council Representative is <a href="' + member.website + '">'  + data.district_polygon.name + '</a>.'
+  /* '<br>(And you know about <a href="' + mayor.website + '">Mayor ' + mayor.name + '</a> and those <a href="' +
+      mayor.twitter + '">tweets</a> right?)'*/
+  );
+  $('.results').show();
+
+  $('#contact-card .phone').empty().append(member.phone);
+  $('#contact-card .email').empty().append(member.email);
+  $('#contact-card .mail').empty().append(member.address);
+  $('#contact-card .bio').empty().append(member.bio);
+
+  // var full_name = 'Dennis Ka....';
+  var councilmember_first_name = data.district_polygon.name.split(' ')[0]; //data.district_polygon.name.split(" ")[0];
+  var twitter_widget_id = data.district_polygon.twit_wdgt; //'465941592985968641'; //d
+  var twitter_user = data.district_polygon.twit_name; // 'MesaDistrict3'; //
+
+  $(".twit-widget").hide();
+  $("#council-" + district).toggle();
+  $("#mention-" + district).toggle();
+
+  // stick some event items in the frontend
+  var items = _.map(data.event_items, function(item) {
+      return legislative_item_start(icons.get(item.EventItemMatterType)) + item.EventItemTitle + legislative_item_end;
+  }).join('');
+  $(".legislative-items").empty().append(items);
+
+  // twitter & facebook only render on page load by default, so
+  // we need to call on them to parse & render the new content
+  twttr.widgets.load();
+  FB.XFBML.parse(); // pass document.getElementById('legislative') for efficiency.
+
+  $('#results-area').show();
+}
 
 
 // see http://leafletjs.com/examples/choropleth.html
