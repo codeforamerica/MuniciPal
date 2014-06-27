@@ -1,16 +1,18 @@
 var prj = 'codeforamerica.hmebo8ll';
 
-var map_center_location = [33.4019, -111.717];
-var map_marker_location = [33.42, -111.835];
-var map_startzoom = 12;
+/* settings to change for different places. */
+var MAP_CENTER_LOCATION = [33.4019, -111.717];
+var MAP_MARKER_LOCATION = [33.42, -111.835];
+var MAP_STARTZOOM = 12;
+var DISTRICT_FILL = 'white';
 
 var map = L.mapbox.map('map', prj)
-	.setView(map_center_location, map_startzoom);
+	.setView(MAP_CENTER_LOCATION, MAP_STARTZOOM);
 
 var DistrictLayer = L.mapbox.featureLayer(null, {}).addTo(map);
 var otherDistrictsLayer;
 
-var marker = L.marker(map_marker_location, {
+var marker = L.marker(MAP_MARKER_LOCATION, {
       icon: L.mapbox.marker.icon({'marker-color': 'CC0033'}),
       draggable: true
       });
@@ -99,13 +101,12 @@ function updatePage(ll) {
       history.pushState(stateObj, "zone", "?address=" + data.address + "&lat=" + data.lat + "&long=" + data.lng);
       marker.setLatLng(new L.LatLng(data.lat, data.lng));
 
-      var DistColor = 'white';
 
       if (data.in_district) {
 
         var geoJSON = $.parseJSON(data.district_polygon.st_asgeojson);
         geoJSON.properties= {};
-        geoJSON.properties.fill = DistColor;
+        geoJSON.properties.fill = DISTRICT_FILL;
         DistrictLayer.setGeoJSON(geoJSON);
         DistrictLayer.setFilter(function() { return true; });
 
@@ -129,7 +130,7 @@ function updatePage(ll) {
         otherDistrictsLayer = L.geoJson(otherDistrictsJSON, {
           style: function (feature) {
             return {
-                fillColor: 'white',
+                fillColor: DISTRICT_FILL,
                 weight: 1,
                 opacity: 0.7,
                 fillOpacity: 0.2,
