@@ -143,6 +143,13 @@ var icons = {
   }
 };
 
+/* convert text to paragraphs (newlines -> <p>s) */
+/* modified from http://stackoverflow.com/questions/5020434/jquery-remove-new-line-then-wrap-textnodes-with-p */
+function p(t){
+    t = t.trim();
+    return (t.length>0 ? '<p>'+t.replace(/[\r\n]+/g,'</p><p>')+'</p>' : null);
+}
+
 function updatePageContent(data) {
 
   $('body').removeClass('initial');
@@ -191,7 +198,9 @@ function updatePageContent(data) {
             return item.EventItemMatterName;
           }
         },
-        body: item.EventItemTitle,
+        body: function() {
+          return p(item.EventItemTitle);
+        },
         icon: icons.get(item.EventItemMatterType),
       };
 
@@ -203,7 +212,7 @@ function updatePageContent(data) {
           <i class="fa {{icon}} fa-2x"></i>\
         </div>\
         <div class="title pure-u-1 pure-u-md-17-24">\
-        {{body}}\
+        {{{body}}}\
         </div>\
           <div class="like pure-u-1 pure-u-md-1-12">\
             <div class="fb-like post-footer-like" data-send="false" data-width="300" href="http://yerhere.herokuapp.com" data-show-faces="false" data-layout="button"></div>\
