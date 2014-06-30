@@ -182,8 +182,10 @@ function updatePageContent(data) {
   $(".twit-widget#council-" + district).show();
   $(".twit-widget#mention-" + district).show();
 
+  $(".legislative-items").empty();
+
   // stick some event items in the frontend
-  var items = _.map(data.event_items, function(item) {
+  _.map(data.event_items, function(item) {
       textToGeo(item.EventItemTitle);
 
       var view = {
@@ -203,13 +205,39 @@ function updatePageContent(data) {
         body: function() {
           return p(item.EventItemTitle);
         },
+        matterId: item.EventItemMatterId,
         icon: icons.get(item.EventItemMatterType),
       };
 
-      console.log(item.EventItemMatterType + ": " + item.EventItemMatterName);
-      return Mustache.render(template, view);
-  }).join('');
-  $(".legislative-items").empty().append(items);
+      // console.log(item.EventItemMatterType + ": " + item.EventItemMatterName);
+      var itemHtml = Mustache.render(template, view);
+      $('.legislative-items').append(itemHtml);
+
+      // get and populate matter attachments section
+      $.ajax({
+        type: 'GET',
+        crossDomain: true,
+        url: 'http://www.corsproxy.com/webapi.legistar.com/v1/mesa/Matters/' + item.EventItemMatterId + '/Attachments',
+        dataType: 'xml',
+        success: function( data ) {
+          // console.log("got Matter attachment for " + item.EventItemMatterId + "/" + item.EventItemMatterName);
+          // console.log(data);
+          // x_data.push(data);
+          $xml = $(data);
+          var list = _.map($xml.find('GranicusMatterAttachment').get(), function(el) {
+            // console.log(this);
+            var name = el.getElementsByTagName('MatterAttachmentName')[0].innerHTML;
+            var url = el.getElementsByTagName('MatterAttachmentHyperlink')[0].innerHTML;
+            // console.log(name);
+            // console.log('url: ' + url);
+            return '<li><a href="' + url + '">' + name + '</a></li>';
+          }).join('');
+
+          var html = 'Attachments: <ul>' + list + '</ul>';
+          $('#matter-' + item.EventItemMatterId).html(html);
+        },
+      });
+  });
 
   // twitter & facebook only render on page load by default, so
   // we need to call on them to parse & render the new content
