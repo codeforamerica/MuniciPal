@@ -22,11 +22,13 @@ var marker = L.marker(MAP_MARKER_LOCATION, {
 marker.addTo(map);
 marker.on('dragend', onDragEnd);
 
+var template = $('#legislation-template').html();
+Mustache.parse(template);  // optional, speeds up future uses
+
 function onDragEnd() {
     var ll = marker.getLatLng();
     updatePage({'lat': ll.lat, 'long': ll.lng});
 }
-
 
 /* Expects an object of type tomsline which is what the tom-geocoder service returns. 
    Puts it on the map. 
@@ -203,24 +205,6 @@ function updatePageContent(data) {
         },
         icon: icons.get(item.EventItemMatterType),
       };
-
-      var template = '\
-      <h4>{{title}}</h4>\
-      \
-      <div class="legislation pure-g">\
-        <div class="type pure-u-1 pure-u-md-1-8">\
-          <i class="fa {{icon}} fa-2x"></i>\
-        </div>\
-        <div class="title pure-u-1 pure-u-md-17-24">\
-        {{{body}}}\
-        </div>\
-          <div class="like pure-u-1 pure-u-md-1-12">\
-            <div class="fb-like post-footer-like" data-send="false" data-width="300" href="http://yerhere.herokuapp.com" data-show-faces="false" data-layout="button"></div>\
-          </div>\
-           <div class="comment pure-u-1 pure-u-md-1-12">\
-              <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en" data-url="http://localhost/citymatters/1" data-via="techieshark" data-text="@wfong_sf Let\'s talk about this. [INSERT COMMENT HERE]" data-related="buckley_tom:A really fun guy!,mesaazgov:The City of Mesa,MesaDistrict3:Your City Councilmember" data-hashtags="mesatalk" data-size="large" data-count="vertical">Tweet</a>\
-          </div>\
-      </div>';
 
       console.log(item.EventItemMatterType + ": " + item.EventItemMatterName);
       return Mustache.render(template, view);
