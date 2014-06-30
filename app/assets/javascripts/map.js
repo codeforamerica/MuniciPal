@@ -209,7 +209,6 @@ function updatePageContent(data) {
         icon: icons.get(item.EventItemMatterType),
       };
 
-      // console.log(item.EventItemMatterType + ": " + item.EventItemMatterName);
       var itemHtml = Mustache.render(template, view);
       $('.legislative-items').append(itemHtml);
 
@@ -221,15 +220,10 @@ function updatePageContent(data) {
         dataType: 'xml',
         success: function( data ) {
           // console.log("got Matter attachment for " + item.EventItemMatterId + "/" + item.EventItemMatterName);
-          // console.log(data);
-          // x_data.push(data);
           $xml = $(data);
           var list = _.map($xml.find('GranicusMatterAttachment').get(), function(el) {
-            // console.log(this);
             var name = el.getElementsByTagName('MatterAttachmentName')[0].innerHTML;
             var url = el.getElementsByTagName('MatterAttachmentHyperlink')[0].innerHTML;
-            // console.log(name);
-            // console.log('url: ' + url);
             return '<li><a href="' + url + '">' + name + '</a></li>';
           }).join('');
 
