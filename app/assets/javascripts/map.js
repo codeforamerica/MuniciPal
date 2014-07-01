@@ -238,7 +238,9 @@ function updatePageContent(data) {
             time: data.EventTime,
             location: data.EventLocation,
             name: data.EventBodyName,
+            d: data.EventDate,
           }
+          console.log(view);
           var html = Mustache.render(eventTemplate, view);
           $('#event-details-' + item.EventItemMatterId).html(html);
         }
