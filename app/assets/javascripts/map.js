@@ -217,18 +217,17 @@ function updatePageContent(data) {
         type: 'GET',
         crossDomain: true,
         url: 'http://www.corsproxy.com/webapi.legistar.com/v1/mesa/Matters/' + item.EventItemMatterId + '/Attachments',
-        dataType: 'xml',
+        dataType: 'json',
         success: function( data ) {
-          // console.log("got Matter attachment for " + item.EventItemMatterId + "/" + item.EventItemMatterName);
-          $xml = $(data);
-          var list = _.map($xml.find('GranicusMatterAttachment').get(), function(el) {
-            var name = el.getElementsByTagName('MatterAttachmentName')[0].innerHTML;
-            var url = el.getElementsByTagName('MatterAttachmentHyperlink')[0].innerHTML;
-            return '<li><a href="' + url + '">' + name + '</a></li>';
+
+          var list = _.map(data, function (attachment) {
+            return '<li><a href="' + attachment.MatterAttachmentHyperlink + '">' + attachment.MatterAttachmentName; + '</a></li>';
           }).join('');
 
-          var html = 'Attachments: <ul>' + list + '</ul>';
-          $('#matter-' + item.EventItemMatterId).html(html);
+          if (list.length) {
+            var html = 'Attachments: <ul>' + list + '</ul>';
+            $('#matter-' + item.EventItemMatterId).html(html);
+          }
         },
       });
   });
