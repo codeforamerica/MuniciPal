@@ -22,8 +22,12 @@ var marker = L.marker(MAP_MARKER_LOCATION, {
 marker.addTo(map);
 marker.on('dragend', onDragEnd);
 
-var template = $('#legislation-template').html();
-Mustache.parse(template);  // optional, speeds up future uses
+var legislationTemplate = $('#legislation-template').html();
+Mustache.parse (legislationTemplate);  // optional, speeds up future uses
+
+var eventTemplate = $('#event-details-template').html();
+Mustache.parse (eventTemplate);  // optional, speeds up future uses
+
 
 function onDragEnd() {
     var ll = marker.getLatLng();
@@ -193,7 +197,7 @@ function updatePageContent(data) {
         icon: icons.get(item.EventItemMatterType),
       };
 
-      var itemHtml = Mustache.render(template, view);
+      var itemHtml = Mustache.render(legislationTemplate, view);
       $('.legislative-items').append(itemHtml);
 
       // get and populate matter attachments section
@@ -213,6 +217,31 @@ function updatePageContent(data) {
             $('#matter-' + item.EventItemMatterId).html(html);
           }
         },
+      });
+
+      // get and populate event details section
+      $.ajax({
+        type: 'GET',
+        url: '/events/' + item.EventItemEventId + '.json',
+        dataType: 'json',
+        success: function( data ) {
+          var view = {
+            date: function() {
+              var months = [ "January", "February", "March", "April", "May", "June", 
+               "July", "August", "September", "October", "November", "December" ],
+                date = data.EventDate.replace(/T.*Z/, '').split('-'); //YYYY-MM-DDT00:00:00Z -> [yyyy,mm,dd]
+
+              // EventDate doesn't come in the right format (timezone is 0 instead of -7), so we fix it
+               var correctDate = new Date(date[0], date[1] - 1, date[2]);
+              return months[correctDate.getMonth()] + ' ' + correctDate.getDate();
+            },
+            time: data.EventTime,
+            location: data.EventLocation,
+            name: data.EventBodyName,
+          }
+          var html = Mustache.render(eventTemplate, view);
+          $('#event-details-' + item.EventItemMatterId).html(html);
+        }
       });
   });
 
