@@ -178,6 +178,10 @@ function updatePageContent(data) {
   // var twitter_widget_id = data.district_polygon.twit_wdgt; //'465941592985968641'; //d
   // var twitter_user = data.district_polygon.twit_name; // 'MesaDistrict3'; //
 
+  $(".fb-widget").hide();
+  $(".fb-widget#facebook-" + district).show();
+
+
   $(".twit-widget").hide();
   $(".twit-widget#council-" + district).show();
   $(".twit-widget#mention-" + district).show();

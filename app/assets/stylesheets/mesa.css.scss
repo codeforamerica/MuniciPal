@@ -211,6 +211,11 @@
 
 }
 
+/* make the facebook like box responsive. */
+/* more tips: http://stackoverflow.com/questions/10656038/how-to-make-the-facebook-like-box-responsive */
+ .fb-like-box, .fb-like-box span, .fb-like-box span iframe[style] {
+    width: 100% !important;
+}
 
 /* ------------------------------------------
  * Stuff from addresses.css.scss that we need */
