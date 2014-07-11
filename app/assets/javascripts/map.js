@@ -22,10 +22,55 @@ var marker = L.marker(MAP_MARKER_LOCATION, {
 marker.addTo(map);
 marker.on('dragend', onDragEnd);
 
+var legislationTemplate = $('#legislation-template').html();
+Mustache.parse (legislationTemplate);  // optional, speeds up future uses
+
+var eventTemplate = $('#event-details-template').html();
+Mustache.parse (eventTemplate);  // optional, speeds up future uses
+
+
 function onDragEnd() {
     var ll = marker.getLatLng();
     updatePage({'lat': ll.lat, 'long': ll.lng});
 }
+
+/* Expects an object of type tomsline which is what the tom-geocoder service returns. 
+   Puts it on the map. 
+   */
+function linesToMap(tomsline) {
+  /* tomsline should look like:
+  { 
+    text: [ 
+      ["w streetname ave", { geojson }],
+      ["w otherroad rd", { geojson }], 
+      ... 
+    ] 
+  }
+  */
+  var districtLines = L.geoJson().addTo(map);
+
+  lines = tomsline.text;
+  _.forEach(lines, function(line) {
+    // map them
+    console.log("mapping: " + line[0]);
+    districtLines.addData($.parseJSON(line[1]));
+  });
+
+}
+
+/* For any given text, run it through the geocoder so we can put it on a map. */
+/* idea: later, clicking on that thing could pull up the item below. */
+function textToGeo(text) {
+   $.ajax({
+    type: 'POST',
+    crossDomain: true,
+    url: 'http://findlines.herokuapp.com/',
+    data: { fileupload: text},
+    dataType: 'json',
+    success: linesToMap,
+  });
+}
+
 
 /* Update the page, given a new lat/lng (ll). */
 function updatePage(ll) {
@@ -44,6 +89,7 @@ function updatePage(ll) {
       if (data.in_district) {
 
         var geoJSON = $.parseJSON(data.district_polygon.st_asgeojson);
+
         geoJSON.properties = { fill: DISTRICT_FILL };
         districtLayer.setGeoJSON(geoJSON);
         districtLayer.setFilter(function() { return true; });
@@ -76,22 +122,6 @@ function find_member(district) {
   return _.find(council, function(member){ return member.district == district });
 }
 
-function legislative_item_start(icon) {
-  return '<div class="legislation pure-g">\
-    <div class="type pure-u-1 pure-u-md-1-8">\
-        <i class="fa ' + icon + ' fa-2x"></i>\
-    </div>\
-    <div class="title pure-u-1 pure-u-md-17-24">';
-}
-
-var legislative_item_end = '</div>\
-    <div class="like pure-u-1 pure-u-md-1-12">\
-        <div class="fb-like post-footer-like" data-send="false" data-width="300" href="http://yerhere.herokuapp.com" data-show-faces="false" data-layout="button"></div>\
-    </div>\
-     <div class="comment pure-u-1 pure-u-md-1-12">\
-        <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en" data-url="http://localhost/citymatters/1" data-via="techieshark" data-text="@wfong_sf Let\'s talk about this. [INSERT COMMENT HERE]" data-related="buckley_tom:A really fun guy!,mesaazgov:The City of Mesa,MesaDistrict3:Your City Councilmember" data-hashtags="mesatalk" data-size="large" data-count="vertical">Tweet</a>\
-    </div>\
-</div>';
 
 var icons = {
   'Contract': 'fa-file-text',
@@ -102,6 +132,13 @@ var icons = {
     return (this[matterType] ? this[matterType] : this['miscellaneous']);
   }
 };
+
+/* convert text to paragraphs (newlines -> <p>s) */
+/* modified from http://stackoverflow.com/questions/5020434/jquery-remove-new-line-then-wrap-textnodes-with-p */
+function p(t){
+    t = t.trim();
+    return (t.length>0 ? '<p>'+t.replace(/[\r\n]+/g,'</p><p>')+'</p>' : null);
+}
 
 function updatePageContent(data) {
 
@@ -129,15 +166,90 @@ function updatePageContent(data) {
   // var twitter_widget_id = data.district_polygon.twit_wdgt; //'465941592985968641'; //d
   // var twitter_user = data.district_polygon.twit_name; // 'MesaDistrict3'; //
 
+  $(".fb-widget").hide();
+  $(".fb-widget#facebook-" + district).show();
+
+
   $(".twit-widget").hide();
   $(".twit-widget#council-" + district).show();
   $(".twit-widget#mention-" + district).show();
 
+  $(".legislative-items").empty();
+
   // stick some event items in the frontend
-  var items = _.map(data.event_items, function(item) {
-      return legislative_item_start(icons.get(item.EventItemMatterType)) + item.EventItemTitle + legislative_item_end;
-  }).join('');
-  $(".legislative-items").empty().append(items);
+  _.map(data.event_items, function(item) {
+      textToGeo(item.EventItemTitle);
+
+      var view = {
+        title: function() {
+          if (item.EventItemMatterType == 'Ordinance' &&
+              (/^Z\d{2}.*/.test(item.EventItemMatterName) ||
+               /^Zon.*/.test(item.EventItemMatterName))) {
+            return "Zoning: " + item.EventItemMatterName;
+          } else if (item.EventItemMatterType == "Liquor License") {
+            return "Liquor License for " + item.EventItemMatterName;
+          } else if (item.EventItemMatterType == "Contract") {
+            return "Contract: " + item.EventItemMatterName;
+          } else {
+            return item.EventItemMatterName;
+          }
+        },
+        body: function() {
+          return p(item.EventItemTitle);
+        },
+        matterId: item.EventItemMatterId,
+        icon: icons.get(item.EventItemMatterType),
+      };
+
+      var itemHtml = Mustache.render(legislationTemplate, view);
+      $('.legislative-items').append(itemHtml);
+
+      // get and populate matter attachments section
+      $.ajax({
+        type: 'GET',
+        crossDomain: true,
+        url: 'http://www.corsproxy.com/webapi.legistar.com/v1/mesa/Matters/' + item.EventItemMatterId + '/Attachments',
+        dataType: 'json',
+        success: function( data ) {
+
+          var list = _.map(data, function (attachment) {
+            return '<li><a href="' + attachment.MatterAttachmentHyperlink + '">' + attachment.MatterAttachmentName; + '</a></li>';
+          }).join('');
+
+          if (list.length) {
+            var html = 'Attachments: <ul>' + list + '</ul>';
+            $('#matter-' + item.EventItemMatterId).html(html);
+          }
+        },
+      });
+
+      // get and populate event details section
+      $.ajax({
+        type: 'GET',
+        url: '/events/' + item.EventItemEventId + '.json',
+        dataType: 'json',
+        success: function( data ) {
+          var view = {
+            date: function() {
+              var months = [ "January", "February", "March", "April", "May", "June", 
+               "July", "August", "September", "October", "November", "December" ],
+                date = data.EventDate.replace(/T.*/, '').split('-'); //YYYY-MM-DDT00:00:00Z -> [yyyy,mm,dd]
+
+              // EventDate doesn't come in the right format (timezone is 0 instead of -7), so we fix it
+               var correctDate = new Date(date[0], date[1] - 1, date[2]);
+              return months[correctDate.getMonth()] + ' ' + correctDate.getDate();
+            },
+            time: data.EventTime,
+            location: data.EventLocation,
+            name: data.EventBodyName,
+            d: data.EventDate,
+          }
+          console.log(view);
+          var html = Mustache.render(eventTemplate, view);
+          $('#event-details-' + item.EventItemMatterId).html(html);
+        }
+      });
+  });
 
   // twitter & facebook only render on page load by default, so
   // we need to call on them to parse & render the new content
