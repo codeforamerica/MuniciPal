@@ -151,8 +151,6 @@ function updatePageContent(data) {
   $('.you-live-in').empty().append('District ' + district).removeClass("no-district").show();
   $('.results-text').empty().append(
     'Your Council Representative is <a href="' + member.website + '">'  + data.district_polygon.name + '</a>.'
-  /* '<br>(And you know about <a href="' + mayor.website + '">Mayor ' + mayor.name + '</a> and those <a href="' +
-      mayor.twitter + '">tweets</a> right?)'*/
   );
   $('.results').show();
 
@@ -160,11 +158,6 @@ function updatePageContent(data) {
   $('#contact-card .email').empty().append(member.email);
   $('#contact-card .mail').empty().append(member.address);
   $('#contact-card .bio').empty().append(member.bio);
-
-  // var full_name = 'Dennis Ka....';
-  // var councilmember_first_name = data.district_polygon.name.split(' ')[0]; //data.district_polygon.name.split(" ")[0];
-  // var twitter_widget_id = data.district_polygon.twit_wdgt; //'465941592985968641'; //d
-  // var twitter_user = data.district_polygon.twit_name; // 'MesaDistrict3'; //
 
   $(".fb-widget").hide();
   $(".fb-widget#facebook-" + district).show();
