@@ -218,7 +218,7 @@ function updatePageContent(data) {
           }).join('');
 
           if (list.length) {
-            var html = 'Attachments: <ul>' + list + '</ul>';
+            var html = 'Attachments (' + data.length + '): <ul>' + list + '</ul>';
             $('#matter-' + item.EventItemMatterId).html(html);
           }
         },
