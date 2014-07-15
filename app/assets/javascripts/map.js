@@ -218,8 +218,14 @@ function updatePageContent(data) {
           }).join('');
 
           if (list.length) {
-            var html = 'Attachments (' + data.length + '): <ul>' + list + '</ul>';
+            var html = '<a href="#" class="attachments" data-matter-id="' + item.EventItemMatterId + '">Attachments (' + data.length + ')</a><ul class="attachments">' + list + '</ul>';
             $('#matter-' + item.EventItemMatterId).html(html);
+            $('a.attachments').click(function(event) {
+              var matterId = $(this).attr('data-matter-id');
+              console.log("setting link handler for attachments on matter " + matterId);
+              $('#matter-' + matterId + ' ul.attachments').toggle();
+              event.preventDefault();
+            }).click();
           }
         },
       });
