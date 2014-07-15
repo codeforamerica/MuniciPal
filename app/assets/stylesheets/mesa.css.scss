@@ -208,6 +208,17 @@
 
 	.icon {
 		margin-right: 1rem;
+		line-height: 47px; /* hack. vertically align with .agenda-basics */
+		vertical-align: top;
+	}
+
+	.agenda-basics {
+		display: inline-block;
+
+		.when {
+			font-size: 0.75rem;
+			color: gray;
+		}
 	}
 
 	.text {

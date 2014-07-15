@@ -200,7 +200,13 @@
 
         <div class="item-name pure-g">
             <div class="pure-u-3-4">
-                <i class="icon fa {{icon}} fa-2x"></i><h4 class="text">{{title}}</h4>
+                <div>
+                    <i class="icon fa {{icon}} fa-2x"></i>
+                    <div class="agenda-basics">
+                        <h4 class="text">{{title}}</h4>
+                        <div class="when" id="event-details-{{matterId}}">August 10</div>
+                    </div>
+                </div>
             </div>
             <div class="distance pure-u-1-4"><span>-42 miles away</span></div>
         </div>
@@ -210,7 +216,7 @@
             <div class="title pure-u-1">
                 <div> {{{body}}} </div>
                 <div class="matter-attachments" id="matter-{{matterId}}"></div>
-                <div class="event-details" id="event-details-{{matterId}}"></div>
+                <!-- // <div class="event-details" id="event-details-{{matterId}}"></div> -->
             </div>
 
         </div>
@@ -227,6 +233,8 @@
 
 
 <script id="event-details-template" type="x-tmpl-mustache">
+    <div class="event-date">{{date}}, {{time}}</div>
+    <!--
     <h5>Next Meeting</h5>
     <ul>
         <li>{{date}}</li>
@@ -234,6 +242,7 @@
         <li>{{name}}</li>
         <li>{{location}}</li>
     </ul>
+    -->
 </script>
 
 <%= javascript_include_tag "addresses", "data-turbolinks-track" => true %>
