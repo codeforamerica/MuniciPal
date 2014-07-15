@@ -1,4 +1,4 @@
-var prj = 'codeforamerica.hmebo8ll';
+var prj = 'codeforamerica.hmebo8ll'; // Mapbox map id string
 
 /* settings to change for different places. */
 var MAP_CENTER_LOCATION = [33.4019, -111.717];
@@ -9,8 +9,14 @@ var DISTRICT_FILL = 'white';
 // globals, for debugging
 var g_data, g_districts;
 
-var map = L.mapbox.map('map', prj)
-	.setView(MAP_CENTER_LOCATION, MAP_START_ZOOM);
+var map = L.mapbox.map(
+  'map', 
+  prj, 
+  { 
+    center: MAP_CENTER_LOCATION,
+    zoom: MAP_START_ZOOM,
+  }
+);
 
 var districtLayer = L.mapbox.featureLayer(null, {}).addTo(map);
 var otherDistrictsLayer;
