@@ -191,22 +191,21 @@
 
 
     background-color: white;
-    border: 1px solid rgb(240, 240, 240); 
+    border: 1px solid rgb(240, 240, 240);
     border-bottom: 2px solid rgb(245, 240, 240);
     border-radius: 3px;
     margin-right: 1em;
     margin-bottom: 1em;
-    padding-left: 1em;
 
 
-	padding-right: 1rem;
+    padding: 1rem;
 
 	.type,.like,.comment {
 	    text-align: center;
 	}
 
 	.type, .comment {
-		padding-top: 29px;
+		padding-top: 12px;
 	}
 	.like {
 		padding-top: 35px;
@@ -214,10 +213,23 @@
 }
 
 .legislation .title {
+}
 
-    // background: blue;
-    // color: white;
-    padding: 1em;
+
+.item-name {
+
+	.icon {
+		margin-right: 1rem;
+	}
+
+	.text {
+		display: inline-block;
+		margin: 0;
+		line-height: 2rem; /* match font awesome icon */
+	}
+
+    padding-bottom: 1em;
+    border-bottom: 1px solid lightgray;
 
 }
 

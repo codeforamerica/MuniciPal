@@ -197,12 +197,14 @@
 <script id="legislation-template" type="x-tmpl-mustache">
 
     <article class="legislation">
-        <h4>{{title}}</h4>
+
+        <div class="item-name">
+            <i class="icon fa {{icon}} fa-2x"></i><h4 class="text">{{title}}</h4>
+        </div>
+
         <div class="pure-g">
-            <div class="type pure-u-1 pure-u-md-1-8">
-                <i class="fa {{icon}} fa-2x"></i>
-            </div>
-            <div class="title pure-u-1 pure-u-md-17-24">
+
+            <div class="title pure-u-1">
                 <div> {{{body}}} </div>
                 <div class="matter-attachments" id="matter-{{matterId}}"></div>
                 <div class="event-details" id="event-details-{{matterId}}"></div>
