@@ -36,6 +36,8 @@ Mustache.parse (legislationTemplate);  // optional, speeds up future uses
 var eventTemplate = $('#event-details-template').html();
 Mustache.parse (eventTemplate);  // optional, speeds up future uses
 
+var attachmentsTemplate = $('#template-attachments').html();
+Mustache.parse (attachmentsTemplate);
 
 function onDragEnd() {
     var ll = marker.getLatLng();
@@ -214,16 +216,24 @@ function updatePageContent(data) {
         success: function( data ) {
 
           var list = _.map(data, function (attachment) {
-            return '<li><a href="' + attachment.MatterAttachmentHyperlink + '">' + attachment.MatterAttachmentName; + '</a></li>';
-          }).join('');
+            return {
+              link: attachment.MatterAttachmentHyperlink,
+              name: attachment.MatterAttachmentName,
+            };
+          });
 
           if (list.length) {
-            var html = '<a href="#" class="attachments" data-matter-id="' + item.EventItemMatterId + '">Attachments (' + data.length + ')</a><ul class="attachments">' + list + '</ul>';
-            $('#matter-' + item.EventItemMatterId).html(html);
-            $('a.attachments').click(function(event) {
+            var view = {
+              matterId: item.EventItemMatterId,
+              attachmentCount: list.length,
+              attachments: list,
+            };
+            var html = Mustache.render(attachmentsTemplate, view);
+            $('#attachments-' + item.EventItemMatterId).html(html);
+            $('#attachments a.attachments').click(function(event) {
               var matterId = $(this).attr('data-matter-id');
-              console.log("setting link handler for attachments on matter " + matterId);
-              $('#matter-' + matterId + ' ul.attachments').toggle();
+              console.log("setting link handler for attachments on matter " + matterId + "(matter " + item.EventItemMatterId + ")");
+              $('#attachments-' + matterId + ' ul.attachments').toggle();
               event.preventDefault();
             }).click();
           }

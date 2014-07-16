@@ -216,7 +216,7 @@
 
             <div class="title pure-u-1">
                 <div> {{{body}}} </div>
-                <div class="matter-attachments" id="matter-{{matterId}}"></div>
+                <div class="matter-attachments" id="attachments-{{matterId}}"></div>
                 <!-- // <div class="event-details" id="event-details-{{matterId}}"></div> -->
             </div>
 
@@ -244,6 +244,15 @@
         <li>{{location}}</li>
     </ul>
     -->
+</script>
+
+<script id="template-attachments" type="x-tmpl-mustache">
+    <a href="#" class="attachments" data-matter-id="{{matterId}}">Attachments ({{attachmentCount}}))</a>
+    <ul class="attachments">
+        {{#attachments}}
+            <li><a href="{{link}}">{{name}}</a></li>
+        {{/attachments}}
+    </ul>
 </script>
 
 <%= javascript_include_tag "addresses", "data-turbolinks-track" => true %>
