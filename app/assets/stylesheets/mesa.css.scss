@@ -232,8 +232,9 @@
 
 }
 
-a.attachments {
+a.attachments, .matter-comments a {
 	color: black;
+	text-transform: uppercase;
 }
 
 .sort-by {

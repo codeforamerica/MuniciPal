@@ -216,8 +216,11 @@
 
             <div class="title pure-u-1">
                 <div> {{{body}}} </div>
-                <div class="matter-attachments" id="attachments-{{matterId}}"></div>
-                <!-- // <div class="event-details" id="event-details-{{matterId}}"></div> -->
+                <div class="pure-g">
+                    <div class="matter-attachments pure-u-1-3" id="attachments-{{matterId}}"></div>
+                    <div class="matter-comments pure-u-1-3"><a href="#">Share your opinion</a></div>
+                    <!-- // <div class="event-details" id="event-details-{{matterId}}"></div> -->
+                </div>
             </div>
 
         </div>
@@ -247,7 +250,7 @@
 </script>
 
 <script id="template-attachments" type="x-tmpl-mustache">
-    <a href="#" class="attachments" data-matter-id="{{matterId}}">Attachments ({{attachmentCount}}))</a>
+    <a href="#" class="attachments" data-matter-id="{{matterId}}">Attachments ({{attachmentCount}})</a>
     <ul class="attachments">
         {{#attachments}}
             <li><a href="{{link}}">{{name}}</a></li>
