@@ -230,7 +230,7 @@ function updatePageContent(data) {
             };
             var html = Mustache.render(attachmentsTemplate, view);
             $('#attachments-' + item.EventItemMatterId).html(html);
-            $('#attachments a.attachments').click(function(event) {
+            $('#attachments-' + item.EventItemMatterId + ' a.attachments').click(function(event) {
               var matterId = $(this).attr('data-matter-id');
               console.log("setting link handler for attachments on matter " + matterId + "(matter " + item.EventItemMatterId + ")");
               $('#attachments-' + matterId + ' ul.attachments').toggle();
