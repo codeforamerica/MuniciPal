@@ -16,16 +16,33 @@ def get_event_items(event_id)
 	return response.body
 end
 
+def get_license_addr(eventitem)
+	ei = eventitem
+		if ei.EventItemTitle
+			tmp_address = ei.EventItemTitle.match("[,](.*?)(Road|Drive|Avenue)[,]")
+			tmp_dstrct = ei.EventItemTitle.match(/\b(District)\b(.*?)[1-6]/i)
+				if tmp_dstrct != "" && tmp_dstrct != nil # & tmp_dstrct[0][-2].to_i != 0
+					ei.update_attribute(:council_district_id,tmp_dstrct[0][-1].to_i)
+				#	ei.council_district_id = tmp_dstrct[0][-2].to_i					 
+				elsif tmp_address
+				#	ei.address = Geokit::Geocoders::MultiGeocoder.geocode tmp_address
+				#	eit["address"] = Geokit::Geocoders::MultiGeocoder.geocode tmp_address[0].to_s
+				end
+			
+		else
+		end
+end
+
 namespace :legistar_event_items_update do
   desc "Load Legistar event items into database"
   task :load => :environment do
 
-	eventid = EventItem.last["event_id"] 
+	eventid = EventItem.last["event_id"]
 	Event.where("\"EventId\" > ?", eventid).each {|event|
 		response = get_event_items(event.EventId)
 		json_data = JSON.parse(response)
 		json_data.each {|record|
-			EventItem.create(:event_id  => event.EventId, 
+			EventItem.find_or_create_by_event_id(event.EventId, 
 				:EventItemId => record["EventItemId"],
 				:EventItemGuid => record["EventItemGuid"],
 				:EventItemLastModified => record["EventItemLastModified"],
@@ -61,6 +78,9 @@ namespace :legistar_event_items_update do
 				:EventItemMatterType => record["EventItemMatterType"],
 				:EventItemMatterStatus => record["EventItemMatterStatus"],
 			)
+		}
+		EventItem.where("event_id > ?", eventid).each { |eventitem|
+			get_license_addr(eventitem)
 		}
 	}
   end
