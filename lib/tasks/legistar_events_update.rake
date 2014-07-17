@@ -13,7 +13,8 @@ namespace :legistar_events_update do
     if response.code == "200"
       result = JSON.parse(response.body)
       result.reverse.each{|record|
-        break if record["EventId"] = Event.order(:EventId).last.EventId
+        puts record
+        break if record["EventId"] == Event.order(:EventId).last.EventId
         event = Event.find_or_create_by_EventId(record["EventId"], 
                                     :EventGuid => record["EventGuid"],
                                     :EventLastModified => record["EventLastModified"],
