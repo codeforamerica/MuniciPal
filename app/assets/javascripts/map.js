@@ -134,7 +134,7 @@ function find_member(district) {
 
 
 var icons = {
-  'Contract': 'fa-file-text',
+  'Contract': 'fa-pencil',
   'Resolution': 'fa-legal',
   'Liquor License': 'fa-glass',
   'miscellaneous': 'fa-cog',
