@@ -44,7 +44,7 @@ namespace :legistar_event_items_update do
 		json_data = JSON.parse(response)
 		puts json_data
 		json_data.each {|record|
-			EventItem.create(:event_id => record["EventId"], 
+			EventItem.create(:event_id => event.EventId, 
 				:EventItemId => record["EventItemId"],
 				:EventItemGuid => record["EventItemGuid"],
 				:EventItemLastModified => record["EventItemLastModified"],
