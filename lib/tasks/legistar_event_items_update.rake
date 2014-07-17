@@ -80,6 +80,7 @@ namespace :legistar_event_items_update do
 				:EventItemMatterType => record["EventItemMatterType"],
 				:EventItemMatterStatus => record["EventItemMatterStatus"],
 			)
+		puts "added record for " + record ["EventItemTitle"]
 		}
 		EventItem.where("event_id > ?", eventid).each { |eventitem|
 			get_license_addr(eventitem)
