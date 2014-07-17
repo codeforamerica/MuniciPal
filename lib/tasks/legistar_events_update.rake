@@ -15,8 +15,9 @@ namespace :legistar_events_update do
       result.reverse.each{|record|
         puts record["EventLastModifiedUtc"]
         puts Time.parse(record["EventLastModifiedUtc"]).getutc
-        break if Time.parse(record["EventLastModifiedUtc"]).getutc < Event.order(:EventLastModifiedUtc).last.EventLastModifiedUtc
-        Event.find_or_create_by_EventId(record["EventId"], 
+        break if Time.parse(record["EventLastModifiedUtc"]).getutc < Event.order(:EventLastModifiedUtc).last.EventLastModifiedUtc - 1.month
+        puts record["EventId"]
+        event = Event.find_or_create_by_EventId(record["EventId"], 
                                     :EventGuid => record["EventGuid"],
                                     :EventLastModified => record["EventLastModified"],
                                     :EventLastModifiedUtc => record["EventLastModifiedUtc"],
@@ -29,6 +30,7 @@ namespace :legistar_events_update do
                                     :EventAgendaStatusId => record["EventAgendaStatusId"],
                                     :EventMinutesStatusId => record["EventMinutesStatusId"],
                                     :EventLocation => record["EventLocation"])
+        puts event.EventId
       }
 
     else
