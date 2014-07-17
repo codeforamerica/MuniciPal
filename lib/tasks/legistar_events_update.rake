@@ -15,7 +15,7 @@ namespace :legistar_events_update do
       result.reverse.each{|record|
         puts record
         break if record["EventId"] == Event.order(:EventId).last.EventId
-        event = Event.find_or_create_by_EventId(record["EventId"], 
+        event = Event.create(:EventId => record["EventId"], 
                                     :EventGuid => record["EventGuid"],
                                     :EventLastModified => record["EventLastModified"],
                                     :EventLastModifiedUtc => record["EventLastModifiedUtc"],
@@ -28,7 +28,6 @@ namespace :legistar_events_update do
                                     :EventAgendaStatusId => record["EventAgendaStatusId"],
                                     :EventMinutesStatusId => record["EventMinutesStatusId"],
                                     :EventLocation => record["EventLocation"])
-        puts event.EventId
       }
 
     else
