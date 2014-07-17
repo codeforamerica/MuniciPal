@@ -4,6 +4,7 @@ require 'json'
 
 def get_event_items(event_id)
 	sleep(5)
+	puts "getting event items for event " + event_id.to_s
 	uri = URI("http://webapi.legistar.com/v1/mesa/events/"+ event_id.to_s + "/eventitems")
 	#params = { <query_hash> }
 	headers = { 'ACCEPT'  => 'text/json' }
