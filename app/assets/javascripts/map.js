@@ -181,6 +181,11 @@ function updatePageContent(data) {
 
   // stick some event items in the frontend
   _.map(data.event_items, function(item) {
+
+      // do some transforms
+      // Simplify text by removing "(District X)" since we have that info elsewhere
+      item.EventItemTitle = item.EventItemTitle.replace(/\(District \d\)/, '');
+
       textToGeo(item.EventItemTitle);
 
       var view = {
