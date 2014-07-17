@@ -202,6 +202,10 @@ function updatePageContent(data) {
         },
         matterId: item.EventItemMatterId,
         icon: icons.get(item.EventItemMatterType),
+        scope: function() {
+          // if Citywide, "Citywide" (TODO), else
+          return "In District " + district;
+        }
       };
 
       var itemHtml = Mustache.render(legislationTemplate, view);

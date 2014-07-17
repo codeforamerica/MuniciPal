@@ -178,14 +178,11 @@
     	font-family: "Montserrat";
     }
 
-    .distance {
+    .distance, .geo-scope {
     	text-transform: uppercase;
     	text-align: right;
     	font-size: 0.75rem;
-
-    	span {
-    		color: gray;
-    	}
+		color: gray;
     }
 
 	.type,.like,.comment {
