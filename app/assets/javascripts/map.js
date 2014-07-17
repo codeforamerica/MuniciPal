@@ -182,9 +182,29 @@ function updatePageContent(data) {
   // stick some event items in the frontend
   _.map(data.event_items, function(item) {
 
-      // do some transforms
+      // ---- transforms -------------------------------------------------------------
+
       // Simplify text by removing "(District X)" since we have that info elsewhere
       item.EventItemTitle = item.EventItemTitle.replace(/\(District \d\)/, '');
+
+      var contract;
+      // Contract Matters tend to look like "C12345 Something Human Friendly". Let's save & remove that contract #.
+      if (item.EventItemMatterType == 'Contract') {
+        contract = item.EventItemMatterName.split(' ')[0]; // save it
+        console.log("Got contract: " + contract);
+        if (/C\d+/.test(contract)) {
+          item.EventItemMatterName = item.EventItemMatterName.substr(item.EventItemMatterName.indexOf(' ') + 1); // remove it
+        } else {
+          console.log("Weird. Expected " + contract + " to look like 'C' followed by some numbers.");
+        }
+      }
+
+      // We don't want to duplicate the MatterName (used as a title) as the first line of the text, so remove if found.
+      var re = new RegExp('^' + item.EventItemMatterName + '[\n\r]*');
+      item.EventItemTitle = item.EventItemTitle.replace(re, '');
+
+      // ---- end transforms ----------------------------------------------------------
+
 
       textToGeo(item.EventItemTitle);
 
