@@ -195,6 +195,10 @@
 	.like {
 		padding-top: 35px;
 	}
+
+	.body {
+		display: none;
+	}
 }
 
 .legislation .title {
@@ -232,6 +236,18 @@
 a.attachments, .matter-comments a {
 	color: black;
 	text-transform: uppercase;
+	font-family: Montserrat;
+}
+
+.readmore {
+	color: rgb(122, 122, 151);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 12px;
+    border-bottom: 1px solid rgb(208, 208, 228);
+    display: inline-block;
+    margin-left: .25rem;
+    text-transform: uppercase;
 }
 
 .sort-by {
