@@ -37,9 +37,6 @@ namespace :legistar_events_update do
   end
 
 
-desc "Empty legistar events table"  
-  task :drop => :environment  do |t, args|
-    Event.destroy_all
-  end
+
 
 end
