@@ -1,8 +1,5 @@
-require 'rgeo/shapefile'
-require 'shellwords'
-
-namespace :legistar_events do
-  desc "Load Legistar events into database from JSON file"
+namespace :legistar_events_update do
+  desc "Update New Legistar Events"
   task :load => :environment do
 
     url = "http://webapi.legistar.com/v1/mesa/events/"
@@ -15,8 +12,11 @@ namespace :legistar_events do
 
     if response.code == "200"
       result = JSON.parse(response.body)
-      result.each{|record|
-        Event.create(:EventId => record["EventId"],
+      result.reverse.each{|record|
+        puts record["EventLastModifiedUtc"]
+        puts Time.parse(record["EventLastModifiedUtc"]).getutc
+        break if Time.parse(record["EventLastModifiedUtc"]).getutc < Event.order(:EventLastModifiedUtc).last.EventLastModifiedUtc
+        Event.find_or_create_by_EventId(record["EventId"], 
                                     :EventGuid => record["EventGuid"],
                                     :EventLastModified => record["EventLastModified"],
                                     :EventLastModifiedUtc => record["EventLastModifiedUtc"],
@@ -36,11 +36,6 @@ namespace :legistar_events do
     end
   end
 
-  desc "Load Legistar events into database from SQL file"
-  task :load_sql do
-    source = "#{Rails.root}/lib/assets/Mesa/legistar_import.sql"
-    sh "psql zone_development < #{Shellwords.escape(source)}" # hack -- need to get db, user, pw from env
-  end
 
 desc "Empty legistar events table"  
   task :drop => :environment  do |t, args|
