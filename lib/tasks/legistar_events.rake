@@ -7,10 +7,10 @@ namespace :legistar_events do
 
     url = "http://webapi.legistar.com/v1/mesa/events/"
     uri = URI.parse(url)
-     
+
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Get.new(uri.request_uri)
-     
+
     response = http.request(request)
 
     if response.code == "200"
@@ -42,7 +42,7 @@ namespace :legistar_events do
     sh "psql zone_development < #{Shellwords.escape(source)}" # hack -- need to get db, user, pw from env
   end
 
-desc "Empty legistar events table"  
+desc "Empty legistar events table"
   task :drop => :environment  do |t, args|
     Event.destroy_all
   end

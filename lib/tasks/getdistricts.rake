@@ -8,12 +8,12 @@ def get_license_addr()
 			tmp_dstrct = ei.EventItemTitle.match(/\b(District)\b(.*?)[1-6]/i)
 				if tmp_dstrct != "" && tmp_dstrct != nil # & tmp_dstrct[0][-2].to_i != 0
 					ei.update_attribute(:council_district_id,tmp_dstrct[0][-1].to_i)
-				#	ei.council_district_id = tmp_dstrct[0][-2].to_i					 
+				#	ei.council_district_id = tmp_dstrct[0][-2].to_i
 				elsif tmp_address
 				#	ei.address = Geokit::Geocoders::MultiGeocoder.geocode tmp_address
 				#	eit["address"] = Geokit::Geocoders::MultiGeocoder.geocode tmp_address[0].to_s
 				end
-			
+
 		else
 		end
 	}

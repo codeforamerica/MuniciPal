@@ -7,10 +7,10 @@ namespace :legistar_matters do
 
     url = "http://webapi.legistar.com/v1/mesa/matters/"
     uri = URI.parse(url)
-     
+
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Get.new(uri.request_uri)
-     
+
     response = http.request(request)
 
     if response.code == "200"
@@ -20,8 +20,8 @@ namespace :legistar_matters do
 =begin
         granicusnames = ["MatterId", "MatterGuid", "MatterLastModifiedUtc", "MatterRowVersion", "MatterFile", "MatterName", "MatterTitle", "MatterTypeId", "MatterTypeName", "MatterStatusId", "MatterStatusName", "MatterBodyId", "MatterBodyName", "MatterIntroDate", "MatterAgendaDate", "MatterPassedDate", "MatterEnactmentDate", "MatterEnactmentNumber", "MatterRequester", "MatterNotes", "MatterVersion", "MatterText1", "MatterText2", "MatterText3", "MatterText4", "MatterText5", "MatterDate1", "MatterDate2"]
         createstring = ""
-        granicusnames.each{|name| 
-          createstring << ":" + name.downcase + '=> record["' + name + '"],' 
+        granicusnames.each{|name|
+          createstring << ":" + name.downcase + '=> record["' + name + '"],'
         }
         puts createstring
 =end
@@ -40,7 +40,7 @@ namespace :legistar_matters do
     sh "psql zone_development < #{Shellwords.escape(source)}" # hack -- need to get db, user, pw from env
   end
 
-desc "Empty legistar Matter table"  
+desc "Empty legistar Matter table"
   task :drop => :environment  do |t, args|
     Event.destroy_all
   end
