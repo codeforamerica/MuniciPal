@@ -17,14 +17,6 @@ namespace :legistar_matters do
       result = JSON.parse(response.body)
       result.each do |record|
         puts record
-=begin
-        granicusnames = ["MatterId", "MatterGuid", "MatterLastModifiedUtc", "MatterRowVersion", "MatterFile", "MatterName", "MatterTitle", "MatterTypeId", "MatterTypeName", "MatterStatusId", "MatterStatusName", "MatterBodyId", "MatterBodyName", "MatterIntroDate", "MatterAgendaDate", "MatterPassedDate", "MatterEnactmentDate", "MatterEnactmentNumber", "MatterRequester", "MatterNotes", "MatterVersion", "MatterText1", "MatterText2", "MatterText3", "MatterText4", "MatterText5", "MatterDate1", "MatterDate2"]
-        createstring = ""
-        granicusnames.each{|name|
-          createstring << ":" + name.downcase + '=> record["' + name + '"],'
-        }
-        puts createstring
-=end
         Matter.create(
           :matterid=> record["MatterId"],
           :matterguid=> record["MatterGuid"],
@@ -54,7 +46,6 @@ namespace :legistar_matters do
           :mattertext5=> record["MatterText5"],
           :matterdate1=> record["MatterDate1"],
           :matterdate2=> record["MatterDate2"])
-#        puts "added a matter"
       end
     else
       puts "ERROR!!!"
