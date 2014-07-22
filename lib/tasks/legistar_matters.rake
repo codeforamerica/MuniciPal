@@ -25,7 +25,35 @@ namespace :legistar_matters do
         }
         puts createstring
 =end
-        Matter.create(:matterid=> record["MatterId"],:matterguid=> record["MatterGuid"],:matterlastmodifiedutc=> record["MatterLastModifiedUtc"],:matterrowversion=> record["MatterRowVersion"],:matterfile=> record["MatterFile"],:mattername=> record["MatterName"],:mattertitle=> record["MatterTitle"],:mattertypeid=> record["MatterTypeId"],:mattertypename=> record["MatterTypeName"],:matterstatusid=> record["MatterStatusId"],:matterstatusname=> record["MatterStatusName"],:matterbodyid=> record["MatterBodyId"],:matterbodyname=> record["MatterBodyName"],:matterintrodate=> record["MatterIntroDate"],:matteragendadate=> record["MatterAgendaDate"],:matterpasseddate=> record["MatterPassedDate"],:matterenactmentdate=> record["MatterEnactmentDate"],:matterenactmentnumber=> record["MatterEnactmentNumber"],:matterrequester=> record["MatterRequester"],:matternotes=> record["MatterNotes"],:matterversion=> record["MatterVersion"],:mattertext1=> record["MatterText1"],:mattertext2=> record["MatterText2"],:mattertext3=> record["MatterText3"],:mattertext4=> record["MatterText4"],:mattertext5=> record["MatterText5"],:matterdate1=> record["MatterDate1"],:matterdate2=> record["MatterDate2"])
+        Matter.create(
+          :matterid=> record["MatterId"],
+          :matterguid=> record["MatterGuid"],
+          :matterlastmodifiedutc=> record["MatterLastModifiedUtc"],
+          :matterrowversion=> record["MatterRowVersion"],
+          :matterfile=> record["MatterFile"],
+          :mattername=> record["MatterName"],
+          :mattertitle=> record["MatterTitle"],
+          :mattertypeid=> record["MatterTypeId"],
+          :mattertypename=> record["MatterTypeName"],
+          :matterstatusid=> record["MatterStatusId"],
+          :matterstatusname=> record["MatterStatusName"],
+          :matterbodyid=> record["MatterBodyId"],
+          :matterbodyname=> record["MatterBodyName"],
+          :matterintrodate=> record["MatterIntroDate"],
+          :matteragendadate=> record["MatterAgendaDate"],
+          :matterpasseddate=> record["MatterPassedDate"],
+          :matterenactmentdate=> record["MatterEnactmentDate"],
+          :matterenactmentnumber=> record["MatterEnactmentNumber"],
+          :matterrequester=> record["MatterRequester"],
+          :matternotes=> record["MatterNotes"],
+          :matterversion=> record["MatterVersion"],
+          :mattertext1=> record["MatterText1"],
+          :mattertext2=> record["MatterText2"],
+          :mattertext3=> record["MatterText3"],
+          :mattertext4=> record["MatterText4"],
+          :mattertext5=> record["MatterText5"],
+          :matterdate1=> record["MatterDate1"],
+          :matterdate2=> record["MatterDate2"])
 #        puts "added a matter"
       end
     else
