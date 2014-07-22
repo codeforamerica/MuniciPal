@@ -59,21 +59,10 @@
 
 .results-text
 {
-    //position: absolute;
-    //bottom:20px;
-    //left:13px;
-    //z-index:2;
-
-
     background: white;
     padding: 20px;
-    //line-height: 1.7;
     margin-top: 0;
     margin-bottom: 8px;
-    
-    //color: black;
-    //font-weight: bold;
-    // text-shadow: 0px 0px 1px white, 0px 0px 2px white, 0px 0px 3px white, 0px 0px 4px white;
 }
 
 #results-area {
@@ -82,11 +71,6 @@
 
 #intro, .results-text, .header-container, #contact-card, #legislative {
 	font-family: 'Montserrat', sans-serif;
-}
-
-.header h1 {
-	// line-height: 1;
-	// font-size: 70px;
 }
 
 .header-container {
@@ -99,13 +83,6 @@
 	}
 
 }
-
-// .results.grid {
-// 	height:500px;
-// 	position: relative;
-// 	top: 0px;
-// }
-
 
 .initial .results {
 	opacity: 0;
@@ -189,26 +166,94 @@
 
 .legislation {
 
-	padding-right: 1rem;
+    background-color: white;
+    border: 1px solid rgb(240, 240, 240);
+    border-bottom: 2px solid rgb(245, 240, 240);
+    border-radius: 3px;
+    margin-right: 1em;
+    margin-bottom: 1em;
+    padding: 1rem;
+
+    div, p, span, h4 {
+    	font-family: "Montserrat";
+    }
+
+    .distance, .geo-scope {
+    	text-transform: uppercase;
+    	text-align: right;
+    	font-size: 0.75rem;
+		color: gray;
+    }
 
 	.type,.like,.comment {
 	    text-align: center;
 	}
 
 	.type, .comment {
-		padding-top: 29px;
+		padding-top: 12px;
 	}
 	.like {
 		padding-top: 35px;
 	}
+
+	.body {
+		display: none;
+	}
 }
 
 .legislation .title {
+}
 
-    // background: blue;
-    // color: white;
-    padding: 1em;
 
+.item-name {
+
+	.icon {
+		margin-right: 1rem;
+		line-height: 47px; /* hack. vertically align with .agenda-basics */
+		vertical-align: top;
+	}
+
+	.agenda-basics {
+		display: inline-block;
+
+		.when {
+			font-size: 0.75rem;
+			color: gray;
+		}
+	}
+
+	.text {
+		display: inline-block;
+		margin: 0;
+		line-height: 2rem; /* match font awesome icon */
+	}
+
+    padding-bottom: 1em;
+    border-bottom: 1px solid lightgray;
+
+}
+
+a.attachments, .matter-comments a {
+	color: black;
+	text-transform: uppercase;
+	font-family: Montserrat;
+}
+
+.readmore {
+	color: rgb(122, 122, 151);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 12px;
+    border-bottom: 1px solid rgb(208, 208, 228);
+    display: inline-block;
+    margin-left: .25rem;
+    text-transform: uppercase;
+}
+
+.sort-by {
+	text-transform: uppercase;
+	background: inherit !important; /* override purecss */
+	margin-bottom: 1em;
 }
 
 /* make the facebook like box responsive. */
@@ -239,5 +284,3 @@ p.descript
     z-index:5
 }
 /* ------------------------------------------*/
-
-

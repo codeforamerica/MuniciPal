@@ -1,4 +1,4 @@
-var prj = 'codeforamerica.hmebo8ll';
+var prj = 'codeforamerica.hmebo8ll'; // Mapbox map id string
 
 /* settings to change for different places. */
 var MAP_CENTER_LOCATION = [33.4019, -111.717];
@@ -9,8 +9,16 @@ var DISTRICT_FILL = 'white';
 // globals, for debugging
 var g_data, g_districts;
 
-var map = L.mapbox.map('map', prj)
-	.setView(MAP_CENTER_LOCATION, MAP_START_ZOOM);
+var map = L.mapbox.map(
+  'map', 
+  prj, 
+  { 
+    center: MAP_CENTER_LOCATION,
+    zoom: MAP_START_ZOOM,
+    minZoom: 6,
+    maxZoom: 18,
+  }
+);
 
 var districtLayer = L.mapbox.featureLayer(null, {}).addTo(map);
 var otherDistrictsLayer;
@@ -28,6 +36,8 @@ Mustache.parse (legislationTemplate);  // optional, speeds up future uses
 var eventTemplate = $('#event-details-template').html();
 Mustache.parse (eventTemplate);  // optional, speeds up future uses
 
+var attachmentsTemplate = $('#template-attachments').html();
+Mustache.parse (attachmentsTemplate);
 
 function onDragEnd() {
     var ll = marker.getLatLng();
@@ -124,7 +134,7 @@ function find_member(district) {
 
 
 var icons = {
-  'Contract': 'fa-file-text',
+  'Contract': 'fa-pencil',
   'Resolution': 'fa-legal',
   'Liquor License': 'fa-glass',
   'miscellaneous': 'fa-cog',
@@ -140,6 +150,29 @@ function p(t){
     return (t.length>0 ? '<p>'+t.replace(/[\r\n]+/g,'</p><p>')+'</p>' : null);
 }
 
+// returns a teaser (a shortened version of the text) and
+// full body (which is the text itself).
+// The teaser has a.readmore link which can be used to toggle which part is shown.
+function summarize(text) {
+  var short_text = 230;
+  var breakpoint = short_text + 20; // we want to collapse more than just "last words in sentance."
+
+  if (breakpoint < text.length) { // build a teaser and full text.
+    var continueReading = '<a href="#" class="readmore"> &rarr; Continue Reading </a>';
+
+    // regex looking for short_text worth of characters + whatever it takes to get to a whitespace
+    // (we only want to break on whitespace, so we don't cut words in half)
+    var re = new RegExp('.{' + short_text + '}\\S*?\\s');
+
+    teaser = '<div class="teaser">' + p(text.match(re) + '&hellip;' + continueReading) + '</div>';
+    body = '<div class="body">' + p(text) + '</div>';
+    return teaser + body;
+  } else { // short enough; no processing necessary
+    return p(text);
+  }
+}
+
+
 function updatePageContent(data) {
 
   $('body').removeClass('initial');
@@ -151,8 +184,6 @@ function updatePageContent(data) {
   $('.you-live-in').empty().append('District ' + district).removeClass("no-district").show();
   $('.results-text').empty().append(
     'Your Council Representative is <a href="' + member.website + '">'  + data.district_polygon.name + '</a>.'
-  /* '<br>(And you know about <a href="' + mayor.website + '">Mayor ' + mayor.name + '</a> and those <a href="' +
-      mayor.twitter + '">tweets</a> right?)'*/
   );
   $('.results').show();
 
@@ -160,11 +191,6 @@ function updatePageContent(data) {
   $('#contact-card .email').empty().append(member.email);
   $('#contact-card .mail').empty().append(member.address);
   $('#contact-card .bio').empty().append(member.bio);
-
-  // var full_name = 'Dennis Ka....';
-  // var councilmember_first_name = data.district_polygon.name.split(' ')[0]; //data.district_polygon.name.split(" ")[0];
-  // var twitter_widget_id = data.district_polygon.twit_wdgt; //'465941592985968641'; //d
-  // var twitter_user = data.district_polygon.twit_name; // 'MesaDistrict3'; //
 
   $(".fb-widget").hide();
   $(".fb-widget#facebook-" + district).show();
@@ -178,6 +204,31 @@ function updatePageContent(data) {
 
   // stick some event items in the frontend
   _.map(data.event_items, function(item) {
+
+      // ---- transforms -------------------------------------------------------------
+
+      // Simplify text by removing "(District X)" since we have that info elsewhere
+      item.EventItemTitle = item.EventItemTitle.replace(/\(District \d\)/, '');
+
+      var contract;
+      // Contract Matters tend to look like "C12345 Something Human Friendly". Let's save & remove that contract #.
+      if (item.EventItemMatterType == 'Contract') {
+        contract = item.EventItemMatterName.split(' ')[0]; // save it
+        console.log("Got contract: " + contract);
+        if (/C\d+/.test(contract)) {
+          item.EventItemMatterName = item.EventItemMatterName.substr(item.EventItemMatterName.indexOf(' ') + 1); // remove it
+        } else {
+          console.log("Weird. Expected " + contract + " to look like 'C' followed by some numbers.");
+        }
+      }
+
+      // We don't want to duplicate the MatterName (used as a title) as the first line of the text, so remove if found.
+      var re = new RegExp('^' + item.EventItemMatterName + '[\n\r]*');
+      item.EventItemTitle = item.EventItemTitle.replace(re, '');
+
+      // ---- end transforms ----------------------------------------------------------
+
+
       textToGeo(item.EventItemTitle);
 
       var view = {
@@ -195,10 +246,14 @@ function updatePageContent(data) {
           }
         },
         body: function() {
-          return p(item.EventItemTitle);
+          return summarize(item.EventItemTitle);
         },
         matterId: item.EventItemMatterId,
         icon: icons.get(item.EventItemMatterType),
+        scope: function() {
+          // if Citywide, "Citywide" (TODO), else
+          return "In District " + district;
+        }
       };
 
       var itemHtml = Mustache.render(legislationTemplate, view);
@@ -213,12 +268,26 @@ function updatePageContent(data) {
         success: function( data ) {
 
           var list = _.map(data, function (attachment) {
-            return '<li><a href="' + attachment.MatterAttachmentHyperlink + '">' + attachment.MatterAttachmentName; + '</a></li>';
-          }).join('');
+            return {
+              link: attachment.MatterAttachmentHyperlink,
+              name: attachment.MatterAttachmentName,
+            };
+          });
 
           if (list.length) {
-            var html = 'Attachments: <ul>' + list + '</ul>';
-            $('#matter-' + item.EventItemMatterId).html(html);
+            var view = {
+              matterId: item.EventItemMatterId,
+              attachmentCount: list.length,
+              attachments: list,
+            };
+            var html = Mustache.render(attachmentsTemplate, view);
+            $('#attachments-' + item.EventItemMatterId).html(html);
+            $('#attachments-' + item.EventItemMatterId + ' a.attachments').click(function(event) {
+              var matterId = $(this).attr('data-matter-id');
+              console.log("setting link handler for attachments on matter " + matterId + "(matter " + item.EventItemMatterId + ")");
+              $('#attachments-' + matterId + ' ul.attachments').toggle();
+              event.preventDefault();
+            }).click();
           }
         },
       });
@@ -250,6 +319,15 @@ function updatePageContent(data) {
         }
       });
   });
+
+  $('.legislative-items a.readmore').click(function(event) {
+    // toggle visibility of the clicked teaser and body.
+    event.preventDefault();
+    legislation = $(this).closest('.title');
+    legislation.find('.teaser').toggle();
+    legislation.find('.body').toggle();
+  });
+
 
   // twitter & facebook only render on page load by default, so
   // we need to call on them to parse & render the new content
