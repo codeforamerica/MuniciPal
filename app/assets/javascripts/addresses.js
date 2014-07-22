@@ -4,3 +4,4 @@
 //= require map.js
 //= require processurl.js
 //= require mesa.js
+//= require disqus.js
