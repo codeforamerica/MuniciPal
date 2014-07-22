@@ -64,4 +64,9 @@ namespace :legistar_event_items do
             }
         }
     end
+
+    desc "Empty legistar EventItems table"
+    task :drop => :environment  do |t, args|
+        EventItem.destroy_all
+    end
 end
