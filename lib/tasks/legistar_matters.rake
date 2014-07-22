@@ -40,9 +40,9 @@ namespace :legistar_matters do
     sh "psql zone_development < #{Shellwords.escape(source)}" # hack -- need to get db, user, pw from env
   end
 
-desc "Empty legistar Matter table"
+desc "Empty Legistar Matter table"
   task :drop => :environment  do |t, args|
-    Event.destroy_all
+    Matter.destroy_all
   end
 
 end
