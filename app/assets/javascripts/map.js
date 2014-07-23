@@ -17,6 +17,7 @@ var map = L.mapbox.map(
     zoom: MAP_START_ZOOM,
     minZoom: 6,
     maxZoom: 18,
+    scrollWheelZoom: false,
   }
 );
 
