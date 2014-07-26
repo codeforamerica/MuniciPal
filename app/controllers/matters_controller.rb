@@ -69,6 +69,6 @@ class MattersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def matter_params
-      params.require(:matter).permit(:matterid, :matterguid, :matterlastmodifiedutc, :matterrowversion, :matterfile, :mattername, :mattertitle, :mattertypeid, :mattertypename, :matterstatusid, :matterstatusname, :matterbodyid, :matterbodyname, :matterintrodate, :matteragendadate, :matterpasseddate, :matterenactmentdate, :matterenactmentnumber, :matterrequester, :matternotes, :matterversion, :mattertext1, :mattertext2, :mattertext3, :mattertext4, :mattertext5, :matterdate1, :matterdate2)
+      params.require(:matter).permit(:MatterId, :guid, :last_modified_utc, :row_version, :file, :name, :title, :type_id, :type_name, :status_id, :status_name, :body_id, :body_name, :intro_date, :agenda_date, :passed_date, :enactment_date, :enactment_number, :requester, :notes, :version, :text1, :text2, :text3, :text4, :text5, :date1, :date2)
     end
 end
