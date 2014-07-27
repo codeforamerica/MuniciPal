@@ -2,7 +2,9 @@ class CreateEventItems < ActiveRecord::Migration
   def change
     create_table :event_items do |t|
       t.integer :event_id
-      t.integer :council_district_id
+      t.belongs_to :council_district
+      t.belongs_to :event
+      t.belongs_to :matter
       t.integer :EventItemId
       t.string :EventItemGuid
       t.string :EventItemLastModified
@@ -37,7 +39,6 @@ class CreateEventItems < ActiveRecord::Migration
       t.string :EventItemMatterName
       t.string :EventItemMatterType
       t.string :EventItemMatterStatus
-      t.integer :council_district_id
 
       t.timestamps
     end
