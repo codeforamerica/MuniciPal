@@ -4,8 +4,9 @@ require "uri"
 namespace :legistar_matters do
   desc "Load Legistar matters into database from REST API"
   task :load => :environment do
+    client = "mesa"
 
-    url = "http://webapi.legistar.com/v1/mesa/matters/"
+    url = "http://webapi.legistar.com/v1/" + client + "/Matters/"
     uri = URI.parse(url)
 
     http = Net::HTTP.new(uri.host, uri.port)

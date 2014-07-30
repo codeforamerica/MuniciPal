@@ -3,9 +3,10 @@ require 'rgeo/shapefile'
 namespace :council_districts do
   desc "Load COSA council district into database"
   task :load => :environment do
+    city = "Mesa"
 
     CouncilDistrict.destroy_all
-    shpfile = "#{Rails.root}/lib/assets/Mesa/Councils.shp"
+    shpfile = "#{Rails.root}/lib/assets/" + city + "/Councils.shp"
 
     RGeo::Shapefile::Reader.open(shpfile, {:srid => -1}) do |file|
       puts "File contains #{file.num_records} records"
