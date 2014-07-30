@@ -1,7 +1,7 @@
 require 'rgeo/shapefile'
 
 namespace :council_districts do
-  desc "Load COSA council district into database"
+  desc "Load council district into database"
   task :load => :environment do
     city = "Mesa"
 
@@ -21,7 +21,7 @@ namespace :council_districts do
     end
   end
 
-  desc "Empty COSA council district table"
+  desc "Empty council district table"
   task :drop => :environment  do |t, args|
     CouncilDistrict.destroy_all
   end
