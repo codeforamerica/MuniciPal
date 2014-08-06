@@ -336,19 +336,19 @@ function updatePageContent(data) {
     console.log("clicked matter: " + matter)
 
     var element;
-    // if ($('#disqus_thread').length == 0) {
-    //   element = $.create("div").attr('id', 'disqus_thread');
-    //   element = document.createElement('div');
-    //   element.setAtt
-    // } else {
+    if ($('#disqus_thread').length == 0) {
+      // element = document.create("div").attr('id', 'disqus_thread');
+      element = document.createElement('div');
+      element.setAttribute('id', 'disqus_thread')
+    } else {
       $('#disqus_thread').parent().hide()
       element = $('#disqus_thread').detach();
-    // }
+    }
 
     var selectedCommentDiv = $('#' + matter).find('div.comments');
     // append either the element if it exists or a new disqus_thread element.
-    selectedCommentDiv.append(element.length > 0 ? element : "<div id='disqus_thread'></div>");
     // selectedCommentDiv.append(element.length > 0 ? element : "<div id='disqus_thread'></div>");
+    selectedCommentDiv.append(element);
 
     selectedCommentDiv.show();
 

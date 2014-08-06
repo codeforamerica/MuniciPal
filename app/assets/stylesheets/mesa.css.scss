@@ -250,6 +250,10 @@ a.attachments, .matter-comments a {
     text-transform: uppercase;
 }
 
+.comments {
+	width: 100%;
+}
+
 .sort-by {
 	text-transform: uppercase;
 	background: inherit !important; /* override purecss */
