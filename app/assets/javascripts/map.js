@@ -329,6 +329,38 @@ function updatePageContent(data) {
     legislation.find('.body').toggle();
   });
 
+  $('a.comments').click(function(event) {
+    event.preventDefault()
+    // get the matter id
+    var matter = $(this).attr('data-matter-id')
+    console.log("clicked matter: " + matter)
+
+    var element;
+    // if ($('#disqus_thread').length == 0) {
+    //   element = $.create("div").attr('id', 'disqus_thread');
+    //   element = document.createElement('div');
+    //   element.setAtt
+    // } else {
+      $('#disqus_thread').parent().hide()
+      element = $('#disqus_thread').detach();
+    // }
+
+    var selectedCommentDiv = $('#' + matter).find('div.comments');
+    // append either the element if it exists or a new disqus_thread element.
+    selectedCommentDiv.append(element.length > 0 ? element : "<div id='disqus_thread'></div>");
+    // selectedCommentDiv.append(element.length > 0 ? element : "<div id='disqus_thread'></div>");
+
+    selectedCommentDiv.show();
+
+    DISQUS.reset({
+      reload: true,
+      config: function () {  
+        this.page.identifier = matter;  
+        this.page.url = "http://yerhere.herokuapp.com/matters/" + matter;
+      }
+    });
+  });
+
 
   // twitter & facebook only render on page load by default, so
   // we need to call on them to parse & render the new content
