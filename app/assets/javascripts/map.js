@@ -124,6 +124,7 @@ function updatePage(ll) {
 
       $( "#address").val(data.address);
       map.setView([data.lat, data.lng], MAP_START_ZOOM);
+      document.getElementById('social').scrollIntoView();
     }
   })
 }
