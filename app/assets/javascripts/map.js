@@ -199,7 +199,7 @@ function updatePageContent(data) {
 
   $(".twit-widget").hide();
   $(".twit-widget#council-" + district).show();
-  $(".twit-widget#mention-" + district).show();
+//  $(".twit-widget#mention-" + district).show();
 
   $(".legislative-items").empty();
 
