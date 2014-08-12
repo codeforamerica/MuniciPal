@@ -248,7 +248,7 @@ function updatePageContent(data) {
           }
         },
         distance: function () {
-          return Math.floor(Math.random() * (6 - 1)) + 1;
+          return Math.floor(Math.random() * (6 - 2)) + 2;
         },
         body: function() {
           return summarize(item.EventItemTitle);
