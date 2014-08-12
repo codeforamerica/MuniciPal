@@ -247,6 +247,9 @@ function updatePageContent(data) {
             return item.EventItemMatterName;
           }
         },
+        distance: function () {
+          return Math.floor(Math.random() * (6 - 1)) + 1;
+        },
         body: function() {
           return summarize(item.EventItemTitle);
         },
