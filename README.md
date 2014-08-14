@@ -25,7 +25,6 @@ This application is still being developed, and is in a very early alpha iteratio
 
     bundle exec rake db:create
     bundle exec rake db:migrate
-    bundle exec rake historic_districts:load
     bundle exec rake council_districts:load
 
 *If you want to update or change these specific shapefiles, they exist in the lib/asset folder in the application.*
