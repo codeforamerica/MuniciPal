@@ -5,7 +5,9 @@ namespace :legistar_events do
   desc "Load Legistar events into database from JSON file"
   task :load => :environment do
 
-    url = "http://webapi.legistar.com/v1/mesa/events/"
+    city = "mesa"
+
+    url = "http://webapi.legistar.com/v1/" + city + "/events/"
     uri = URI.parse(url)
 
     http = Net::HTTP.new(uri.host, uri.port)
