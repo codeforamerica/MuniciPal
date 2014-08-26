@@ -34,7 +34,7 @@ namespace :legistar_events do
       }
 
     else
-      puts "ERROR!!!"
+      puts "ERROR fetching URL " + url + ", response code: " + response.code
     end
   end
 
