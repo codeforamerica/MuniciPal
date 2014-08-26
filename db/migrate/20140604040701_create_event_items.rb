@@ -1,44 +1,41 @@
 class CreateEventItems < ActiveRecord::Migration
   def change
     create_table :event_items do |t|
-      t.integer :event_id
       t.belongs_to :council_district
       t.belongs_to :event
       t.belongs_to :matter
-      t.integer :EventItemId
-      t.string :EventItemGuid
-      t.string :EventItemLastModified
-      t.string :EventItemLastModifiedUtc
-      t.string :EventItemRowVersion
-      t.integer :EventItemEventId
-      t.integer :EventItemAgendaSequence
-      t.integer :EventItemMinutesSequence
-      t.string :EventItemAgendaNumber
-      t.string :EventItemVideo
-      t.integer :EventItemVideoIndex
-      t.string :EventItemVersion
-      t.string :EventItemAgendaNote
-      t.string :EventItemMinutesNote
-      t.integer :EventItemActionId
-      t.string :EventItemAction
-      t.text :EventItemActionText
-      t.integer :EventItemPassedFlag
-      t.string :EventItemPassedFlagText
-      t.integer :EventItemRollCallFlag
-      t.string :EventItemFlagExtra
-      t.text :EventItemTitle
-      t.integer :EventItemTally
-      t.integer :EventItemConsent
-      t.integer :EventItemMoverId
-      t.string :EventItemMover
-      t.integer :EventItemSeconderId
-      t.string :EventItemSeconder
-      t.integer :EventItemMatterId
-      t.string :EventItemMatterGuid
-      t.string :EventItemMatterFile
-      t.string :EventItemMatterName
-      t.string :EventItemMatterType
-      t.string :EventItemMatterStatus
+      t.integer :source_id
+      t.string :guid
+      t.datetime :last_modified
+      t.datetime :last_modified_utc
+      t.string :row_version
+      t.integer :agenda_sequence
+      t.integer :minutes_sequence
+      t.string :agenda_number
+      t.string :video
+      t.integer :video_index
+      t.string :version
+      t.string :agenda_note
+      t.string :minutes_note
+      t.integer :action_id
+      t.text :action_name
+      t.text :action_text
+      t.integer :passed_flag
+      t.string :passed_flag_name
+      t.integer :roll_call_flag
+      t.string :flag_extra
+      t.text :title
+      t.string :tally
+      t.integer :consent
+      t.integer :mover_id
+      t.string :mover
+      t.integer :seconder_id
+      t.string :seconder
+      t.string :matter_guid
+      t.string :matter_file
+      t.string :matter_name
+      t.string :matter_type
+      t.string :matter_status
 
       t.timestamps
     end

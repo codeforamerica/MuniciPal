@@ -208,48 +208,48 @@ function updatePageContent(data) {
       // ---- transforms -------------------------------------------------------------
 
       // Simplify text by removing "(District X)" since we have that info elsewhere
-      item.EventItemTitle = item.EventItemTitle.replace(/\(District \d\)/, '');
+      item.title = item.title.replace(/\(District \d\)/, '');
 
       var contract;
       // Contract Matters tend to look like "C12345 Something Human Friendly". Let's save & remove that contract #.
-      if (item.EventItemMatterType == 'Contract') {
-        contract = item.EventItemMatterName.split(' ')[0]; // save it
+      if (item.matterType == 'Contract') {
+        contract = item.matterName.split(' ')[0]; // save it
         console.log("Got contract: " + contract);
         if (/C\d+/.test(contract)) {
-          item.EventItemMatterName = item.EventItemMatterName.substr(item.EventItemMatterName.indexOf(' ') + 1); // remove it
+          item.matterName = item.matterName.substr(item.matterName.indexOf(' ') + 1); // remove it
         } else {
           console.log("Weird. Expected " + contract + " to look like 'C' followed by some numbers.");
         }
       }
 
       // We don't want to duplicate the MatterName (used as a title) as the first line of the text, so remove if found.
-      var re = new RegExp('^' + item.EventItemMatterName + '[\n\r]*');
-      item.EventItemTitle = item.EventItemTitle.replace(re, '');
+      var re = new RegExp('^' + item.matterName + '[\n\r]*');
+      item.title = item.title.replace(re, '');
 
       // ---- end transforms ----------------------------------------------------------
 
 
-      textToGeo(item.EventItemTitle);
+      textToGeo(item.title);
 
       var view = {
         title: function() {
-          if (item.EventItemMatterType == 'Ordinance' &&
-              (/^Z\d{2}.*/.test(item.EventItemMatterName) ||
-               /^Zon.*/.test(item.EventItemMatterName))) {
-            return "Zoning: " + item.EventItemMatterName;
-          } else if (item.EventItemMatterType == "Liquor License") {
-            return "Liquor License for " + item.EventItemMatterName;
-          } else if (item.EventItemMatterType == "Contract") {
-            return "Contract: " + item.EventItemMatterName;
+          if (item.matterType == 'Ordinance' &&
+              (/^Z\d{2}.*/.test(item.matterName) ||
+               /^Zon.*/.test(item.matterName))) {
+            return "Zoning: " + item.matterName;
+          } else if (item.matterType == "Liquor License") {
+            return "Liquor License for " + item.matterName;
+          } else if (item.matterType == "Contract") {
+            return "Contract: " + item.matterName;
           } else {
-            return item.EventItemMatterName;
+            return item.matterName;
           }
         },
         body: function() {
-          return summarize(item.EventItemTitle);
+          return summarize(item.title);
         },
-        matterId: item.EventItemMatterId,
-        icon: icons.get(item.EventItemMatterType),
+        matterId: item.matterId,
+        icon: icons.get(item.matterType),
         scope: function() {
           // if Citywide, "Citywide" (TODO), else
           return "In District " + district;
@@ -263,7 +263,7 @@ function updatePageContent(data) {
       $.ajax({
         type: 'GET',
         crossDomain: true,
-        url: 'http://www.corsproxy.com/webapi.legistar.com/v1/mesa/Matters/' + item.EventItemMatterId + '/Attachments',
+        url: 'http://www.corsproxy.com/webapi.legistar.com/v1/mesa/Matters/' + item.matterId + '/Attachments',
         dataType: 'json',
         success: function( data ) {
 
@@ -276,15 +276,15 @@ function updatePageContent(data) {
 
           if (list.length) {
             var view = {
-              matterId: item.EventItemMatterId,
+              matterId: item.matterId,
               attachmentCount: list.length,
               attachments: list,
             };
             var html = Mustache.render(attachmentsTemplate, view);
-            $('#attachments-' + item.EventItemMatterId).html(html);
-            $('#attachments-' + item.EventItemMatterId + ' a.attachments').click(function(event) {
+            $('#attachments-' + item.matterId).html(html);
+            $('#attachments-' + item.matterId + ' a.attachments').click(function(event) {
               var matterId = $(this).attr('data-matter-id');
-              console.log("setting link handler for attachments on matter " + matterId + "(matter " + item.EventItemMatterId + ")");
+              console.log("setting link handler for attachments on matter " + matterId + "(matter " + item.matterId + ")");
               $('#attachments-' + matterId + ' ul.attachments').toggle();
               event.preventDefault();
             }).click();
@@ -295,14 +295,14 @@ function updatePageContent(data) {
       // get and populate event details section
       $.ajax({
         type: 'GET',
-        url: '/events/' + item.EventItemEventId + '.json',
+        url: '/events/' + item.event_id + '.json',
         dataType: 'json',
         success: function( data ) {
           var view = {
             date: function() {
               var months = [ "January", "February", "March", "April", "May", "June", 
                "July", "August", "September", "October", "November", "December" ],
-                date = data.EventDate.replace(/T.*/, '').split('-'); //YYYY-MM-DDT00:00:00Z -> [yyyy,mm,dd]
+                date = data.eventDate.replace(/T.*/, '').split('-'); //YYYY-MM-DDT00:00:00Z -> [yyyy,mm,dd]
 
               // EventDate doesn't come in the right format (timezone is 0 instead of -7), so we fix it
                var correctDate = new Date(date[0], date[1] - 1, date[2]);
@@ -315,7 +315,7 @@ function updatePageContent(data) {
           }
           console.log(view);
           var html = Mustache.render(eventTemplate, view);
-          $('#event-details-' + item.EventItemMatterId).html(html);
+          $('#event-details-' + item.matterId).html(html);
         }
       });
   });

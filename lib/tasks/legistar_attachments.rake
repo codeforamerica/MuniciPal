@@ -4,8 +4,8 @@ namespace :legistar_attachments do
     client = "mesa"
 
     # for each event_item, if it has a matterId, find and fetch any associated attachments.
-    EventItem.where('"EventItemMatterId" IS NOT NULL').take(10).each() do |item|
-      url = "http://webapi.legistar.com/v1/" + client + "/Matters/" + item.EventItemMatterId.to_s + "/Attachments"
+    EventItem.where('matter_id IS NOT NULL').each() do |item|
+      url = "http://webapi.legistar.com/v1/" + client + "/Matters/" + item.matter_id.to_s + "/Attachments"
       puts "Going to fetch: " + url
       uri = URI.parse(url)
 

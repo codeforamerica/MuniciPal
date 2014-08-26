@@ -16,19 +16,19 @@ namespace :legistar_events do
     if response.code == "200"
       result = JSON.parse(response.body)
       result.each{|record|
-        Event.create(:EventId => record["EventId"],
-                                    :EventGuid => record["EventGuid"],
-                                    :EventLastModified => record["EventLastModified"],
-                                    :EventLastModifiedUtc => record["EventLastModifiedUtc"],
-                                    :EventRowVersion => record["EventRowVersion"],
-                                    :EventBodyId => record["EventBodyId"],
-                                    :EventBodyName => record["EventBodyName"],
-                                    :EventDate => record["EventDate"],
-                                    :EventTime => record["EventTime"],
-                                    :EventVideoStatus => record["EventVideoStatus"],
-                                    :EventAgendaStatusId => record["EventAgendaStatusId"],
-                                    :EventMinutesStatusId => record["EventMinutesStatusId"],
-                                    :EventLocation => record["EventLocation"])
+        Event.create(:id => record["EventId"],
+                    :guid => record["EventGuid"],
+                    :last_modified => record["EventLastModified"], #undocumented api field?
+                    :last_modified_utc => record["EventLastModifiedUtc"],
+                    :row_version => record["EventRowVersion"],
+                    :body_id => record["EventBodyId"],
+                    :body_name => record["EventBodyName"],
+                    :date => record["EventDate"],
+                    :time => record["EventTime"],
+                    :video_status => record["EventVideoStatus"],
+                    :agenda_status_id => record["EventAgendaStatusId"],
+                    :minutes_status_id => record["EventMinutesStatusId"],
+                    :location => record["EventLocation"])
       }
 
     else
