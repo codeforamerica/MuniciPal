@@ -3,29 +3,31 @@ class EventItemsController < ApplicationController
 
   # GET /event_items
   # GET /event_items.json
-  def index
-    @council_district = CouncilDistrict.find(params[:council_district_id])
-    @event_items = @council_district.event_items
+  # def index
+  #   # @council_district = CouncilDistrict.find(params[:council_district_id])
+  #   # @event_items = @council_district.event_items
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render :json => @lines }
-    end
-  end
+  #   # respond_to do |format|
+  #   #   format.html # index.html.erb
+  #   #   format.json { render :json => @lines }
+  #   # end
+  #   @event_items = EventItem.all
+  # end
 
   # GET /event_items/1
   # GET /event_items/1.json
-  def show
-  end
+  # def show
+  # end
+
 
   # GET /event_items/new
-  def new
-    @event_item = EventItem.new
-  end
+  # def new
+  #   @event_item = EventItem.new
+  # end
 
   # GET /event_items/1/edit
-  def edit
-  end
+  # def edit
+  # end
 
   # POST /event_items
   # POST /event_items.json
