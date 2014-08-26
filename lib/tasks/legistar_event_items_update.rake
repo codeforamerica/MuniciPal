@@ -2,7 +2,7 @@ require 'uri'
 require 'net/http'
 require 'json'
 
-def get_event_items(event_id)
+def update_event_items(event_id)
 	sleep(5)
 	uri = URI("http://webapi.legistar.com/v1/mesa/events/"+ event_id.to_s + "/eventitems")
 	#params = { <query_hash> }
@@ -39,7 +39,7 @@ namespace :legistar_event_items_update do
 
 	eventid = EventItem.last["event_id"]
 	Event.where("\"EventId\" > ?", eventid).each {|event|
-		response = get_event_items(event.EventId)
+		response = update_event_items(event.EventId)
 		json_data = JSON.parse(response)
 		json_data.each {|record|
 			EventItem.find_or_create_by_event_id(event.EventId,
