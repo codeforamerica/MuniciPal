@@ -1,7 +1,7 @@
 var prj = 'codeforamerica.hmebo8ll'; // Mapbox map id string
 
 /* settings to change for different places. */
-var MAP_CENTER_LOCATION = [33.4019, -111.717];
+var MAP_CENTER_LOCATION = [33.4019, -111.78];
 var MAP_MARKER_LOCATION = [33.42, -111.835];
 var MAP_START_ZOOM = 12;
 var DISTRICT_FILL = 'white';
@@ -184,15 +184,15 @@ function updatePageContent(data) {
   var mayor = find_member(0); // 0 = mayor. for now anyway.
 
   $('.you-live-in').empty().append('District ' + district).removeClass("no-district").show();
-  $('.results-text').empty().append(
-    'Your Council Representative is <a href="' + member.website + '">'  + data.district_polygon.name + '</a>.'
-  );
+  $('.results-text').empty().append(data.district_polygon.name);
   $('.results').show();
 
-  $('#contact-card .phone').empty().append(member.phone);
-  $('#contact-card .email').empty().append(member.email);
-  $('#contact-card .mail').empty().append(member.address);
-  $('#contact-card .bio').empty().append(member.bio);
+  $('#council-member').empty().append(data.district_polygon.name);
+  $('#council-phone').empty().append(member.phone);
+  $('#council-email').empty().append(member.email);
+  $('#council-website').empty().append(member.website);
+  $('#council-address').empty().append(member.address);
+  $('#bio-card .bio').empty().append(member.bio);
 
   $(".fb-widget").hide();
   $(".fb-widget#facebook-" + district).show();

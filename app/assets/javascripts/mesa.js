@@ -21,14 +21,14 @@ function toggleCards() {
 	event.preventDefault();
 }
 
-$('#controls-contact').click(toggleCards);
+$('#controls-bio').click(toggleCards);
 $('#controls-twitter').click(toggleCards);
 $('#controls-facebook').click(toggleCards);
 $('#controls-mentions').click(toggleCards);
 
 // initally we want to show just the twitter card
 $('#cards .card').hide();
-$('#cards #twitter-card').show();
+$('#cards #bio-card').show();
 
 // example code from https://github.com/jsoma/tabletop
 

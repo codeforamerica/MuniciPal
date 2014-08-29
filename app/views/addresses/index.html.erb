@@ -1,8 +1,6 @@
 <% content_for :head do %>
-
-    <%= javascript_include_tag  "https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js" %>
-    <%= stylesheet_link_tag     "https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.css" %>
-
+  <%= javascript_include_tag  "https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.js" %>
+  <%= stylesheet_link_tag     "https://api.tiles.mapbox.com/mapbox.js/v1.6.2/mapbox.css" %>
 <% end %>
 
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
@@ -17,251 +15,202 @@
 }(document, 'script', 'facebook-jssdk'));</script>
 
 <div id="topbar" class="pure-menu pure-menu-open pure-menu-horizontal">
-    <a href="#" class="pure-menu-heading">City Thread</a>
+  <a href="#" class="pure-menu-heading">MuniciPAL</a>
 </div>
-<div class="col-3-3" id="map"></div>
 
-<!--HEADER CONTAINER-->
-<div class="header-container">
-
-    <!-- <div class="colortest"></div> -->
-
+<div class="pure-g">
+  <!--HEADER CONTAINER-->
+  <div class="header-container pure-u-1-2 pull-left">
     <div class="header">
-
-        <div class="address-box">
-            <h1 id="intro">Tell me about my council district</h1>
-            <div id="address-container">
-                <input id="address" type="search" size="50" placeholder="Who represents you and what's happening. Type your address here to find out."/>
-            </div>
-            <div id="search-btn-container">
-                <button id="search-btn" class="pure-button pure-button-primary">Search</button>
-            </div>
-            <p class="descript">e.g. <a href="?address=455%20West%20Baseline%20Road,%20Mesa,%20AZ%2085210,%20USA&lat=33.3781827&long=-111.8430414">455 W Baseline Rd, Mesa, AZ</a></p>
+      
+      <h2><span>Locate</span> your council district.</h2>
+      <h2><span>Learn</span> about your councilmember.</h2>
+      <h2><span>Know</span> what items are being voted on.</h2>
+      <h2><span>Participate</span> in Mesa's decision making processes.</h2>
+      
+      <div class="address-box">
+        <label for="address">Tell Me About My Council District:</label>
+        <div id="address-container" class="pure-u-18-24">
+          <input id="address" name="address" type="text" placeholder="Enter Your Mesa, AZ Address Here"/>
         </div>
+        <div id="search-btn-container" class="pure-u-1-5">
+          <button id="search-btn" class="pure-button pure-button-primary">Search</button>
+        </div>
+        <p class="descript">example: <a href="?address=455%20West%20Baseline%20Road,%20Mesa,%20AZ%2085210,%20USA&lat=33.3781827&long=-111.8430414">455 W Baseline Rd, Mesa, AZ</a></p>
+      </div>
     </div>
-</div>
-<!-- END HEADER CONTAINER -->
+  </div>
+  <!-- END HEADER CONTAINER -->
 
+  <div class="pure-u-1-2 pull-right">
+    <div id="map"></div>
+  </div>
+</div> <!-- end header/search grid -->
 
-<h1 class="you-live-in" id="answer">We don't yet know where you live.</h1>
+<h1 class="you-live-in" id="answer">We don't yet know where you live.</h1>  
+
 <div class="results pure-g">
-     <!--  <figure class="kudo kudoable" data-id="1">
-                <a class="kudobject">
-                    <div class="opening">
-                        <div class="circle">&nbsp;</div>
-                    </div>
-                </a>
-                <a href="#kudo" class="count">
-                    <span class="num">0</span>
-                    <span class="txt">Kudos</span>
-                </a>
-            </figure> -->
-    <div id="social" class="pure-u-1 pure-u-md-1-3">
+  
+  <div class="pure-u-1-2 l-box">
+    <img class="pure-img" src="http://placehold.it/650x450/607d8b/ffffff" alt="Placeholder">
+    <div class="pure-u-1">
+      <div id="council-phone" class="pure-u-1-2">555-555-1234</div>
+      <div id="council-email" class="pure-u-1-2">?@mesaaz.gov</div>
+      <!-- <div id="council-website" class="pure-u-1-3">mesaaz.gov</div> -->
+      <!--<div id="council-address">? Main Street</div> -->
+    </div>
+  </div>
 
-        <h1 class="results-text"></h1>
+  <div class="pure-u-1-2 l-box">
+    <h2 id="council-member">Some Person</h2>
+    <div id="results-area">
+      <div id="controls" class="pure-menu pure-menu-open pure-menu-horizontal">
+        <ul>
+          <li class="pure-menu-selected"><a id="controls-bio" data-card="bio-card" href="#">Bio</a></li>
+          <li><a id="controls-twitter" data-card="twitter-card" href="#">Tweets</a></li>
+          <li><a id="controls-facebook" data-card="facebook-card" href="#">Facebook</a></li>
+        </ul>
+      </div> <!-- end controls -->
 
-        <div id="results-area">
+      <section class="container">
+        <div id="cards">
+        
+          <div class="card" id="bio-card">
+            <span class="bio">foo bar</span>
+          </div>
 
-            <div id="controls" class="pure-menu pure-menu-open pure-menu-horizontal">
-                <ul>
-                <li class="pure-menu-selected"> <a id="controls-twitter" data-card="twitter-card" href="#">Tweets</a></li>
-                 <li class=""> <a id="controls-facebook" data-card="facebook-card" href="#">Facebook</a></li>
-                 <li><a id="controls-contact" data-card="contact-card" href="#">Contact</a></li>
-<!--                 <li><a id="controls-mentions" data-card="mentions-card" href="#">Mentions</a></li> -->
-                </ul>
+          <div class="card" id="facebook-card">
+            <div class="fb-widget" id="facebook-1">
+              <div class="fb-like-box" data-href="https://www.facebook.com/CouncilmemberDaveRichins" data-width="100%" data-height="468" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="true" data-show-border="false"></div>
             </div>
+            <div class="fb-widget" id="facebook-2">
+              <div class="fb-like-box" data-href="https://www.facebook.com/CouncilmemberBenelli" data-width="350" data-height="468" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="true" data-show-border="false"></div>
+            </div>
+            <div class="fb-widget" id="facebook-3">
+              <div class="fb-like-box" data-href="https://www.facebook.com/councilmember.kavanaugh" data-width="350" data-height="468" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="true" data-show-border="false"></div>
+            </div>
+            <div class="fb-widget" id="facebook-4">
+              <div class="fb-like-box" data-href="https://www.facebook.com/CouncilmemberChrisGlover" data-width="350" data-height="468" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="true" data-show-border="false"></div>
+            </div>
+            <div class="fb-widget" id="facebook-5">
+              <div class="fb-like-box" data-href="https://www.facebook.com/CouncilmemberDavidLuna" data-width="350" data-height="468" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="true" data-show-border="false"></div>
+            </div>
+            <div class="fb-widget" id="facebook-6">
+              <div class="fb-like-box" data-href="https://www.facebook.com/CouncilmemberScottSomers" data-width="350" data-height="468" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="true" data-show-border="false"></div>
+            </div>
+          </div>
 
-            <section class="container">
-                <div id="cards">
-                
-                    <div class="card" id="contact-card">
-                        Phone: <span class="phone">555-555-1234</span><br><br>
-                        Email: <span class="email">?@mesaaz.gov</span><br><br>
-                        Mail: <span class="mail">? Main Street </span><br><br>
-                        Bio: <span class="bio">foo bar</span>
-                    </div>
+          <div class="card" id="twitter-card">
+            <div class="twit-widget">
+             <a class="twitter-timeline" href="https://twitter.com/techieshark/lists/mesaaz-gov" data-widget-id="465957406787112960" data-chrome="noheader">Tweets from https://twitter.com/techieshark/lists/mesaaz-gov</a>
+            </div>
+            <div class="twit-widget" id="council-1" style="display:none" >
+              <a class="twitter-timeline" href="https://twitter.com/dlrichins" data-widget-id="465935532589993984" data-chrome="noheader">Tweets by @dlrichins</a>
+            </div>
+            <div class="twit-widget" id="council-2" style="display:none" >
+              <a class="twitter-timeline" href="https://twitter.com/MesaDistrict2" data-widget-id="465941398470922240" data-chrome="noheader">Tweets by @MesaDistrict2</a>
+            </div>
+            <div class="twit-widget" id="council-3" style="display:none" >
+              <a class="twitter-timeline" href="https://twitter.com/MesaDistrict3" data-widget-id="465941592985968641" data-chrome="noheader">Tweets by @MesaDistrict3</a>
+            </div>
+            <div class="twit-widget" id="council-4" style="display:none" >
+              <a class="twitter-timeline" href="https://twitter.com/MesaDistrict4" data-widget-id="465941739635613696" data-chrome="noheader">Tweets by @MesaDistrict4</a>
+            </div>
+            <div class="twit-widget" id="council-5" style="display:none" >
+              <a class="twitter-timeline" href="https://twitter.com/MesaDistrict5" data-widget-id="465941843922792448" data-chrome="noheader">Tweets by @MesaDistrict5</a>
+            </div>
+            <div class="twit-widget" id="council-6" style="display:none" >
+              <a class="twitter-timeline" href="https://twitter.com/MesaDistrict6" data-widget-id="465941964072828928" data-chrome="noheader">Tweets by @MesaDistrict6</a>
+            </div>
+          </div>
 
-                    <div class="card" id="facebook-card">
+        </div> <!-- end cards -->
+      </section>
+    </div> <!-- end results area -->
+  </div>
 
-                        <div class="fb-widget" id="facebook-1">
-                            <div class="fb-like-box" data-href="https://www.facebook.com/CouncilmemberDaveRichins" data-width="100%" data-height="468" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="true" data-show-border="false"></div>
-                        </div>
+  <div id="legislative" class="pure-u-1 pure-u-md-2-3">
+    <h1>Items Being Discussed in Your District</h1>
 
-                        <div class="fb-widget" id="facebook-2">
-                            <div class="fb-like-box" data-href="https://www.facebook.com/CouncilmemberBenelli" data-width="350" data-height="468" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="true" data-show-border="false"></div>
-                        </div>
-
-                        <div class="fb-widget" id="facebook-3">
-                            <div class="fb-like-box" data-href="https://www.facebook.com/councilmember.kavanaugh" data-width="350" data-height="468" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="true" data-show-border="false"></div>
-                        </div>
-
-                        <div class="fb-widget" id="facebook-4">
-                            <div class="fb-like-box" data-href="https://www.facebook.com/CouncilmemberChrisGlover" data-width="350" data-height="468" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="true" data-show-border="false"></div>
-                        </div>
-
-                        <div class="fb-widget" id="facebook-5">
-                            <div class="fb-like-box" data-href="https://www.facebook.com/CouncilmemberDavidLuna" data-width="350" data-height="468" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="true" data-show-border="false"></div>
-                        </div>
-
-                        <div class="fb-widget" id="facebook-6">
-                            <div class="fb-like-box" data-href="https://www.facebook.com/CouncilmemberScottSomers" data-width="350" data-height="468" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="true" data-show-border="false"></div>
-                        </div>
-
-                    </div>
-
-                    <div class="card" id="twitter-card">
-
-                        <div class="twit-widget">
-                           <a class="twitter-timeline" href="https://twitter.com/techieshark/lists/mesaaz-gov" data-widget-id="465957406787112960" data-chrome="noheader">Tweets from https://twitter.com/techieshark/lists/mesaaz-gov</a>
-                        </div>
-
-                        <div class="twit-widget" id="council-1" style="display:none" >
-                            <a class="twitter-timeline" href="https://twitter.com/dlrichins" data-widget-id="465935532589993984" data-chrome="noheader">Tweets by @dlrichins</a>
-                        </div>
-
-                        <div class="twit-widget" id="council-2" style="display:none" >
-                            <a class="twitter-timeline" href="https://twitter.com/MesaDistrict2" data-widget-id="465941398470922240" data-chrome="noheader">Tweets by @MesaDistrict2</a>
-                        </div>
-
-                        <div class="twit-widget" id="council-3" style="display:none" >
-                            <a class="twitter-timeline" href="https://twitter.com/MesaDistrict3" data-widget-id="465941592985968641" data-chrome="noheader">Tweets by @MesaDistrict3</a>
-                        </div>
-
-                        <div class="twit-widget" id="council-4" style="display:none" >
-                            <a class="twitter-timeline" href="https://twitter.com/MesaDistrict4" data-widget-id="465941739635613696" data-chrome="noheader">Tweets by @MesaDistrict4</a>
-                        </div>
-
-                        <div class="twit-widget" id="council-5" style="display:none" >
-                            <a class="twitter-timeline" href="https://twitter.com/MesaDistrict5" data-widget-id="465941843922792448" data-chrome="noheader">Tweets by @MesaDistrict5</a>
-                        </div>
-
-                        <div class="twit-widget" id="council-6" style="display:none" >
-                            <a class="twitter-timeline" href="https://twitter.com/MesaDistrict6" data-widget-id="465941964072828928" data-chrome="noheader">Tweets by @MesaDistrict6</a>
-                        </div>
-                    </div>
-
-<!--                     <div class="card" id="mentions-card">
-
-                        <div class="twit-widget">
-                           <a class="twitter-timeline" href="hhttps://twitter.com/search?q=MesaCityCouncil+OR+dlrichins+OR+mesaazgov+OR+mesadistrict5+OR+mesadistrict3+OR+mesadistrict2+OR+mesadistrict4+OR+mesadistrict6" data-widget-id="465996603690455040" data-chrome="noheader">Tweets Mentioning the Council</a>
-                        </div>
-
-                        <div class="twit-widget" id="mention-1" style="display:none" >
-                            <a class="twitter-timeline" href="https://twitter.com/search?q=%40dlrichins" data-widget-id="478703415367700480" data-chrome="noheader">District 1 Mentions</a>
-                        </div>
-
-                        <div class="twit-widget" id="mention-2" style="display:none" >
-                            <a class="twitter-timeline" href="https://twitter.com/MesaDistrict2" data-widget-id="465941398470922240" data-chrome="noheader">Tweets by @MesaDistrict2</a>
-                        </div>
-
-                        <div class="twit-widget" id="mention-3" style="display:none" >
-                            <a class="twitter-timeline" href="https://twitter.com/search?q=%40MesaDistrict3" data-widget-id="484385709889822720" data-chrome="noheader">District 3 Mentions</a>
-                        </div>
-
-                        <div class="twit-widget" id="mention-4" style="display:none" >
-                            <a class="twitter-timeline" href="https://twitter.com/search?q=%40MesaDistrict4" data-widget-id="484386018288599040" data-chrome="noheader">District 4 Mentions</a>
-                        </div>
-
-                        <div class="twit-widget" id="mention-5" style="display:none" >
-                            <a class="twitter-timeline" href="https://twitter.com/search?q=%40MesaDistrict5" data-widget-id="484386344412516352" data-chrome="noheader">District 5 Mentions</a>
-                        </div>
-
-                        <div class="twit-widget" id="mention-6" style="display:none" >
-                            <a class="twitter-timeline" href="https://twitter.com/search?q=%40MesaDistrict6&src=typd" data-widget-id="484387177892036608" data-chrome="noheader">District 6 Mentions</a>
-                        </div>
-                    </div> -->
-
-                </div>
-            </section>
-        </div> <!-- end results area -->
-    </div> <!-- end social -->
-
-    <div id="legislative" class="pure-u-1 pure-u-md-2-3">
-        <h1>Items Being Discussed in Your District</h1>
-
-        <div class="sort-by pure-menu pure-menu-open pure-menu-horizontal">
-            <div class="pure-menu-heading">Sort by: </div>
-
-            <ul>
-                <li class="pure-menu-selected"><a href="#">Date</a></li>
-                <li><a href="#">Distance</a></li>
-                <li><a href="#">Activity</a></li>
-            </ul>
-        </div>
-
-        <div class="legislative-items">
-        </div>
+    <div class="sort-by pure-menu pure-menu-open pure-menu-horizontal">
+      <div class="pure-menu-heading">Sort by: </div>
+      <ul>
+        <li class="pure-menu-selected"><a href="#">Date</a></li>
+        <li><a href="#">Distance</a></li>
+        <li><a href="#">Activity</a></li>
+      </ul>
     </div>
 
-</div>
+    <div class="legislative-items"></div>
+  </div>
+
+</div> <!-- end results -->
 
 <script id="legislation-template" type="x-tmpl-mustache">
 
-    <article class="legislation" id={{matterId}}>
+  <article class="legislation" id={{matterId}}>
 
-        <div class="item-name pure-g">
-            <div class="pure-u-3-4">
-                <div>
-                    <i class="icon fa {{icon}} fa-2x"></i>
-                    <div class="agenda-basics">
-                        <h4 class="text">{{title}}</h4>
-                        <div class="when" id="event-details-{{matterId}}">August 10</div>
-                    </div>
-                </div>
-            </div>
-            <div class="distance pure-u-1-4">
-                <div class="geo-scope">{{scope}}</div>
-                <div class="distance">{{distance}} miles away</div>
-            </div>
+    <div class="item-name pure-g">
+      <div class="pure-u-3-4">
+        <div>
+          <i class="icon fa {{icon}} fa-2x"></i>
+          <div class="agenda-basics">
+            <h4 class="text">{{title}}</h4>
+            <div class="when" id="event-details-{{matterId}}">August 10</div>
+          </div>
         </div>
+      </div>
+      <div class="distance pure-u-1-4">
+        <div class="geo-scope">{{scope}}</div>
+        <div class="distance">{{distance}} miles away</div>
+      </div>
+    </div>
 
+    <div class="pure-g">
+      <div class="title pure-u-1">
+        {{{body}}}
         <div class="pure-g">
-
-            <div class="title pure-u-1">
-                {{{body}}}
-                <div class="pure-g">
-                    <div class="matter-attachments pure-u-1-3" id="attachments-{{matterId}}"></div>
-                    <div class="matter-comments pure-u-1-3"><a class="comments" data-matter-id="{{matterId}}" href="#">Share your opinion</a></div>
-                    <!-- // <div class="event-details" id="event-details-{{matterId}}"></div> -->
-                </div>
-            </div>
-            <div class="comments">
-                <!-- <div id="disqus_thread"></div> -->
-            </div>
-
+          <div class="matter-attachments pure-u-1-3" id="attachments-{{matterId}}"></div>
+          <div class="matter-comments pure-u-1-3"><a class="comments" data-matter-id="{{matterId}}" href="#">Share your opinion</a></div>
+          <!-- // <div class="event-details" id="event-details-{{matterId}}"></div> -->
         </div>
-        
-        <!--
-            <div class="like pure-u-1 pure-u-md-1-12">
-                <div class="fb-like post-footer-like" data-send="false" data-width="300" href="http://yerhere.herokuapp.com" data-show-faces="false" data-layout="button"></div>
-            </div>
-            <div class="comment pure-u-1 pure-u-md-1-12">
-                <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en" data-url="http://localhost/citymatters/1" data-via="techieshark" data-text="@wfong_sf Let\'s talk about this. [INSERT COMMENT HERE]" data-related="buckley_tom:A really fun guy!,mesaazgov:The City of Mesa,MesaDistrict3:Your City Councilmember" data-hashtags="mesatalk" data-size="large" data-count="vertical">Tweet</a>
-            </div>
-        -->
-    </article>
+      </div>
+      <div class="comments">
+        <!-- <div id="disqus_thread"></div> -->
+      </div>
+    </div>
+      
+    <!--
+    <div class="like pure-u-1 pure-u-md-1-12">
+      <div class="fb-like post-footer-like" data-send="false" data-width="300" href="http://yerhere.herokuapp.com" data-show-faces="false" data-layout="button"></div>
+    </div>
+    <div class="comment pure-u-1 pure-u-md-1-12">
+      <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en" data-url="http://localhost/citymatters/1" data-via="techieshark" data-text="@wfong_sf Let\'s talk about this. [INSERT COMMENT HERE]" data-related="buckley_tom:A really fun guy!,mesaazgov:The City of Mesa,MesaDistrict3:Your City Councilmember" data-hashtags="mesatalk" data-size="large" data-count="vertical">Tweet</a>
+    </div>
+    -->
+  </article>
 </script>
 
 <script id="event-details-template" type="x-tmpl-mustache">
-    <div class="event-date">{{date}}, {{time}}</div>
-    <!--
-    <h5>Next Meeting</h5>
-    <ul>
-        <li>{{date}}</li>
-        <li>{{time}}</li>
-        <li>{{name}}</li>
-        <li>{{location}}</li>
-    </ul>
-    -->
+  <div class="event-date">{{date}}, {{time}}</div>
+  <!--
+  <h5>Next Meeting</h5>
+  <ul>
+    <li>{{date}}</li>
+    <li>{{time}}</li>
+    <li>{{name}}</li>
+    <li>{{location}}</li>
+  </ul>
+  -->
 </script>
 
 <script id="template-attachments" type="x-tmpl-mustache">
-    <a href="#" class="attachments" data-matter-id="{{matterId}}">Attachments ({{attachmentCount}})</a>
-    <ul class="attachments">
-        {{#attachments}}
-            <li><a href="{{link}}">{{name}}</a></li>
-        {{/attachments}}
-    </ul>
+  <a href="#" class="attachments" data-matter-id="{{matterId}}">Attachments ({{attachmentCount}})</a>
+  <ul class="attachments">
+    {{#attachments}}
+      <li><a href="{{link}}">{{name}}</a></li>
+    {{/attachments}}
+  </ul>
 </script>
 
 <%= javascript_include_tag "addresses", "data-turbolinks-track" => true %>

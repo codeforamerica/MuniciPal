@@ -11,8 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140611233338) do
-#ActiveRecord::Schema.define(version: 20140604040701) do
+ActiveRecord::Schema.define(version: 20140716212710) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,14 +65,13 @@ ActiveRecord::Schema.define(version: 20140611233338) do
     t.string   "EventItemMatterStatus"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "council_district_id"
   end
 
   create_table "events", force: true do |t|
     t.integer  "EventId"
     t.string   "EventGuid"
     t.string   "EventLastModified"
-    t.string   "EventLastModifiedUtc"
+    t.datetime "EventLastModifiedUtc"
     t.string   "EventRowVersion"
     t.integer  "EventBodyId"
     t.string   "EventBodyName"
@@ -83,6 +81,39 @@ ActiveRecord::Schema.define(version: 20140611233338) do
     t.integer  "EventAgendaStatusId"
     t.integer  "EventMinutesStatusId"
     t.string   "EventLocation"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "matters", force: true do |t|
+    t.integer  "matterid"
+    t.integer  "matterguid"
+    t.datetime "matterlastmodifiedutc"
+    t.string   "matterrowversion"
+    t.string   "matterfile"
+    t.string   "mattername"
+    t.text     "mattertitle"
+    t.integer  "mattertypeid"
+    t.string   "mattertypename"
+    t.integer  "matterstatusid"
+    t.string   "matterstatusname"
+    t.integer  "matterbodyid"
+    t.text     "matterbodyname"
+    t.datetime "matterintrodate"
+    t.datetime "matteragendadate"
+    t.datetime "matterpasseddate"
+    t.datetime "matterenactmentdate"
+    t.integer  "matterenactmentnumber"
+    t.string   "matterrequester"
+    t.text     "matternotes"
+    t.string   "matterversion"
+    t.text     "mattertext1"
+    t.text     "mattertext2"
+    t.text     "mattertext3"
+    t.text     "mattertext4"
+    t.text     "mattertext5"
+    t.datetime "matterdate1"
+    t.datetime "matterdate2"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
