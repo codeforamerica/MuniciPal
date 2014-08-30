@@ -29,6 +29,10 @@ textarea,
   padding: 1.2em;
 }
 
+.l-box-2x {
+  padding: 2.4em;
+}
+
 // Spacing stuff
 $center-header-text: 3em;
 
@@ -94,8 +98,7 @@ $center-header-text: 3em;
 }
 
 .header-container {
-	padding: 1em 16px 1em 36px;
-  margin-top: 0;
+  background: darken($white, 2%);
 
   h2 {
     color: $blue;
@@ -122,6 +125,7 @@ $center-header-text: 3em;
 	background: $white;
 	padding: 10px;
 	height: 400px;
+  line-height: 1.5;
 }
 
 .address-box {
@@ -136,8 +140,8 @@ $center-header-text: 3em;
 
   input {
   	padding: 0.5em;
-  	background: darken($white, 2%);
-    width: 100%;
+  	background: $white;
+    width: 98%;
     border: solid 2px lighten($grey, 15%);
     border-radius: 8px;
     outline: none;
@@ -159,11 +163,20 @@ $center-header-text: 3em;
   background-color: transparent;
 }
 
+.contact-info {
+  font-size: 1.2em;
+
+  span + span {
+    margin-left: 10px;
+  }
+}
+
 .pure-menu {
   li {
     a {
       color: $green;
       text-transform: uppercase;
+      border-bottom: solid 2px $white;
     }
     a:hover, a:focus {
       background: none;
@@ -180,9 +193,15 @@ $center-header-text: 3em;
 }
 
 #legislative {
-	h1 {
-		padding-left: 38px; //hack
-	}
+	.legislative-header {
+    text-align: center;
+
+    a {
+      text-decoration: none;
+      color: $green;
+      text-transform: uppercase;
+    }
+  }
 }
 
 .legislation {
@@ -215,9 +234,6 @@ $center-header-text: 3em;
 	.body {
 		display: none;
 	}
-}
-
-.legislation .title {
 }
 
 
@@ -288,6 +304,7 @@ div#disqus_thread {
 
 #map {
   height:500px;
+  background: darken($white, 2%);
 }
 
 .pull-left {
@@ -305,4 +322,7 @@ p.descript {
   color:#808080;
   z-index:5;
 }
-/* ------------------------------------------*/
+
+.blue {
+  color: $blue;
+}
