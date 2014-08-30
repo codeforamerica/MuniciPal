@@ -187,6 +187,10 @@ function updatePageContent(data) {
   $('.results-text').empty().append(data.district_polygon.name);
   $('.results').show();
 
+  $('#council-picture').attr({
+    'src': '/assets/council/district'+district+'.jpg',
+    'alt': 'Councilmember for District ' + district
+  });
   $('#council-member').empty().append(data.district_polygon.name);
   $('#council-phone').empty().append(member.phone);
   $('#council-email').empty().append(member.email);

@@ -116,11 +116,6 @@ $center-header-text: 3em;
 	top: 0px;
 }
 
-// setting fixed margin: hack.
-.initial .header-container {
-  margin-top: $center-header-text;
-}
-
 #bio-card {
 	background: $white;
 	padding: 10px;
@@ -164,10 +159,16 @@ $center-header-text: 3em;
 }
 
 .contact-info {
-  font-size: 1.2em;
+  font-size: 1.1em;
 
   span + span {
     margin-left: 10px;
+  }
+
+  .contact-method {
+    display: inline-block;
+    margin-left: 10px;
+    margin-top: 1em;
   }
 }
 
