@@ -206,13 +206,9 @@ $center-header-text: 3em;
 }
 
 .legislation {
-  background-color: $white;
-  border: 1px solid rgb(240, 240, 240);
-  border-bottom: 2px solid rgb(245, 240, 240);
-  border-radius: 3px;
-  margin-right: 1em;
+  border-bottom: solid 1px $grey;
+  padding-bottom: 1em;
   margin-bottom: 1em;
-  padding: 1rem;
 
   .distance, .geo-scope {
   	text-transform: uppercase;
@@ -262,13 +258,28 @@ $center-header-text: 3em;
 	}
 
   padding-bottom: 1em;
-  border-bottom: 1px solid #d3d3d3;
+}
 
+.attachments {
+  margin-left: 1em;
 }
 
 a.attachments, .matter-comments a {
-	color: $grey;
+	color: $green;
 	text-transform: uppercase;
+  text-decoration: none;
+}
+
+ul.attachments {
+  padding-left: 0;
+
+  li {
+    list-style-type: none;
+
+    a {
+      color: $green;
+    }
+  }
 }
 
 .readmore {
