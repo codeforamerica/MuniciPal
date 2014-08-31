@@ -32,6 +32,7 @@ class AddressesController < ApplicationController
       if @district_polygon and @district_polygon.id
          @event_items1 = EventItem.where({EventItemId: @testing_issues})
          @event_items2 = EventItem.joins(:event).where('"events"."EventDate" > ?', 4.month.ago).where(council_district_id: @district_polygon.id).order('"events"."EventDate" DESC')
+         print @event_items2
          @event_items = @event_items2 # + @event_items1
       else
         puts "ERROR: Whaaaaaat?! No district/id. You ran rake mesa_councils:load to populate the table right?"
