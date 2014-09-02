@@ -9,6 +9,10 @@ $white: #ffffff;
 // Fonts
 $font-family: "Montserrat", Helvetica, Arial, sans-serif;
 
+body {
+  margin-top: 50px; // For fixed top bar
+}
+
 html, 
 button,
 input,
@@ -40,6 +44,9 @@ $center-header-text: 3em;
 #topbar.pure-menu {
 	background: $blue;
 	font-weight: bold;
+  position: fixed;
+  top: 0;
+  z-index: 1010; // z-index fight with leaflet
 
   a,
   .pure-menu-heading {
@@ -54,7 +61,9 @@ $center-header-text: 3em;
 
 .you-live-in {
   font-size: 40px;
-  padding: 15px 0 10px;
+  padding: 0 10px;
+  padding-top: 65px; // For fixed top bar
+  margin-top: -40px; // For fixed top bar
   margin-bottom: 0;
   text-align: center;
 
