@@ -237,6 +237,9 @@ function updatePageContent(data) {
 
       textToGeo(item.EventItemTitle);
 
+      console.log("constructing legislative item");
+      console.log(item.EventItemMatterId);
+
       var view = {
         title: function() {
           if (item.EventItemMatterType == 'Ordinance' &&
@@ -324,6 +327,9 @@ function updatePageContent(data) {
           }
           console.log(view);
           var html = Mustache.render(eventTemplate, view);
+          console.log("adding details to event item");
+          console.log(item.EventItemMatterId);
+
           $('#event-details-' + item.EventItemMatterId).html(html);
         }
       });
