@@ -9,6 +9,11 @@ $white: #ffffff;
 // Fonts
 $font-family: "Montserrat", Helvetica, Arial, sans-serif;
 
+body {
+  margin-top: 50px; // For fixed top bar
+  color: $grey;
+}
+
 html, 
 button,
 input,
@@ -16,7 +21,6 @@ select,
 textarea,
 .pure-g [class *= "pure-u"] {
   font-family: $font-family;
-  color: $grey;
 }
 
 .pure-g > div {
@@ -29,6 +33,10 @@ textarea,
   padding: 1.2em;
 }
 
+.l-box-2x {
+  padding: 2.4em;
+}
+
 // Spacing stuff
 $center-header-text: 3em;
 
@@ -36,6 +44,9 @@ $center-header-text: 3em;
 #topbar.pure-menu {
 	background: $blue;
 	font-weight: bold;
+  position: fixed;
+  top: 0;
+  z-index: 1010; // z-index fight with leaflet
 
   a,
   .pure-menu-heading {
@@ -50,7 +61,9 @@ $center-header-text: 3em;
 
 .you-live-in {
   font-size: 40px;
-  padding: 15px 0 10px;
+  padding: 0 10px;
+  padding-top: 65px; // For fixed top bar
+  margin-top: -40px; // For fixed top bar
   margin-bottom: 0;
   text-align: center;
 
@@ -65,7 +78,7 @@ $center-header-text: 3em;
   margin: 0 auto;
   padding: 0 2em;
   max-width: 1400px;
-  display: block;
+  display: none;
 
   h2 {
     margin-top: 0;
@@ -94,8 +107,11 @@ $center-header-text: 3em;
 }
 
 .header-container {
-	padding: 1em 16px 1em 36px;
-  margin-top: 0;
+  background: darken($white, 2%);
+  
+  .header {
+    margin-top: 60px;
+  }
 
   h2 {
     color: $blue;
@@ -113,15 +129,11 @@ $center-header-text: 3em;
 	top: 0px;
 }
 
-// setting fixed margin: hack.
-.initial .header-container {
-  margin-top: $center-header-text;
-}
-
 #bio-card {
 	background: $white;
 	padding: 10px;
 	height: 400px;
+  line-height: 1.5;
 }
 
 .address-box {
@@ -136,8 +148,8 @@ $center-header-text: 3em;
 
   input {
   	padding: 0.5em;
-  	background: darken($white, 2%);
-    width: 100%;
+  	background: $white;
+    width: 98%;
     border: solid 2px lighten($grey, 15%);
     border-radius: 8px;
     outline: none;
@@ -159,11 +171,26 @@ $center-header-text: 3em;
   background-color: transparent;
 }
 
+.contact-info {
+  font-size: 1.1em;
+
+  span + span {
+    margin-left: 10px;
+  }
+
+  .contact-method {
+    display: inline-block;
+    margin-left: 10px;
+    margin-top: 1em;
+  }
+}
+
 .pure-menu {
   li {
     a {
       color: $green;
       text-transform: uppercase;
+      border-bottom: solid 2px $white;
     }
     a:hover, a:focus {
       background: none;
@@ -180,19 +207,25 @@ $center-header-text: 3em;
 }
 
 #legislative {
-	h1 {
-		padding-left: 38px; //hack
-	}
+	.legislative-header {
+    text-align: center;
+
+    a {
+      text-decoration: none;
+      color: $green;
+      text-transform: uppercase;
+    }
+  }
 }
 
 .legislation {
-  background-color: $white;
-  border: 1px solid rgb(240, 240, 240);
-  border-bottom: 2px solid rgb(245, 240, 240);
-  border-radius: 3px;
-  margin-right: 1em;
+  border-bottom: solid 1px $grey;
+  padding-bottom: 1em;
   margin-bottom: 1em;
-  padding: 1rem;
+
+  &:last-child {
+    border-bottom: none;
+  }
 
   .distance, .geo-scope {
   	text-transform: uppercase;
@@ -215,9 +248,6 @@ $center-header-text: 3em;
 	.body {
 		display: none;
 	}
-}
-
-.legislation .title {
 }
 
 
@@ -245,13 +275,28 @@ $center-header-text: 3em;
 	}
 
   padding-bottom: 1em;
-  border-bottom: 1px solid #d3d3d3;
+}
 
+.attachments {
+  margin-left: 1em;
 }
 
 a.attachments, .matter-comments a {
-	color: $grey;
+	color: $green;
 	text-transform: uppercase;
+  text-decoration: none;
+}
+
+ul.attachments {
+  padding-left: 0;
+
+  li {
+    list-style-type: none;
+
+    a {
+      color: $green;
+    }
+  }
 }
 
 .readmore {
@@ -287,7 +332,8 @@ div#disqus_thread {
 }
 
 #map {
-  height:500px;
+  height:600px;
+  background: darken($white, 2%);
 }
 
 .pull-left {
@@ -305,4 +351,23 @@ p.descript {
   color:#808080;
   z-index:5;
 }
-/* ------------------------------------------*/
+
+.blue {
+  color: $blue;
+}
+
+.footer {
+  background: $grey;
+  color: $white;
+  text-transform: uppercase;
+  text-align: center;
+
+  h5 {
+    font-weight: normal;
+  }
+
+  a {
+    color: $green;
+    text-decoration: none;
+  }
+}
