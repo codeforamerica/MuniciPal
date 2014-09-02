@@ -11,6 +11,7 @@ $font-family: "Montserrat", Helvetica, Arial, sans-serif;
 
 body {
   margin-top: 50px; // For fixed top bar
+  color: $grey;
 }
 
 html, 
@@ -20,7 +21,6 @@ select,
 textarea,
 .pure-g [class *= "pure-u"] {
   font-family: $font-family;
-  color: $grey;
 }
 
 .pure-g > div {
@@ -78,7 +78,7 @@ $center-header-text: 3em;
   margin: 0 auto;
   padding: 0 2em;
   max-width: 1400px;
-  display: block;
+  display: none;
 
   h2 {
     margin-top: 0;
@@ -108,6 +108,10 @@ $center-header-text: 3em;
 
 .header-container {
   background: darken($white, 2%);
+  
+  .header {
+    margin-top: 60px;
+  }
 
   h2 {
     color: $blue;
@@ -219,6 +223,10 @@ $center-header-text: 3em;
   padding-bottom: 1em;
   margin-bottom: 1em;
 
+  &:last-child {
+    border-bottom: none;
+  }
+
   .distance, .geo-scope {
   	text-transform: uppercase;
   	text-align: right;
@@ -324,7 +332,7 @@ div#disqus_thread {
 }
 
 #map {
-  height:500px;
+  height:600px;
   background: darken($white, 2%);
 }
 
@@ -346,4 +354,20 @@ p.descript {
 
 .blue {
   color: $blue;
+}
+
+.footer {
+  background: $grey;
+  color: $white;
+  text-transform: uppercase;
+  text-align: center;
+
+  h5 {
+    font-weight: normal;
+  }
+
+  a {
+    color: $green;
+    text-decoration: none;
+  }
 }
