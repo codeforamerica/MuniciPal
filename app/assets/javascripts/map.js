@@ -188,7 +188,7 @@ function updatePageContent(data) {
   $('.results').show();
 
   $('#council-picture').attr({
-    'src': 'http://tomcfa.s3.amazonaws.com/'+district+'.jpg',
+    'src': 'http://tomcfa.s3.amazonaws.com/district'+district+'.jpg',
     'alt': 'Councilmember for District ' + district
   });
   $('#council-member').empty().append(data.district_polygon.name);
