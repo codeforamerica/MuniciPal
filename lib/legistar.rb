@@ -34,7 +34,65 @@ module Legistar
 		'Mesa'
 	end
 
-	# def fetch_collection()
+	# set up logging and Legistar base settings
+  def initialize
+  	@@log = Logger.new(STDOUT)
+    @@fileLog = Logger.new("fetch-legistar.log")
+    @@log.level = Logger::DEBUG
+    @@fileLog.level = Logger::DEBUG
+    @@base_url = 'http://webapi.legistar.com'
+
+		@@connection = Faraday.new(url: @@base_url) do |conn|
+			conn.headers['Accept'] = 'text/json'
+			conn.request :instrumentation
+			conn.response :json
+			conn.adapter Faraday.default_adapter
+	  end
+	end
+
+	# fetches items from an endpoint nested within a nesting_endpoint.
+	# example from Legistar API:
+		# /v1/{client}/Events/{id}/EventItems
+		# endpoint is 'EventItems'
+		# endpoint_filter is nil
+		# endpoint_prefix_to_strip is 'EventItem'
+		# endpoint_class is EventItem
+		# nesting_endpoint is 'Events'
+		# nesting_class is Event
+	def fetch_nested_collection(endpoint,
+															endpoint_filter,
+															endpoint_prefix_to_strip,
+															endpoint_class,
+															nesting_endpoint,
+															nesting_class)
+
+		@@endpoint_class = endpoint_class #EventItem
+		@@prefix_to_strip = endpoint_prefix_to_strip #'EventItem'
+		@@endpoint = endpoint # 'EventItems'
+
+    to_log("fetching from endpoint: #{endpoint} (nesting_endpoint: #{nesting_endpoint}), filter: #{endpoint_filter}, prefix: #{endpoint_prefix_to_strip}, class: #{endpoint_class}")
+
+    # Event.all.each do |event|
+    nesting_class.all.each do |nesting_item|
+      begin
+
+      	# url = "/Events/#{event.source_id}/EventItems"
+			  url_path = "/v1/#{Legistar.city}/#{nesting_endpoint}/#{nesting_item.source_id}/#{endpoint}#{endpoint_filter}"
+	      full_url = @@base_url + url_path
+
+        response = @@connection.get(url_path)
+        raise unless response.status == 200
+
+	      to_objects(response.body, full_url)
+        sleep 1
+
+      rescue => e
+      	bummer(full_url, response.status)
+      end
+    end
+  end
+
+
 
 	# endpoint: which endpoint in the Legistar API to fetch
 	#          example: 'events' for fetching from /v1/#{Legistar.city}/events
@@ -45,63 +103,53 @@ module Legistar
 		@@endpoint = endpoint
 		@@endpoint_class = endpoint_class
 
-		@@log = Logger.new(STDOUT)
-    @@fileLog = Logger.new("fetch-#{endpoint}.log")
-
-    @@log.level = Logger::DEBUG
-    @@fileLog.level = Logger::DEBUG
-    url = nil
-
     to_log("fetching from endpoint: #{endpoint}, filter: #{filter}, prefix: #{prefix_to_strip}, class: #{endpoint_class}")
 
-    connection = Faraday.new(url: 'http://webapi.legistar.com') do |conn|
-      conn.headers['Accept'] = 'text/json'
-      conn.request :instrumentation
-      conn.response :json
-      conn.adapter Faraday.default_adapter
-      url = conn.url_prefix.to_s
-    end
-
     begin
+
       url_path = "/v1/#{Legistar.city}/#{endpoint}#{filter}"
+      @@full_url = @@base_url + url_path
 
-      response = connection.get(url_path)
-      url = url + url_path
-      status = response.status
-
-      raise unless status == 200
+      response = @@connection.get(url_path)
+      raise unless response.status == 200
 
       to_objects(response.body)
       sleep 1
 
     rescue => e
-      msg = "Failed fetching #{url}, status: #{status}"
-      to_log(msg)
-      # @@log.info(msg)
-      @@log.error(e)
-      @@fileLog.error(e)
+    	bummer(full_url, response.status)
     end
 	end
 
 	protected
 
-		def self.to_objects(collection)
-			collection.each do |item|
-			  attrs = rubify_name(item, @@prefix_to_strip)
-			  attrs['source_id'] = attrs.delete('id')
+	# collection: array of items returned from a Legistar collection endpoint
+	# full_url: the url used to fetch those items
+	def self.to_objects(collection, full_url)
+		collection.each do |item|
+		  attrs = rubify_name(item, @@prefix_to_strip)
+		  attrs['source_id'] = attrs.delete('id')
 
-			  pretty_attributes = pp attrs
-			  msg = "Attempting creation of #{@@endpoint} with attrs: #{pretty_attributes}"
-			  @@log.info(msg)
+		  pretty_attributes = pp attrs
+		  msg = "Attempting creation of #{@@endpoint_class.to_s} with attrs: #{pretty_attributes}"
+		  to_log(msg)
 
-			  @@endpoint_class.create(attrs)
-			end
+		  @@endpoint_class.create(attrs)
 		end
+	end
 
-		def self.to_log(msg)
-			@@log.info(msg)
-			@@fileLog.info(msg)
-		end
+	def self.to_log(msg)
+		@@log.info(msg)
+		@@fileLog.info(msg)
+	end
 
+	# helper method to log fetch failure message
+	def self.bummer(url, status)
+	  msg = "Failed fetching #{url}, status: #{status}"
+	  @@log.error(msg)
+	  @@fileLog.error(msg)
+	  @@log.error(e)
+	  @@fileLog.error(e)
+	end
 
 end
