@@ -269,14 +269,3 @@ function updatePageContent(data) {
 =============END OF THE MAGIC=============
 ==========================================
 */
-
-
-$( "#address" ).keyup(function(e) {
-  if (e.keyCode == 13) { // enter pressed
-    $( "#search-btn").click();
-  }
-});
-
-$( "#search-btn" ).click(function(e) {
-    updatePage({'address': $( "#address" ).val()});
-});
