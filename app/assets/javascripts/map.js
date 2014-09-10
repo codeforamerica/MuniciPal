@@ -5,7 +5,7 @@ var prj = 'codeforamerica.hmebo8ll'; // Mapbox map id string
 // g_districts contains district information
 var g_data, g_districts;
 
-/* MAP GLOBAL VARIABLES
+/* MAP GLOBAL VARIABLES AND SETUP
 ===========================
 ===========================*/
 
@@ -88,58 +88,26 @@ function textToGeo(text) {
   });
 }
 
+/* END MAP SECTION
+==========================================
+==========================================
+==========================================
+*/
 
-/* Update the page, given a new lat/lng (ll). */
-function updatePage(ll) {
-  $.ajax({
-    type: 'GET',
-    url: '/',
-    data: ll,
-    dataType: 'json',
-    success: function( data ) {
+/*
+==========================================
+===TEMPLATES FOR COUNCIL ITEMS AND ICONS==
+==========================================
+*/
 
-      g_data = data;
+var legislationTemplate = $('#legislation-template').html();
+Mustache.parse (legislationTemplate);  // optional, speeds up future uses
 
-      history.pushState({}, "", "?address=" + data.address + "&lat=" + data.lat + "&long=" + data.lng);
-      marker.setLatLng(new L.LatLng(data.lat, data.lng));
+var eventTemplate = $('#event-details-template').html();
+Mustache.parse (eventTemplate);  // optional, speeds up future uses
 
-      if (data.in_district) {
-
-        var geoJSON = $.parseJSON(data.district_polygon.st_asgeojson);
-
-        geoJSON.properties = { fill: DISTRICT_FILL };
-        districtLayer.setGeoJSON(geoJSON);
-        districtLayer.setFilter(function() { return true; });
-
-        // HACK. this stuff should go in initializer on page load.
-        // todo : on page load, hit a URL that will return just the districts. 
-        addDistrictsToMap(data.districts);
-
-        updatePageContent(data);
-
-      } else {
-
-        districtLayer.setFilter(function() { return false; });
-        $('.you-live-in').empty().append(
-          'It looks like you\'re outside of Mesa.<br>' +
-          'Maybe you want the <a href="http://www.mesaaz.gov/Council/">council and mayor webpage</a>?'
-        ).addClass("no-district").show();
-        $('.results').hide();
-
-      }
-
-      $( "#address").val(data.address);
-      map.setView([data.lat, data.lng], MAP_START_ZOOM);
-      document.getElementById('answer').scrollIntoView();
-    }
-  })
-}
-
-
-function find_member(district) {
-  return _.find(council, function(member){ return member.district == district });
-}
-
+var attachmentsTemplate = $('#template-attachments').html();
+Mustache.parse (attachmentsTemplate);
 
 var icons = {
   'Contract': 'fa-pencil',
@@ -150,6 +118,24 @@ var icons = {
     return (this[matterType] ? this[matterType] : this['miscellaneous']);
   }
 };
+
+/*
+==========================================
+======END TEMPLATES FOR COUNCIL ITEMS=====
+==========================================
+*/
+
+/*
+==========================================
+====HELPER FUNCTIONS FOR PAGE LOADING=====
+==========================================
+*/
+
+
+function find_member(district) {
+  return _.find(council, function(member){ return member.district == district });
+}
+
 
 /* convert text to paragraphs (newlines -> <p>s) */
 /* modified from http://stackoverflow.com/questions/5020434/jquery-remove-new-line-then-wrap-textnodes-with-p */
@@ -179,6 +165,77 @@ function summarize(text) {
     return p(text);
   }
 }
+
+/*
+==========================================
+==END HELPER FUNCTIONS FOR PAGE LOADING===
+==========================================
+*/
+
+
+/*
+==========================================
+=======ALL THE MAGIC HAPPENS BELOW========
+==========================================
+UPDATEPAGE() IS CALLED ON USER ADDRESS ENTRY
+OR USER MAP MARKER DRAGGING
+
+IT UPDATES THE MAP AND THE COUNCIL ITEMS
+*/
+
+/* Update the page, given a new lat/lng (ll). */
+function updatePage(ll) {
+  $.ajax({
+    type: 'GET',
+    url: '/',
+    data: ll,
+    dataType: 'json',
+    success: function( data ) {
+
+      g_data = data;
+
+      history.pushState({}, "", "?address=" + data.address + "&lat=" + data.lat + "&long=" + data.lng);
+      marker.setLatLng(new L.LatLng(data.lat, data.lng));
+
+      if (data.in_district) {
+
+        var geoJSON = $.parseJSON(data.district_polygon.st_asgeojson);
+
+        geoJSON.properties = { fill: DISTRICT_FILL };
+        districtLayer.setGeoJSON(geoJSON);
+        districtLayer.setFilter(function() { return true; });
+
+        // HACK. this stuff should go in initializer on page load.
+        // todo : on page load, hit a URL that will return just the districts.
+        addDistrictsToMap(data.districts);
+
+        updatePageContent(data);
+
+      } else {
+
+        districtLayer.setFilter(function() { return false; });
+        $('.you-live-in').empty().append(
+          'It looks like you\'re outside of Mesa.<br>' +
+          'Maybe you want the <a href="http://www.mesaaz.gov/Council/">council and mayor webpage</a>?'
+        ).addClass("no-district").show();
+        $('.results').hide();
+
+      }
+
+      $( "#address").val(data.address);
+      map.setView([data.lat, data.lng], MAP_START_ZOOM);
+      document.getElementById('answer').scrollIntoView();
+    }
+  })
+}
+
+/*
+==========================================
+=============END OF THE MAGIC=============
+==========================================
+*/
+
+
 
 
 function updatePageContent(data) {
@@ -318,7 +375,7 @@ function updatePageContent(data) {
         success: function( data ) {
           var view = {
             date: function() {
-              var months = [ "January", "February", "March", "April", "May", "June", 
+              var months = [ "January", "February", "March", "April", "May", "June",
                "July", "August", "September", "October", "November", "December" ],
                 date = data.EventDate.replace(/T.*/, '').split('-'); //YYYY-MM-DDT00:00:00Z -> [yyyy,mm,dd]
 
@@ -374,8 +431,8 @@ function updatePageContent(data) {
 
     DISQUS.reset({
       reload: true,
-      config: function () {  
-        this.page.identifier = matter;  
+      config: function () {
+        this.page.identifier = matter;
         this.page.url = "http://yerhere.herokuapp.com/matters/" + matter;
       }
     });
