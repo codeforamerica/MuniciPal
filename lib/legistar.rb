@@ -34,58 +34,74 @@ module Legistar
 		'Mesa'
 	end
 
+	# def fetch_collection()
 
 	# endpoint: which endpoint in the Legistar API to fetch
 	#          example: 'events' for fetching from /v1/#{Legistar.city}/events
 	# endpoint_class: the Class of thing to create with the data retrieved from API
 	#          example: Event
 	def fetch_collection(endpoint, filter, prefix_to_strip, endpoint_class)
-		log = Logger.new(STDOUT)
-	    fileLog = Logger.new("fetch-#{endpoint}.log")
-	    log.level = fileLog.level = Logger::DEBUG
-	    url = nil
+		@@prefix_to_strip = prefix_to_strip
+		@@endpoint = endpoint
+		@@endpoint_class = endpoint_class
 
-        log.info("fetching from endpoint: #{endpoint}, filter: #{filter}, prefix: #{prefix_to_strip}, class: #{endpoint_class}")
+		@@log = Logger.new(STDOUT)
+    @@fileLog = Logger.new("fetch-#{endpoint}.log")
 
+    @@log.level = Logger::DEBUG
+    @@fileLog.level = Logger::DEBUG
+    url = nil
 
-	    connection = Faraday.new(url: 'http://webapi.legistar.com') do |conn|
-	      conn.headers['Accept'] = 'text/json'
-	      conn.request :instrumentation
-	      conn.response :json
-	      conn.adapter Faraday.default_adapter
-	      url = conn.url_prefix.to_s
-	    end
+    to_log("fetching from endpoint: #{endpoint}, filter: #{filter}, prefix: #{prefix_to_strip}, class: #{endpoint_class}")
 
-	    begin
-	      url_path = "/v1/#{Legistar.city}/#{endpoint}#{filter}"
+    connection = Faraday.new(url: 'http://webapi.legistar.com') do |conn|
+      conn.headers['Accept'] = 'text/json'
+      conn.request :instrumentation
+      conn.response :json
+      conn.adapter Faraday.default_adapter
+      url = conn.url_prefix.to_s
+    end
 
-	      response = connection.get(url_path)
-	      url = url + url_path
-	      status = response.status
+    begin
+      url_path = "/v1/#{Legistar.city}/#{endpoint}#{filter}"
 
-	      raise unless status == 200
+      response = connection.get(url_path)
+      url = url + url_path
+      status = response.status
 
-	      collection = response.body
+      raise unless status == 200
 
-	      collection.each do |item|
-	        attrs = Legistar.rubify_name(item, prefix_to_strip)
-	        attrs['source_id'] = attrs.delete('id')
+      to_objects(response.body)
+      sleep 1
 
-	        pretty_attributes = pp attrs
-	        msg = "Attempting creation of #{endpoint} with attrs: #{pretty_attributes}"
-	        log.info(msg)
-	        fileLog.info(msg)
-
-	        endpoint_class.create(attrs)
-	      end
-
-	      sleep 1
-	    rescue => e
-	      msg = "Failed fetching #{url}, status: #{status}"
-	      log.error(msg)
-	      fileLog.error(msg)
-	      log.error(e)
-	      fileLog.error(e)
-	    end
+    rescue => e
+      msg = "Failed fetching #{url}, status: #{status}"
+      to_log(msg)
+      # @@log.info(msg)
+      @@log.error(e)
+      @@fileLog.error(e)
+    end
 	end
+
+	protected
+
+		def self.to_objects(collection)
+			collection.each do |item|
+			  attrs = rubify_name(item, @@prefix_to_strip)
+			  attrs['source_id'] = attrs.delete('id')
+
+			  pretty_attributes = pp attrs
+			  msg = "Attempting creation of #{@@endpoint} with attrs: #{pretty_attributes}"
+			  @@log.info(msg)
+
+			  @@endpoint_class.create(attrs)
+			end
+		end
+
+		def self.to_log(msg)
+			@@log.info(msg)
+			@@fileLog.info(msg)
+		end
+
+
 end
