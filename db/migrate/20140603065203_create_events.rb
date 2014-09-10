@@ -12,9 +12,10 @@ class CreateEvents < ActiveRecord::Migration
       t.string :time
       t.string :video_status
       t.integer :agenda_status_id
+      t.string :agenda_status_name
       t.integer :minutes_status_id
+      t.string :minutes_status_name
       t.string :location
-
       t.timestamps
     end
   end

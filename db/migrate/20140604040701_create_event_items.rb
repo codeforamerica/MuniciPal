@@ -6,13 +6,12 @@ class CreateEventItems < ActiveRecord::Migration
       t.belongs_to :event
       t.belongs_to :matter
       t.string :guid
-      t.datetime :last_modified
       t.datetime :last_modified_utc
       t.string :row_version
       t.integer :agenda_sequence
       t.integer :minutes_sequence
       t.string :agenda_number
-      t.string :video
+      t.integer :video
       t.integer :video_index
       t.string :version
       t.string :agenda_note
@@ -23,7 +22,7 @@ class CreateEventItems < ActiveRecord::Migration
       t.integer :passed_flag
       t.string :passed_flag_name
       t.integer :roll_call_flag
-      t.string :flag_extra
+      t.integer :flag_extra
       t.text :title
       t.string :tally
       t.integer :consent
@@ -36,6 +35,7 @@ class CreateEventItems < ActiveRecord::Migration
       t.string :matter_name
       t.string :matter_type
       t.string :matter_status
+      t.timestamps
 
       t.timestamps
     end
