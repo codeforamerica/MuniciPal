@@ -3,7 +3,7 @@
 //= require vendor/mustache.js
 //= require councilitems.js
 //= require map.js
-//= require pageupdate.js
+//= require updatepage.js
 //= require processurl.js
 //= require mesa.js
 //= require disqus.js
@@ -13,6 +13,9 @@ $( "#address" ).keyup(function(e) {
     $( "#search-btn").click();
   }
 });
+
+// the updatePage function can be found in
+// updatepage.js
 
 $( "#search-btn" ).click(function(e) {
     updatePage({'address': $( "#address" ).val()});
