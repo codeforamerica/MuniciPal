@@ -515,6 +515,12 @@ function addDistrictsToMap(districts) {
       });
     }
   }).addTo(map);
+
+  // How to add static label at center of polygon (from web example)
+  // label = new L.Label()
+  // label.setContent("static label")
+  // label.setLatLng(polygon.getBounds().getCenter())
+  // map.showLabel(label);
 }
 
 
