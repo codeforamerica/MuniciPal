@@ -3,6 +3,7 @@
 //= require vendor/mustache.js
 //= require councilitems.js
 //= require map.js
+//= require pageupdate.js
 //= require processurl.js
 //= require mesa.js
 //= require disqus.js
