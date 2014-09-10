@@ -1,14 +1,18 @@
-var prj = 'codeforamerica.hmebo8ll'; // Mapbox map id string
-
 // GLOBAL VARIABLES FOR DEBUGGING
 // g_data contains district information and city council items
 // g_districts contains district information
 var g_data, g_districts;
 
-/* MAP GLOBAL VARIABLES AND SETUP
-===========================
-===========================*/
-
+/*
+==========================================
+==========================================
+==========================================
+========START MAP & GEO SECTION===========
+==========================================
+==========================================
+==========================================
+*/
+var prj = 'codeforamerica.hmebo8ll'; // Mapbox map id string
 var MAP_CENTER_LOCATION = [33.4019, -111.78];
 var MAP_MARKER_LOCATION = [33.42, -111.835];
 var MAP_START_ZOOM = 12;
@@ -37,31 +41,28 @@ marker.addTo(map);
 marker.bindPopup("<b>Click and drag me!</b>").openPopup();
 marker.on('dragend', onDragEnd);
 
-var legislationTemplate = $('#legislation-template').html();
-Mustache.parse (legislationTemplate);  // optional, speeds up future uses
-
-var eventTemplate = $('#event-details-template').html();
-Mustache.parse (eventTemplate);  // optional, speeds up future uses
-
-var attachmentsTemplate = $('#template-attachments').html();
-Mustache.parse (attachmentsTemplate);
+/*
+==========================================
+===HELPER FUNCTIONS FOR MAP AND GEO=======
+==========================================
+*/
 
 function onDragEnd() {
     var ll = marker.getLatLng();
     updatePage({'lat': ll.lat, 'long': ll.lng});
 }
 
-/* Expects an object of type tomsline which is what the tom-geocoder service returns. 
-   Puts it on the map. 
+/* Expects an object of type tomsline which is what the tom-geocoder service returns.
+   Puts it on the map.
    */
 function linesToMap(tomsline) {
   /* tomsline should look like:
-  { 
-    text: [ 
+  {
+    text: [
       ["w streetname ave", { geojson }],
-      ["w otherroad rd", { geojson }], 
-      ... 
-    ] 
+      ["w otherroad rd", { geojson }],
+      ...
+    ]
   }
   */
   var districtLines = L.geoJson().addTo(map);
@@ -88,7 +89,103 @@ function textToGeo(text) {
   });
 }
 
-/* END MAP SECTION
+// see http://leafletjs.com/examples/choropleth.html
+function highlightFeature(e) {
+  var layer = e.target;
+
+  layer.setStyle({
+      weight: 3,
+      color: '#2262CC',
+      dashArray: '',
+      opacity: 0.6,
+      fillOpacity: 0.4,
+  });
+
+  if (!L.Browser.ie && !L.Browser.opera) {
+      layer.bringToFront();
+  }
+}
+
+
+function resetHighlight(e) {
+  otherDistrictsLayer.resetStyle(e.target);
+}
+
+
+function jumpToFeature(e) {
+  updatePage({'lat': e.latlng.lat, 'long': e.latlng.lng});
+  console.log("jumping to district ");
+}
+
+
+function addDistrictsToMap(districts) {
+
+  g_districts = otherDistrictsJSON = {
+    type: "FeatureCollection",
+    features: _.map(districts, function(district) {
+      return {
+        type: "Feature",
+        geometry: jQuery.parseJSON(district.geom),
+        properties: {
+          name: district.name,
+          twit_name: district.twit_name,
+          twit_wdgt: district.twit_wdgt,
+        },
+        id: district.id,
+      }
+    }),
+  };
+
+
+  otherDistrictsLayer = L.geoJson(otherDistrictsJSON, {
+    style: function (feature) {
+      return {
+          fillColor: DISTRICT_FILL,
+          weight: 1,
+          opacity: 0.7,
+          fillOpacity: 0.2,
+          color: 'black',
+          dashArray: '3',
+      };
+    },
+    onEachFeature: function (feature, layer) {
+      layer.on({
+          mouseover: highlightFeature,
+          mouseout: resetHighlight,
+          click: jumpToFeature
+      });
+    }
+  }).addTo(map);
+
+  // How to add static label at center of polygon (from web example)
+  // label = new L.Label()
+  // label.setContent("static label")
+  // label.setLatLng(polygon.getBounds().getCenter())
+  // map.showLabel(label);
+}
+
+
+/*
+==========================================
+===END HELPER FUNCTIONS FOR MAP AND GEO===
+==========================================
+*/
+
+/*
+==========================================
+==========================================
+==========================================
+==========END MAP & GEO SECTION===========
+==========================================
+==========================================
+==========================================
+*/
+
+/*
+==========================================
+==========================================
+==========================================
+=======START COUNCIL ITEMS SECTION========
 ==========================================
 ==========================================
 ==========================================
@@ -127,7 +224,7 @@ var icons = {
 
 /*
 ==========================================
-====HELPER FUNCTIONS FOR PAGE LOADING=====
+====HELPER FUNCTIONS FOR COUNCIL ITEMS====
 ==========================================
 */
 
@@ -169,6 +266,16 @@ function summarize(text) {
 /*
 ==========================================
 ==END HELPER FUNCTIONS FOR PAGE LOADING===
+==========================================
+*/
+
+/*
+==========================================
+==========================================
+==========================================
+=======END COUNCIL ITEMS SECTION==========
+==========================================
+==========================================
 ==========================================
 */
 
@@ -228,15 +335,6 @@ function updatePage(ll) {
     }
   })
 }
-
-/*
-==========================================
-=============END OF THE MAGIC=============
-==========================================
-*/
-
-
-
 
 function updatePageContent(data) {
 
@@ -447,81 +545,11 @@ function updatePageContent(data) {
   $('#results-area').show();
 }
 
-
-// see http://leafletjs.com/examples/choropleth.html
-function highlightFeature(e) {
-  var layer = e.target;
-
-  layer.setStyle({
-      weight: 3,
-      color: '#2262CC',
-      dashArray: '',
-      opacity: 0.6,
-      fillOpacity: 0.4,
-  });
-
-  if (!L.Browser.ie && !L.Browser.opera) {
-      layer.bringToFront();
-  }
-}
-
-
-function resetHighlight(e) {
-  otherDistrictsLayer.resetStyle(e.target);
-}
-
-
-function jumpToFeature(e) {
-  updatePage({'lat': e.latlng.lat, 'long': e.latlng.lng});
-  console.log("jumping to district ");
-}
-
-
-function addDistrictsToMap(districts) {
-
-  g_districts = otherDistrictsJSON = {
-    type: "FeatureCollection",
-    features: _.map(districts, function(district) {
-      return {
-        type: "Feature",
-        geometry: jQuery.parseJSON(district.geom),
-        properties: {
-          name: district.name,
-          twit_name: district.twit_name,
-          twit_wdgt: district.twit_wdgt,
-        },
-        id: district.id,
-      }
-    }),
-  };
-
-
-  otherDistrictsLayer = L.geoJson(otherDistrictsJSON, {
-    style: function (feature) {
-      return {
-          fillColor: DISTRICT_FILL,
-          weight: 1,
-          opacity: 0.7,
-          fillOpacity: 0.2,
-          color: 'black',
-          dashArray: '3',
-      };
-    },
-    onEachFeature: function (feature, layer) {
-      layer.on({
-          mouseover: highlightFeature,
-          mouseout: resetHighlight,
-          click: jumpToFeature
-      });
-    }
-  }).addTo(map);
-
-  // How to add static label at center of polygon (from web example)
-  // label = new L.Label()
-  // label.setContent("static label")
-  // label.setLatLng(polygon.getBounds().getCenter())
-  // map.showLabel(label);
-}
+/*
+==========================================
+=============END OF THE MAGIC=============
+==========================================
+*/
 
 
 $( "#address" ).keyup(function(e) {
