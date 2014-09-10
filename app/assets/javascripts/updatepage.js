@@ -1,15 +1,74 @@
 
 /*
-==========================================
-=======ALL THE MAGIC HAPPENS BELOW========
-==========================================
 UPDATEPAGE() IS CALLED ON USER ADDRESS ENTRY
 OR USER MAP MARKER DRAGGING
 
 IT UPDATES THE MAP AND THE COUNCIL ITEMS
 */
 
-/* Update the page, given a new lat/lng (ll). */
+/* Update the page, given a new lat/lng (ll).
+
+This function is called fromt the main landing page.
+It makes a get request to the Addresses controller with:
+  -the user-entered Address, or
+  -a Latitude and Longitude pair
+   (from the map and map.js onDragEnd function)
+
+The Addresses Controller returns the "data" object, an example of which can be found below:
+
+Object {lat: 33.3781823,
+        lng: -111.8430479,
+        address: "455 West Baseline Road, Mesa, AZ 85210, USA",
+        in_district: true,
+        district_polygon: A PostGIS GeoJSON object,
+        districts: Array of PostGIS GeoJSON objects,
+        event_items: Array
+        }
+
+Example of item from event_items Array:
+
+      {"id":8707,
+       "event_id":1915,
+       "EventItemId":33946,
+       "EventItemGuid":"341796E6-ED95-4825-A9DD-3B3A44A9A490",
+       "EventItemLastModified":null,
+       "EventItemLastModifiedUtc":"2014-06-23T16:53:59.923",
+       "EventItemRowVersion":"AAAAAAAv/Lg=",
+       "EventItemEventId":1915,
+       "EventItemAgendaSequence":12,
+       "EventItemMinutesSequence":12,
+       "EventItemAgendaNumber":"3-c",
+       "EventItemVideo":null,
+       "EventItemVideoIndex":null,
+       "EventItemVersion":"1",
+       "EventItemAgendaNote":null,
+       "EventItemMinutesNote":null,
+       "EventItemActionId":null,
+       "EventItemAction":null,
+       "EventItemActionText":null,
+       "EventItemPassedFlag":null,
+       "EventItemPassedFlagText":null,
+       "EventItemRollCallFlag":0,
+       "EventItemFlagExtra":"0",
+       "EventItemTitle":"A restaurant that serves lunch and dinner is requesting a new Restaurant License for The Beer Research Institute, LLC, 1641 South Stapley Drive, Suite 104 - Matthew Trethewey, agent.  There is no existing license at this location. ",
+       "EventItemTally":null,
+       "EventItemConsent":0,
+       "EventItemMoverId":null,
+       "EventItemMover":null,
+       "EventItemSeconderId":null,
+       "EventItemSeconder":null,
+       "EventItemMatterId":7021,
+       "EventItemMatterGuid":"876CCADA-D418-4C14-ABBB-A9AC15014787",
+       "EventItemMatterFile":"14-0727",
+       "EventItemMatterName":"The Beer Research Institute",
+       "EventItemMatterType":"Liquor License",
+       "EventItemMatterStatus":"Agenda Ready",
+       "council_district_id":3,
+       "created_at":"2014-07-17T01:56:21.361Z",
+       "updated_at":"2014-07-17T01:56:21.745Z"
+       }
+        
+*/
 function updatePage(ll) {
   $.ajax({
     type: 'GET',
