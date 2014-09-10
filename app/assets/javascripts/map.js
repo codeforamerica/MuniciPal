@@ -1,18 +1,23 @@
 var prj = 'codeforamerica.hmebo8ll'; // Mapbox map id string
 
-/* settings to change for different places. */
+// GLOBAL VARIABLES FOR DEBUGGING
+// g_data contains district information and city council items
+// g_districts contains district information
+var g_data, g_districts;
+
+/* MAP GLOBAL VARIABLES
+===========================
+===========================*/
+
 var MAP_CENTER_LOCATION = [33.4019, -111.78];
 var MAP_MARKER_LOCATION = [33.42, -111.835];
 var MAP_START_ZOOM = 12;
 var DISTRICT_FILL = 'white';
 
-// globals, for debugging
-var g_data, g_districts;
-
 var map = L.mapbox.map(
-  'map', 
-  prj, 
-  { 
+  'map',
+  prj,
+  {
     center: MAP_CENTER_LOCATION,
     zoom: MAP_START_ZOOM,
     minZoom: 6,
