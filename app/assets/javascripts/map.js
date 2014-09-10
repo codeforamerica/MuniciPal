@@ -34,6 +34,7 @@ var marker = L.marker(MAP_MARKER_LOCATION, {
       draggable: true
       });
 marker.addTo(map);
+marker.bindPopup("<b>Click and drag me!</b>").openPopup();
 marker.on('dragend', onDragEnd);
 
 var legislationTemplate = $('#legislation-template').html();
