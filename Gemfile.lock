@@ -61,6 +61,10 @@ GEM
     factory_girl_rails (4.2.1)
       factory_girl (~> 4.2.0)
       railties (>= 3.0.0)
+    faraday (0.9.0)
+      multipart-post (>= 1.2, < 3)
+    faraday_middleware (0.9.1)
+      faraday (>= 0.7.4, < 0.10)
     fastercsv (1.5.5)
     ffi (1.9.3)
     fittextjs_rails (1.2.0.1)
@@ -83,6 +87,7 @@ GEM
     mini_portile (0.5.3)
     minitest (4.7.5)
     multi_json (1.10.0)
+    multipart-post (2.0.0)
     nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
     pg (0.17.1)
@@ -184,6 +189,8 @@ DEPENDENCIES
   coffee-rails (= 4.0.1)
   debugger
   factory_girl_rails (= 4.2.1)
+  faraday
+  faraday_middleware
   fittextjs_rails
   geokit (= 1.8.4)
   jbuilder (= 1.5.3)
