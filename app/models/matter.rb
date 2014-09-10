@@ -1,4 +1,5 @@
 class Matter < ActiveRecord::Base
-	has_many :event_items
-	has_many :attachments
+  self.primary_key = 'source_id'
+  has_many :event_items
+  has_many :attachments
 end

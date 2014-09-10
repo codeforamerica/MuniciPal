@@ -1,6 +1,7 @@
 class CreateAttachments < ActiveRecord::Migration
   def change
     create_table :attachments do |t|
+      t.integer :source_id
       t.belongs_to :matter
       t.text :guid
       t.datetime :last_modified_utc

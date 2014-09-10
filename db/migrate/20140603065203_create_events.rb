@@ -1,6 +1,7 @@
 class CreateEvents < ActiveRecord::Migration
   def change
     create_table :events do |t|
+      t.integer :source_id
       t.string :guid
       t.string :last_modified
       t.string :last_modified_utc

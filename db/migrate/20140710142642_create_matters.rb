@@ -1,7 +1,7 @@
 class CreateMatters < ActiveRecord::Migration
   def change
     create_table :matters do |t|
-      t.integer :MatterId
+      t.integer :source_id
       t.integer :guid
       t.datetime :last_modified_utc
       t.string :row_version

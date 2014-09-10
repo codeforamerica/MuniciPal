@@ -1,10 +1,10 @@
 class CreateEventItems < ActiveRecord::Migration
   def change
     create_table :event_items do |t|
+      t.integer :source_id
       t.belongs_to :council_district
       t.belongs_to :event
       t.belongs_to :matter
-      t.integer :source_id
       t.string :guid
       t.datetime :last_modified
       t.datetime :last_modified_utc
