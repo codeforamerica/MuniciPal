@@ -4,11 +4,8 @@ UPDATEPAGE() IS CALLED ON USER ADDRESS ENTRY
 OR USER MAP MARKER DRAGGING
 
 IT UPDATES THE MAP AND THE COUNCIL ITEMS
-*/
 
-/* Update the page, given a new lat/lng (ll).
-
-This function is called fromt the main landing page.
+This function is called from the main landing page through a JQuery function in addresses.js
 It makes a get request to the Addresses controller with:
   -the user-entered Address, or
   -a Latitude and Longitude pair
@@ -113,6 +110,12 @@ function updatePage(ll) {
     }
   })
 }
+
+
+/*
+This function fills out a bunch of mustache templates from the data above and AJAX
+requests to the legistar REST API. 
+ */
 
 function updatePageContent(data) {
 
