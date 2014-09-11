@@ -18,16 +18,22 @@ module Legistar
 	#        removed before converting the rest of the name to snake_case
 	# Example:
 	# camel = { 'CamelFirstName' => 'Ed', 'CamelLastName' => 'Jones' }
-	# rubify_name(camel, 'Camel')
+	# rubify_object(camel, 'Camel')
 	# => {"first_name"=>"Ed", "last_name"=>"Jones"}
 	#
-	def rubify_name(camelcase_object, prefix_to_strip)
+	def rubify_object(camelcase_object, prefix_to_strip)
 	  attrs = camelcase_object.reduce({}){ |result, (k,v)|
-	            result[k.sub(prefix_to_strip, '').underscore] = v
-	            # result[k.underscore.sub(prefix_to_strip, '')] = v
+	            result[rubify_name(k, prefix_to_strip)] = v
+              # k.sub(prefix_to_strip, '').underscore
 	            result
 	          }
 	end
+
+  # Convert prefixed PascalCase to snake_case, sans prefix
+  # ex: rubyify_name('PrefixedFieldName', 'Prefixed') => 'field_name'
+  def rubify_name(camelcase_name, prefix_to_strip)
+    camelcase_name.sub(prefix_to_strip, '').underscore
+  end
 
 	# hack. This should go in a config file. TODO.
 	def city
@@ -49,6 +55,70 @@ module Legistar
 			conn.adapter Faraday.default_adapter
 	  end
 	end
+
+  # given the URL of one of the Legistar documentation pages,
+  # return the documented structure of the endpoint in a format
+  # that is compatible with the Rails model creation migrations.
+  def fetch_structure(url, endpoint_prefix_to_strip)
+    connection = Faraday.new(:url => "https://api.import.io") do |conn|
+      conn.request  :url_encoded             # form-encode POST params
+      conn.response :logger                  # log requests to STDOUT
+      conn.adapter  Faraday.default_adapter  # make requests with Net::HTTP
+    end
+
+    which_api = '4c1ec1ba-762d-421d-9da0-a399be0919d0'
+    query_params = { _apikey: 'c/XK9NG0FdIXYH7VxUSqWPhXa9oJZN0NLuuGic7duphtqaesQJHzL/V4Z73vuSpIaPGa8z4it1O+jwoFxT2scQ==',
+                     _user: 'c4296b63-fe04-499c-b437-11f00cb2a721' }.to_query
+    query_url = "/store/data/#{which_api}/_query?#{query_params}"
+
+    begin
+      # post payload as JSON
+      body = '{ "input": { "webpage/url": "' + url + '"}}'
+      response = connection.post do |req|
+        req.url query_url
+        req.headers['Content-Type'] = 'application/json'
+        req.body = body
+      end
+      raise unless response.status == 200
+      puts response.body
+      structure = ActiveSupport::JSON.decode(response.body)
+      to_migration(structure, endpoint_prefix_to_strip)
+    rescue => e
+      bummer("query_url: #{url}, body: #{body}", response.status, e)
+    end
+  end
+
+  # Take the structure described in the Legistar API and
+  # output it in a format useful for a migration file.
+  def to_migration(structure, prefix_to_strip)
+    pp structure
+    # structure.results is an array of objects with 'name' and
+    # 'type' fields. Note that the name will be in PascalCase,
+    # not snake_case. It will also have the RestEndpointName
+    # prepended to each.
+    # We need to convert that into lines like:
+    # t.integer :source_id
+    # debugger
+    structure['results'].each do |field|
+      puts 't.' + rubify_type(field['type']) + ' :' + rubify_name(field['name'], prefix_to_strip)
+    end
+  end
+
+  # convert types from Legistar documentation to ruby appropriate types
+  def rubify_type(type)
+    case type
+    when 'Collection of byte' then 'string'
+    when 'date' then 'datetime'
+    else type
+    end
+  end
+
+  # find any string that this and that share as a prefix
+  # ex: find_common_prefix('foobar', 'foobaz') => 'fooba'
+  # def find_common_prefix(this, that)
+  # end
+
+
 
 	# fetches items from an endpoint nested within a nesting_endpoint.
 	# example from Legistar API:
@@ -83,11 +153,11 @@ module Legistar
         response = @@connection.get(url_path)
         raise unless response.status == 200
 
-	      to_objects(response.body, full_url)
+	      to_objects(response.body)
         sleep 1
 
       rescue => e
-      	bummer(full_url, response.status)
+      	bummer(full_url, response.status, e)
       end
     end
   end
@@ -96,7 +166,7 @@ module Legistar
 
 	# endpoint: which endpoint in the Legistar API to fetch
 	#          example: 'events' for fetching from /v1/#{Legistar.city}/events
-	# endpoint_class: the Class of thing to create with the data retrieved from API
+	# endpoint_class: the Class of structure to create with the data retrieved from API
 	#          example: Event
 	def fetch_collection(endpoint, filter, prefix_to_strip, endpoint_class)
 		@@prefix_to_strip = prefix_to_strip
@@ -108,7 +178,7 @@ module Legistar
     begin
 
       url_path = "/v1/#{Legistar.city}/#{endpoint}#{filter}"
-      @@full_url = @@base_url + url_path
+      full_url = @@base_url + url_path
 
       response = @@connection.get(url_path)
       raise unless response.status == 200
@@ -117,17 +187,16 @@ module Legistar
       sleep 1
 
     rescue => e
-    	bummer(full_url, response.status)
+    	bummer(full_url, response.status, e)
     end
 	end
 
 	protected
 
 	# collection: array of items returned from a Legistar collection endpoint
-	# full_url: the url used to fetch those items
-	def self.to_objects(collection, full_url)
+	def self.to_objects(collection)
 		collection.each do |item|
-		  attrs = rubify_name(item, @@prefix_to_strip)
+		  attrs = rubify_object(item, @@prefix_to_strip)
 		  attrs['source_id'] = attrs.delete('id')
 
 		  pretty_attributes = pp attrs
@@ -144,7 +213,7 @@ module Legistar
 	end
 
 	# helper method to log fetch failure message
-	def self.bummer(url, status)
+	def self.bummer(url, status, e)
 	  msg = "Failed fetching #{url}, status: #{status}"
 	  @@log.error(msg)
 	  @@fileLog.error(msg)

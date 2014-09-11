@@ -4,54 +4,16 @@ require "uri"
 namespace :legistar_matters do
   desc "Load Legistar matters into database from REST API"
   task :load => :environment do
-    client = "mesa"
+    # DEBUG: filter items returned for quicker development cycles
+    filter = "?$filter=MatterIntroDate+ge+datetime'2014-09-05'+and+MatterIntroDate+lt+datetime'2014-10-01'"
+    Legistar.initialize()
+    Legistar.fetch_collection('Matters', filter, 'Matter', Matter)
+  end
 
-    url = "http://webapi.legistar.com/v1/" + client + "/Matters/"
-    uri = URI.parse(url)
-
-    http = Net::HTTP.new(uri.host, uri.port)
-    request = Net::HTTP::Get.new(uri.request_uri)
-
-    response = http.request(request)
-
-    if response.code == "200"
-      result = JSON.parse(response.body)
-      result.each do |record|
-        puts record
-        Matter.create(
-          :id                => record["MatterId"],
-          :guid              => record["Guid"],
-          :last_modified_utc => record["MatterLastModifiedUtc"],
-          :row_version       => record["MatterRowVersion"],
-          :file              => record["MatterFile"],
-          :name              => record["MatterName"],
-          :title             => record["MatterTitle"],
-          :type_id           => record["MatterTypeId"],
-          :type_name         => record["MatterTypeName"],
-          :status_id         => record["MatterStatusId"],
-          :status_name       => record["MatterStatusName"],
-          :body_id           => record["MatterBodyId"],
-          :body_name         => record["MatterBodyName"],
-          :intro_date        => record["MatterIntroDate"],
-          :agenda_date       => record["MatterAgendaDate"],
-          :passed_date       => record["MatterPassedDate"],
-          :enactment_date    => record["MatterEnactmentDate"],
-          :enactment_number  => record["MatterEnactmentNumber"],
-          :requester         => record["MatterRequester"],
-          :notes             => record["MatterNotes"],
-          :version           => record["MatterVersion"],
-          :text1             => record["MatterText1"],
-          :text2             => record["MatterText2"],
-          :text3             => record["MatterText3"],
-          :text4             => record["MatterText4"],
-          :text5             => record["MatterText5"],
-          :date1             => record["MatterDate1"],
-          :date2             => record["MatterDate2"])
-      end
-    else
-      puts "ERROR fetching URL " + url + ", response code: " + response.code
-    end
-
+  desc "Display structure of REST endpoint"
+  task :structure => :environment do
+    Legistar.initialize()
+    Legistar.fetch_structure('http://webapi.legistar.com/Help/Api/GET-v1-Client-Matters', 'Matter')
   end
 
   desc "Load Legistar matters into database from SQL file"
