@@ -24,7 +24,6 @@ module Legistar
 	def rubify_object(camelcase_object, prefix_to_strip)
 	  attrs = camelcase_object.reduce({}){ |result, (k,v)|
 	            result[rubify_name(k, prefix_to_strip)] = v
-              # k.sub(prefix_to_strip, '').underscore
 	            result
 	          }
 	end
@@ -96,9 +95,7 @@ module Legistar
     # 'type' fields. Note that the name will be in PascalCase,
     # not snake_case. It will also have the RestEndpointName
     # prepended to each.
-    # We need to convert that into lines like:
-    # t.integer :source_id
-    # debugger
+    # We need to convert that into lines like: t.integer :source_id
     structure['results'].each do |field|
       puts 't.' + rubify_type(field['type']) + ' :' + rubify_name(field['name'], prefix_to_strip)
     end
@@ -112,13 +109,6 @@ module Legistar
     else type
     end
   end
-
-  # find any string that this and that share as a prefix
-  # ex: find_common_prefix('foobar', 'foobaz') => 'fooba'
-  # def find_common_prefix(this, that)
-  # end
-
-
 
 	# fetches items from an endpoint nested within a nesting_endpoint.
 	# example from Legistar API:
