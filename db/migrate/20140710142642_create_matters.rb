@@ -2,7 +2,7 @@ class CreateMatters < ActiveRecord::Migration
   def change
     create_table :matters do |t|
       t.integer :source_id
-      t.integer :guid
+      t.string :guid
       t.datetime :last_modified_utc
       t.string :row_version
       t.string :file
@@ -18,7 +18,7 @@ class CreateMatters < ActiveRecord::Migration
       t.datetime :agenda_date
       t.datetime :passed_date
       t.datetime :enactment_date
-      t.integer :enactment_number
+      t.string :enactment_number
       t.string :requester
       t.text :notes
       t.string :version
@@ -29,7 +29,26 @@ class CreateMatters < ActiveRecord::Migration
       t.text :text5
       t.datetime :date1
       t.datetime :date2
-
+      t.text :ex_text1
+      t.text :ex_text2
+      t.text :ex_text3
+      t.text :ex_text4
+      t.text :ex_text5
+      t.text :ex_text6
+      t.text :ex_text7
+      t.text :ex_text8
+      t.text :ex_text9
+      t.text :ex_text10
+      t.datetime :ex_date1
+      t.datetime :ex_date2
+      t.datetime :ex_date3
+      t.datetime :ex_date4
+      t.datetime :ex_date5
+      t.datetime :ex_date6
+      t.datetime :ex_date7
+      t.datetime :ex_date8
+      t.datetime :ex_date9
+      t.datetime :ex_date10
       t.timestamps
     end
   end
