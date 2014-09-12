@@ -1,4 +1,4 @@
-require 'Legistar'
+require 'legistar'
 
 namespace :legistar_event_items do
   desc "Load Legistar event items into database"
