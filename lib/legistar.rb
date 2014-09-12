@@ -42,7 +42,7 @@ module Legistar
 	# set up logging and Legistar base settings
   def initialize
   	@@log = Logger.new(STDOUT)
-    @@fileLog = Logger.new("fetch-legistar.log")
+    @@fileLog = Logger.new("log/fetch-legistar.log")
     @@log.level = Logger::DEBUG
     @@fileLog.level = Logger::DEBUG
     @@base_url = 'http://webapi.legistar.com'
@@ -59,7 +59,7 @@ module Legistar
   # return the documented structure of the endpoint in a format
   # that is compatible with the Rails model creation migrations.
   def fetch_structure(url, endpoint_prefix_to_strip)
-    log = Logger.new('faraday.log')
+    log = Logger.new('log/faraday.log')
     connection = Faraday.new(:url => "https://api.import.io") do |conn|
       conn.request  :url_encoded             # form-encode POST params
       # conn.response :logger                  # log requests to STDOUT
