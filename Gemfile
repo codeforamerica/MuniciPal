@@ -60,6 +60,12 @@ gem 'geokit', '1.8.4'
 # Fittext JS plugin
 gem 'fittextjs_rails'
 
+#from Legistar.rb module
+gem 'faraday'
+gem 'faraday_middleware'
+gem 'logger'
+gem 'prettyprint'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 
