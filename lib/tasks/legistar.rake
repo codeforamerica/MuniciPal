@@ -1,4 +1,4 @@
-require 'Legistar'
+require 'legistar'
 
 namespace :legistar do
   desc "Wipe our database, then rebuild it by recopying content via Legistar API"
