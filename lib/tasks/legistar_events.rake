@@ -16,8 +16,12 @@ namespace :legistar_events do
 
   desc "Load Legistar events into database from SQL file"
   task :load_sql do
+    config   = Rails.configuration.database_configuration
+    database = config[Rails.env]["database"]
+    # username = config[Rails.env]["username"]
+    # password = config[Rails.env]["password"]
     source = "#{Rails.root}/lib/assets/Mesa/legistar_import.sql"
-    sh "psql zone_development < #{Shellwords.escape(source)}" # hack -- need to get db, user, pw from env
+    sh "psql #{database} < #{Shellwords.escape(source)}"
   end
 
   desc "Empty legistar events table"
