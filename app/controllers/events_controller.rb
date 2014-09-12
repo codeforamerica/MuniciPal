@@ -10,6 +10,17 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
+    @event = Event.find(params[:id])
+
+    # ^^^^ + show.json.jbuilder + builder.key_format camelize: :lower in environment.rb  will
+    # convert ruby's model_properties into json's modelProperties.
+    # Verify by viewing http://localhost:3000/events/1926.json and seeing camelcase, not snakecase.
+    # and it replaces the code below:
+
+    # respond_to do |format|
+    #   format.html
+    #   format.json { render :json => @event }
+    # end
   end
 
   # GET /events/new
@@ -69,6 +80,18 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.require(:event).permit(:EventId, :EventGuid, :EventLastModified, :EventLastModifiedUtc, :EventRowVersion, :EventBodyId, :EventBodyName, :EventDate, :EventTime, :EventVideoStatus, :EventAgendaStatusId, :EventMinutesStatusId, :EventLocation)
+      params.require(:event).permit(:id,
+                                    :guid,
+                                    :last_modified,
+                                    :last_modified_utc,
+                                    :row_version,
+                                    :body_id,
+                                    :body_name,
+                                    :date,
+                                    :time,
+                                    :video_status,
+                                    :agenda_status_id,
+                                    :minutes_status_id,
+                                    :location)
     end
 end

@@ -4,18 +4,19 @@ namespace :legistar_events_update do
 
     url = "http://webapi.legistar.com/v1/mesa/events/"
     uri = URI.parse(url)
-     
+
     http = Net::HTTP.new(uri.host, uri.port)
     request = Net::HTTP::Get.new(uri.request_uri)
-     
+
     response = http.request(request)
 
     if response.code == "200"
       result = JSON.parse(response.body)
       result.reverse.each{|record|
-        puts record
-        break if record["EventId"] == Event.order(:EventId).last.EventId
-        event = Event.create(:EventId => record["EventId"], 
+        puts record["EventLastModifiedUtc"]
+        puts Time.parse(record["EventLastModifiedUtc"]).getutc
+        break if Time.parse(record["EventLastModifiedUtc"]).getutc < Event.order(:EventLastModifiedUtc).last.EventLastModifiedUtc
+        Event.find_or_create_by_EventId(record["EventId"],
                                     :EventGuid => record["EventGuid"],
                                     :EventLastModified => record["EventLastModified"],
                                     :EventLastModifiedUtc => record["EventLastModifiedUtc"],
@@ -33,12 +34,6 @@ namespace :legistar_events_update do
     else
       puts "ERROR!!!"
     end
-  end
-
-
-desc "Empty legistar events table"  
-  task :drop => :environment  do |t, args|
-    Event.destroy_all
   end
 
 end

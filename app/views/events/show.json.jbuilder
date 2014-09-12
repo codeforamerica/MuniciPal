@@ -1,1 +1,1 @@
-json.extract! @event, :id, :EventId, :EventGuid, :EventLastModified, :EventLastModifiedUtc, :EventRowVersion, :EventBodyId, :EventBodyName, :EventDate, :EventTime, :EventVideoStatus, :EventAgendaStatusId, :EventMinutesStatusId, :EventLocation, :created_at, :updated_at
+json.extract! @event, :id,  :guid,  :last_modified,  :last_modified_utc,  :row_version,  :body_id,  :body_name,  :date,  :time,  :video_status,  :agenda_status_id,  :minutes_status_id,  :location,  :created_at,  :updated_at

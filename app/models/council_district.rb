@@ -1,6 +1,4 @@
 class CouncilDistrict < ActiveRecord::Base
-  self.primary_key = 'id'
-  # self.table_name = 'council_districts'
   has_many :event_items
 
   COORD_SYS_REF = 4326;   # The coordinate system that will be used as the reference and is now Latitude and Longitude Coord System

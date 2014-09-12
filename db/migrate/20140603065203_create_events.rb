@@ -1,20 +1,21 @@
 class CreateEvents < ActiveRecord::Migration
   def change
     create_table :events do |t|
-      t.integer :EventId
-      t.string :EventGuid
-      t.string :EventLastModified
-      t.string :EventLastModifiedUtc
-      t.string :EventRowVersion
-      t.integer :EventBodyId
-      t.string :EventBodyName
-      t.string :EventDate
-      t.string :EventTime
-      t.string :EventVideoStatus
-      t.integer :EventAgendaStatusId
-      t.integer :EventMinutesStatusId
-      t.string :EventLocation
-
+      t.integer :source_id
+      t.string :guid
+      t.string :last_modified
+      t.string :last_modified_utc
+      t.string :row_version
+      t.integer :body_id
+      t.string :body_name
+      t.datetime :date
+      t.string :time
+      t.string :video_status
+      t.integer :agenda_status_id
+      t.string :agenda_status_name
+      t.integer :minutes_status_id
+      t.string :minutes_status_name
+      t.string :location
       t.timestamps
     end
   end

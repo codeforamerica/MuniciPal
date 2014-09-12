@@ -3,19 +3,19 @@
 <table>
   <thead>
     <tr>
-      <th>Eventid</th>
-      <th>Eventguid</th>
-      <th>Eventlastmodified</th>
-      <th>Eventlastmodifiedutc</th>
-      <th>Eventrowversion</th>
-      <th>Eventbodyid</th>
-      <th>Eventbodyname</th>
-      <th>Eventdate</th>
-      <th>Eventtime</th>
-      <th>Eventvideostatus</th>
-      <th>Eventagendastatusid</th>
-      <th>Eventminutesstatusid</th>
-      <th>Eventlocation</th>
+      <th>id</th>
+      <th>guid</th>
+      <th>last_modified</th>
+      <th>last_modifiedutc</th>
+      <th>row_version</th>
+      <th>body_id</th>
+      <th>body_name</th>
+      <th>date</th>
+      <th>time</th>
+      <th>video_status</th>
+      <th>agenda_status_id</th>
+      <th>minutes_status_id</th>
+      <th>location</th>
       <th></th>
       <th></th>
       <th></th>
@@ -25,19 +25,19 @@
   <tbody>
     <% @events.each do |event| %>
       <tr>
-        <td><%= event.EventId %></td>
-        <td><%= event.EventGuid %></td>
-        <td><%= event.EventLastModified %></td>
-        <td><%= event.EventLastModifiedUtc %></td>
-        <td><%= event.EventRowVersion %></td>
-        <td><%= event.EventBodyId %></td>
-        <td><%= event.EventBodyName %></td>
-        <td><%= event.EventDate %></td>
-        <td><%= event.EventTime %></td>
-        <td><%= event.EventVideoStatus %></td>
-        <td><%= event.EventAgendaStatusId %></td>
-        <td><%= event.EventMinutesStatusId %></td>
-        <td><%= event.EventLocation %></td>
+        <td><%= event.id %></td>
+        <td><%= event.guid %></td>
+        <td><%= event.last_modified %></td>
+        <td><%= event.last_modified_utc %></td>
+        <td><%= event.row_version %></td>
+        <td><%= event.body_id %></td>
+        <td><%= event.body_name %></td>
+        <td><%= event.date %></td>
+        <td><%= event.time %></td>
+        <td><%= event.video_status %></td>
+        <td><%= event.agenda_status_id %></td>
+        <td><%= event.minutes_status_id %></td>
+        <td><%= event.location %></td>
         <td><%= link_to 'Show', event %></td>
         <td><%= link_to 'Edit', edit_event_path(event) %></td>
         <td><%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' } %></td>

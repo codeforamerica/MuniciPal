@@ -1,39 +1,17 @@
 require 'rgeo/shapefile'
 require 'shellwords'
 
+require 'Legistar'
+
 namespace :legistar_events do
   desc "Load Legistar events into database from JSON file"
   task :load => :environment do
 
-    url = "http://webapi.legistar.com/v1/mesa/events/"
-    uri = URI.parse(url)
-     
-    http = Net::HTTP.new(uri.host, uri.port)
-    request = Net::HTTP::Get.new(uri.request_uri)
-     
-    response = http.request(request)
+    # HACK. For testing, we're limiting the date range of events returned.
+    filter = "?$filter=EventDate+ge+datetime'2014-09-01'+and+EventDate+lt+datetime'2014-10-01'"
+    Legistar.initialize()
+    Legistar.fetch_collection('events', filter, 'Event', Event)
 
-    if response.code == "200"
-      result = JSON.parse(response.body)
-      result.each{|record|
-        Event.create(:EventId => record["EventId"],
-                                    :EventGuid => record["EventGuid"],
-                                    :EventLastModified => record["EventLastModified"],
-                                    :EventLastModifiedUtc => record["EventLastModifiedUtc"],
-                                    :EventRowVersion => record["EventRowVersion"],
-                                    :EventBodyId => record["EventBodyId"],
-                                    :EventBodyName => record["EventBodyName"],
-                                    :EventDate => record["EventDate"],
-                                    :EventTime => record["EventTime"],
-                                    :EventVideoStatus => record["EventVideoStatus"],
-                                    :EventAgendaStatusId => record["EventAgendaStatusId"],
-                                    :EventMinutesStatusId => record["EventMinutesStatusId"],
-                                    :EventLocation => record["EventLocation"])
-      }
-
-    else
-      puts "ERROR!!!"
-    end
   end
 
   desc "Load Legistar events into database from SQL file"
@@ -42,7 +20,7 @@ namespace :legistar_events do
     sh "psql zone_development < #{Shellwords.escape(source)}" # hack -- need to get db, user, pw from env
   end
 
-desc "Empty legistar events table"  
+  desc "Empty legistar events table"
   task :drop => :environment  do |t, args|
     Event.destroy_all
   end

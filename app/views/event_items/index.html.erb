@@ -3,42 +3,42 @@
 <table>
   <thead>
     <tr>
-      <th>District ID</th>
-      <th>Event</th>
-<!--       <th>Eventitemid</th>
-      <th>Eventitemguid</th>
-      <th>Eventitemlastmodified</th>
-      <th>Eventitemlastmodifiedutc</th>
-      <th>Eventitemrowversion</th>
-      <th>Eventitemeventid</th>
-      <th>Eventitemagendasequence</th>
-      <th>Eventitemminutessequence</th>
-      <th>Eventitemagendanumber</th>
-      <th>Eventitemvideo</th>
-      <th>Eventitemvideoindex</th>
-      <th>Eventitemversion</th>
-      <th>Eventitemagendanote</th>
-      <th>Eventitemminutesnote</th>
-      <th>Eventitemactionid</th>
-      <th>Eventitemaction</th>
-      <th>Eventitemactiontext</th>
-      <th>Eventitempassedflag</th>
-      <th>Eventitempassedflagtext</th>
-      <th>Eventitemrollcallflag</th>
-      <th>Eventitemflagextra</th> -->
-      <th>Eventitemtitle</th>
-<!--       <th>Eventitemtally</th>
-      <th>Eventitemconsent</th> -->
-<!--       <th>Eventitemmoverid</th> -->
-      <th>Eventitemmover</th>
-<!--       <th>Eventitemseconderid</th> -->
-      <th>Eventitemseconder</th>
-<!--       <th>Eventitemmatterid</th>
-      <th>Eventitemmatterguid</th>
-      <th>Eventitemmatterfile</th> -->
-      <th>Eventitemmattername</th>
-      <th>Eventitemmattertype</th>
-      <th>Eventitemmatterstatus</th>
+      <th>district id</th>
+      <th>title</th>
+      <th>mover</th>
+      <th>seconder</th>
+      <th>matter name</th>
+      <th>matter type</th>
+      <th>matter status</th>
+<!--
+      <th>id</th>
+      <th>guid</th>
+      <th>last_modified</th>
+      <th>last_modified_utc</th>
+      <th>row_version</th>
+      <th>event_id</th>
+      <th>agenda_sequence</th>
+      <th>minutes_sequence</th>
+      <th>agenda_number</th>
+      <th>video</th>
+      <th>video_index</th>
+      <th>version</th>
+      <th>agenda_note</th>
+      <th>minutes_note</th>
+      <th>action_id</th>
+      <th>action</th>
+      <th>action_text</th>
+      <th>passed_flag</th>
+      <th>passed_flag_text</th>
+      <th>rollcall_flag</th>
+      <th>flag_extra</th>
+      <th>tally</th>
+      <th>consent</th>
+      <th>mover_id</th>
+      <th>seconder_id</th>
+      <th>matter_id</th>
+      <th>matter_guid</th>
+      <th>matter_file</th> -->
       <th></th>
       <th></th>
       <th></th>
@@ -49,44 +49,44 @@
     <% @event_items.each do |event_item| %>
       <tr>
         <td><%= event_item.council_district_id %></td>
- <!--        <td><%= event_item.event_id %></td>
-        <td><%= event_item.EventItemId %></td>
-        <td><%= event_item.EventItemGuid %></td>
-        <td><%= event_item.EventItemLastModified %></td>
-        <td><%= event_item.EventItemLastModifiedUtc %></td>
-        <td><%= event_item.EventItemRowVersion %></td>
-        <td><%= event_item.EventItemEventId %></td>
-        <td><%= event_item.EventItemAgendaSequence %></td>
-        <td><%= event_item.EventItemMinutesSequence %></td>
-        <td><%= event_item.EventItemAgendaNumber %></td>
-        <td><%= event_item.EventItemVideo %></td>
-        <td><%= event_item.EventItemVideoIndex %></td>
-        <td><%= event_item.EventItemVersion %></td>
-        <td><%= event_item.EventItemAgendaNote %></td>
-        <td><%= event_item.EventItemMinutesNote %></td>
-        <td><%= event_item.EventItemActionId %></td>
-        <td><%= event_item.EventItemAction %></td>
-        <td><%= event_item.EventItemActionText %></td>
-        <td><%= event_item.EventItemPassedFlag %></td>
-        <td><%= event_item.EventItemPassedFlagText %></td>
-        <td><%= event_item.EventItemRollCallFlag %></td>
-        <td><%= event_item.EventItemFlagExtra %></td> -->
-        <td><%= event_item.EventItemTitle %></td>
-<!--    <td><%= event_item.EventItemTally %></td>
-        <td><%= event_item.EventItemConsent %></td>
-        <td><%= event_item.EventItemMoverId %></td> -->
-        <td><%= event_item.EventItemMover %></td>
-        <!-- <td><%= event_item.EventItemSeconderId %></td> -->
-        <td><%= event_item.EventItemSeconder %></td>
-        <!-- <td><%= event_item.EventItemMatterId %></td> -->
-        <!-- <td><%= event_item.EventItemMatterGuid %></td> -->
-        <!-- <td><%= event_item.EventItemMatterFile %></td> -->
-        <td><%= event_item.EventItemMatterName %></td>
-        <td><%= event_item.EventItemMatterType %></td>
-        <td><%= event_item.EventItemMatterStatus %></td>
+        <td><%= event_item.title %></td>
+        <td><%= event_item.mover %></td>
+        <td><%= event_item.seconder %></td>
+        <td><%= event_item.matter_name %></td>
+        <td><%= event_item.matter_type %></td>
+        <td><%= event_item.matter_status %></td>
         <td><%= link_to 'Show', event_item %></td>
         <td><%= link_to 'Edit', edit_event_item_path(event_item) %></td>
         <td><%= link_to 'Destroy', event_item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+<!--    <td><%= event_item.event_id %></td>
+        <td><%= event_item.id %></td>
+        <td><%= event_item.guid %></td>
+        <td><%= event_item.last_modified %></td>
+        <td><%= event_item.last_modified_utc %></td>
+        <td><%= event_item.row_version %></td>
+        <td><%= event_item.event_id %></td>
+        <td><%= event_item.agenda_sequence %></td>
+        <td><%= event_item.minutes_sequence %></td>
+        <td><%= event_item.agenda_number %></td>
+        <td><%= event_item.video %></td>
+        <td><%= event_item.video_index %></td>
+        <td><%= event_item.version %></td>
+        <td><%= event_item.agenda_note %></td>
+        <td><%= event_item.minutes_note %></td>
+        <td><%= event_item.action_id %></td>
+        <td><%= event_item.action %></td>
+        <td><%= event_item.action_text %></td>
+        <td><%= event_item.passed_flag %></td>
+        <td><%= event_item.passed_flag_text %></td>
+        <td><%= event_item.roll_call_flag %></td>
+        <td><%= event_item.flag_extra %></td>
+        <td><%= event_item.tally %></td>
+        <td><%= event_item.consent %></td>
+        <td><%= event_item.mover_id %></td>
+        <td><%= event_item.seconder_id %></td>
+        <td><%= event_item.matter_id %></td>
+        <td><%= event_item.matter_guid %></td>
+        <td><%= event_item.matter_file %></td> -->
       </tr>
     <% end %>
   </tbody>
