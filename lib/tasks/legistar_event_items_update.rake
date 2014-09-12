@@ -4,6 +4,7 @@ require 'json'
 
 def update_event_items(event_id)
 	sleep(5)
+	puts "getting event items for event " + event_id.to_s
 	uri = URI("http://webapi.legistar.com/v1/mesa/events/"+ event_id.to_s + "/eventitems")
 	#params = { <query_hash> }
 	headers = { 'ACCEPT'  => 'text/json' }
@@ -41,6 +42,7 @@ namespace :legistar_event_items_update do
 	Event.where("\"EventId\" > ?", eventid).each {|event|
 		response = update_event_items(event.EventId)
 		json_data = JSON.parse(response)
+		puts json_data
 		json_data.each {|record|
 			EventItem.find_or_create_by_event_id(event.EventId,
 				:EventItemId => record["EventItemId"],
@@ -78,6 +80,7 @@ namespace :legistar_event_items_update do
 				:EventItemMatterType => record["EventItemMatterType"],
 				:EventItemMatterStatus => record["EventItemMatterStatus"],
 			)
+		puts "added record for " + record ["EventItemTitle"]
 		}
 		EventItem.where("event_id > ?", eventid).each { |eventitem|
 			get_license_addr(eventitem)

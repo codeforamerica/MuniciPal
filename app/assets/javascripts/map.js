@@ -1,22 +1,32 @@
-var prj = 'codeforamerica.hmebo8ll'; // Mapbox map id string
+// GLOBAL VARIABLES FOR DEBUGGING
+// g_data contains district information and city council items
+// g_districts contains district information
+var g_data, g_districts;
 
-/* settings to change for different places. */
-var MAP_CENTER_LOCATION = [33.4019, -111.717];
+/*
+==========================================
+==========================================
+==========================================
+========START MAP & GEO SECTION===========
+==========================================
+==========================================
+==========================================
+*/
+var prj = 'codeforamerica.hmebo8ll'; // Mapbox map id string
+var MAP_CENTER_LOCATION = [33.4019, -111.78];
 var MAP_MARKER_LOCATION = [33.42, -111.835];
 var MAP_START_ZOOM = 12;
 var DISTRICT_FILL = 'white';
 
-// globals, for debugging
-var g_data, g_districts;
-
 var map = L.mapbox.map(
-  'map', 
-  prj, 
-  { 
+  'map',
+  prj,
+  {
     center: MAP_CENTER_LOCATION,
     zoom: MAP_START_ZOOM,
     minZoom: 6,
     maxZoom: 18,
+    scrollWheelZoom: false,
   }
 );
 
@@ -28,33 +38,31 @@ var marker = L.marker(MAP_MARKER_LOCATION, {
       draggable: true
       });
 marker.addTo(map);
+marker.bindPopup("<b>Click and drag me!</b>").openPopup();
 marker.on('dragend', onDragEnd);
 
-var legislationTemplate = $('#legislation-template').html();
-Mustache.parse (legislationTemplate);  // optional, speeds up future uses
-
-var eventTemplate = $('#event-details-template').html();
-Mustache.parse (eventTemplate);  // optional, speeds up future uses
-
-var attachmentsTemplate = $('#template-attachments').html();
-Mustache.parse (attachmentsTemplate);
+/*
+==========================================
+===HELPER FUNCTIONS FOR MAP AND GEO=======
+==========================================
+*/
 
 function onDragEnd() {
     var ll = marker.getLatLng();
     updatePage({'lat': ll.lat, 'long': ll.lng});
 }
 
-/* Expects an object of type tomsline which is what the tom-geocoder service returns. 
-   Puts it on the map. 
+/* Expects an object of type tomsline which is what the tom-geocoder service returns.
+   Puts it on the map.
    */
 function linesToMap(tomsline) {
   /* tomsline should look like:
-  { 
-    text: [ 
+  {
+    text: [
       ["w streetname ave", { geojson }],
-      ["w otherroad rd", { geojson }], 
-      ... 
-    ] 
+      ["w otherroad rd", { geojson }],
+      ...
+    ]
   }
   */
   var districtLines = L.geoJson().addTo(map);
@@ -80,263 +88,6 @@ function textToGeo(text) {
     success: linesToMap,
   });
 }
-
-
-/* Update the page, given a new lat/lng (ll). */
-function updatePage(ll) {
-  $.ajax({
-    type: 'GET',
-    url: '/',
-    data: ll,
-    dataType: 'json',
-    success: function( data ) {
-
-      g_data = data;
-
-      history.pushState({}, "", "?address=" + data.address + "&lat=" + data.lat + "&long=" + data.lng);
-      marker.setLatLng(new L.LatLng(data.lat, data.lng));
-
-      if (data.in_district) {
-
-        var geoJSON = $.parseJSON(data.district_polygon.st_asgeojson);
-
-        geoJSON.properties = { fill: DISTRICT_FILL };
-        districtLayer.setGeoJSON(geoJSON);
-        districtLayer.setFilter(function() { return true; });
-
-        // HACK. this stuff should go in initializer on page load.
-        // todo : on page load, hit a URL that will return just the districts. 
-        addDistrictsToMap(data.districts);
-
-        updatePageContent(data);
-
-      } else {
-
-        districtLayer.setFilter(function() { return false; });
-        $('.you-live-in').empty().append(
-          'It looks like you\'re outside of Mesa.<br>' +
-          'Maybe you want the <a href="http://www.mesaaz.gov/Council/">council and mayor webpage</a>?'
-        ).addClass("no-district").show();
-        $('.results').hide();
-
-      }
-
-      $( "#address").val(data.address);
-      map.setView([data.lat, data.lng], MAP_START_ZOOM);
-    }
-  })
-}
-
-
-function find_member(district) {
-  return _.find(council, function(member){ return member.district == district });
-}
-
-
-var icons = {
-  'Contract': 'fa-pencil',
-  'Resolution': 'fa-legal',
-  'Liquor License': 'fa-glass',
-  'miscellaneous': 'fa-cog',
-  get: function(matterType) {
-    return (this[matterType] ? this[matterType] : this['miscellaneous']);
-  }
-};
-
-/* convert text to paragraphs (newlines -> <p>s) */
-/* modified from http://stackoverflow.com/questions/5020434/jquery-remove-new-line-then-wrap-textnodes-with-p */
-function p(t){
-    t = t.trim();
-    return (t.length>0 ? '<p>'+t.replace(/[\r\n]+/g,'</p><p>')+'</p>' : null);
-}
-
-// returns a teaser (a shortened version of the text) and
-// full body (which is the text itself).
-// The teaser has a.readmore link which can be used to toggle which part is shown.
-function summarize(text) {
-  var short_text = 230;
-  var breakpoint = short_text + 20; // we want to collapse more than just "last words in sentance."
-
-  if (breakpoint < text.length) { // build a teaser and full text.
-    var continueReading = '<a href="#" class="readmore"> &rarr; Continue Reading </a>';
-
-    // regex looking for short_text worth of characters + whatever it takes to get to a whitespace
-    // (we only want to break on whitespace, so we don't cut words in half)
-    var re = new RegExp('.{' + short_text + '}\\S*?\\s');
-
-    teaser = '<div class="teaser">' + p(text.match(re) + '&hellip;' + continueReading) + '</div>';
-    body = '<div class="body">' + p(text) + '</div>';
-    return teaser + body;
-  } else { // short enough; no processing necessary
-    return p(text);
-  }
-}
-
-
-function updatePageContent(data) {
-
-  $('body').removeClass('initial');
-  var district = data.district_polygon.id;
-
-  var member = find_member(district);
-  var mayor = find_member(0); // 0 = mayor. for now anyway.
-
-  $('.you-live-in').empty().append('District ' + district).removeClass("no-district").show();
-  $('.results-text').empty().append(
-    'Your Council Representative is <a href="' + member.website + '">'  + data.district_polygon.name + '</a>.'
-  );
-  $('.results').show();
-
-  $('#contact-card .phone').empty().append(member.phone);
-  $('#contact-card .email').empty().append(member.email);
-  $('#contact-card .mail').empty().append(member.address);
-  $('#contact-card .bio').empty().append(member.bio);
-
-  $(".fb-widget").hide();
-  $(".fb-widget#facebook-" + district).show();
-
-
-  $(".twit-widget").hide();
-  $(".twit-widget#council-" + district).show();
-  $(".twit-widget#mention-" + district).show();
-
-  $(".legislative-items").empty();
-
-  // stick some event items in the frontend
-  _.map(data.event_items, function(item) {
-
-      // ---- transforms -------------------------------------------------------------
-
-      // Simplify text by removing "(District X)" since we have that info elsewhere
-      item.title = item.title.replace(/\(District \d\)/, '');
-
-      var contract;
-      // Contract Matters tend to look like "C12345 Something Human Friendly". Let's save & remove that contract #.
-      if (item.matterType == 'Contract') {
-        contract = item.matterName.split(' ')[0]; // save it
-        console.log("Got contract: " + contract);
-        if (/C\d+/.test(contract)) {
-          item.matterName = item.matterName.substr(item.matterName.indexOf(' ') + 1); // remove it
-        } else {
-          console.log("Weird. Expected " + contract + " to look like 'C' followed by some numbers.");
-        }
-      }
-
-      // We don't want to duplicate the MatterName (used as a title) as the first line of the text, so remove if found.
-      var re = new RegExp('^' + item.matterName + '[\n\r]*');
-      item.title = item.title.replace(re, '');
-
-      // ---- end transforms ----------------------------------------------------------
-
-
-      textToGeo(item.title);
-
-      var view = {
-        title: function() {
-          if (item.matterType == 'Ordinance' &&
-              (/^Z\d{2}.*/.test(item.matterName) ||
-               /^Zon.*/.test(item.matterName))) {
-            return "Zoning: " + item.matterName;
-          } else if (item.matterType == "Liquor License") {
-            return "Liquor License for " + item.matterName;
-          } else if (item.matterType == "Contract") {
-            return "Contract: " + item.matterName;
-          } else {
-            return item.matterName;
-          }
-        },
-        body: function() {
-          return summarize(item.title);
-        },
-        matterId: item.matterId,
-        icon: icons.get(item.matterType),
-        scope: function() {
-          // if Citywide, "Citywide" (TODO), else
-          return "In District " + district;
-        }
-      };
-
-      var itemHtml = Mustache.render(legislationTemplate, view);
-      $('.legislative-items').append(itemHtml);
-
-      // get and populate matter attachments section
-      $.ajax({
-        type: 'GET',
-        crossDomain: true,
-        url: 'http://www.corsproxy.com/webapi.legistar.com/v1/mesa/Matters/' + item.matterId + '/Attachments',
-        dataType: 'json',
-        success: function( data ) {
-
-          var list = _.map(data, function (attachment) {
-            return {
-              link: attachment.MatterAttachmentHyperlink,
-              name: attachment.MatterAttachmentName,
-            };
-          });
-
-          if (list.length) {
-            var view = {
-              matterId: item.matterId,
-              attachmentCount: list.length,
-              attachments: list,
-            };
-            var html = Mustache.render(attachmentsTemplate, view);
-            $('#attachments-' + item.matterId).html(html);
-            $('#attachments-' + item.matterId + ' a.attachments').click(function(event) {
-              var matterId = $(this).attr('data-matter-id');
-              console.log("setting link handler for attachments on matter " + matterId + "(matter " + item.matterId + ")");
-              $('#attachments-' + matterId + ' ul.attachments').toggle();
-              event.preventDefault();
-            }).click();
-          }
-        },
-      });
-
-      // get and populate event details section
-      $.ajax({
-        type: 'GET',
-        url: '/events/' + item.event_id + '.json',
-        dataType: 'json',
-        success: function( data ) {
-          var view = {
-            date: function() {
-              var months = [ "January", "February", "March", "April", "May", "June", 
-               "July", "August", "September", "October", "November", "December" ],
-                date = data.eventDate.replace(/T.*/, '').split('-'); //YYYY-MM-DDT00:00:00Z -> [yyyy,mm,dd]
-
-              // EventDate doesn't come in the right format (timezone is 0 instead of -7), so we fix it
-               var correctDate = new Date(date[0], date[1] - 1, date[2]);
-              return months[correctDate.getMonth()] + ' ' + correctDate.getDate();
-            },
-            time: data.EventTime,
-            location: data.EventLocation,
-            name: data.EventBodyName,
-            d: data.EventDate,
-          }
-          console.log(view);
-          var html = Mustache.render(eventTemplate, view);
-          $('#event-details-' + item.matterId).html(html);
-        }
-      });
-  });
-
-  $('.legislative-items a.readmore').click(function(event) {
-    // toggle visibility of the clicked teaser and body.
-    event.preventDefault();
-    legislation = $(this).closest('.title');
-    legislation.find('.teaser').toggle();
-    legislation.find('.body').toggle();
-  });
-
-
-  // twitter & facebook only render on page load by default, so
-  // we need to call on them to parse & render the new content
-  twttr.widgets.load();
-  FB.XFBML.parse(); // pass document.getElementById('legislative') for efficiency.
-
-  $('#results-area').show();
-}
-
 
 // see http://leafletjs.com/examples/choropleth.html
 function highlightFeature(e) {
@@ -405,15 +156,27 @@ function addDistrictsToMap(districts) {
       });
     }
   }).addTo(map);
+
+  // How to add static label at center of polygon (from web example)
+  // label = new L.Label()
+  // label.setContent("static label")
+  // label.setLatLng(polygon.getBounds().getCenter())
+  // map.showLabel(label);
 }
 
 
-$( "#address" ).keyup(function(e) {
-  if (e.keyCode == 13) { // enter pressed
-    $( "#search-btn").click();
-  }
-});
+/*
+==========================================
+===END HELPER FUNCTIONS FOR MAP AND GEO===
+==========================================
+*/
 
-$( "#search-btn" ).click(function(e) {
-    updatePage({'address': $( "#address" ).val()});
-});
+/*
+==========================================
+==========================================
+==========================================
+==========END MAP & GEO SECTION===========
+==========================================
+==========================================
+==========================================
+*/

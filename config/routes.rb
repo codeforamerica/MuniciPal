@@ -1,6 +1,8 @@
 Zone::Application.routes.draw do
   resources :event_items
 
+  resources :matters
+
   resources :events do 
     resources :event_items
   end

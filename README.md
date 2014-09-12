@@ -1,10 +1,4 @@
-# SA Zone
-
-The SA Zone tool is the beginnings of an address-based search tool that will allow homeowners, developers, government officials and anyone else who is interested to search and learn more about specific properties. 
-
-This application is still being developed, and is in a very early alpha iteration. If you'd like to deploy it, please follow the below instructions. But keep in mind, many things are still in the works.
-
-# Prerequisites 
+# Prerequisites
 
 * This application requires Ruby. If you don't have it, [download and install here](https://www.ruby-lang.org/en/installation/).
 * This application requires Rails.
@@ -25,7 +19,7 @@ This application is still being developed, and is in a very early alpha iteratio
 
     bundle exec rake db:create
     bundle exec rake db:migrate
-    bundle exec rake historic_districts:load
+    bundle exec rake legistar:load
     bundle exec rake council_districts:load
 
 *If you want to update or change these specific shapefiles, they exist in the lib/asset folder in the application.*

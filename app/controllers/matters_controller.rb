@@ -10,6 +10,12 @@ class MattersController < ApplicationController
   # GET /matters/1
   # GET /matters/1.json
   def show
+    puts params
+    @matter = Matter.find(params["id"])
+    puts @matter
+    respond_to do |format|
+      format.json { render json: @matter }
+    end
   end
 
   # GET /matters/new

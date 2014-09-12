@@ -1,29 +1,73 @@
+// Colors
+$red:   #e64919;
+$green: #00a99d;
+$blue:  #607d8b;
+$grey:  #616161;
+$black: #000000;
+$white: #ffffff;
 
-#topbar {
-	background: black;
-	font-family: Montserrat;
-	font-weight: bold;
+// Fonts
+$font-family: "Montserrat", Helvetica, Arial, sans-serif;
 
-	.pure-menu-heading {
-		color: white;
-	}
+body {
+  margin-top: 50px; // For fixed top bar
+  color: $grey;
 }
 
-#map {
-	float: left;
-	z-index:1;
+html, 
+button,
+input,
+select,
+textarea,
+.pure-g [class *= "pure-u"] {
+  font-family: $font-family;
+}
+
+.pure-g > div {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.l-box {
+  padding: 1.2em;
+}
+
+.l-box-2x {
+  padding: 2.4em;
+}
+
+// Spacing stuff
+$center-header-text: 3em;
+
+// The styles
+#topbar.pure-menu {
+	background: $blue;
+	font-weight: bold;
+  position: fixed;
+  top: 0;
+  z-index: 1010; // z-index fight with leaflet
+
+  a,
+  .pure-menu-heading {
+    color: $white;
+    padding: 15px 20px;
+  }
+}
+
+.sort-by {
+	display: none;
 }
 
 .you-live-in {
+  font-size: 40px;
+  padding: 0 10px;
+  padding-top: 65px; // For fixed top bar
+  margin-top: -40px; // For fixed top bar
+  margin-bottom: 0;
+  text-align: center;
 
-    font-size: 50px;
-    font-family: Montserrat;
-    margin: 0;
-    padding-left: 2rem;
-    border-bottom: 10px solid rgba(215, 215, 215, 0.1);
-
-    display: none; // initial state
-
+  display: none; // initial state
 }
 
 .you-live-in.no-district {
@@ -31,57 +75,53 @@
 }
 
 .results {
+  margin: 0 auto;
+  padding: 0 2em;
+  max-width: 1400px;
+  display: none;
 
-    background: rgba(215, 215, 215, 0.1);
+  h2 {
     margin-top: 0;
-
-}
-
-#social {
-
-	padding: 0 1em 0 1em;
-
-}
-
-#social a {
-	text-decoration: none;
+    margin-bottom: 5px;
+  }
 }
 
 #controls {
-	background: white;
+	background: $white;
 	padding: 1em;
 
-	a {
+	li {
 		margin-right: 1em;
 	}
 }
 
-
-.results-text
-{
-    background: white;
-    padding: 20px;
-    margin-top: 0;
-    margin-bottom: 8px;
+.results-text {
+  background: $white;
+  padding: 20px;
+  margin-top: 0;
+  margin-bottom: 8px;
 }
 
 #results-area {
-	background: white;
-}
-
-#intro, .results-text, .header-container, #contact-card, #legislative {
-	font-family: 'Montserrat', sans-serif;
+	background: $white;
 }
 
 .header-container {
-    clear: both;
-	padding: 1em 16px 1em 36px;
-    margin-top: 0;
+  background: darken($white, 2%);
+  
+  .header {
+    margin-top: 60px;
+  }
 
-	#intro {
-		margin-bottom: .5em;
-	}
+  h2 {
+    color: $blue;
+    font-weight: 100;
 
+    span {
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+  }
 }
 
 .initial .results {
@@ -89,101 +129,110 @@
 	top: 0px;
 }
 
-.header-container, .results {
-	// we want to transition the opacity for results and the position for header container.
-	-webkit-transition: all 1s ease;
-	-moz-transition: all 1s ease;
-	-ms-transition: all 1s ease;
-	-o-transition: all 1s ease;
-	transition: all 1s ease;
-}
-
-
-// setting fixed margin: hack.
-.initial .header-container {
-	margin-top: 300px; // vertically centered, assuming a macbook air sized screen.
-}
-
-
-#contact-card {
-	background: white;
+#bio-card {
+	background: $white;
 	padding: 10px;
 	height: 400px;
-	display: none; // hide by default
+  line-height: 1.5;
 }
 
-.address-box input {
-	padding: 0.5em;
-	background: #fafafa;
+.address-box {
+  margin-top: $center-header-text;
+  
+  label {
+    color: $blue;
+    font-weight: 100;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  input {
+  	padding: 0.5em;
+  	background: $white;
+    width: 98%;
+    border: solid 2px lighten($grey, 15%);
+    border-radius: 8px;
+    outline: none;
+  }
+
+  button {
+    padding: 0.5em;
+    background: $blue;
+    width: 100%;
+    border: solid 2px $blue;
+    border-radius: 8px;
+  }
 }
 
 * { box-sizing: border-box; } // http://www.paulirish.com/2012/box-sizing-border-box-ftw/
 
-#address-container {
-	float: left;
-	width: 80%;
-}
-#address {
-	width: 90%;
-	width: calc(100% - 1em);
-	border: 0;
-	border-bottom: 1px solid #DBDBDB;
-
-	font-family: serif;
-	font-style: italic;
+.address-box {
+  font-size: 25px;
+  background-color: transparent;
 }
 
-#search-btn-container {
-	padding-left: 1em;
-    width: 20%;
-    float: left;
-}
-#search-btn {
-	width: calc(100% - 1em);
+.contact-info {
+  font-size: 1.1em;
+
+  span + span {
+    margin-left: 10px;
+  }
+
+  .contact-method {
+    display: inline-block;
+    margin-left: 10px;
+    margin-top: 1em;
+  }
 }
 
-.descript {
-	clear: both;
-	padding: 1em 0 0 1em;
-}
+.pure-menu {
+  li {
+    a {
+      color: $green;
+      text-transform: uppercase;
+      border-bottom: solid 2px $white;
+    }
+    a:hover, a:focus {
+      background: none;
+      border-bottom: solid 2px $green;
+    }
+  }
 
-.address-box
-{
-    font-size: 25px;
-    background-color: transparent;
-}
-
-.pure-menu-selected {
-	background: #f7f7f7;
+  .pure-menu-selected {
+     a {
+      color: $green;
+      border-bottom: solid 2px $green;
+    }
+  }
 }
 
 #legislative {
+	.legislative-header {
+    text-align: center;
 
-	h1 {
-		padding-left: 38px; //hack
-	}
+    a {
+      text-decoration: none;
+      color: $green;
+      text-transform: uppercase;
+    }
+  }
 }
 
 .legislation {
+  border-bottom: solid 1px $grey;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
 
-    background-color: white;
-    border: 1px solid rgb(240, 240, 240);
-    border-bottom: 2px solid rgb(245, 240, 240);
-    border-radius: 3px;
-    margin-right: 1em;
-    margin-bottom: 1em;
-    padding: 1rem;
+  &:last-child {
+    border-bottom: none;
+  }
 
-    div, p, span, h4 {
-    	font-family: "Montserrat";
-    }
-
-    .distance, .geo-scope {
-    	text-transform: uppercase;
-    	text-align: right;
-    	font-size: 0.75rem;
-		color: gray;
-    }
+  .distance, .geo-scope {
+  	text-transform: uppercase;
+  	text-align: right;
+  	font-size: 0.75rem;
+	  color: #808080;
+  }
 
 	.type,.like,.comment {
 	    text-align: center;
@@ -201,9 +250,6 @@
 	}
 }
 
-.legislation .title {
-}
-
 
 .item-name {
 
@@ -218,7 +264,7 @@
 
 		.when {
 			font-size: 0.75rem;
-			color: gray;
+			color: #808080;
 		}
 	}
 
@@ -228,26 +274,49 @@
 		line-height: 2rem; /* match font awesome icon */
 	}
 
-    padding-bottom: 1em;
-    border-bottom: 1px solid lightgray;
+  padding-bottom: 1em;
+}
 
+.attachments {
+  margin-left: 1em;
 }
 
 a.attachments, .matter-comments a {
-	color: black;
+	color: $green;
 	text-transform: uppercase;
-	font-family: Montserrat;
+  text-decoration: none;
+}
+
+ul.attachments {
+  padding-left: 0;
+
+  li {
+    list-style-type: none;
+
+    a {
+      color: $green;
+    }
+  }
 }
 
 .readmore {
 	color: rgb(122, 122, 151);
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 12px;
-    border-bottom: 1px solid rgb(208, 208, 228);
-    display: inline-block;
-    margin-left: .25rem;
-    text-transform: uppercase;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 12px;
+  border-bottom: 1px solid rgb(208, 208, 228);
+  display: inline-block;
+  margin-left: .25rem;
+  text-transform: uppercase;
+}
+
+div#disqus_thread {
+	background: $white;
+	margin: 0;
+	padding: 10px 0 0 0;
+}
+.comments {
+	width: 100%;
 }
 
 .sort-by {
@@ -258,29 +327,47 @@ a.attachments, .matter-comments a {
 
 /* make the facebook like box responsive. */
 /* more tips: http://stackoverflow.com/questions/10656038/how-to-make-the-facebook-like-box-responsive */
- .fb-like-box, .fb-like-box span, .fb-like-box span iframe[style] {
-    width: 100% !important;
+.fb-like-box, .fb-like-box span, .fb-like-box span iframe[style] {
+  width: 100% !important;
 }
 
-/* ------------------------------------------
- * Stuff from addresses.css.scss that we need */
-
-#map
-{
-    height:40vh;
-    float:right;
+#map {
+  height:600px;
+  background: darken($white, 2%);
 }
 
-.col-3-3 {
-	width: 100%;
+.pull-left {
+  float: left !important;
 }
 
-p.descript
-{
-    font-size:0.5em;
-    font-weight:light;
-    font-style:italic;
-    color:grey;
-    z-index:5
+.pull-right {
+  float: right !important;
 }
-/* ------------------------------------------*/
+
+p.descript {
+  font-size:0.5em;
+  font-weight:light;
+  font-style:italic;
+  color:#808080;
+  z-index:5;
+}
+
+.blue {
+  color: $blue;
+}
+
+.footer {
+  background: $grey;
+  color: $white;
+  text-transform: uppercase;
+  text-align: center;
+
+  h5 {
+    font-weight: normal;
+  }
+
+  a {
+    color: $green;
+    text-decoration: none;
+  }
+}

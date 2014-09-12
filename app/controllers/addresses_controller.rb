@@ -6,6 +6,8 @@ class AddressesController < ApplicationController
 
   def index
     @in_district = false
+#    @testing_issues = [21457,22006,22187,31873,31267,33102,33103,33259,33260,25799,25799,23759,23986,27390,27877,30513,30569,33143,33154,33367]
+    @testing_issues = [31267,33260,25799,25799,33367]
     @lat = nil, @lng = nil, @address = nil
 
     if params[:address] != nil and !params[:address].empty?
@@ -24,11 +26,15 @@ class AddressesController < ApplicationController
       puts "LAT/LON from params: " + @lat.to_s + "/" + @lon.to_s
     end
 
-    if @address != nil 
+    if @address != nil
       @addr = @address.full_address
-      @district_polygon = CouncilDistrict.getDistrict @lat, @lng 
+      @district_polygon = CouncilDistrict.getDistrict @lat, @lng
       if @district_polygon and @district_polygon.id
-        @event_items = EventItem.joins(:event).where('"events"."date" > ?', 2.month.ago).where(council_district_id: @district_polygon.id)
+         @event_items1 = EventItem.where({id: @testing_issues})
+         @event_items2 = EventItem.joins(:event).where('"events"."date" > ?', 4.month.ago).
+                                                 where(council_district_id: @district_polygon.id).
+                                                 order('"events"."date" DESC')
+         @event_items = @event_items2 # + @event_items1
       else
         puts "ERROR: Whaaaaaat?! No district/id. You ran rake mesa_councils:load to populate the table right?"
       end

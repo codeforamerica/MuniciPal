@@ -17,7 +17,7 @@
 development:
   adapter: postgis
   encoding: unicode
-  database: zone_development
+  database: nl_development
   pool: 5
   host: localhost
   schema_search_path: "public,postgis"
@@ -47,7 +47,7 @@ development:
 test:
   adapter: postgis
   encoding: unicode
-  database: zone_test
+  database: nl_test
   pool: 5
   host: localhost
   schema_search_path: "public,postgis"
@@ -56,6 +56,6 @@ test:
 production:
   adapter: postgis
   encoding: unicode
-  database: zone_production
+  database: nl_production
   pool: 5
   schema_search_path: "public,postgis"
