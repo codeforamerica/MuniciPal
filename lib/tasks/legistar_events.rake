@@ -1,7 +1,7 @@
 require 'rgeo/shapefile'
 require 'shellwords'
 
-require 'Legistar'
+require 'legistar'
 
 namespace :legistar_events do
   desc "Load Legistar events into database from JSON file"
