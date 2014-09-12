@@ -1,10 +1,10 @@
-require 'net/http'
-require 'json'
-require 'logger'
-require 'faraday'
-require 'faraday_middleware'
-require 'logger'
-require 'prettyprint'
+# require 'net/http'
+# require 'json'
+# require 'logger'
+# require 'faraday'
+# require 'faraday_middleware'
+# require 'logger'
+# require 'prettyprint'
 
 module Legistar
 
