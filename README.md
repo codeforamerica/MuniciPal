@@ -19,7 +19,7 @@
 
     bundle exec rake db:create
     bundle exec rake db:migrate
-    bundle exec rake legistar:load
+    bundle exec rake legistar_all:load
     bundle exec rake council_districts:load
 
 *If you want to update or change these specific shapefiles, they exist in the lib/asset folder in the application.*

@@ -1,6 +1,6 @@
 require 'legistar'
 
-namespace :legistar do
+namespace :legistar_all do
   desc "Wipe our database, then rebuild it by recopying content via Legistar API"
   task :refresh => [:drop, :load] do
   end
@@ -10,7 +10,7 @@ namespace :legistar do
   end
 
   desc "Copy all Legistar content into local database using Legistar API"
-  task :load_all => ['legistar_events:load', 'legistar_event_items:load', 'legistar_matters:load', 'legistar_attachments:load'] do
+  task :load => ['legistar_events:load', 'legistar_event_items:load', 'legistar_matters:load', 'legistar_attachments:load'] do
   end
 
   desc "Copy a specific Legistar content into our local database with the new ETL magic"
@@ -25,5 +25,3 @@ namespace :legistar do
     Legistar.fetch_structure(args.url, args.prefix_to_strip)
   end
 end
-
-#TODO: also depend on geocoding everything.
