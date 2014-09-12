@@ -59,9 +59,11 @@ module Legistar
   # return the documented structure of the endpoint in a format
   # that is compatible with the Rails model creation migrations.
   def fetch_structure(url, endpoint_prefix_to_strip)
+    log = Logger.new('faraday.log')
     connection = Faraday.new(:url => "https://api.import.io") do |conn|
       conn.request  :url_encoded             # form-encode POST params
-      conn.response :logger                  # log requests to STDOUT
+      # conn.response :logger                  # log requests to STDOUT
+      conn.use Faraday::Response::Logger, log
       conn.adapter  Faraday.default_adapter  # make requests with Net::HTTP
     end
 
@@ -79,8 +81,10 @@ module Legistar
         req.body = body
       end
       raise unless response.status == 200
-      puts response.body
+      log.info response.body
       structure = ActiveSupport::JSON.decode(response.body)
+      structure_string = PP.pp structure, dump = ""
+      log.info(structure_string)
       to_migration(structure, endpoint_prefix_to_strip)
     rescue => e
       bummer("query_url: #{url}, body: #{body}", response.status, e)
@@ -90,7 +94,6 @@ module Legistar
   # Take the structure described in the Legistar API and
   # output it in a format useful for a migration file.
   def to_migration(structure, prefix_to_strip)
-    pp structure
     # structure.results is an array of objects with 'name' and
     # 'type' fields. Note that the name will be in PascalCase,
     # not snake_case. It will also have the RestEndpointName
