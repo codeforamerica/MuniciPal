@@ -31,7 +31,7 @@ Example of item from event_items Array:
        "EventItemLastModified":null,
        "EventItemLastModifiedUtc":"2014-06-23T16:53:59.923",
        "EventItemRowVersion":"AAAAAAAv/Lg=",
-       "EventItemEventId":1915,
+       "event_id":1915,
        "EventItemAgendaSequence":12,
        "EventItemMinutesSequence":12,
        "EventItemAgendaNumber":"3-c",
@@ -47,24 +47,24 @@ Example of item from event_items Array:
        "EventItemPassedFlagText":null,
        "EventItemRollCallFlag":0,
        "EventItemFlagExtra":"0",
-       "EventItemTitle":"A restaurant that serves lunch and dinner is requesting a new Restaurant License for The Beer Research Institute, LLC, 1641 South Stapley Drive, Suite 104 - Matthew Trethewey, agent.  There is no existing license at this location. ",
+       "title":"A restaurant that serves lunch and dinner is requesting a new Restaurant License for The Beer Research Institute, LLC, 1641 South Stapley Drive, Suite 104 - Matthew Trethewey, agent.  There is no existing license at this location. ",
        "EventItemTally":null,
        "EventItemConsent":0,
        "EventItemMoverId":null,
        "EventItemMover":null,
        "EventItemSeconderId":null,
        "EventItemSeconder":null,
-       "EventItemMatterId":7021,
+       "matter_id":7021,
        "EventItemMatterGuid":"876CCADA-D418-4C14-ABBB-A9AC15014787",
        "EventItemMatterFile":"14-0727",
-       "EventItemMatterName":"The Beer Research Institute",
-       "EventItemMatterType":"Liquor License",
+       "matter_name":"The Beer Research Institute",
+       "matter_type":"Liquor License",
        "EventItemMatterStatus":"Agenda Ready",
        "council_district_id":3,
        "created_at":"2014-07-17T01:56:21.361Z",
        "updated_at":"2014-07-17T01:56:21.745Z"
        }
-        
+
 */
 function updatePage(ll) {
   $.ajax({
@@ -114,7 +114,7 @@ function updatePage(ll) {
 
 /*
 This function fills out a bunch of mustache templates from the data above and AJAX
-requests to the legistar REST API. 
+requests to the legistar REST API.
  */
 
 function updatePageContent(data) {
@@ -156,54 +156,54 @@ function updatePageContent(data) {
       // ---- transforms -------------------------------------------------------------
 
       // Simplify text by removing "(District X)" since we have that info elsewhere
-      item.EventItemTitle = item.EventItemTitle.replace(/\(District \d\)/, '');
+      item.title = item.title.replace(/\(District \d\)/, '');
 
       var contract;
       // Contract Matters tend to look like "C12345 Something Human Friendly". Let's save & remove that contract #.
-      if (item.EventItemMatterType == 'Contract') {
-        contract = item.EventItemMatterName.split(' ')[0]; // save it
+      if (item.matter_type == 'Contract') {
+        contract = item.matter_name.split(' ')[0]; // save it
         console.log("Got contract: " + contract);
         if (/C\d+/.test(contract)) {
-          item.EventItemMatterName = item.EventItemMatterName.substr(item.EventItemMatterName.indexOf(' ') + 1); // remove it
+          item.matter_name = item.matter_name.substr(item.matter_name.indexOf(' ') + 1); // remove it
         } else {
           console.log("Weird. Expected " + contract + " to look like 'C' followed by some numbers.");
         }
       }
 
       // We don't want to duplicate the MatterName (used as a title) as the first line of the text, so remove if found.
-      var re = new RegExp('^' + item.EventItemMatterName + '[\n\r]*');
-      item.EventItemTitle = item.EventItemTitle.replace(re, '');
+      var re = new RegExp('^' + item.matter_name + '[\n\r]*');
+      item.title = item.title.replace(re, '');
 
       // ---- end transforms ----------------------------------------------------------
 
 
-      textToGeo(item.EventItemTitle);
+      textToGeo(item.title);
 
       console.log("constructing legislative item");
-      console.log(item.EventItemMatterId);
+      console.log(item.matter_id);
 
       var view = {
         title: function() {
-          if (item.EventItemMatterType == 'Ordinance' &&
-              (/^Z\d{2}.*/.test(item.EventItemMatterName) ||
-               /^Zon.*/.test(item.EventItemMatterName))) {
-            return "Zoning: " + item.EventItemMatterName;
-          } else if (item.EventItemMatterType == "Liquor License") {
-            return "Liquor License for " + item.EventItemMatterName;
-          } else if (item.EventItemMatterType == "Contract") {
-            return "Contract: " + item.EventItemMatterName;
+          if (item.matter_type == 'Ordinance' &&
+              (/^Z\d{2}.*/.test(item.matter_name) ||
+               /^Zon.*/.test(item.matter_name))) {
+            return "Zoning: " + item.matter_name;
+          } else if (item.matter_type == "Liquor License") {
+            return "Liquor License for " + item.matter_name;
+          } else if (item.matter_type == "Contract") {
+            return "Contract: " + item.matter_name;
           } else {
-            return item.EventItemMatterName;
+            return item.matter_name;
           }
         },
         distance: function () {
           return Math.floor(Math.random() * (6 - 2)) + 2;
         },
         body: function() {
-          return summarize(item.EventItemTitle);
+          return summarize(item.title);
         },
-        matterId: item.EventItemMatterId,
-        icon: icons.get(item.EventItemMatterType),
+        matterId: item.matter_id,
+        icon: icons.get(item.matter_type),
         scope: function() {
           // if Citywide, "Citywide" (TODO), else
           return "In District " + district;
@@ -217,7 +217,7 @@ function updatePageContent(data) {
       $.ajax({
         type: 'GET',
         crossDomain: true,
-        url: 'http://www.corsproxy.com/webapi.legistar.com/v1/mesa/Matters/' + item.EventItemMatterId + '/Attachments',
+        url: 'http://www.corsproxy.com/webapi.legistar.com/v1/mesa/Matters/' + item.matter_id + '/Attachments',
         dataType: 'json',
         success: function( data ) {
 
@@ -230,15 +230,15 @@ function updatePageContent(data) {
 
           if (list.length) {
             var view = {
-              matterId: item.EventItemMatterId,
+              matterId: item.matter_id,
               attachmentCount: list.length,
               attachments: list,
             };
             var html = Mustache.render(attachmentsTemplate, view);
-            $('#attachments-' + item.EventItemMatterId).html(html);
-            $('#attachments-' + item.EventItemMatterId + ' a.attachments').click(function(event) {
+            $('#attachments-' + item.matter_id).html(html);
+            $('#attachments-' + item.matter_id + ' a.attachments').click(function(event) {
               var matterId = $(this).attr('data-matter-id');
-              console.log("setting link handler for attachments on matter " + matterId + "(matter " + item.EventItemMatterId + ")");
+              console.log("setting link handler for attachments on matter " + matterId + "(matter " + item.matter_id + ")");
               $('#attachments-' + matterId + ' ul.attachments').toggle();
               event.preventDefault();
             }).click();
@@ -249,7 +249,7 @@ function updatePageContent(data) {
       // get and populate event details section
       $.ajax({
         type: 'GET',
-        url: '/events/' + item.EventItemEventId + '.json',
+        url: '/events/' + item.event_id + '.json',
         dataType: 'json',
         success: function( data ) {
           var view = {
@@ -270,9 +270,9 @@ function updatePageContent(data) {
           console.log(view);
           var html = Mustache.render(eventTemplate, view);
           console.log("adding details to event item");
-          console.log(item.EventItemMatterId);
+          console.log(item.matter_id);
 
-          $('#event-details-' + item.EventItemMatterId).html(html);
+          $('#event-details-' + item.matter_id).html(html);
         }
       });
   });
