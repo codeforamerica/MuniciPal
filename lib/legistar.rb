@@ -1,11 +1,3 @@
-require 'net/http'
-require 'json'
-require 'logger'
-require 'faraday'
-require 'faraday_middleware'
-require 'logger'
-require 'prettyprint'
-
 module Legistar
 
 	module_function
