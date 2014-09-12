@@ -147,7 +147,13 @@ module Legistar
         response = @@connection.get(url_path)
         raise unless response.status == 200
 
-	      to_objects(response.body)
+        # for nested items (like Attachments or EventItems),
+        # we want to keep a reference to the nesting object's id.
+        # note that this is more important for Attachments, which don't
+        # have an MatterId field, while EventItems do have an EventId.
+        extras = { nesting_class.to_s.underscore + '_id' => nesting_item.source_id}
+
+        to_objects(response.body, extras)
         sleep 1
 
       rescue => e
@@ -190,10 +196,12 @@ module Legistar
 	protected
 
 	# collection: array of items returned from a Legistar collection endpoint
-	def self.to_objects(collection)
+	# extras: any additional parameters that should be set on each object (optional)
+  def self.to_objects(collection, extras=nil)
 		collection.each do |item|
 		  attrs = rubify_object(item, @@prefix_to_strip)
 		  attrs['source_id'] = attrs.delete('id')
+      extras.each { |k,v| attrs[k] = v } if extras
 
 		  pretty_attributes = pp attrs
 		  msg = "Attempting creation of #{@@endpoint_class.to_s} with attrs: #{pretty_attributes}"
