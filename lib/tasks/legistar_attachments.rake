@@ -1,7 +1,9 @@
 namespace :legistar_attachments do
   desc "Load Legistar attachments into database (by finding from each event_item)"
   task :load => :environment do
-    client = "mesa"
+    Legistar.initialize()
+    Legistar.fetch_nested_collection('MatterAttachments', nil, 'MatterAttachment', MatterAttachment, 'Matters', Matter)
+  end
 
     # for each event_item, if it has a matterId, find and fetch any associated attachments.
     EventItem.where('matter_id IS NOT NULL').each() do |item|
@@ -13,38 +15,6 @@ namespace :legistar_attachments do
       request = Net::HTTP::Get.new(uri.request_uri)
       response = http.request(request)
 
-      if response.code == "200"
-        result = JSON.parse(response.body)
-        result.each do |r|
-          at = Attachment.new(
-            :guid => r['MatterAttachmentGuid'],
-            :last_modified_utc => r['MatterAttachmentLastModifiedUtc'],
-            :row_version => r['MatterAttachmentRowVersion'],
-            :name => r['MatterAttachmentName'],
-            :hyperlink => r['MatterAttachmentHyperlink'],
-            :filename => r['MatterAttachmentFileName'],
-            :matter_version => r['MatterAttachmentMatterVersion'],
-            :is_hyperlink => r['MatterAttachmentIsHyperlink'],
-            :binary => r['MatterAttachmentBinary'],
-            ) {|a| a.id = r['MatterAttachmentId'] }
-          at.save
-
-            # (:title => "Foo") { |p| p.id = 5 }
-            # :id = r['MatterAttachmentId']
-            # :guid = r['MatterAttachmentGuid']
-            # :last_modified_utc = r['MatterAttachmentLastModifiedUtc']
-            # :row_version = r['MatterAttachmentRowVersion']
-            # :name = r['MatterAttachmentName']
-            # :hyperlink = r['MatterAttachmentHyperlink']
-            # :filename = r['MatterAttachmentFileName']
-            # :matter_version = r['MatterAttachmentMatterVersion']
-            # :is_hyperlink = r['MatterAttachmentIsHyperlink']
-            # :binary = r['MatterAttachmentBinary']
-            # :save
-        end
-      else
-        puts 'ERROR! Response code: ' + response.code
-      end
     end
   end
 

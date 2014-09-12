@@ -17,22 +17,6 @@ ActiveRecord::Schema.define(version: 20140727091138) do
   enable_extension "plpgsql"
   enable_extension "postgis"
 
-  create_table "attachments", force: true do |t|
-    t.integer  "source_id"
-    t.integer  "matter_id"
-    t.text     "guid"
-    t.datetime "last_modified_utc"
-    t.text     "row_version"
-    t.text     "name"
-    t.text     "hyperlink"
-    t.text     "filename"
-    t.text     "matter_version"
-    t.boolean  "is_hyperlink"
-    t.binary   "binary"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "council_districts", force: true do |t|
     t.string   "name"
     t.string   "twit_name"
@@ -97,6 +81,22 @@ ActiveRecord::Schema.define(version: 20140727091138) do
     t.integer  "minutes_status_id"
     t.string   "minutes_status_name"
     t.string   "location"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "matter_attachments", force: true do |t|
+    t.integer  "source_id"
+    t.integer  "matter_id"
+    t.text     "guid"
+    t.datetime "last_modified_utc"
+    t.text     "row_version"
+    t.text     "name"
+    t.text     "hyperlink"
+    t.text     "file_name"
+    t.text     "matter_version"
+    t.boolean  "is_hyperlink"
+    t.string   "binary"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
