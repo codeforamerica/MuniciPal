@@ -13,14 +13,15 @@ It makes a get request to the Addresses controller with:
 
 The Addresses Controller returns the "data" object, an example of which can be found below:
 
-Object {lat: 33.3781823,
-        lng: -111.8430479,
-        address: "455 West Baseline Road, Mesa, AZ 85210, USA",
-        in_district: true,
-        district_polygon: A PostGIS GeoJSON object,
-        districts: Array of PostGIS GeoJSON objects,
-        event_items: Array
-        }
+{
+  "lat": 33.3781823,
+  "lng": -111.8430479,
+  "address": "455 West Baseline Road, Mesa, AZ 85210, USA",
+  "in_district": true,
+  "district_polygon": A PostGIS GeoJSON object,
+  "districts": Array of PostGIS GeoJSON objects,
+  "event_items": Array
+}
 
 Example of item from event_items Array:
 
