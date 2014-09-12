@@ -142,6 +142,7 @@ module Legistar
       	# url = "/Events/#{event.source_id}/EventItems"
 			  url_path = "/v1/#{Legistar.city}/#{nesting_endpoint}/#{nesting_item.source_id}/#{endpoint}#{endpoint_filter}"
 	      full_url = @@base_url + url_path
+        to_log("url: #{full_url}")
 
         response = @@connection.get(url_path)
         raise unless response.status == 200
@@ -172,6 +173,8 @@ module Legistar
 
       url_path = "/v1/#{Legistar.city}/#{endpoint}#{filter}"
       full_url = @@base_url + url_path
+      to_log("url: #{full_url}")
+
 
       response = @@connection.get(url_path)
       raise unless response.status == 200
