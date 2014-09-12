@@ -30,7 +30,7 @@ class AddressesController < ApplicationController
       @addr = @address.full_address
       @district_polygon = CouncilDistrict.getDistrict @lat, @lng
       if @district_polygon and @district_polygon.id
-         @event_items1 = EventItem.where({EventItemId: @testing_issues})
+         @event_items1 = EventItem.where({id: @testing_issues})
          @event_items2 = EventItem.joins(:event).where('"events"."date" > ?', 4.month.ago).
                                                  where(council_district_id: @district_polygon.id).
                                                  order('"events"."date" DESC')
