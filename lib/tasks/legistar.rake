@@ -1,4 +1,4 @@
-namespace :legistar do
+namespace :all_legistar do
   desc "Wipe our database, then rebuild it by recopying content via Legistar API"
   task :refresh => [:drop, :load] do
   end
