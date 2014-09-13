@@ -2,30 +2,6 @@ module Legistar
 
 	module_function
 
-	# Takes objects with camel case property names and converts
-	# to ruby format.
-	# camelcase_object: just SomeObject object which needs to have
-	#       SomeObjectPropertyNames changed to property_names
-	# prefix_to_strip: any CamelCase part like 'SomeObject' which should be
-	#        removed before converting the rest of the name to snake_case
-	# Example:
-	# camel = { 'CamelFirstName' => 'Ed', 'CamelLastName' => 'Jones' }
-	# rubify_object(camel, 'Camel')
-	# => {"first_name"=>"Ed", "last_name"=>"Jones"}
-	#
-	def rubify_object(camelcase_object, prefix_to_strip)
-	  attrs = camelcase_object.reduce({}){ |result, (k,v)|
-	            result[rubify_name(k, prefix_to_strip)] = v
-	            result
-	          }
-	end
-
-  # Convert prefixed PascalCase to snake_case, sans prefix
-  # ex: rubyify_name('PrefixedFieldName', 'Prefixed') => 'field_name'
-  def rubify_name(camelcase_name, prefix_to_strip)
-    camelcase_name.sub(prefix_to_strip, '').underscore
-  end
-
 	# hack. This should go in a config file. TODO.
 	def city
 		'Mesa'
@@ -77,31 +53,9 @@ module Legistar
       structure = ActiveSupport::JSON.decode(response.body)
       structure_string = PP.pp structure, dump = ""
       log.info(structure_string)
-      to_migration(structure, endpoint_prefix_to_strip)
+      print_migration(structure, endpoint_prefix_to_strip)
     rescue => e
       bummer("query_url: #{url}, body: #{body}", response.status, e)
-    end
-  end
-
-  # Take the structure described in the Legistar API and
-  # output it in a format useful for a migration file.
-  def to_migration(structure, prefix_to_strip)
-    # structure.results is an array of objects with 'name' and
-    # 'type' fields. Note that the name will be in PascalCase,
-    # not snake_case. It will also have the RestEndpointName
-    # prepended to each.
-    # We need to convert that into lines like: t.integer :source_id
-    structure['results'].each do |field|
-      puts 't.' + rubify_type(field['type']) + ' :' + rubify_name(field['name'], prefix_to_strip)
-    end
-  end
-
-  # convert types from Legistar documentation to ruby appropriate types
-  def rubify_type(type)
-    case type
-    when 'Collection of byte' then 'string'
-    when 'date' then 'datetime'
-    else type
     end
   end
 
@@ -121,9 +75,9 @@ module Legistar
 															nesting_endpoint,
 															nesting_class)
 
+    @@endpoint = endpoint # 'EventItems'
+    @@prefix_to_strip = endpoint_prefix_to_strip #'EventItem'
 		@@endpoint_class = endpoint_class #EventItem
-		@@prefix_to_strip = endpoint_prefix_to_strip #'EventItem'
-		@@endpoint = endpoint # 'EventItems'
 
     to_log("fetching from endpoint: #{endpoint} (nesting_endpoint: #{nesting_endpoint}), filter: #{endpoint_filter}, prefix: #{endpoint_prefix_to_strip}, class: #{endpoint_class}")
 
@@ -160,36 +114,11 @@ module Legistar
 	#          example: 'events' for fetching from /v1/#{Legistar.city}/events
 	# endpoint_class: the Class of structure to create with the data retrieved from API
 	#          example: Event
-	def fetch_collection(endpoint, filter, prefix_to_strip, endpoint_class)
-		@@prefix_to_strip = prefix_to_strip
+	def fetch_collection(endpoint,
+                       filter,
+                       prefix_to_strip,
+                       endpoint_class)
 		@@endpoint = endpoint
-		@@endpoint_class = endpoint_class
-
-    to_log("fetching from endpoint: #{endpoint}, filter: #{filter}, prefix: #{prefix_to_strip}, class: #{endpoint_class}")
-
-    begin
-
-      url_path = "/v1/#{Legistar.city}/#{endpoint}#{filter}"
-      full_url = @@base_url + url_path
-      to_log("url: #{full_url}")
-
-
-      response = @@connection.get(url_path)
-      raise unless response.status == 200
-
-      to_objects(response.body)
-      sleep 1
-
-    rescue => e
-    	bummer(full_url, response.status, e)
-    end
-	end
-
-	protected
-
-	# collection: array of items returned from a Legistar collection endpoint
-	# extras: any additional parameters that should be set on each object (optional)
-  def self.to_objects(collection, extras=nil)
 		collection.each do |item|
 		  attrs = rubify_object(item, @@prefix_to_strip)
 		  attrs['source_id'] = attrs.delete('id')
@@ -216,5 +145,52 @@ module Legistar
 	  @@log.error(e)
 	  @@fileLog.error(e)
 	end
+
+  # Take the structure described in the Legistar API and
+  # output it in a format useful for a migration file.
+  def self.print_migration(structure, prefix_to_strip)
+    # structure.results is an array of objects with 'name' and
+    # 'type' fields. Note that the name will be in PascalCase,
+    # not snake_case. It will also have the RestEndpointName
+    # prepended to each.
+    # We need to convert that into lines like: t.integer :source_id
+    structure['results'].each do |field|
+      puts 't.' + rubify_type(field['type']) + ' :' + rubify_name(field['name'], prefix_to_strip)
+    end
+  end
+
+  # convert types from Legistar documentation to ruby appropriate types
+  def self.rubify_type(type)
+    case type
+    when 'Collection of byte' then 'string'
+    when 'date' then 'datetime'
+    else type
+    end
+  end
+
+  # Takes objects with camel case property names and converts
+  # to ruby format.
+  # camelcase_object: just SomeObject object which needs to have
+  #       SomeObjectPropertyNames changed to property_names
+  # prefix_to_strip: any CamelCase part like 'SomeObject' which should be
+  #        removed before converting the rest of the name to snake_case
+  # Example:
+  # camel = { 'CamelFirstName' => 'Ed', 'CamelLastName' => 'Jones' }
+  # rubify_object(camel, 'Camel')
+  # => {"first_name"=>"Ed", "last_name"=>"Jones"}
+  #
+  def self.rubify_object(camelcase_object, prefix_to_strip)
+    attrs = camelcase_object.reduce({}){ |result, (k,v)|
+              result[rubify_name(k, prefix_to_strip)] = v
+              result
+            }
+  end
+
+  # Convert prefixed PascalCase to snake_case, sans prefix
+  # ex: rubyify_name('PrefixedFieldName', 'Prefixed') => 'field_name'
+  def self.rubify_name(camelcase_name, prefix_to_strip)
+    camelcase_name.sub(prefix_to_strip, '').underscore
+  end
+
 
 end
