@@ -20,6 +20,7 @@ module Legistar
 			conn.request :instrumentation
 			conn.response :json
 			conn.adapter Faraday.default_adapter
+      conn.request :retry, max: 5, interval: 0.05, interval: 0.05, interval_randomness: 0.5, backoff_factor: 2
 	  end
 	end
 
@@ -100,14 +101,16 @@ module Legistar
         extras = { nesting_class.to_s.underscore + '_id' => nesting_item.source_id}
 
         to_objects(response.body, extras)
-        sleep 1
+        sleep 0.5
 
-      rescue => e
-      	bummer(full_url, response.status, e)
-      end
+      rescue Faraday::Error::ConnectionFailed => e
+        to_log "Connection failed for #{full_url}: #{e}"
     end
   end
 
+      rescue => e
+      	bummer(full_url, response.status, e) if response
+      end
 
 
 	# endpoint: which endpoint in the Legistar API to fetch
