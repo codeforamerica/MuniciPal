@@ -55,6 +55,8 @@ module Legistar
       structure_string = PP.pp structure, dump = ""
       log.info(structure_string)
       print_migration(structure, endpoint_prefix_to_strip)
+    rescue Faraday::Error::ConnectionFailed => e
+      to_log "Connection failed for #{url}: #{e}"
     rescue => e
       bummer("query_url: #{url}, body: #{body}", response.status, e)
     end
