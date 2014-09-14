@@ -28,6 +28,7 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
     arel (4.0.2)
+    awesome_print (1.2.0)
     builder (3.1.4)
     capybara (2.1.0)
       mime-types (>= 1.16)
@@ -185,6 +186,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-postgis-adapter (= 0.6.5)
+  awesome_print
   capybara (= 2.1.0)
   coffee-rails (= 4.0.1)
   debugger

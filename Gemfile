@@ -4,10 +4,14 @@ ruby '2.1.1'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.2'
 
+group :development, :test do
+  gem 'awesome_print'
+  gem 'debugger'
+end
+
 group :development, :test, :production do
   gem 'rspec-rails', '2.14.2'
   gem 'shoulda-matchers', '2.6.1'
-  gem 'debugger'
   gem 'faraday'
   gem 'faraday_middleware'
 end
