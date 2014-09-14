@@ -152,7 +152,7 @@ function updatePageContent(data) {
   $(".legislative-items").empty();
 
   // stick some event items in the frontend
-  _.map(data.event_items, function(item) {
+  _.map(data.event_items, function(item, i) {
 
       // ---- transforms -------------------------------------------------------------
 
@@ -174,6 +174,9 @@ function updatePageContent(data) {
       // We don't want to duplicate the MatterName (used as a title) as the first line of the text, so remove if found.
       var re = new RegExp('^' + item.matter_name + '[\n\r]*');
       item.title = item.title.replace(re, '');
+
+      // Make attachments available.
+      item.attachments = data.attachments[i]
 
       // ---- end transforms ----------------------------------------------------------
 
@@ -215,37 +218,28 @@ function updatePageContent(data) {
       $('.legislative-items').append(itemHtml);
 
       // get and populate matter attachments section
-      $.ajax({
-        type: 'GET',
-        crossDomain: true,
-        url: 'http://www.corsproxy.com/webapi.legistar.com/v1/mesa/Matters/' + item.matter_id + '/Attachments',
-        dataType: 'json',
-        success: function( data ) {
-
-          var list = _.map(data, function (attachment) {
-            return {
-              link: attachment.MatterAttachmentHyperlink,
-              name: attachment.MatterAttachmentName,
+      var list = _.map(item.attachments, function(attachment) {
+        return {
+              link: attachment.hyperlink,
+              name: attachment.name,
             };
-          });
+      })
+      if (list.length) {
+        var view = {
+          matterId: item.matter_id,
+          attachmentCount: list.length,
+          attachments: list,
+        };
+        var html = Mustache.render(attachmentsTemplate, view);
+        $('#attachments-' + item.matter_id).html(html);
+        $('#attachments-' + item.matter_id + ' a.attachments').click(function(event) {
+          var matterId = $(this).attr('data-matter-id');
+          console.log("setting link handler for attachments on matter " + matterId + "(matter " + item.matter_id + ")");
+          $('#attachments-' + matterId + ' ul.attachments').toggle();
+          event.preventDefault();
+        }).click();
+      }
 
-          if (list.length) {
-            var view = {
-              matterId: item.matter_id,
-              attachmentCount: list.length,
-              attachments: list,
-            };
-            var html = Mustache.render(attachmentsTemplate, view);
-            $('#attachments-' + item.matter_id).html(html);
-            $('#attachments-' + item.matter_id + ' a.attachments').click(function(event) {
-              var matterId = $(this).attr('data-matter-id');
-              console.log("setting link handler for attachments on matter " + matterId + "(matter " + item.matter_id + ")");
-              $('#attachments-' + matterId + ' ul.attachments').toggle();
-              event.preventDefault();
-            }).click();
-          }
-        },
-      });
 
       // get and populate event details section
       $.ajax({
