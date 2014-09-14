@@ -13,11 +13,16 @@ class EventItemsController < ApplicationController
   #   # end
   #   @event_items = EventItem.all
   # end
+  def index
+    # EventItem.find([34418, 34433])
+    @event_items = EventItem.all
+  end
 
   # GET /event_items/1
   # GET /event_items/1.json
-  # def show
-  # end
+  def show
+    EventItem.find(params[:id])
+  end
 
 
   # GET /event_items/new
