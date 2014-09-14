@@ -35,6 +35,9 @@ class AddressesController < ApplicationController
                                                  where(council_district_id: @district_polygon.id).
                                                  order('"events"."date" DESC')
          @event_items = @event_items2 # + @event_items1
+
+        attachments = @event_items.map { |item| item.attachments }
+
       else
         puts "ERROR: Whaaaaaat?! No district/id. You ran rake mesa_councils:load to populate the table right?"
       end
@@ -46,7 +49,8 @@ class AddressesController < ApplicationController
                   :in_district       => @in_district,
                   :district_polygon  => @district_polygon,
                   :event_items       => @event_items,
-                  :districts         => CouncilDistrict.getDistricts
+                  :districts         => CouncilDistrict.getDistricts,
+                  :attachments => attachments
                 }
     respond_with(@response)
   end

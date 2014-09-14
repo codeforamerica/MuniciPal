@@ -4,4 +4,5 @@ class EventItem < ActiveRecord::Base
   belongs_to :event
   belongs_to :matter
     validates :event, presence: true
+  has_many :attachments, through: :matter, source: :matter_attachments
 end
