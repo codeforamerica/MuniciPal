@@ -37,6 +37,7 @@ class AddressesController < ApplicationController
          @event_items = @event_items2 # + @event_items1
 
         attachments = @event_items.map(&:attachments)
+        events = @event_items.map(&:event).uniq
 
       else
         puts "ERROR: Whaaaaaat?! No district/id. You ran rake mesa_councils:load to populate the table right?"
@@ -50,7 +51,8 @@ class AddressesController < ApplicationController
                   :district_polygon  => @district_polygon,
                   :event_items       => @event_items,
                   :districts         => CouncilDistrict.getDistricts,
-                  :attachments => attachments
+                  :attachments => attachments,
+                  :events => events
                 }
     respond_with(@response)
   end

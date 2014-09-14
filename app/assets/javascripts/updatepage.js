@@ -242,34 +242,26 @@ function updatePageContent(data) {
 
 
       // get and populate event details section
-      $.ajax({
-        type: 'GET',
-        url: '/events/' + item.event_id + '.json',
-        dataType: 'json',
-        success: function( data ) {
-          var view = {
-            date: function() {
-              var months = [ "January", "February", "March", "April", "May", "June",
-               "July", "August", "September", "October", "November", "December" ],
-                date = data.EventDate.replace(/T.*/, '').split('-'); //YYYY-MM-DDT00:00:00Z -> [yyyy,mm,dd]
+      var event = _.find(data.events, {id: item.event_id})
+      var view = {
+        date: function() {
+          var months = [ "January", "February", "March", "April", "May", "June",
+           "July", "August", "September", "October", "November", "December" ],
+            date = event.date.replace(/T.*/, '').split('-'); //YYYY-MM-DDT00:00:00Z -> [yyyy,mm,dd]
 
-              // EventDate doesn't come in the right format (timezone is 0 instead of -7), so we fix it
-               var correctDate = new Date(date[0], date[1] - 1, date[2]);
-              return months[correctDate.getMonth()] + ' ' + correctDate.getDate();
-            },
-            time: data.EventTime,
-            location: data.EventLocation,
-            name: data.EventBodyName,
-            d: data.EventDate,
-          }
-          console.log(view);
-          var html = Mustache.render(eventTemplate, view);
-          console.log("adding details to event item");
-          console.log(item.matter_id);
-
-          $('#event-details-' + item.matter_id).html(html);
-        }
-      });
+          // EventDate doesn't come in the right format (timezone is 0 instead of -7), so we fix it
+           var correctDate = new Date(date[0], date[1] - 1, date[2]);
+          return months[correctDate.getMonth()] + ' ' + correctDate.getDate();
+        },
+        time: event.time,
+        location: event.location,
+        name: event.body_name,
+        d: event.date,
+      }
+      console.log(view);
+      var html = Mustache.render(eventTemplate, view);
+      console.log("adding details to event item " + item.matter_id);
+      $('#event-details-' + item.matter_id).html(html);
   });
 
   $('.legislative-items a.readmore').click(function(event) {
