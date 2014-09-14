@@ -14,12 +14,15 @@ module Legistar
     @@log.level = Logger::DEBUG
     @@fileLog.level = Logger::DEBUG
     @@base_url = 'http://webapi.legistar.com'
+    # extras: any additional parameters that should be set on each object (optional)
+    @@extras = nil
+    @@wait = 0.5 #seconds to wait between fetching
 
 		@@connection = Faraday.new(url: @@base_url) do |conn|
 			conn.headers['Accept'] = 'text/json'
 			conn.request :instrumentation
 			conn.response :json
-			conn.adapter Faraday.default_adapter
+      conn.adapter Faraday.default_adapter
       conn.request :retry, max: 5, interval: 0.05, interval: 0.05, interval_randomness: 0.5, backoff_factor: 2
 	  end
 	end
@@ -56,9 +59,10 @@ module Legistar
       log.info(structure_string)
       print_migration(structure, endpoint_prefix_to_strip)
     rescue Faraday::Error::ConnectionFailed => e
-      to_log "Connection failed for #{url}: #{e}"
+      log_error "Connection failed for #{url}: #{e}"
     rescue => e
-      bummer("query_url: #{url}, body: #{body}", response.status, e)
+      msg = "Failed fetching for query_url: #{url}, body: #{body}; status: #{response.status}, error: #{e}"
+      log_error(msg)
     end
   end
 
@@ -82,37 +86,22 @@ module Legistar
     @@prefix_to_strip = endpoint_prefix_to_strip #'EventItem'
 		@@endpoint_class = endpoint_class #EventItem
 
-    to_log("fetching from endpoint: #{endpoint} (nesting_endpoint: #{nesting_endpoint}), filter: #{endpoint_filter}, prefix: #{endpoint_prefix_to_strip}, class: #{endpoint_class}")
+    log_info("fetching from endpoint: #{endpoint} (nesting_endpoint: #{nesting_endpoint}), filter: #{endpoint_filter}, prefix: #{endpoint_prefix_to_strip}, class: #{endpoint_class}")
 
-    # Event.all.each do |event|
     nesting_class.all.each do |nesting_item|
-      begin
+    	# url = "/Events/#{event.source_id}/EventItems"
+		  @@url_path = "/v1/#{Legistar.city}/#{nesting_endpoint}/#{nesting_item.source_id}/#{endpoint}#{endpoint_filter}"
 
-      	# url = "/Events/#{event.source_id}/EventItems"
-			  url_path = "/v1/#{Legistar.city}/#{nesting_endpoint}/#{nesting_item.source_id}/#{endpoint}#{endpoint_filter}"
-	      full_url = @@base_url + url_path
-        to_log("url: #{full_url}")
+      # for nested items (like Attachments or EventItems),
+      # we want to keep a reference to the nesting object's id.
+      # note that this is more important for Attachments, which don't
+      # have an MatterId field, while EventItems do have an EventId.
+      @@extras = { nesting_class.to_s.underscore + '_id' => nesting_item.source_id}
 
-        response = @@connection.get(url_path)
-        raise unless response.status == 200
-
-        # for nested items (like Attachments or EventItems),
-        # we want to keep a reference to the nesting object's id.
-        # note that this is more important for Attachments, which don't
-        # have an MatterId field, while EventItems do have an EventId.
-        extras = { nesting_class.to_s.underscore + '_id' => nesting_item.source_id}
-
-        to_objects(response.body, extras)
-        sleep 0.5
-
-      rescue Faraday::Error::ConnectionFailed => e
-        to_log "Connection failed for #{full_url}: #{e}"
+      go_fetch()
     end
   end
 
-      rescue => e
-      	bummer(full_url, response.status, e) if response
-      end
 
 
 	# endpoint: which endpoint in the Legistar API to fetch
@@ -124,32 +113,63 @@ module Legistar
                        prefix_to_strip,
                        endpoint_class)
 		@@endpoint = endpoint
+    @@prefix_to_strip = prefix_to_strip
+		@@endpoint_class = endpoint_class
+    @@url_path = "/v1/#{Legistar.city}/#{endpoint}#{filter}"
+
+    log_info("fetching from endpoint: #{endpoint}, filter: #{filter}, prefix: #{prefix_to_strip}, class: #{endpoint_class}")
+    go_fetch()
+	end
+
+	protected
+
+  def self.go_fetch
+    begin
+
+      full_url = @@base_url + @@url_path
+      log_info("url: #{full_url}")
+
+      response = @@connection.get(@@url_path)
+      raise unless response.status == 200
+
+      to_objects(response.body)
+      sleep @@wait
+
+    rescue Faraday::Error::ConnectionFailed => e
+      log_error "Connection failed for #{full_url}: #{e}"
+    rescue => e
+      msg = "Failed fetching #{full_url}, error: #{e}"
+      if response
+        msg << ", status: #{response.status}"
+      end
+      log_error(msg)
+    end
+  end
+
+	# collection: array of items returned from a Legistar collection endpoint
+  def self.to_objects(collection)
 		collection.each do |item|
 		  attrs = rubify_object(item, @@prefix_to_strip)
 		  attrs['source_id'] = attrs.delete('id')
-      extras.each { |k,v| attrs[k] = v } if extras
+      @@extras.each { |k,v| attrs[k] = v } if @@extras
 
 		  pretty_attributes = pp attrs
 		  msg = "Attempting creation of #{@@endpoint_class.to_s} with attrs: #{pretty_attributes}"
-		  to_log(msg)
+		  log_info(msg)
 
 		  @@endpoint_class.create(attrs)
 		end
 	end
 
-	def self.to_log(msg)
+	def self.log_info(msg)
 		@@log.info(msg)
 		@@fileLog.info(msg)
 	end
 
-	# helper method to log fetch failure message
-	def self.bummer(url, status, e)
-	  msg = "Failed fetching #{url}, status: #{status}"
-	  @@log.error(msg)
-	  @@fileLog.error(msg)
-	  @@log.error(e)
-	  @@fileLog.error(e)
-	end
+  def self.log_error(msg)
+    @@log.error(msg)
+    @@fileLog.error(msg)
+  end
 
   # Take the structure described in the Legistar API and
   # output it in a format useful for a migration file.
