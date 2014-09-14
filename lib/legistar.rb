@@ -75,12 +75,15 @@ module Legistar
 		# endpoint_class is EventItem
 		# nesting_endpoint is 'Events'
 		# nesting_class is Event
+  # By default, the endpoints within every item of nesting class will be fetched;
+  # the set can be overridden by passing in nesting_collection though.
 	def fetch_nested_collection(endpoint,
 															endpoint_filter,
 															endpoint_prefix_to_strip,
 															endpoint_class,
 															nesting_endpoint,
-															nesting_class)
+															nesting_class,
+                              nesting_collection=nil)
 
     @@endpoint = endpoint # 'EventItems'
     @@prefix_to_strip = endpoint_prefix_to_strip #'EventItem'
@@ -88,7 +91,8 @@ module Legistar
 
     log_info("fetching from endpoint: #{endpoint} (nesting_endpoint: #{nesting_endpoint}), filter: #{endpoint_filter}, prefix: #{endpoint_prefix_to_strip}, class: #{endpoint_class}")
 
-    nesting_class.all.each do |nesting_item|
+    nesting_collection ||= nesting_class.all
+    nesting_collection.each do |nesting_item|
     	# url = "/Events/#{event.source_id}/EventItems"
 		  @@url_path = "/v1/#{Legistar.city}/#{nesting_endpoint}/#{nesting_item.source_id}/#{endpoint}#{endpoint_filter}"
 
