@@ -36,7 +36,7 @@ class AddressesController < ApplicationController
                                                  order('"events"."date" DESC')
          @event_items = @event_items2 # + @event_items1
 
-        attachments = @event_items.map { |item| item.attachments }
+        attachments = @event_items.map(&:attachments)
 
       else
         puts "ERROR: Whaaaaaat?! No district/id. You ran rake mesa_councils:load to populate the table right?"
