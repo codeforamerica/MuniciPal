@@ -14,13 +14,19 @@
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 
-<div id="topbar" class="pure-menu pure-menu-open pure-menu-horizontal">
-  <a href="#" class="pure-menu-heading">MuniciPAL</a>
+<div id="topbar" class="pure-menu pure-menu-open pure-menu-horizontal pure-menu-pull-right">
+  <a href="/" class="pure-menu-heading"><img src="/assets/logo.png" alt="MuniciPal"></a>
+    <ul>
+      <li><a href="#">Mayor</a></li>
+      <li><a href="#">City Manager</a></li>
+      <li><a href="#">Your District</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
 </div>
 
 <div class="pure-g">
   <!--HEADER CONTAINER-->
-  <div class="header-container pure-u-1-2 l-box-2x">
+  <div class="header-container pure-u-1 pure-u-lg-1-2 pure-u-md-3-5 l-box-2x">
     <div class="header">
 
       <h2><span>Locate</span> your council district.</h2>
@@ -30,10 +36,10 @@
 
       <div class="address-box pure-g">
         <label for="address" class="pure-u-1">Tell Me About My Council District:</label>
-        <div id="address-container" class="pure-u-4-5">
-          <input id="address" name="address" type="text" placeholder="Enter Your Mesa, AZ Address Here"/>
+        <div id="address-container" class="pure-u-xl-19-24 pure-u-lg-17-24 pure-u-1">
+          <input id="address" name="address" type="text" placeholder="Your Mesa Address"/>
         </div>
-        <div id="search-btn-container" class="pure-u-1-5">
+        <div id="search-btn-container" class="pure-u-xl-5-24 pure-u-lg-7-24 pure-u-1">
           <button id="search-btn" class="pure-button pure-button-primary">Search</button>
         </div>
         <p class="descript pure-u-1">example: <a href="?address=455%20West%20Baseline%20Road,%20Mesa,%20AZ%2085210,%20USA&lat=33.3781827&long=-111.8430414">455 W Baseline Rd, Mesa, AZ</a></p>
@@ -42,27 +48,29 @@
   </div>
   <!-- END HEADER CONTAINER -->
 
-  <div class="pure-u-1-2">
+  <div class="pure-u-1 pure-u-lg-1-2 pure-u-md-2-5 hide-sm">
     <div id="map"></div>
   </div>
 </div> <!-- end header/search grid -->
 
 <div class="results pure-g">
   <h1 class="you-live-in pure-u-1" id="answer">We don't yet know where you live.</h1>
-
-  <div class="pure-u-1-2 l-box">
-    <img id="council-picture" class="pure-img" src="http://placehold.it/650x450/607d8b/ffffff&text=loading" alt="Placeholder">
+  
+  <!-- Picture and contact info -->
+  <div class="pure-u-md-1-2 pure-u-1 l-box">
+    <img id="council-picture" class="pure-img hide-sm" src="http://placehold.it/650x450/607d8b/ffffff&text=loading" alt="Placeholder">
     <div class="contact-info">
       <div class="contact-method">
-        <span class="blue fa fa-phone fa-lg"></span><span id="council-phone">555-555-1234</span>
+        <span class="fa fa-phone fa-lg fa-fw"></span><span id="council-phone">555-555-1234</span>
       </div>
       <div class="contact-method">
-        <span class="blue fa fa-envelope fa-lg"></span><span id="council-email">?@mesaaz.gov</span>
+        <span class="fa fa-envelope fa-lg fa-fw"></span><span id="council-email">?@mesaaz.gov</span>
       </div>
     </div>
   </div>
-
-  <div class="pure-u-1-2 l-box">
+  
+  <!-- Details box -->
+  <div class="pure-u-md-1-2 pure-u-1 l-box">
     <h2 id="council-member">Some Person</h2>
     <div id="results-area">
       <div id="controls" class="pure-menu pure-menu-open pure-menu-horizontal">
