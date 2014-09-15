@@ -1,15 +1,22 @@
+# Municipal
+
+Consulting city-dwellers about legislation near them.
+
+Created for the city of Mesa, AZ. Please feel free to post in the "Issues" section with any questions or comments. 
+
 # Prerequisites
 
 * This application requires Ruby. If you don't have it, [download and install here](https://www.ruby-lang.org/en/installation/).
 * This application requires Rails.
 * This application also requires Postgres SQL. If you don't have it, [download and install here](http://postgresapp.com/).
+* This application also requires PostGIS.
 
 # Installation instructions
 
 #### Clone the app to your machine:
 
-    git clone https://github.com/codeforamerica/sa-zone.git
-    cd sa-zone
+    git clone
+    cd MuniciPal
 
 #### Install the dependencies:
 
@@ -40,4 +47,6 @@ Now you can access your application at http://0.0.0.0:3000
 
 # Copyright
 
-Copyright (c) 2014 Code for America. Created by the Techzans team working in San Antonio (Amy Mok, Maya Benari, David Leonard). Released under the BSD license.
+Copyright (c) 2014 Code for America. BSD License.
+Based sa-zone, created by Amy Mok, Maya Benari, and David Leonard.
+Significantly modified by Peter Welte, Tom Buckley, Andrew Douglas, and Wendy Fong.
