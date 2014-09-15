@@ -114,7 +114,6 @@ $center-header-text: 3em;
 
 .results {
   margin: 0 auto;
-  //padding: 0 2em;
   max-width: 1400px;
   display: none;
 
@@ -170,7 +169,7 @@ $center-header-text: 3em;
 #bio-card {
 	background: $white;
 	padding: 10px;
-	height: 400px;
+	min-height: 400px;
   line-height: 1.5;
 }
 
@@ -253,6 +252,8 @@ $center-header-text: 3em;
 }
 
 #legislative {
+  padding: 0 2em;
+
 	.legislative-header {
     text-align: center;
 
