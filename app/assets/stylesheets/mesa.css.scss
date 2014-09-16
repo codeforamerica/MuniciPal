@@ -5,12 +5,13 @@ $blue:  #607d8b;
 $grey:  #616161;
 $black: #000000;
 $white: #ffffff;
+$light-blue: #29a9e1;
 
 // Fonts
 $font-family: "Montserrat", Helvetica, Arial, sans-serif;
 
 body {
-  margin-top: 50px; // For fixed top bar
+  margin-top: 76px; // For fixed top bar
   color: $grey;
 }
 
@@ -51,7 +52,44 @@ $center-header-text: 3em;
   a,
   .pure-menu-heading {
     color: $white;
-    padding: 15px 20px;
+  }
+
+  .pure-menu-heading > img {
+    height: 60px;
+    width: auto;
+  }
+  
+  // Header menu styles
+  ul {
+    li {
+      a { 
+        text-transform: uppercase;
+        color: $white;
+      }
+
+      a:hover, a:focus { 
+        background: none;
+        color: darken($white, 15%);
+      }
+    }
+  }
+
+
+  // Pull right menu hack
+  // =======================================
+  // https://github.com/yahoo/pure/issues/56
+  // http://jsfiddle.net/xUwCw/
+  &.pure-menu-pull-right {
+    display: table;
+    width: 100%;
+  }
+  &.pure-menu-pull-right .pure-menu-heading,
+  &.pure-menu-pull-right > ul {
+    display: table-cell;
+    vertical-align: middle;
+  }
+  &.pure-menu-pull-right > ul {
+    text-align: right;
   }
 }
 
@@ -62,8 +100,8 @@ $center-header-text: 3em;
 .you-live-in {
   font-size: 40px;
   padding: 0 10px;
-  padding-top: 65px; // For fixed top bar
-  margin-top: -40px; // For fixed top bar
+  padding-top: 90px; // For fixed top bar
+  margin-top: -70px; // For fixed top bar
   margin-bottom: 0;
   text-align: center;
 
@@ -76,7 +114,6 @@ $center-header-text: 3em;
 
 .results {
   margin: 0 auto;
-  padding: 0 2em;
   max-width: 1400px;
   display: none;
 
@@ -132,7 +169,7 @@ $center-header-text: 3em;
 #bio-card {
 	background: $white;
 	padding: 10px;
-	height: 400px;
+	min-height: 400px;
   line-height: 1.5;
 }
 
@@ -157,10 +194,14 @@ $center-header-text: 3em;
 
   button {
     padding: 0.5em;
-    background: $blue;
-    width: 100%;
-    border: solid 2px $blue;
+    background: $light-blue;
+    width: 98%;
+    border: solid 2px $light-blue;
     border-radius: 8px;
+  }
+
+  div {
+    margin-bottom: .5em;
   }
 }
 
@@ -182,10 +223,14 @@ $center-header-text: 3em;
     display: inline-block;
     margin-left: 10px;
     margin-top: 1em;
+
+    .fa {
+      color: $blue;
+    }
   }
 }
 
-.pure-menu {
+.results .pure-menu {
   li {
     a {
       color: $green;
@@ -207,6 +252,8 @@ $center-header-text: 3em;
 }
 
 #legislative {
+  padding: 0 2em;
+
 	.legislative-header {
     text-align: center;
 
@@ -350,10 +397,7 @@ p.descript {
   font-style:italic;
   color:#808080;
   z-index:5;
-}
-
-.blue {
-  color: $blue;
+  margin-top:0;
 }
 
 .footer {
@@ -371,3 +415,50 @@ p.descript {
     text-decoration: none;
   }
 }
+
+/*  Responsive helpers where Pure blew it  */
+
+// Above size
+
+// sm
+@media screen and (min-width: 35.5em) {}
+
+// md
+@media screen and (min-width: 48em) {}
+
+// lg
+@media screen and (min-width: 64em) {}
+
+// xl
+@media screen and (min-width: 80em) {}
+
+// Below size
+
+// sm
+@media screen and (max-width: 35.5em) {
+  .hide-xs {
+    display: none;
+  }
+}
+
+// md
+@media screen and (max-width: 48em) {
+  .hide-sm {
+    display: none;
+  }
+}
+
+// lg
+@media screen and (max-width: 64em) {
+  .hide-md {
+    display: none;
+  }
+}
+
+// xl
+@media screen and (max-width: 80em) {
+  .hide-lg {
+    display: none;
+  }
+}
+
