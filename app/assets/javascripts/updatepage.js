@@ -112,6 +112,30 @@ function updatePage(ll) {
   })
 }
 
+/* text transforms on fields to improve readability of event items. */
+function event_item_improve_readability(item) {
+
+  // Simplify text by removing "(District X)" since we have that info elsewhere
+  item.title = item.title.replace(/\(District \d\)/, '');
+
+  var contract;
+  // Contract Matters tend to look like "C12345 Something Human Friendly". Let's save & remove that contract #.
+  if (item.matter_type == 'Contract') {
+    contract = item.matter_name.split(' ')[0]; // save it
+    console.log("Got contract: " + contract);
+    if (/C\d+/.test(contract)) {
+      item.matter_name = item.matter_name.substr(item.matter_name.indexOf(' ') + 1); // remove it
+    } else {
+      console.log("Weird. Expected " + contract + " to look like 'C' followed by some numbers.");
+    }
+  }
+
+  // We don't want to duplicate the MatterName (used as a title) as the first line of the text, so remove if found.
+  var re = new RegExp('^' + item.matter_name + '[\n\r]*');
+  item.title = item.title.replace(re, '');
+
+}
+
 
 /*
 This function fills out a bunch of mustache templates from the data above and AJAX
@@ -153,38 +177,14 @@ function updatePageContent(data) {
 
   // stick some event items in the frontend
   _.map(data.event_items, function(item, i) {
+      console.log("constructing legislative item, id: " item.matter_id);
 
-      // ---- transforms -------------------------------------------------------------
-
-      // Simplify text by removing "(District X)" since we have that info elsewhere
-      item.title = item.title.replace(/\(District \d\)/, '');
-
-      var contract;
-      // Contract Matters tend to look like "C12345 Something Human Friendly". Let's save & remove that contract #.
-      if (item.matter_type == 'Contract') {
-        contract = item.matter_name.split(' ')[0]; // save it
-        console.log("Got contract: " + contract);
-        if (/C\d+/.test(contract)) {
-          item.matter_name = item.matter_name.substr(item.matter_name.indexOf(' ') + 1); // remove it
-        } else {
-          console.log("Weird. Expected " + contract + " to look like 'C' followed by some numbers.");
-        }
-      }
-
-      // We don't want to duplicate the MatterName (used as a title) as the first line of the text, so remove if found.
-      var re = new RegExp('^' + item.matter_name + '[\n\r]*');
-      item.title = item.title.replace(re, '');
+      event_item_improve_readability(item)
 
       // Make attachments available.
       item.attachments = data.attachments[i]
 
-      // ---- end transforms ----------------------------------------------------------
-
-
       textToGeo(item.title);
-
-      console.log("constructing legislative item");
-      console.log(item.matter_id);
 
       var view = {
         title: function() {
