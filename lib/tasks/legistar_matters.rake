@@ -1,5 +1,4 @@
-require "net/http"
-require "uri"
+require 'legistar'
 
 namespace :legistar_matters do
   desc "Load Legistar matters into database from REST API"

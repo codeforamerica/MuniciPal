@@ -1,6 +1,3 @@
-require 'rgeo/shapefile'
-require 'shellwords'
-
 require 'legistar'
 
 namespace :legistar_events do
