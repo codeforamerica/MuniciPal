@@ -12,10 +12,6 @@ class MattersController < ApplicationController
   def show
     puts params
     @matter = Matter.find(params["id"])
-    puts @matter
-    respond_to do |format|
-      format.json { render json: @matter }
-    end
   end
 
   # GET /matters/new
