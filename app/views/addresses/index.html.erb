@@ -168,66 +168,6 @@
   </div>
 </div>
 
-<script id="legislation-template" type="x-tmpl-mustache">
-
-  <article class="legislation pure-g" id={{matterId}}>
-
-<!-- ICON COLUMN -->
-    <div class="pure-u-md-1-24 hide-sm">
-      <i class="icon fa {{icon}} fa-2x"></i>
-    </div>
-
-<!-- INFO/DETAILS COLUMN -->
-    <div class="pure-u-md-18-24 pure-u-1">
-      <div class="item-name pure-g">
-        <div class="pure-u-md-3-4 pure-u-1">
-          <div class="agenda-basics">
-            <h4 class="text">{{title}}</h4>
-            <div id="event-details-{{matterId}}"></div>
-          </div>
-        </div>
-        <div class="distance pure-u-md-1-4 pure-u-1">
-          <div class="geo-scope">{{scope}}</div>
-          <div class="distance">{{distance}} miles away</div>
-        </div>
-      </div>
-
-      <div class="title">
-        {{{body}}}
-        <div class="matter-comments"><a class="comments" data-matter-id="{{matterId}}" href="#">Share your opinion <span class="fa fa-caret-down"></span></a></div>
-      </div>
-      <div class="comments"></div>
-    </div>
-<!-- ATTACHMENTS COLUMN -->
-
-      <div class="pure-u-md-5-24 pure-u-1">
-        <div class="matter-attachments" id="attachments-{{matterId}}"></div>
-      </div>
-    </div>
-
-  </article>
-</script>
-
-<script id="event-details-template" type="x-tmpl-mustache">
-  <div class="event-date">{{date}}, {{time}}</div>
-  <!--
-  <h5>Next Meeting</h5>
-  <ul>
-    <li>{{date}}</li>
-    <li>{{time}}</li>
-    <li>{{name}}</li>
-    <li>{{location}}</li>
-  </ul>
-  -->
-</script>
-
-<script id="template-attachments" type="x-tmpl-mustache">
-  <a href="#" class="attachments" data-matter-id="{{matterId}}">Attachments ({{attachmentCount}}) <span class="fa fa-caret-down"></span></a>
-  <ul class="attachments">
-    {{#attachments}}
-      <li><a target="_blank" href="{{link}}">{{name}}</a></li>
-    {{/attachments}}
-  </ul>
-</script>
+<%= render "layouts/mustache_templates" %>
 
 <%= javascript_include_tag "addresses", "data-turbolinks-track" => true %>
