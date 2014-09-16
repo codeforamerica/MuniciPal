@@ -1,3 +1,5 @@
+require 'legistar'
+
 namespace :legistar_attachments do
   desc "Load Legistar attachments into database (for all matters, or a particular matter_id)"
   task :load, [:matter_id] => [:environment] do |t, args|
