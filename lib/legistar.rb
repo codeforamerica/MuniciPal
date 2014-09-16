@@ -161,7 +161,7 @@ module Legistar
 		  msg = "Attempting creation of #{@@endpoint_class.to_s} with attrs: #{pretty_attributes}"
 		  log_info(msg)
 
-		  @@endpoint_class.create(attrs)
+		  @@endpoint_class.find_or_create_by(attrs)
 		end
 	end
 
