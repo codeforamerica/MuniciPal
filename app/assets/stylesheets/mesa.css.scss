@@ -8,7 +8,7 @@ $white: #ffffff;
 $light-blue: #29a9e1;
 
 // Fonts
-$font-family: "Montserrat", Helvetica, Arial, sans-serif;
+$font-family: "proxima-nova", Helvetica, Arial, sans-serif;
 
 body {
   margin-top: 76px; // For fixed top bar
@@ -44,7 +44,6 @@ $center-header-text: 3em;
 // The styles
 #topbar.pure-menu {
 	background: $blue;
-	font-weight: bold;
   position: fixed;
   top: 0;
   z-index: 1010; // z-index fight with leaflet
@@ -152,7 +151,7 @@ $center-header-text: 3em;
 
   h2 {
     color: $blue;
-    font-weight: 100;
+    font-weight: 400;
 
     span {
       text-transform: uppercase;
@@ -178,7 +177,7 @@ $center-header-text: 3em;
   
   label {
     color: $blue;
-    font-weight: 100;
+    font-weight: 400;
     display: block;
     margin-bottom: 10px;
   }
@@ -220,6 +219,7 @@ $center-header-text: 3em;
   }
 
   .contact-method {
+    text-transform: lowercase;
     display: inline-block;
     margin-left: 10px;
     margin-top: 1em;
