@@ -36,7 +36,7 @@ class AddressesController < ApplicationController
         events = @event_items.map(&:event).uniq #see http://ablogaboutcode.com/2012/01/04/the-ampersand-operator-in-ruby/
 
       else
-        puts "ERROR: Whaaaaaat?! No district/id. You ran rake mesa_councils:load to populate the table right?"
+        puts "ERROR: Whaaaaaat?! No district/id. You ran rake council_districts:load to populate the table right?"
       end
     end
 
