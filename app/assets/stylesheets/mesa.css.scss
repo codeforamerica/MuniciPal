@@ -376,6 +376,8 @@ div#disqus_thread {
 /* more tips: http://stackoverflow.com/questions/10656038/how-to-make-the-facebook-like-box-responsive */
 .fb-like-box, .fb-like-box span, .fb-like-box span iframe[style] {
   width: 100% !important;
+  height: 400px !important;
+  overflow: visible !important;
 }
 
 #map {
