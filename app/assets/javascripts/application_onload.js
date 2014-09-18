@@ -13,5 +13,4 @@ $(document).ready(function() {
 	attachmentsTemplate = $('#template-attachments').html();
 	Mustache.parse (attachmentsTemplate);
 
-	// disqusInitialize()
-})
+});
