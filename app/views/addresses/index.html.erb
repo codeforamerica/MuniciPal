@@ -14,16 +14,6 @@
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 
-<div id="topbar" class="pure-menu pure-menu-open pure-menu-horizontal pure-menu-pull-right">
-  <a href="/" class="pure-menu-heading"><img src="/assets/logo.png" alt="MuniciPal"></a>
-    <ul>
-      <li><a href="#">Mayor</a></li>
-      <li><a href="#">City Manager</a></li>
-      <li><a href="#">Your District</a></li>
-      <li><a href="#">About</a></li>
-    </ul>
-</div>
-
 <div class="pure-g">
   <!--HEADER CONTAINER-->
   <div class="header-container pure-u-1 pure-u-lg-1-2 pure-u-md-3-5 l-box-2x">
@@ -138,96 +128,12 @@
     </div> <!-- end results area -->
   </div>
 
-  <div id="legislative" class="pure-u-1">
-    <div class="legislative-header l-box">
-      <h1>Items Being Discussed in Your District</h1>
-      <p>View all upcoming items that will be voted on in your district and city.<br>
-        Share your opinion on the decisions being made that affect you.</p>
-
-      <a href="http://tomcfa.s3.amazonaws.com/participate.html">Ways you can participate <span class="fa fa-caret-right fa-lg"></span></a>
-    </div>
-
-    <div class="sort-by pure-menu pure-menu-open pure-menu-horizontal">
-      <div class="pure-menu-heading">Sort by: </div>
-      <ul>
-        <li class="pure-menu-selected"><a href="#">Date</a></li>
-        <li><a href="#">Distance</a></li>
-        <li><a href="#">Activity</a></li>
-      </ul>
-    </div>
-
-    <div class="legislative-items"></div>
-  </div>
+  
+  <%= render "layouts/legislative_items" %>
 
 </div> <!-- end results -->
 
-<div class="footer inverted pure-g l-box">
-  <div class="pure-u-1">
-    <h5> A project by Code for America in partnership with the City of Mesa</h5>
-    <h5><a href="mailto:mesa@codeforamerica.org">mesa@codeforamerica.org</a></h5>
-  </div>
-</div>
-
-<script id="legislation-template" type="x-tmpl-mustache">
-
-  <article class="legislation pure-g" id={{matterId}}>
-
-<!-- ICON COLUMN -->
-    <div class="pure-u-md-1-24 hide-sm">
-      <i class="icon fa {{icon}} fa-2x"></i>
-    </div>
-
-<!-- INFO/DETAILS COLUMN -->
-    <div class="pure-u-md-18-24 pure-u-1">
-      <div class="item-name pure-g">
-        <div class="pure-u-md-3-4 pure-u-1">
-          <div class="agenda-basics">
-            <h4 class="text">{{title}}</h4>
-            <div id="event-details-{{matterId}}"></div>
-          </div>
-        </div>
-        <div class="distance pure-u-md-1-4 pure-u-1">
-          <div class="geo-scope">{{scope}}</div>
-          <div class="distance">{{distance}} miles away</div>
-        </div>
-      </div>
-
-      <div class="title">
-        {{{body}}}
-        <div class="matter-comments"><a class="comments" data-matter-id="{{matterId}}" href="#">Share your opinion <span class="fa fa-caret-down"></span></a></div>
-      </div>
-      <div class="comments"></div>
-    </div>
-<!-- ATTACHMENTS COLUMN -->
-
-      <div class="pure-u-md-5-24 pure-u-1">
-        <div class="matter-attachments" id="attachments-{{matterId}}"></div>
-      </div>
-    </div>
-
-  </article>
-</script>
-
-<script id="event-details-template" type="x-tmpl-mustache">
-  <div class="event-date">{{date}}, {{time}}</div>
-  <!--
-  <h5>Next Meeting</h5>
-  <ul>
-    <li>{{date}}</li>
-    <li>{{time}}</li>
-    <li>{{name}}</li>
-    <li>{{location}}</li>
-  </ul>
-  -->
-</script>
-
-<script id="template-attachments" type="x-tmpl-mustache">
-  <a href="#" class="attachments" data-matter-id="{{matterId}}">Attachments ({{attachmentCount}}) <span class="fa fa-caret-down"></span></a>
-  <ul class="attachments">
-    {{#attachments}}
-      <li><a target="_blank" href="{{link}}">{{name}}</a></li>
-    {{/attachments}}
-  </ul>
-</script>
+<%= render "layouts/mustache_templates" %>
 
 <%= javascript_include_tag "addresses", "data-turbolinks-track" => true %>
+

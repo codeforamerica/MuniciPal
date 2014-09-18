@@ -19,14 +19,6 @@ function toggleCards(event) {
     $(this).parent().addClass('pure-menu-selected');
 }
 
-$('#controls-bio').click(toggleCards);
-$('#controls-twitter').click(toggleCards);
-$('#controls-facebook').click(toggleCards);
-$('#controls-mentions').click(toggleCards);
-
-// initally we want to show just the twitter card
-$('#cards .card').hide();
-$('#cards #bio-card').show();
 
 // example code from https://github.com/jsoma/tabletop
 
@@ -63,6 +55,9 @@ $('#cards #bio-card').show();
 // })();
 
 
+function find_member(district) {
+  return _.find(council, function(member){ return member.district == district });
+}
 
 var council = [
     {

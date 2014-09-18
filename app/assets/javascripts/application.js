@@ -17,3 +17,11 @@
 //= require text
 //= require getparam.js
 //= require analytics
+//= require vendor/underscore.js
+//= require vendor/mustache.js
+//= require 'config.js'
+//= require updatepage.js
+//= require legistar/legistar.js
+//= require disqus.js
+//= require application_onload.js
+

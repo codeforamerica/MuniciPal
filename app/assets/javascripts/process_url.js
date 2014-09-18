@@ -1,11 +1,10 @@
-$( document ).ready(function() {
-  // Handler for .ready() called.
+function processUrl() {
   var urlAddress = getUrlVar("address");
   var urlLat = getUrlVar("lat");
   var urlLong = getUrlVar("long");
-  console.log(urlAddress);
-  console.log(urlLat);
-  console.log(urlLong);
+  console.log("address: " + urlAddress);
+  console.log("lat: " + urlLat);
+  console.log("lon" + urlLong);
   if(urlAddress && urlAddress != '') {
     updatePage({'address': urlAddress});
     console.log("address is not empty");
@@ -13,4 +12,4 @@ $( document ).ready(function() {
     updatePage({'lat': urlLat, 'long': urlLong});
     console.log("lat and long are not empty");
   }
-});
+}
