@@ -139,7 +139,7 @@ EventItem.prototype.renderAttachments = function () {
       event.preventDefault();
     }).click();
   } else {
-    $('#attachments-' + this.matter_id).html('<div>No attachments</div>');
+    $('#attachments-' + this.matter_id).html('<div class="attachments">No attachments</div>');
   }
   return this
 }

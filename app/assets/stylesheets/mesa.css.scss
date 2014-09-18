@@ -328,6 +328,10 @@ $center-header-text: 3em;
   margin-left: 1em;
 }
 
+div.attachments {
+  text-transform: uppercase;
+}
+
 a.attachments, .matter-comments a {
 	color: $green;
 	text-transform: uppercase;
