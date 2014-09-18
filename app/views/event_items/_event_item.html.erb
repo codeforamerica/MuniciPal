@@ -1,0 +1,22 @@
+
+<%= render "layouts/legislative_items" %>
+<%= render "layouts/mustache_templates" %>
+
+<script>
+$(document).ready(function() {
+  var api_event_item = <%= raw @event_item.to_json %>
+  var api_event = <%= raw @event_item.event.to_json %>
+  var attachments = <%= raw @event_item.attachments.to_json %>
+
+  // textToGeo(item.title);
+
+  var event_item = new EventItem(api_event_item, attachments).render('.legislative-items')
+
+  // get and populate event details section
+  event = new Event(api_event).render('#event-details-' + event_item.matter_id)
+
+  disqusInitialize(); // ensure disqus is loaded (only runs once)
+
+  setPageClickHandlers()
+})
+</script>

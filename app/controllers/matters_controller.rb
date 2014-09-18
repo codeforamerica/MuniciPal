@@ -12,6 +12,7 @@ class MattersController < ApplicationController
   def show
     puts params
     @matter = Matter.find(params["id"])
+    @event_item = @matter.event_items.first
   end
 
   # GET /matters/new
