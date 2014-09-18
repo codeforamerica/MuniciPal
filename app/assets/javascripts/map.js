@@ -12,34 +12,36 @@ var g_data, g_districts;
 ==========================================
 ==========================================
 */
-var prj = 'codeforamerica.hmebo8ll'; // Mapbox map id string
-var MAP_CENTER_LOCATION = [33.4019, -111.78];
-var MAP_MARKER_LOCATION = [33.42, -111.835];
-var MAP_START_ZOOM = 12;
-var DISTRICT_FILL = 'white';
 
-var map = L.mapbox.map(
-  'map',
-  prj,
-  {
-    center: MAP_CENTER_LOCATION,
-    zoom: MAP_START_ZOOM,
-    minZoom: 6,
-    maxZoom: 18,
-    scrollWheelZoom: false,
-  }
-);
+var map, marker, districtLayer, otherDistrictsLayer;
 
-var districtLayer = L.mapbox.featureLayer(null, {}).addTo(map);
-var otherDistrictsLayer;
+function mapInitialize() {
 
-var marker = L.marker(MAP_MARKER_LOCATION, {
-      icon: L.mapbox.marker.icon({'marker-color': 'CC0033'}),
-      draggable: true
-      });
-marker.addTo(map);
-marker.bindPopup("<b>Click and drag me!</b>").openPopup();
-marker.on('dragend', onDragEnd);
+  map = L.mapbox.map(
+    'map',
+    config.map.prj,
+    {
+      center: config.map.center_location,
+      zoom: config.map.start_zoom,
+      minZoom: 6,
+      maxZoom: 18,
+      scrollWheelZoom: false,
+    }
+  );
+
+  districtLayer = L.mapbox.featureLayer(null, {}).addTo(map);
+  otherDistrictsLayer;
+
+  marker = L.marker(config.map.marker_location, {
+        icon: L.mapbox.marker.icon({'marker-color': 'CC0033'}),
+        draggable: true
+        });
+  marker.addTo(map);
+  marker.bindPopup("<b>Click and drag me!</b>").openPopup();
+  marker.on('dragend', onDragEnd);
+}
+
+
 
 /*
 ==========================================
@@ -140,7 +142,7 @@ function addDistrictsToMap(districts) {
   otherDistrictsLayer = L.geoJson(otherDistrictsJSON, {
     style: function (feature) {
       return {
-          fillColor: DISTRICT_FILL,
+          fillColor: config.map.district_fill,
           weight: 1,
           opacity: 0.7,
           fillOpacity: 0.2,
