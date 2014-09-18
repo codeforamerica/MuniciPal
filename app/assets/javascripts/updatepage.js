@@ -148,13 +148,7 @@ function setPageClickHandlers() {
 
     selectedCommentDiv.show();
 
-    DISQUS.reset({
-      reload: true,
-      config: function () {
-        this.page.identifier = matter;
-        this.page.url = config.disqus.base_url + '/matter/' +  matter;
-      }
-    });
+    disqusInitialize(matter);
   });
 }
 
@@ -211,9 +205,7 @@ function updatePageContent(data) {
 
   });
 
-  disqusInitialize(); // ensure disqus is loaded (only runs once)
-
-  setPageClickHandlers()
+  setPageClickHandlers();
 
   // twitter & facebook only render on page load by default, so
   // we need to call on them to parse & render the new content
