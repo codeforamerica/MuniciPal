@@ -67,6 +67,8 @@ Example of item from event_items Array:
 
 */
 
+
+
 function updatePage(ll) {
   $.ajax({
     type: 'GET',
@@ -112,157 +114,8 @@ function updatePage(ll) {
   })
 }
 
-/* text transforms on fields to improve readability of event items. */
-function event_item_improve_readability(item) {
 
-  // Simplify text by removing "(District X)" since we have that info elsewhere
-  item.title = item.title.replace(/\(District \d\)/, '');
-
-  var contract;
-  // Contract Matters tend to look like "C12345 Something Human Friendly". Let's save & remove that contract #.
-  if (item.matter_type == 'Contract') {
-    contract = item.matter_name.split(' ')[0]; // save it
-    console.log("Got contract: " + contract);
-    if (/C\d+/.test(contract)) {
-      item.matter_name = item.matter_name.substr(item.matter_name.indexOf(' ') + 1); // remove it
-    } else {
-      console.log("Weird. Expected " + contract + " to look like 'C' followed by some numbers.");
-    }
-  }
-
-  // We don't want to duplicate the MatterName (used as a title) as the first line of the text, so remove if found.
-  var re = new RegExp('^' + item.matter_name + '[\n\r]*');
-  item.title = item.title.replace(re, '');
-
-}
-
-
-/*
-This function fills out a bunch of mustache templates from the data above and AJAX
-requests to the legistar REST API.
- */
-
-function updatePageContent(data) {
-
-  $('body').removeClass('initial');
-  var district = data.district_polygon.id;
-
-  var member = find_member(district);
-  var mayor = find_member(0); // 0 = mayor. for now anyway.
-
-  $('.you-live-in').empty().append('District ' + district).removeClass("no-district").show();
-  $('.results-text').empty().append(data.district_polygon.name);
-  $('.results').show();
-
-  $('#council-picture').attr({
-    'src': 'http://tomcfa.s3.amazonaws.com/district'+district+'.jpg',
-    'alt': 'Councilmember for District ' + district
-  });
-  $('#council-member').empty().append(data.district_polygon.name);
-  $('#council-phone').empty().append(member.phone);
-  $('#council-email').empty().append(member.email);
-  $('#council-website').empty().append(member.website);
-  $('#council-address').empty().append(member.address);
-  $('#bio-card .bio').empty().append(member.bio);
-
-  $(".fb-widget").hide();
-  $(".fb-widget#facebook-" + district).show();
-
-
-  $(".twit-widget").hide();
-  $(".twit-widget#council-" + district).show();
-//  $(".twit-widget#mention-" + district).show();
-
-  $(".legislative-items").empty();
-
-  // stick some event items in the frontend
-  _.map(data.event_items, function(item, i) {
-      console.log("constructing legislative item, id: " item.matter_id);
-
-      event_item_improve_readability(item)
-
-      // Make attachments available.
-      item.attachments = data.attachments[i]
-
-      textToGeo(item.title);
-
-      var view = {
-        title: function() {
-          if (item.matter_type == 'Ordinance' &&
-              (/^Z\d{2}.*/.test(item.matter_name) ||
-               /^Zon.*/.test(item.matter_name))) {
-            return "Zoning: " + item.matter_name;
-          } else if (item.matter_type == "Liquor License") {
-            return "Liquor License for " + item.matter_name;
-          } else if (item.matter_type == "Contract") {
-            return "Contract: " + item.matter_name;
-          } else {
-            return item.matter_name;
-          }
-        },
-        distance: function () {
-          return Math.floor(Math.random() * (6 - 2)) + 2;
-        },
-        body: function() {
-          return summarize(item.title);
-        },
-        matterId: item.matter_id,
-        icon: icons.get(item.matter_type),
-        scope: function() {
-          // if Citywide, "Citywide" (TODO), else
-          return "In District " + district;
-        }
-      };
-
-      var itemHtml = Mustache.render(legislationTemplate, view);
-      $('.legislative-items').append(itemHtml);
-
-      // get and populate matter attachments section
-      var list = _.map(item.attachments, function(attachment) {
-        return {
-              link: attachment.hyperlink,
-              name: attachment.name,
-            };
-      })
-      if (list.length) {
-        var view = {
-          matterId: item.matter_id,
-          attachmentCount: list.length,
-          attachments: list,
-        };
-        var html = Mustache.render(attachmentsTemplate, view);
-        $('#attachments-' + item.matter_id).html(html);
-        $('#attachments-' + item.matter_id + ' a.attachments').click(function(event) {
-          var matterId = $(this).attr('data-matter-id');
-          console.log("setting link handler for attachments on matter " + matterId + "(matter " + item.matter_id + ")");
-          $('#attachments-' + matterId + ' ul.attachments').toggle();
-          event.preventDefault();
-        }).click();
-      }
-
-
-      // get and populate event details section
-      var event = _.find(data.events, {id: item.event_id})
-      var view = {
-        date: function() {
-          var months = [ "January", "February", "March", "April", "May", "June",
-           "July", "August", "September", "October", "November", "December" ],
-            date = event.date.replace(/T.*/, '').split('-'); //YYYY-MM-DDT00:00:00Z -> [yyyy,mm,dd]
-
-          // EventDate doesn't come in the right format (timezone is 0 instead of -7), so we fix it
-           var correctDate = new Date(date[0], date[1] - 1, date[2]);
-          return months[correctDate.getMonth()] + ' ' + correctDate.getDate();
-        },
-        time: event.time,
-        location: event.location,
-        name: event.body_name,
-        d: event.date,
-      }
-      console.log(view);
-      var html = Mustache.render(eventTemplate, view);
-      console.log("adding details to event item " + item.matter_id);
-      $('#event-details-' + item.matter_id).html(html);
-  });
+function setPageClickHandlers() {
 
   $('.legislative-items a.readmore').click(function(event) {
     // toggle visibility of the clicked teaser and body.
@@ -299,11 +152,68 @@ function updatePageContent(data) {
       reload: true,
       config: function () {
         this.page.identifier = matter;
-        this.page.url = "http://yerhere.herokuapp.com/matters/" + matter;
+        this.page.url = config.disqus.base_url + '/matter/' +  matter;
       }
     });
   });
+}
 
+
+/*
+This function fills out a bunch of mustache templates from the data above and AJAX
+requests to the legistar REST API.
+ */
+
+function updatePageContent(data) {
+
+  $('body').removeClass('initial');
+  var district = data.district_polygon.id;
+
+  var member = find_member(district);
+  var mayor = find_member(0); // 0 = mayor. for now anyway.
+
+  $('.you-live-in').empty().append('District ' + district).removeClass("no-district").show();
+  $('.results-text').empty().append(data.district_polygon.name);
+  $('.results').show();
+
+  $('#council-picture').attr({
+    'src': 'http://tomcfa.s3.amazonaws.com/district'+district+'.jpg',
+    'alt': 'Councilmember for District ' + district
+  });
+  $('#council-member').empty().append(data.district_polygon.name);
+  $('#council-phone').empty().append(member.phone);
+  $('#council-email').empty().append(member.email);
+  $('#council-website').empty().append(member.website);
+  $('#council-address').empty().append(member.address);
+  $('#bio-card .bio').empty().append(member.bio);
+
+
+  $(".fb-widget").hide();
+  $(".fb-widget#facebook-" + district).show();
+
+
+  $(".twit-widget").hide();
+  $(".twit-widget#council-" + district).show();
+//  $(".twit-widget#mention-" + district).show();
+
+  $(".legislative-items").empty();
+
+  // stick some event items in the frontend
+  _.map(data.event_items, function(item, i) {
+
+      textToGeo(item.title);
+
+      var event_item = new EventItem(item, data.attachments[i]).render('.legislative-items')
+
+      // get and populate event details section
+      var api_event = _.find(data.events, {id: item.event_id})
+      event = new Event(api_event).render('#event-details-' + event_item.matter_id)
+
+  });
+
+  disqusInitialize(); // ensure disqus is loaded (only runs once)
+
+  setPageClickHandlers()
 
   // twitter & facebook only render on page load by default, so
   // we need to call on them to parse & render the new content
