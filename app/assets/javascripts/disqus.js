@@ -1,9 +1,15 @@
-/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-var disqus_shortname = 'yerhere'; // required: replace example with your forum shortname
+var disqus_initialized = false
 
-/* * * DON'T EDIT BELOW THIS LINE * * */
-(function() {
+function disqusInitialize() {
+	if (disqus_initialized) return;
+
+	/* * * DON'T EDIT BELOW THIS LINE * * */
     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-})();
+    dsq.src = '//' + config.disqus.shortname + '.disqus.com/embed.js';
+
+    var tag = (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0])
+    tag.appendChild(dsq);
+
+	disqus_initialized = true;
+}
+
