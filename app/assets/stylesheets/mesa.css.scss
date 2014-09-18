@@ -48,14 +48,21 @@ $center-header-text: 3em;
   top: 0;
   z-index: 1010; // z-index fight with leaflet
 
-  a,
-  .pure-menu-heading {
+  a {
     color: $white;
   }
 
-  .pure-menu-heading > img {
-    height: 60px;
-    width: auto;
+  .pure-menu-heading {
+  
+    a {
+      display: inline-block;
+      padding: 0;
+    }
+
+    img {
+      height: 60px;
+      width: auto;
+    }
   }
   
   // Header menu styles
@@ -328,6 +335,10 @@ $center-header-text: 3em;
   margin-left: 1em;
 }
 
+div.attachments {
+  text-transform: uppercase;
+}
+
 a.attachments, .matter-comments a {
 	color: $green;
 	text-transform: uppercase;
@@ -343,6 +354,16 @@ ul.attachments {
     a {
       color: $green;
     }
+
+    a[href$=".pdf"]:after { content: " (.pdf)"; }
+    a[href$=".doc"]:after { content: " (.doc)"; }
+    a[href$=".docx"]:after { content: " (.docx)"; }
+    a[href$=".xls"]:after { content: " (.xls)"; }
+    a[href$=".xslx"]:after { content: " (.xlsx)"; }
+    a[href$=".svg"]:after { content: " (.svg)"; }
+    a[href$=".jpg"]:after { content: " (.jpg)"; }
+    a[href$=".jpeg"]:after { content: " (.jpeg)"; }
+    a[href$=".gif"]:after { content: " (.gif)"; } // we can only hope
   }
 }
 
