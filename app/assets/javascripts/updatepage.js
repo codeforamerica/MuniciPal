@@ -84,7 +84,7 @@ function updatePage(ll) {
 
         var geoJSON = $.parseJSON(data.district_polygon.st_asgeojson);
 
-        geoJSON.properties = { fill: DISTRICT_FILL };
+        geoJSON.properties = { fill: config.map.district_fill };
         districtLayer.setGeoJSON(geoJSON);
         districtLayer.setFilter(function() { return true; });
 
@@ -106,7 +106,7 @@ function updatePage(ll) {
       }
 
       $( "#address").val(data.address);
-      map.setView([data.lat, data.lng], MAP_START_ZOOM);
+      map.setView([data.lat, data.lng], config.map.start_zoom);
       document.getElementById('answer').scrollIntoView();
     }
   })
