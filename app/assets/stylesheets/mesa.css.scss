@@ -48,14 +48,21 @@ $center-header-text: 3em;
   top: 0;
   z-index: 1010; // z-index fight with leaflet
 
-  a,
-  .pure-menu-heading {
+  a {
     color: $white;
   }
 
-  .pure-menu-heading > img {
-    height: 60px;
-    width: auto;
+  .pure-menu-heading {
+  
+    a {
+      display: inline-block;
+      padding: 0;
+    }
+
+    img {
+      height: 60px;
+      width: auto;
+    }
   }
   
   // Header menu styles
