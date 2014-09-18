@@ -1,179 +1,22 @@
-<p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Event:</strong>
-  <%= @event_item.event_id %>
-</p>
+<%= render "layouts/legislative_items" %>
+<%= render "layouts/mustache_templates" %>
 
-<p>
-  <strong>id:</strong>
-  <%= @event_item.id %>
-</p>
+<script>
+$(document).ready(function() {
+  var api_event_item = <%= raw @event_item.to_json %>
+  var api_event = <%= raw @event_item.event.to_json %>
+  var attachments = <%= raw @event_item.attachments.to_json %>
 
-<p>
-  <strong>guid:</strong>
-  <%= @event_item.guid %>
-</p>
+  // textToGeo(item.title);
 
-<p>
-  <strong>last_modified:</strong>
-  <%= @event_item.last_modified %>
-</p>
+  var event_item = new EventItem(api_event_item, attachments).render('.legislative-items')
 
-<p>
-  <strong>last_modified_utc:</strong>
-  <%= @event_item.last_modified_utc %>
-</p>
+  // get and populate event details section
+  event = new Event(api_event).render('#event-details-' + event_item.matter_id)
 
-<p>
-  <strong>row_version:</strong>
-  <%= @event_item.row_version %>
-</p>
+  disqusInitialize(); // ensure disqus is loaded (only runs once)
 
-<p>
-  <strong>event_id:</strong>
-  <%= @event_item.event_id %>
-</p>
-
-<p>
-  <strong>agenda_sequence:</strong>
-  <%= @event_item.agenda_sequence %>
-</p>
-
-<p>
-  <strong>minutes_sequence:</strong>
-  <%= @event_item.minutes_sequence %>
-</p>
-
-<p>
-  <strong>agenda_number:</strong>
-  <%= @event_item.agenda_number %>
-</p>
-
-<p>
-  <strong>video:</strong>
-  <%= @event_item.video %>
-</p>
-
-<p>
-  <strong>video_index:</strong>
-  <%= @event_item.video_index %>
-</p>
-
-<p>
-  <strong>version:</strong>
-  <%= @event_item.version %>
-</p>
-
-<p>
-  <strong>agenda_note:</strong>
-  <%= @event_item.agenda_note %>
-</p>
-
-<p>
-  <strong>minutes_note:</strong>
-  <%= @event_item.minutes_note %>
-</p>
-
-<p>
-  <strong>action_id:</strong>
-  <%= @event_item.action_id %>
-</p>
-
-<p>
-  <strong>action:</strong>
-  <%= @event_item.action %>
-</p>
-
-<p>
-  <strong>action_text:</strong>
-  <%= @event_item.action_text %>
-</p>
-
-<p>
-  <strong>passed_flag:</strong>
-  <%= @event_item.passed_flag %>
-</p>
-
-<p>
-  <strong>passed_flag_text:</strong>
-  <%= @event_item.passed_flag_text %>
-</p>
-
-<p>
-  <strong>rollcall_flag:</strong>
-  <%= @event_item.roll_call_flag %>
-</p>
-
-<p>
-  <strong>flag_extra:</strong>
-  <%= @event_item.flag_extra %>
-</p>
-
-<p>
-  <strong>title:</strong>
-  <%= @event_item.title %>
-</p>
-
-<p>
-  <strong>tally:</strong>
-  <%= @event_item.tally %>
-</p>
-
-<p>
-  <strong>consent:</strong>
-  <%= @event_item.consent %>
-</p>
-
-<p>
-  <strong>mover_id:</strong>
-  <%= @event_item.mover_id %>
-</p>
-
-<p>
-  <strong>mover:</strong>
-  <%= @event_item.mover %>
-</p>
-
-<p>
-  <strong>seconder_id:</strong>
-  <%= @event_item.seconder_id %>
-</p>
-
-<p>
-  <strong>seconder:</strong>
-  <%= @event_item.seconder %>
-</p>
-
-<p>
-  <strong>matter_id:</strong>
-  <%= @event_item.matter_id %>
-</p>
-
-<p>
-  <strong>matter_guid:</strong>
-  <%= @event_item.matter_guid %>
-</p>
-
-<p>
-  <strong>matter_file:</strong>
-  <%= @event_item.matter_file %>
-</p>
-
-<p>
-  <strong>matter_name:</strong>
-  <%= @event_item.matter_name %>
-</p>
-
-<p>
-  <strong>matter_type:</strong>
-  <%= @event_item.matter_type %>
-</p>
-
-<p>
-  <strong>matter_status:</strong>
-  <%= @event_item.matter_status %>
-</p>
-
-<%= link_to 'Edit', edit_event_item_path(@event_item) %> |
-<%= link_to 'Back', event_items_path %>
+  setPageClickHandlers()
+})
+</script>
