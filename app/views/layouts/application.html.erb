@@ -26,7 +26,6 @@
   <%= yield :head %>
 </head>
 
-
 <div id="topbar" class="pure-menu pure-menu-open pure-menu-horizontal pure-menu-pull-right">
   <div class="pure-menu-heading">
     <a href="/"><img src="/assets/logo.png" alt="MuniciPal"></a>
@@ -34,7 +33,17 @@
     <ul>
       <li><a href="#">Mayor</a></li>
       <li><a href="#">City Manager</a></li>
-      <li><a href="#">Your District</a></li>
+      <li class="pure-dropdown">
+        <a href="#">Your District <span class="arrow"></span></a>
+        <ul class="pure-menu-children">
+          <li><a href="#">District 1</a></li>
+          <li><a href="#">District 2</a></li>
+          <li><a href="#">District 3</a></li>
+          <li><a href="#">District 4</a></li>
+          <li><a href="#">District 5</a></li>
+          <li><a href="#">District 6</a></li>
+        </ul>
+      </li>
       <li><a href="#">About</a></li>
     </ul>
 </div>
