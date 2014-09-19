@@ -8,6 +8,19 @@ class AddressesController < ApplicationController
     @in_district = false
     @lat = nil, @lng = nil, @address = nil
 
+    # district given
+    if not params[:district].blank?
+
+      # find lat/lon at center of polygon
+      @in_district = true
+      any_point = CouncilDistrict.point_in_district params[:district]
+      @lat = any_point["lat"]
+      @lng = any_point["lng"]
+
+      # find address at given lat/lon
+      @address = Geokit::Geocoders::MultiGeocoder.reverse_geocode "#{@lat}, #{@lng}"
+    end
+
     # address given; geocode to get lat/lon
     if not params[:address].blank?
       @address = Geokit::Geocoders::MultiGeocoder.geocode params[:address]
