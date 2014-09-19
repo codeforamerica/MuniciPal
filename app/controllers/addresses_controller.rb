@@ -40,6 +40,8 @@ class AddressesController < ApplicationController
       end
     end
 
+    @districts = CouncilDistrict.getDistricts()
+
     @response = { :lat                    => @lat,
                   :lng                    => @lng,
                   :address                => @addr,
