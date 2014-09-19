@@ -171,8 +171,6 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    turbolinks (2.2.1)
-      coffee-rails
     tzinfo (0.3.41)
     uglifier (2.5.0)
       execjs (>= 0.3.0)
@@ -208,5 +206,4 @@ DEPENDENCIES
   sdoc
   selenium-webdriver (= 2.35.1)
   shoulda-matchers (= 2.6.1)
-  turbolinks (= 2.2.1)
   uglifier (= 2.5.0)
