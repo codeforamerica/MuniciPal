@@ -45,6 +45,12 @@ Make sure the postgis extension is properly loaded.
 
 Now you can access your application at http://0.0.0.0:3000
 
+#### Notes on loading your own Boundary Data:
+
+The council_districts:load rake task loads a "Councils.shp" file in the Mesa/assets directory.
+
+The EPSG for this shapefile must be 4326. 
+
 #### Notes on deploying to heroku:
 
 heroku create

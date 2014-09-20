@@ -8,7 +8,7 @@ namespace :council_districts do
     CouncilDistrict.destroy_all
     shpfile = "#{Rails.root}/lib/assets/" + city + "/Councils.shp"
 
-    RGeo::Shapefile::Reader.open(shpfile, {:srid => -1}) do |file|
+    RGeo::Shapefile::Reader.open(shpfile, {:srid => 4326}) do |file|
       puts "File contains #{file.num_records} records"
       file.each do |n|
          record = n.attributes
