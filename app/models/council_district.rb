@@ -31,17 +31,10 @@ class CouncilDistrict < ActiveRecord::Base
 
   def self.point_in_district district
     @point = ActiveRecord::Base.connection.select_one(
-        "WITH results as (
-          SELECT ST_Transform(
-            ST_SetSRID(
-              ST_PointOnSurface(geom),
-              #{COORD_SYS_AREA}
-            ),
-            #{COORD_SYS_REF}
-          ) as point from council_districts where id = #{district}
-        ) SELECT ST_X(point) as lng, ST_Y(point) as lat from results"
+      "WITH results as (
+        SELECT ST_PointOnSurface(geom) as point from council_districts where id = #{district}
+      ) SELECT ST_X(point) as lng, ST_Y(point) as lat from results"
     )
-
     @point = @point.merge(@point) { |k,v| v.to_f } #string to float on all hash values
     return @point
   end
