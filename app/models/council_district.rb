@@ -25,7 +25,7 @@ class CouncilDistrict < ActiveRecord::Base
 
   def self.getDistricts
     # The user might want to map all the districts, so send 'em all.
-    @districts_as_geojson = CouncilDistrict.find_by_sql("select id, name, twit_name, twit_wdgt, ST_AsGeoJSON(ST_Transform(ST_SetSRID(geom, #{COORD_SYS_AREA}), #{COORD_SYS_REF})) as geom from council_districts");
+    @districts_as_geojson = CouncilDistrict.find_by_sql("select id, name, twit_name, twit_wdgt, ST_AsGeoJSON(geom) as geom from council_districts");
     return @districts_as_geojson;
   end
 
