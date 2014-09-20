@@ -137,3 +137,12 @@
 
 <%= javascript_include_tag "addresses", "data-turbolinks-track" => true %>
 
+<script>
+
+$(document).ready(function() {
+  districts = <%= raw @districts.to_json %>
+  addDistrictsToMap(districts);
+})
+
+</script>
+
