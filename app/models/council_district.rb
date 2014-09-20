@@ -2,13 +2,11 @@ class CouncilDistrict < ActiveRecord::Base
   has_many :event_items
 
   COORD_SYS_REF = 4326;   # The coordinate system that will be used as the reference and is now Latitude and Longitude Coord System
-  COORD_SYS_AREA = 2278;  # The coordinate system used in the data Texas South Central Coordinate System
-  COORD_SYS_ZONE = 0;     # The coordinate system used in the actual data but somehow it was wiped to 0, so put it back into the same one to check
 
   def self.inDistrict? lat, long
 
     # figure out if it is in a specific area in
-    @spec_area = CouncilDistrict.where("ST_Contains(geom, ST_SetSRID(ST_MakePoint(?, ?),4326))",
+    @spec_area = CouncilDistrict.where("ST_Contains(geom, ST_SetSRID(ST_MakePoint(?, ?),#{COORD_SYS_REF}))",
                                               long,
                                               lat)
 
@@ -19,7 +17,7 @@ class CouncilDistrict < ActiveRecord::Base
     # figure out if it is in a specific area in historical district
     @area_in_geojson = CouncilDistrict.find_by_sql("select id, name, twit_name, twit_wdgt, ST_AsGeoJSON(geom)
                                                         from council_districts
-                                                        where ST_Contains(geom,ST_SetSRID(ST_MakePoint(#{long}, #{lat}),4326))")
+                                                        where ST_Contains(geom,ST_SetSRID(ST_MakePoint(#{long}, #{lat}),#{COORD_SYS_REF}))")
     return @area_in_geojson.first
   end
 
