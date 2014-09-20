@@ -12,7 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
 //= require fittext
 //= require text
 //= require getparam.js
@@ -24,4 +23,4 @@
 //= require legistar/legistar.js
 //= require disqus.js
 //= require application_onload.js
-
+//= require dropdown-menu.js
