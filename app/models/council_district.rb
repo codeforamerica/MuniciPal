@@ -6,24 +6,29 @@ class CouncilDistrict < ActiveRecord::Base
   def self.inDistrict? lat, long
 
     # figure out if it is in a specific area in
-    @spec_area = CouncilDistrict.where("ST_Contains(geom, ST_SetSRID(ST_MakePoint(?, ?),#{COORD_SYS_REF}))",
-                                              long,
-                                              lat)
+    @spec_area = CouncilDistrict.where(
+      "ST_Contains(geom, ST_SetSRID(ST_MakePoint(?, ?),#{COORD_SYS_REF}))",
+      long, lat)
 
     return @spec_area.exists?
   end
 
   def self.getDistrict lat, long
     # figure out if it is in a specific area in historical district
-    @area_in_geojson = CouncilDistrict.find_by_sql("select id, name, twit_name, twit_wdgt, ST_AsGeoJSON(geom)
-                                                        from council_districts
-                                                        where ST_Contains(geom,ST_SetSRID(ST_MakePoint(#{long}, #{lat}),#{COORD_SYS_REF}))")
+    @area_in_geojson = CouncilDistrict.find_by_sql(
+      "select id, name, twit_name, twit_wdgt, ST_AsGeoJSON(geom)
+        from council_districts
+        where ST_Contains(
+              geom,
+              ST_SetSRID(ST_MakePoint(#{long}, #{lat}),#{COORD_SYS_REF}))")
     return @area_in_geojson.first
   end
 
   def self.getDistricts
     # The user might want to map all the districts, so send 'em all.
-    @districts_as_geojson = CouncilDistrict.find_by_sql("select id, name, twit_name, twit_wdgt, ST_AsGeoJSON(geom) as geom from council_districts");
+    @districts_as_geojson = CouncilDistrict.find_by_sql(
+      "select id, name, twit_name, twit_wdgt, ST_AsGeoJSON(geom) as geom
+        from council_districts");
     return @districts_as_geojson;
   end
 
