@@ -62,7 +62,6 @@ class AddressesController < ApplicationController
                   :in_district       => @in_district,
                   :district_polygon  => @district_polygon,
                   :event_items       => @event_items,
-                  :districts         => CouncilDistrict.getDistricts,
                   :attachments => attachments,
                   :events => events
                 }
