@@ -84,7 +84,7 @@ function updatePage(ll) {
 
       if (data.in_district) {
 
-        var geoJSON = $.parseJSON(data.district_polygon.st_asgeojson);
+        var geoJSON = $.parseJSON(data.district_polygon.geom);
 
         geoJSON.properties = { fill: config.map.district_fill };
         districtLayer.setGeoJSON(geoJSON);
