@@ -90,10 +90,6 @@ function updatePage(ll) {
         districtLayer.setGeoJSON(geoJSON);
         districtLayer.setFilter(function() { return true; });
 
-        // // HACK. this stuff should go in initializer on page load.
-        // // todo : on page load, hit a URL that will return just the districts.
-        // addDistrictsToMap(data.districts);
-
         updatePageContent(data);
 
       } else {
