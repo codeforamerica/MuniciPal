@@ -104,6 +104,7 @@ EventItem.prototype.render = function(container) {
         return EventItem.summarize(that.title);
       },
       matterId: that.item.matter_id,
+      eventItemId: that.item.id,
       icon: that.icon,
       scope: function() {
         // if Citywide, "Citywide" (TODO), else
