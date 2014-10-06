@@ -16,7 +16,6 @@ $(document).ready(function() {
 	$('#controls-bio').click(toggleCards);
 	$('#controls-twitter').click(toggleCards);
 	$('#controls-facebook').click(toggleCards);
-	// $('#controls-mentions').click(toggleCards); //we removed that
 
 	// initally we want to show just the bio card
 	$('#cards .card').hide();
