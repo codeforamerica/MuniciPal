@@ -141,7 +141,7 @@ $center-header-text: 3em;
 	display: none;
 }
 
-.you-live-in {
+.person-position {
   font-size: 40px;
   padding: 0 10px;
   padding-top: 90px; // For fixed top bar
@@ -152,7 +152,7 @@ $center-header-text: 3em;
   display: none; // initial state
 }
 
-.you-live-in.no-district {
+.person-position.no-district {
 	border-bottom: none;
 }
 

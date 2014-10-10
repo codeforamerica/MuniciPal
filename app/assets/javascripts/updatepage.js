@@ -103,11 +103,22 @@ function updatePage(ll) {
 
       }
 
-      $( "#address").val(data.address);
-      map.setView([data.lat, data.lng], config.map.start_zoom);
-      document.getElementById('answer').scrollIntoView();
-    }
-  })
+    updatePageContent(data);
+
+  } else {
+
+    districtLayer.setFilter(function() { return false; });
+    $('.person-position').empty().append(
+      'It looks like you\'re outside of Mesa.<br>' +
+      'Maybe you want the <a href="http://www.mesaaz.gov/Council/">council and mayor webpage</a>?'
+    ).addClass("no-district").show();
+    $('.results').hide();
+
+  }
+
+  $( "#address").val(data.address);
+  map.setView([data.lat, data.lng], config.map.start_zoom);
+  document.getElementById('answer').scrollIntoView();
 }
 
 
