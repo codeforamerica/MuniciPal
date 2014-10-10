@@ -4,6 +4,12 @@ var legislationTemplate, eventTemplate, attachmentsTemplate;
 
 $(document).ready(function() {
 
+	facebookTemplate = $('#facebook-template').html();
+	Mustache.parse (facebookTemplate);
+
+	twitterTemplate = $('#twitter-template').html();
+	Mustache.parse (twitterTemplate);
+
 	legislationTemplate = $('#legislation-template').html();
 	Mustache.parse (legislationTemplate);  // optional, speeds up future uses
 

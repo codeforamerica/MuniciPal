@@ -160,10 +160,28 @@ function updatePageContent(data) {
   var district = data.district_polygon.id;
 
   var member = find_member(district);
-  var mayor = find_member(0); // 0 = mayor. for now anyway.
+  // var mayor = find_member(0); // 0 = mayor. for now anyway.
 
-  $('.you-live-in').empty().append('District ' + district).removeClass("no-district").show();
-  $('.results-text').empty().append(data.district_polygon.name);
+  var who_view = {
+    district: district,
+    pic: {
+      src: 'http://tomcfa.s3.amazonaws.com/district'+district+'.jpg'
+    },
+    name: member.name,
+    phone: member.phone,
+    email: member.email,
+    website: member.website,
+    address: member.address,
+    bio: member.bio,
+    facebook: member.facebook,
+    twitterName: member.twitterName,
+    twitterWidget: member.twitterWidget,
+  }
+
+  $('#facebook-card').html(Mustache.render(facebookTemplate, who_view));
+  $('#twitter-card').html(Mustache.render(twitterTemplate, who_view));
+
+  $('.person-position').empty().append('District ' + district).removeClass("no-district").show();
   $('.results').show();
 
   $('#council-picture').attr({
