@@ -170,12 +170,12 @@ function updatePageContent(data) {
     'src': 'http://tomcfa.s3.amazonaws.com/district'+district+'.jpg',
     'alt': 'Councilmember for District ' + district
   });
-  $('#council-member').empty().append(data.district_polygon.name);
-  $('#council-phone').empty().append(member.phone);
-  $('#council-email').empty().append(member.email);
-  $('#council-website').empty().append(member.website);
-  $('#council-address').empty().append(member.address);
-  $('#bio-card .bio').empty().append(member.bio);
+  $('#council-member').text(data.district_polygon.name);
+  $('#council-phone').text(member.phone);
+  $('#council-email').text(member.email);
+  $('#council-website').text(member.website);
+  $('#council-address').text(member.address);
+  $('#bio-card .bio').text(member.bio);
 
 
   $(".fb-widget").hide();
