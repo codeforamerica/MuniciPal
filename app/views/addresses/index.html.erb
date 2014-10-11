@@ -46,7 +46,6 @@
 <div class="results">
   <%= render "layouts/person" %>
   <%= render "layouts/legislative_items" %>
-
 </div> <!-- end results -->
 
 <%= render "layouts/mustache_templates" %>
@@ -57,10 +56,10 @@
 
 $(document).ready(function() {
   districts = <%= raw @districts.to_json %>
+  addDistrictsToMap(districts);
 
   response = <%= raw @response.to_json %>
   update_with_new(response)
-  addDistrictsToMap(districts);
 })
 
 </script>
