@@ -222,10 +222,20 @@ function updatePageContent(data) {
 
   setPageClickHandlers();
 
-  // twitter & facebook only render on page load by default, so
-  // we need to call on them to parse & render the new content
-  twttr.widgets.load();
-  FB.XFBML.parse(); // pass document.getElementById('legislative') for efficiency.
+  // When necessary, force twitter and facebook widgets to reload.
+  // By default, twitter & facebook only render when the page first loads.
+  // If these objects exist (the page has already been loaded), and we're
+  // attempting to update the page (e.g. when a new location is selected),
+  // then after we build and attach the HTML they expect to the DOM, we need
+  // to call on them to parse the HTML we've attached above and load actual
+  // social media content.
+  if ('twttr' in window && 'widgets' in twttr) {
+    twttr.widgets.load();
+  }
+  if ('FB' in window && 'XFBML' in FB) {
+    FB.XFBML.parse(); // pass document.getElementById('legislative') for efficiency.
+  }
+
 
   $('#results-area').show();
 }
