@@ -43,9 +43,8 @@ class AddressesController < ApplicationController
       @addr = @address.full_address
       @district_polygon = CouncilDistrict.getDistrict @lat, @lng
       if @district_polygon and @district_polygon.id
-         @event_items = EventItem.joins(:event).where('"events"."date" > ?', 4.month.ago).
-                                                 where(council_district_id: @district_polygon.id).
-                                                 order('"events"."date" DESC')
+        @event_items = EventItem.current.with_matters.in_district(@district_polygon.id).order('date DESC')
+
 
         attachments = @event_items.map(&:attachments) #see http://ablogaboutcode.com/2012/01/04/the-ampersand-operator-in-ruby/
         events = @event_items.map(&:event).uniq #see http://ablogaboutcode.com/2012/01/04/the-ampersand-operator-in-ruby/
