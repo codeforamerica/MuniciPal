@@ -68,40 +68,34 @@ Example of item from event_items Array:
 */
 
 
-
-function updatePage(ll) {
+// Request new data from the server and update the page based on the result.
+// params should be a hash with keys like `address` or `lat` & `long`.
+function updatePage(params) {
   $.ajax({
     type: 'GET',
     url: '/',
-    data: ll,
+    data: params,
     dataType: 'json',
-    success: function( data ) {
+    success: update_with_new
+  })
+}
 
-      g_data = data;
+function update_with_new( data ) {
 
-      history.pushState({}, "", "?address=" + data.address + "&lat=" + data.lat + "&long=" + data.lng);
-      marker.setLatLng(new L.LatLng(data.lat, data.lng));
+  if (!data.event_items) return; // must be at root w/ no data yet
 
-      if (data.in_district) {
+  g_data = data;
 
-        var geoJSON = $.parseJSON(data.district_polygon.geom);
+  history.pushState({}, "", "?address=" + data.address + "&lat=" + data.lat + "&long=" + data.lng);
+  marker.setLatLng(new L.LatLng(data.lat, data.lng));
 
-        geoJSON.properties = { fill: config.map.district_fill };
-        districtLayer.setGeoJSON(geoJSON);
-        districtLayer.setFilter(function() { return true; });
+  if (data.in_district) {
 
-        updatePageContent(data);
+    var geoJSON = $.parseJSON(data.district_polygon.geom);
 
-      } else {
-
-        districtLayer.setFilter(function() { return false; });
-        $('.you-live-in').empty().append(
-          'It looks like you\'re outside of Mesa.<br>' +
-          'Maybe you want the <a href="http://www.mesaaz.gov/Council/">council and mayor webpage</a>?'
-        ).addClass("no-district").show();
-        $('.results').hide();
-
-      }
+    geoJSON.properties = { fill: config.map.district_fill };
+    districtLayer.setGeoJSON(geoJSON);
+    districtLayer.setFilter(function() { return true; });
 
     updatePageContent(data);
 
