@@ -201,10 +201,6 @@ function updatePageContent(data) {
   $('#bio-card .bio').text(member.bio);
 
 
-  $(".fb-widget").hide();
-  $(".fb-widget#facebook-" + district).show();
-
-
   $(".twit-widget").hide();
   $(".twit-widget#council-" + district).show();
 //  $(".twit-widget#mention-" + district).show();
