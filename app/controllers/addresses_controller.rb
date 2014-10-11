@@ -56,15 +56,22 @@ class AddressesController < ApplicationController
 
     @districts = CouncilDistrict.getDistricts()
 
-    @response = { :lat                    => @lat,
-                  :lng                    => @lng,
-                  :address                => @addr,
-                  :in_district       => @in_district,
-                  :district_polygon  => @district_polygon,
-                  :event_items       => @event_items,
-                  :attachments => attachments,
-                  :events => events
-                }
     respond_with(@response)
   end
 end
+    # only build a response if user asks for something specific
+    if (['district', 'mayor', 'address', 'lat', 'lon'] & params.keys).length > 0
+      @response = { :lat                    => @lat,
+                    :lng                    => @lng,
+                    :address                => @addr,
+                    :in_district       => @in_district,
+                    :district_id       => @mayor ? 0 : @district_id,
+                    :district_polygon  => @district_polygon,
+                    :event_items       => @event_items,
+                    :attachments => attachments,
+                    :events => events
+                  }
+    else
+      @response = {}
+    end
+
