@@ -23,7 +23,4 @@ $(document).ready(function() {
 
 	mapInitialize()
 
-	// possibly update page based on URL
-	processUrl()
-
 })
