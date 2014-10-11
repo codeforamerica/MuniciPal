@@ -168,7 +168,7 @@ requests to the legistar REST API.
 function updatePageContent(data) {
 
   $('body').removeClass('initial');
-  var district = data.district_polygon.id;
+  var district = data.district_id;
 
   var member = find_member(district);
   // var mayor = find_member(0); // 0 = mayor. for now anyway.
