@@ -11,11 +11,25 @@ class AddressesController < ApplicationController
     # district given
     if not params[:district].blank?
 
-      # find lat/lon at center of polygon
       @in_district = true
-      any_point = CouncilDistrict.point_in_district params[:district]
-      @lat = any_point["lat"]
-      @lng = any_point["lng"]
+
+      if params[:mayor]
+        puts "got a mayor -----------------------------------------"
+      end
+
+      if params[:district] == "all"
+        puts "mayor or manager!"
+        @mayor = true
+        @district_id = 0 # 0 means mayor
+        #marker_location = [33.42, -111.835]
+        @lat = 33.42
+        @lng = -111.835
+      else
+        # find lat/lon at center of polygon
+        any_point = CouncilDistrict.point_in_district params[:district]
+        @lat = any_point["lat"]
+        @lng = any_point["lng"]
+      end
 
       # find address at given lat/lon
       @address = Geokit::Geocoders::MultiGeocoder.reverse_geocode "#{@lat}, #{@lng}"
@@ -43,8 +57,12 @@ class AddressesController < ApplicationController
       @addr = @address.full_address
       @district_polygon = CouncilDistrict.getDistrict @lat, @lng
       if @district_polygon and @district_polygon.id
-        @event_items = EventItem.current.with_matters.in_district(@district_polygon.id).order('date DESC')
-
+        @district_id = @district_polygon.id if not @mayor
+        if @mayor #or @manager
+          @event_items = EventItem.current.with_matters.order('date DESC')
+        else
+         @event_items = EventItem.current.with_matters.in_district(@district_polygon.id).order('date DESC')
+        end
 
         attachments = @event_items.map(&:attachments) #see http://ablogaboutcode.com/2012/01/04/the-ampersand-operator-in-ruby/
         events = @event_items.map(&:event).uniq #see http://ablogaboutcode.com/2012/01/04/the-ampersand-operator-in-ruby/
