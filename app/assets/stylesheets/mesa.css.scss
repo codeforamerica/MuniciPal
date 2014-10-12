@@ -144,8 +144,7 @@ $center-header-text: 3em;
 .person-position {
   font-size: 40px;
   padding: 0 10px;
-  padding-top: 90px; // For fixed top bar
-  margin-top: -70px; // For fixed top bar
+
   margin-bottom: 0;
   text-align: center;
 
@@ -156,10 +155,13 @@ $center-header-text: 3em;
 	border-bottom: none;
 }
 
-.results {
+#results {
   margin: 0 auto;
   max-width: 1400px;
   display: none;
+
+  padding-top: 90px; // For fixed top bar
+  margin-top: -70px; // For fixed top bar
 
   h2 {
     margin-top: 0;
@@ -176,7 +178,7 @@ $center-header-text: 3em;
 	}
 }
 
-.results-text {
+#results-text {
   background: $white;
   padding: 20px;
   margin-top: 0;
@@ -205,7 +207,7 @@ $center-header-text: 3em;
   }
 }
 
-.initial .results {
+.initial #results {
 	opacity: 0;
 	top: 0px;
 }
@@ -275,7 +277,7 @@ $center-header-text: 3em;
   }
 }
 
-.results .pure-menu {
+#results .pure-menu {
   li {
     a {
       color: $green;

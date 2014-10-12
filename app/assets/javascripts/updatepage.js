@@ -106,13 +106,13 @@ function update_with_new( data ) {
       'It looks like you\'re outside of Mesa.<br>' +
       'Maybe you want the <a href="http://www.mesaaz.gov/Council/">council and mayor webpage</a>?'
     ).addClass("no-district").show();
-    $('.results').hide();
+    $('#results').hide();
 
   }
 
   $( "#address").val(data.address);
   map.setView([data.lat, data.lng], config.map.start_zoom);
-  document.getElementById('answer').scrollIntoView();
+  document.getElementById('results').scrollIntoView();
 }
 
 
@@ -187,7 +187,7 @@ function updatePageContent(data) {
   $('#twitter-card').html(Mustache.render(twitterTemplate, who_view));
 
   $('.person-position').empty().append('District ' + district).removeClass("no-district").show();
-  $('.results').show();
+  $('#results').show();
 
   $('#council-picture').attr({
     'src': 'http://tomcfa.s3.amazonaws.com/district'+district+'.jpg',
