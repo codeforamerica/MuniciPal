@@ -4,32 +4,34 @@ Consulting city-dwellers about legislation near them.
 
 Created for the city of Mesa, AZ. Please feel free to post in the "Issues" section with any questions or comments.
 
-# Prerequisites
-
-* This application requires Ruby. If you don't have it, [download and install here](https://www.ruby-lang.org/en/installation/).
-* This application requires Rails.
-* This application also requires Postgres SQL. If you don't have it, [download and install here](http://postgresapp.com/).
-* This application also requires PostGIS.
-
 # Installation instructions
 
-#### Clone the app to your machine:
+Municipal is a Ruby on Rails application using PostgreSQL and PostGIS.
 
-    git clone
-    cd MuniciPal
+1. Begin by installing [Ruby](https://github.com/codeforamerica/howto/blob/master/Ruby.md) and [PostgreSQL](https://github.com/codeforamerica/howto/blob/master/PostgreSQL.md) for your system.
+    
+    You will also need a javascript runtime such as [Node](https://github.com/codeforamerica/howto/blob/master/Node.js.md) for use by `bundle`, and PostGIS for database geo features. On Mac, these may already be installed with the base system and Postgres.app. On Ubuntu Linux, they can be installed with:
+    
+        apt-get install nodejs postgresql-9.3-postgis-2.1
+    
+2. Create a PostgreSQL user with super-user privileges (`createdb --superuser`) and a name matching that of your user account (`whoami`).
+3. Clone MuniciPal to your local server:
+    
+        git clone https://github.com/codeforamerica/MuniciPal.git
+        cd MuniciPal
+    
+4. Install Ruby dependencies:
+    
+        bundle install
+    
+5. Create the database:
 
-#### Install the dependencies:
+        bundle exec rake db:create
+        bundle exec rake db:migrate
+        bundle exec rake legistar_all:load
+        bundle exec rake council_districts:load
 
-    bundle install
-
-#### Create the database:
-
-    bundle exec rake db:create
-    bundle exec rake db:migrate
-    bundle exec rake legistar_all:load
-    bundle exec rake council_districts:load
-
-*If you want to update or change these specific shapefiles, they exist in the lib/asset folder in the application.*
+    *If you want to update or change these specific shapefiles, they exist in the lib/asset folder in the application.*
 
 #### Run your application
 
