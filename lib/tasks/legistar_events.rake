@@ -5,7 +5,7 @@ namespace :legistar_events do
   task :load => :environment do
 
     # HACK. For testing, we're limiting the date range of events returned.
-    filter = "?$filter=EventDate+ge+datetime'2014-09-01'+and+EventDate+lt+datetime'2014-10-01'"
+    filter = "?$filter=EventDate+ge+datetime'2014-09-15'+and+EventDate+lt+datetime'2015-01-01'"
     Legistar.initialize()
     Legistar.fetch_collection('events', filter, 'Event', Event)
 

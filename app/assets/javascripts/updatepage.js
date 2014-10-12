@@ -68,50 +68,51 @@ Example of item from event_items Array:
 */
 
 
-
-function updatePage(ll) {
+// Request new data from the server and update the page based on the result.
+// params should be a hash with keys like `address` or `lat` & `long`.
+function updatePage(params) {
   $.ajax({
     type: 'GET',
     url: '/',
-    data: ll,
+    data: params,
     dataType: 'json',
-    success: function( data ) {
-
-      g_data = data;
-
-      history.pushState({}, "", "?address=" + data.address + "&lat=" + data.lat + "&long=" + data.lng);
-      marker.setLatLng(new L.LatLng(data.lat, data.lng));
-
-      if (data.in_district) {
-
-        var geoJSON = $.parseJSON(data.district_polygon.st_asgeojson);
-
-        geoJSON.properties = { fill: config.map.district_fill };
-        districtLayer.setGeoJSON(geoJSON);
-        districtLayer.setFilter(function() { return true; });
-
-        // // HACK. this stuff should go in initializer on page load.
-        // // todo : on page load, hit a URL that will return just the districts.
-        // addDistrictsToMap(data.districts);
-
-        updatePageContent(data);
-
-      } else {
-
-        districtLayer.setFilter(function() { return false; });
-        $('.you-live-in').empty().append(
-          'It looks like you\'re outside of Mesa.<br>' +
-          'Maybe you want the <a href="http://www.mesaaz.gov/Council/">council and mayor webpage</a>?'
-        ).addClass("no-district").show();
-        $('.results').hide();
-
-      }
-
-      $( "#address").val(data.address);
-      map.setView([data.lat, data.lng], config.map.start_zoom);
-      document.getElementById('answer').scrollIntoView();
-    }
+    success: update_with_new
   })
+}
+
+function update_with_new( data ) {
+
+  if (!data.event_items) return; // must be at root w/ no data yet
+
+  g_data = data;
+
+  history.pushState({}, "", "?address=" + data.address + "&lat=" + data.lat + "&long=" + data.lng);
+  marker.setLatLng(new L.LatLng(data.lat, data.lng));
+
+  if (data.in_district) {
+
+    var geoJSON = $.parseJSON(data.district_polygon.geom);
+
+    geoJSON.properties = { fill: config.map.district_fill };
+    districtLayer.setGeoJSON(geoJSON);
+    districtLayer.setFilter(function() { return true; });
+
+    updatePageContent(data);
+
+  } else {
+
+    districtLayer.setFilter(function() { return false; });
+    $('.person-position').empty().append(
+      'It looks like you\'re outside of Mesa.<br>' +
+      'Maybe you want the <a href="http://www.mesaaz.gov/Council/">council and mayor webpage</a>?'
+    ).addClass("no-district").show();
+    $('#results').hide();
+
+  }
+
+  $( "#address").val(data.address);
+  map.setView([data.lat, data.lng], config.map.start_zoom);
+  document.getElementById('results').scrollIntoView();
 }
 
 
@@ -161,29 +162,43 @@ requests to the legistar REST API.
 function updatePageContent(data) {
 
   $('body').removeClass('initial');
-  var district = data.district_polygon.id;
+  var district = data.district_id;
 
   var member = find_member(district);
-  var mayor = find_member(0); // 0 = mayor. for now anyway.
+  // var mayor = find_member(0); // 0 = mayor. for now anyway.
 
-  $('.you-live-in').empty().append('District ' + district).removeClass("no-district").show();
-  $('.results-text').empty().append(data.district_polygon.name);
-  $('.results').show();
+  var who_view = {
+    district: district,
+    pic: {
+      src: 'http://tomcfa.s3.amazonaws.com/district'+district+'.jpg'
+    },
+    name: member.name,
+    phone: member.phone,
+    email: member.email,
+    website: member.website,
+    address: member.address,
+    bio: member.bio,
+    facebook: member.facebook,
+    twitterName: member.twitterName,
+    twitterWidget: member.twitterWidget,
+  }
+
+  $('#facebook-card').html(Mustache.render(facebookTemplate, who_view));
+  $('#twitter-card').html(Mustache.render(twitterTemplate, who_view));
+
+  $('.person-position').empty().append('District ' + district).removeClass("no-district").show();
+  $('#results').show();
 
   $('#council-picture').attr({
     'src': 'http://tomcfa.s3.amazonaws.com/district'+district+'.jpg',
     'alt': 'Councilmember for District ' + district
   });
-  $('#council-member').empty().append(data.district_polygon.name);
-  $('#council-phone').empty().append(member.phone);
-  $('#council-email').empty().append(member.email);
-  $('#council-website').empty().append(member.website);
-  $('#council-address').empty().append(member.address);
-  $('#bio-card .bio').empty().append(member.bio);
-
-
-  $(".fb-widget").hide();
-  $(".fb-widget#facebook-" + district).show();
+  $('#council-member').text(data.district_polygon.name);
+  $('#council-phone').text(member.phone);
+  $('#council-email').text(member.email);
+  $('#council-website').text(member.website);
+  $('#council-address').text(member.address);
+  $('#bio-card .bio').text(member.bio);
 
 
   $(".twit-widget").hide();
@@ -207,10 +222,20 @@ function updatePageContent(data) {
 
   setPageClickHandlers();
 
-  // twitter & facebook only render on page load by default, so
-  // we need to call on them to parse & render the new content
-  twttr.widgets.load();
-  FB.XFBML.parse(); // pass document.getElementById('legislative') for efficiency.
+  // When necessary, force twitter and facebook widgets to reload.
+  // By default, twitter & facebook only render when the page first loads.
+  // If these objects exist (the page has already been loaded), and we're
+  // attempting to update the page (e.g. when a new location is selected),
+  // then after we build and attach the HTML they expect to the DOM, we need
+  // to call on them to parse the HTML we've attached above and load actual
+  // social media content.
+  if ('twttr' in window && 'widgets' in twttr) {
+    twttr.widgets.load();
+  }
+  if ('FB' in window && 'XFBML' in FB) {
+    FB.XFBML.parse(); // pass document.getElementById('legislative') for efficiency.
+  }
+
 
   $('#results-area').show();
 }

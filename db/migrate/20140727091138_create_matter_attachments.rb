@@ -11,6 +11,7 @@ class CreateMatterAttachments < ActiveRecord::Migration
       t.text :file_name
       t.text :matter_version
       t.boolean :is_hyperlink
+      t.boolean  :is_supporting_document
       t.string :binary
       t.timestamps
     end

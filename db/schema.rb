@@ -96,6 +96,7 @@ ActiveRecord::Schema.define(version: 20140727091138) do
     t.text     "file_name"
     t.text     "matter_version"
     t.boolean  "is_hyperlink"
+    t.boolean  "is_supporting_document"
     t.string   "binary"
     t.datetime "created_at"
     t.datetime "updated_at"

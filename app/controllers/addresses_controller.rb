@@ -43,9 +43,8 @@ class AddressesController < ApplicationController
       @addr = @address.full_address
       @district_polygon = CouncilDistrict.getDistrict @lat, @lng
       if @district_polygon and @district_polygon.id
-         @event_items = EventItem.joins(:event).where('"events"."date" > ?', 4.month.ago).
-                                                 where(council_district_id: @district_polygon.id).
-                                                 order('"events"."date" DESC')
+        @event_items = EventItem.current.with_matters.in_district(@district_polygon.id).order('date DESC')
+
 
         attachments = @event_items.map(&:attachments) #see http://ablogaboutcode.com/2012/01/04/the-ampersand-operator-in-ruby/
         events = @event_items.map(&:event).uniq #see http://ablogaboutcode.com/2012/01/04/the-ampersand-operator-in-ruby/
@@ -54,18 +53,23 @@ class AddressesController < ApplicationController
       end
     end
 
-    @districts = CouncilDistrict.getDistricts()
+    # only build a response if user asks for something specific
+    if (['district', 'mayor', 'address', 'lat', 'lon'] & params.keys).length > 0
+      @response = { :lat                    => @lat,
+                    :lng                    => @lng,
+                    :address                => @addr,
+                    :in_district       => @in_district,
+                    :district_id       => @mayor ? 0 : @district_polygon.id,
+                    :district_polygon  => @district_polygon,
+                    :event_items       => @event_items,
+                    :attachments => attachments,
+                    :events => events
+                  }
+    else
+      @response = {}
+    end
 
-    @response = { :lat                    => @lat,
-                  :lng                    => @lng,
-                  :address                => @addr,
-                  :in_district       => @in_district,
-                  :district_polygon  => @district_polygon,
-                  :event_items       => @event_items,
-                  :districts         => CouncilDistrict.getDistricts,
-                  :attachments => attachments,
-                  :events => events
-                }
+    @districts = CouncilDistrict.getDistricts()
     respond_with(@response)
   end
 end

@@ -84,7 +84,7 @@ function textToGeo(text) {
    $.ajax({
     type: 'POST',
     crossDomain: true,
-    url: 'http://findlines.herokuapp.com/',
+    url: 'http://findlines-staging.herokuapp.com/',
     data: { fileupload: text},
     dataType: 'json',
     success: linesToMap,
