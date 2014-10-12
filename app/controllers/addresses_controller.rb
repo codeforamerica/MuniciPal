@@ -59,7 +59,7 @@ class AddressesController < ApplicationController
                     :lng                    => @lng,
                     :address                => @addr,
                     :in_district       => @in_district,
-                    :district_id       => @mayor ? 0 : @district_id,
+                    :district_id       => @mayor ? 0 : @district_polygon.id,
                     :district_polygon  => @district_polygon,
                     :event_items       => @event_items,
                     :attachments => attachments,
