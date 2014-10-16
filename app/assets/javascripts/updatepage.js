@@ -170,7 +170,7 @@ function updatePageContent(data) {
   var who_view = {
     district: district,
     pic: {
-      src: 'http://tomcfa.s3.amazonaws.com/district'+district+'.jpg'
+      src: that.person.photo
     },
     name: member.name,
     phone: member.phone,
