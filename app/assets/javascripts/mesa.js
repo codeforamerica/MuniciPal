@@ -54,10 +54,47 @@ function toggleCards(event) {
 //     });
 // })();
 
+function find_person(title, district) {
+  if (title == 'mayor') {
+    return find_mayor();
+  } else if (title == 'manager') {
+    return find_manager();
+  } else {
+    return find_member(district);
+  }
+}
 
 function find_member(district) {
   return _.find(council, { 'district': district });
 }
+function find_councilmember(district) {
+  return _.find(people, { 'district': district });
+}
+
+function find_mayor() {
+  return _.find(people, { 'title': 'mayor' })
+}
+
+function find_manager() {
+  return _.find(people, { 'title': 'city manager' })
+}
+
+var people = [
+  {
+      "name": "John Giles",
+      "title": "mayor",
+      "district": "n/a",
+      "bio": "a mayor... todo...",
+      "phone": "480-644-XXXX",
+      "email": "XXX@mesaaz.gov",
+      "facebook": "MesaMayorsOffice",
+      "twitterName": "MesaMayorOffice",
+      "twitterWidget": "465935532589993984",
+      "website": "http://www.mesaaz.gov/mayor",
+      "photo": "http://www.mesaaz.gov/mayor/images/GilesHeadshot.jpg"
+
+  }
+]
 
 var council = [
     {
