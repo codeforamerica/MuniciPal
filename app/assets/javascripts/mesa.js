@@ -56,7 +56,7 @@ function toggleCards(event) {
 
 
 function find_member(district) {
-  return _.find(council, function(member){ return member.district == district });
+  return _.find(council, { 'district': district });
 }
 
 var council = [
