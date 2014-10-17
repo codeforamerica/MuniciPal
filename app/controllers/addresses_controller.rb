@@ -96,7 +96,6 @@ class AddressesController < ApplicationController
                     :in_district       => @in_district,
                     :person_title      => @person_title,
                     :district_id       => @district_id,
-                    :district_polygon  => @district_polygon,
                     :event_items       => @event_items,
                     :attachments => attachments,
                     :events => events

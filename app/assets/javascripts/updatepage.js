@@ -92,7 +92,8 @@ function update_with_new( data ) {
   if (data.in_district) {
 
     if (data.person_title == "councilmember") {
-      var geoJSON = $.parseJSON(data.district_polygon.geom);
+      var district = _.find(districts, { id: data.district_id });
+      var geoJSON = $.parseJSON(district.geom);
       geoJSON.properties = { fill: config.map.district_fill };
       districtLayer.setGeoJSON(geoJSON);
       districtLayer.setFilter(function() { return true; });
