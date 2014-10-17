@@ -237,7 +237,7 @@ function updatePageContent(data) {
   // stick some event items in the frontend
   _.map(data.event_items, function(item, i) {
 
-      textToGeo(item.title);
+      // textToGeo(item.title);
 
       var event_item = new EventItem(item, data.attachments[i]).render('.legislative-items');
 
