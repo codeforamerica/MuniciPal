@@ -92,6 +92,19 @@ var people = [
       "twitterWidget": "465935532589993984",
       "website": "http://www.mesaaz.gov/mayor",
       "photo": "http://www.mesaaz.gov/mayor/images/GilesHeadshot.jpg"
+  },
+  {
+      "name": "Chris Brady",
+      "title": "city manager",
+      "district": "n/a",
+      "bio": "a manager... todo...",
+      "phone": "480-644-XXXX",
+      "email": "XXX@mesaaz.gov",
+      "facebook": "n/a",
+      "twitterName": "n/a",
+      "twitterWidget": "",
+      "website": "http://www.mesaaz.gov/mayor",
+      "photo": "https://raw.githubusercontent.com/techieshark/council-info/master/img/Chris_Brady.jpg"
 
   }
 ]
