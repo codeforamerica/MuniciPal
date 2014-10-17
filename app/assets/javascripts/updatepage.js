@@ -77,12 +77,12 @@ function updatePage(params) {
     data: params,
     dataType: 'json',
     success: update_with_new
-  })
+  });
 }
 
 function update_with_new( data ) {
 
-  if (!data.event_items) return; // must be at root w/ no data yet
+  if (!data.event_items) { return; } // must be at root w/ no data yet
 
   g_data = data;
 
@@ -105,8 +105,7 @@ function update_with_new( data ) {
     districtLayer.setFilter(function() { return false; });
     $('.person-position').empty().append(
       'It looks like you\'re outside of Mesa.<br>' +
-      'Maybe you want the <a href="http://www.mesaaz.gov/Council/">council and mayor webpage</a>?'
-    ).addClass("no-district").show();
+      'Maybe you want the <a href="http://www.mesaaz.gov/Council/">council and mayor webpage</a>?').addClass("no-district").show();
     $('#results').hide();
 
   }
@@ -128,18 +127,18 @@ function setPageClickHandlers() {
   });
 
   $('a.comments').click(function(event) {
-    event.preventDefault()
+    event.preventDefault();
     // get the matter id
-    var matter = $(this).attr('data-matter-id')
-    console.log("clicked matter: " + matter)
+    var matter = $(this).attr('data-matter-id');
+    console.log("clicked matter: " + matter);
 
     var element;
-    if ($('#disqus_thread').length == 0) {
+    if ($('#disqus_thread').length === 0) {
       // element = document.create("div").attr('id', 'disqus_thread');
       element = document.createElement('div');
-      element.setAttribute('id', 'disqus_thread')
+      element.setAttribute('id', 'disqus_thread');
     } else {
-      $('#disqus_thread').parent().hide()
+      $('#disqus_thread').parent().hide();
       element = $('#disqus_thread').detach();
     }
 
@@ -240,11 +239,11 @@ function updatePageContent(data) {
 
       textToGeo(item.title);
 
-      var event_item = new EventItem(item, data.attachments[i]).render('.legislative-items')
+      var event_item = new EventItem(item, data.attachments[i]).render('.legislative-items');
 
       // get and populate event details section
-      var api_event = _.find(data.events, {id: item.event_id})
-      event = new Event(api_event).render('#event-details-' + event_item.matter_id)
+      var api_event = _.find(data.events, {id: item.event_id});
+      event = new Event(api_event).render('#event-details-' + event_item.matter_id);
 
   });
 
