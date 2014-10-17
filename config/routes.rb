@@ -17,7 +17,10 @@ Zone::Application.routes.draw do
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
   root 'addresses#index'
-  
+
+  get 'mayor', to: 'addresses#index', defaults: { mayor: true }
+  get 'manager', to: 'addresses#index', defaults: { manager: true }
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
