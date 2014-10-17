@@ -91,11 +91,12 @@ function update_with_new( data ) {
 
   if (data.in_district) {
 
-    var geoJSON = $.parseJSON(data.district_polygon.geom);
-
-    geoJSON.properties = { fill: config.map.district_fill };
-    districtLayer.setGeoJSON(geoJSON);
-    districtLayer.setFilter(function() { return true; });
+    if (data.person_title == "councilmember") {
+      var geoJSON = $.parseJSON(data.district_polygon.geom);
+      geoJSON.properties = { fill: config.map.district_fill };
+      districtLayer.setGeoJSON(geoJSON);
+      districtLayer.setFilter(function() { return true; });
+    }
 
     updatePageContent(data);
 
@@ -159,50 +160,77 @@ This function fills out a bunch of mustache templates from the data above and AJ
 requests to the legistar REST API.
  */
 
-function updatePageContent(data) {
 
-  $('body').removeClass('initial');
-  var district = data.district_id;
+function Person(person) {
+  this.person = person;
+}
 
-  var member = find_member(district);
-  // var mayor = find_member(0); // 0 = mayor. for now anyway.
+Person.prototype.title = function() {
+  switch (this.person.title) {
+    case 'mayor': return 'Mayor';
+    case 'manager': return "City Manager";
+    default: return 'District ' + this.person.district;
+  }
+}
+
+// render the Person and attach it to the element found at `container`, a CSS selector (e.g. an #id)
+// 
+Person.prototype.render = function(container) {
+
+  var that = this;
+
+  // var eventHtml = Mustache.render(eventTemplate, view);
+  // console.log("adding details to: " + container);
+  // $(container).html(eventHtml)
+
 
   var who_view = {
-    district: district,
+    district: that.person.district,
     pic: {
       src: that.person.photo
     },
-    name: member.name,
-    phone: member.phone,
-    email: member.email,
-    website: member.website,
-    address: member.address,
-    bio: member.bio,
-    facebook: member.facebook,
-    twitterName: member.twitterName,
-    twitterWidget: member.twitterWidget,
-  }
+    name: that.person.name,
+    phone: that.person.phone,
+    email: that.person.email,
+    website: that.person.website,
+    address: that.person.address,
+    bio: that.person.bio,
+    facebook: that.person.facebook,
+    twitterName: that.person.twitterName,
+    twitterWidget: that.person.twitterWidget
+  };
 
   $('#facebook-card').html(Mustache.render(facebookTemplate, who_view));
   $('#twitter-card').html(Mustache.render(twitterTemplate, who_view));
 
-  $('.person-position').empty().append('District ' + district).removeClass("no-district").show();
+
+  $('.person-title').empty().append(this.title()).removeClass("no-district").show(); // TODO remove no-district stuff
   $('#results').show();
 
-  $('#council-picture').attr({
-    'src': 'http://tomcfa.s3.amazonaws.com/district'+district+'.jpg',
-    'alt': 'Councilmember for District ' + district
+  $('#person-picture').attr({
+    'src': this.person.photo,
+    'alt': 'Photo of ' + this.person.name
   });
-  $('#council-member').text(data.district_polygon.name);
-  $('#council-phone').text(member.phone);
-  $('#council-email').text(member.email);
-  $('#council-website').text(member.website);
-  $('#council-address').text(member.address);
-  $('#bio-card .bio').text(member.bio);
+  $('#person-name').text(this.person.name);
+  $('#person-phone').text(this.person.phone);
+  $('#person-email').text(this.person.email);
+  $('#person-website').text(this.person.website);
+  $('#person-address').text(this.person.address);
+  $('#bio-card .bio').text(this.person.bio);
 
+  return this;
+}
 
-  $(".twit-widget").hide();
-  $(".twit-widget#council-" + district).show();
+function updatePageContent(data) {
+
+  $('body').removeClass('initial');
+  var district = data.district_id;
+  var member = find_person(data.person_title, district);
+
+  var person = new Person(member).render('#person');
+
+  // $(".twit-widget").hide();
+  // $(".twit-widget#person-" + district).show(); // still needed?? I don't think so, now that we render these individually --peter
 //  $(".twit-widget#mention-" + district).show();
 
   $(".legislative-items").empty();
