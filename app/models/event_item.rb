@@ -9,5 +9,6 @@ class EventItem < ActiveRecord::Base
   scope :current, ->{ joins(:event).where("events.date > ?", 2.weeks.ago) }
   scope :with_matters, ->{ where("matter_id IS NOT NULL") }
   scope :in_district, ->(district){ where("council_district_id = ?", district) }
+  scope :no_district, ->{ where("council_district_id IS NULL") }
 
 end
