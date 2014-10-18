@@ -107,8 +107,11 @@ EventItem.prototype.render = function(container) {
       eventItemId: that.item.id,
       icon: that.icon,
       scope: function() {
-        // if Citywide, "Citywide" (TODO), else
-        return "In District " + that.council_district;
+        if (that.council_district) {
+          return "In District " + that.council_district;
+        } else {
+          return "Citywide";
+        }
       }
     };
 

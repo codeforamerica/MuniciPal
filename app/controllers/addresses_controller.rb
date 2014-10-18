@@ -63,7 +63,8 @@ class AddressesController < ApplicationController
       @district_polygon = CouncilDistrict.getDistrict @lat, @lng
       if @district_polygon and @district_polygon.id
         @district_id = @district_polygon.id
-        @event_items = EventItem.current.with_matters.in_district(@district_polygon.id).order('date DESC')
+        @event_items = EventItem.current.with_matters.in_district(@district_polygon.id).order('date DESC') +
+                       EventItem.current.with_matters.no_district.order('date DESC')
       else
         puts "ERROR: Whaaaaaat?! No district/id. You ran rake council_districts:load to populate the table right?"
       end
