@@ -166,9 +166,8 @@ function Person(person) {
 
 Person.prototype.title = function() {
   switch (this.person.title) {
-    case 'mayor': return 'Mayor';
-    case 'manager': return "City Manager";
-    default: return 'District ' + this.person.district;
+    case 'City Councilmember': return 'District ' + this.person.district;
+    default: return this.person.title;
   }
 }
 
@@ -186,17 +185,32 @@ Person.prototype.render = function(container) {
   var who_view = {
     district: that.person.district,
     pic: {
-      src: that.person.photo
+      src: that.person.photo_url
     },
-    name: that.person.name,
+    name: that.person.name.fullname,
     phone: that.person.phone,
     email: that.person.email,
-    website: that.person.website,
-    address: that.person.address,
+    website: that.person.website_url,
     bio: that.person.bio,
-    facebook: that.person.facebook,
-    twitterName: that.person.twitterName,
-    twitterWidget: that.person.twitterWidget
+    facebook: function() {
+      // try to find social network if it exists in data
+      social = _.find(that.person.social, {platform: "facebook"});
+      if (typeof social != 'undefined') {
+        return social.name;
+      }
+    },
+    twitterName: function() {
+      social = _.find(that.person.social, {platform: "twitter"});
+      if (typeof social != 'undefined') {
+        return social.name
+      }
+    },
+    twitterWidget: function() {
+      social = _.find(that.person.social, {platform: "twitter"});
+      if (typeof social != 'undefined') {
+        return social.widget;
+      }
+    }
   };
 
   $('#facebook-card').html(Mustache.render(facebookTemplate, who_view));
@@ -207,15 +221,14 @@ Person.prototype.render = function(container) {
   $('#results').show();
 
   $('#person-picture').attr({
-    'src': this.person.photo,
-    'alt': 'Photo of ' + this.person.name
+    'src': this.person.photo_url,
+    'alt': 'Photo of ' + this.person.name.fullname
   });
-  $('#person-name').text(this.person.name);
+  $('#person-name').text(this.person.name.fullname);
   $('#person-phone').text(this.person.phone);
   $('#person-email').text(this.person.email);
-  $('#person-website').text(this.person.website);
-  $('#person-address').text(this.person.address);
-  $('#bio-card .bio').text(this.person.bio);
+  $('#person-website').text(this.person.website_url);
+  $('#bio-card').text(this.person.bio);
 
   return this;
 }
