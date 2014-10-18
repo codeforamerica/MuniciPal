@@ -60,13 +60,13 @@ function find_person(title, district) {
   } else if (title == 'manager') {
     return find_manager();
   } else {
-    return find_member(district);
+    return find_councilmember('' + district);
   }
 }
 
-function find_member(district) {
-  return _.find(council, { 'district': district });
-}
+// function find_member(district) {
+//   return _.find(people, { 'district': district });
+// }
 function find_councilmember(district) {
   return _.find(people, { 'district': district });
 }
