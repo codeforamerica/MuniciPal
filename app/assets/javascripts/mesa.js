@@ -54,10 +54,60 @@ function toggleCards(event) {
 //     });
 // })();
 
+function find_person(title, district) {
+  if (title == 'mayor') {
+    return find_mayor();
+  } else if (title == 'manager') {
+    return find_manager();
+  } else {
+    return find_member(district);
+  }
+}
 
 function find_member(district) {
-  return _.find(council, function(member){ return member.district == district });
+  return _.find(council, { 'district': district });
 }
+function find_councilmember(district) {
+  return _.find(people, { 'district': district });
+}
+
+function find_mayor() {
+  return _.find(people, { 'title': 'mayor' })
+}
+
+function find_manager() {
+  return _.find(people, { 'title': 'city manager' })
+}
+
+var people = [
+  {
+      "name": "John Giles",
+      "title": "mayor",
+      "district": "n/a",
+      "bio": "a mayor... todo...",
+      "phone": "480-644-XXXX",
+      "email": "XXX@mesaaz.gov",
+      "facebook": "MesaMayorsOffice",
+      "twitterName": "MesaMayorOffice",
+      "twitterWidget": "465935532589993984",
+      "website": "http://www.mesaaz.gov/mayor",
+      "photo": "http://www.mesaaz.gov/mayor/images/GilesHeadshot.jpg"
+  },
+  {
+      "name": "Chris Brady",
+      "title": "city manager",
+      "district": "n/a",
+      "bio": "a manager... todo...",
+      "phone": "480-644-XXXX",
+      "email": "XXX@mesaaz.gov",
+      "facebook": "n/a",
+      "twitterName": "n/a",
+      "twitterWidget": "",
+      "website": "http://www.mesaaz.gov/mayor",
+      "photo": "https://raw.githubusercontent.com/techieshark/council-info/master/img/Chris_Brady.jpg"
+
+  }
+]
 
 var council = [
     {
@@ -74,7 +124,8 @@ var council = [
         "assistant": "Alicia White",
         "assistantphone": "480-644-5296",
         "assistantemail": "alicia.white@mesaaz.gov",
-        "website": "http://www.mesaaz.gov/council/richins"
+        "website": "http://www.mesaaz.gov/council/richins",
+        "photo": "http://tomcfa.s3.amazonaws.com/district1.jpg"
     },
     {
         "name": "Terry Benelli",
@@ -90,7 +141,9 @@ var council = [
         "assistant": "Ian Linssen",
         "assistantphone": "480-644-5295",
         "assistantemail": "ian.linssen@mesaaz.gov",
-        "website": "http://www.mesaaz.gov/council/benelli/"
+        "website": "http://www.mesaaz.gov/council/benelli/",
+        "photo": "http://tomcfa.s3.amazonaws.com/district2.jpg"
+
     },
     {
         "name": "Dennis Kavanaugh",
@@ -106,7 +159,9 @@ var council = [
         "assistant": "Jared Archambault",
         "assistantphone": "480-644-6275",
         "assistantemail": "jared.archambault@mesaaz.gov",
-        "website": "http://www.mesaaz.gov/council/kavanaugh"
+        "website": "http://www.mesaaz.gov/council/kavanaugh",
+        "photo": "http://tomcfa.s3.amazonaws.com/district3.jpg"
+
     },
     {
         "name": "Christopher Glover ",
@@ -122,7 +177,8 @@ var council = [
         "assistant": "Andrew Calhoun",
         "assistantphone": "480-644-2190",
         "assistantemail": "andrew.calhoun@mesaaz.gov",
-        "website": "http://www.mesaaz.gov/council/glover"
+        "website": "http://www.mesaaz.gov/council/glover",
+        "photo": "http://tomcfa.s3.amazonaws.com/district4.jpg"
     },
     {
         "name": "David Luna",
@@ -138,7 +194,8 @@ var council = [
         "assistant": "Charlotte McDermott",
         "assistantphone": "480-644-5294",
         "assistantemail": "District5@mesaaz.gov",
-        "website": "http://www.mesaaz.gov/council/luna"
+        "website": "http://www.mesaaz.gov/council/luna",
+        "photo": "http://tomcfa.s3.amazonaws.com/district5.jpg"
     },
     {
         "name": "Scott Somers",
@@ -154,7 +211,9 @@ var council = [
         "assistant": "Matt Clark",
         "assistantphone": "480-644-4745",
         "assistantemail": "matthew.clark@mesaaz.gov",
-        "website": "http://www.mesaaz.gov/council/somers"
+        "website": "http://www.mesaaz.gov/council/somers",
+        "photo": "http://tomcfa.s3.amazonaws.com/district6.jpg"
+
     },
     {
         "name": "Alex Finter",
@@ -168,7 +227,9 @@ var council = [
         "assistant": "Misty Wells",
         "assistantphone": "480-644-2396",
         "assistantemail": "misty.wells@mesaaz.gov",
-        "website": "http://www.mesaaz.gov/mayor/"
+        "website": "http://www.mesaaz.gov/mayor/",
+        "photo": "http://tomcfa.s3.amazonaws.com/district7.jpg"
+
     }
 ]
 
