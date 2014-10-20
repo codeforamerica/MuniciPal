@@ -3,9 +3,11 @@ $red:   #e64919;
 $green: #00a99d;
 $blue:  #607d8b;
 $grey:  #616161;
+$light-grey: #f5f6f7;
 $black: #000000;
 $white: #ffffff;
 $light-blue: #29a9e1;
+$logo-blue: #29a8e0;
 
 // Fonts
 $font-family: "proxima-nova", Helvetica, Arial, sans-serif;
@@ -464,18 +466,101 @@ p.descript {
 }
 
 .footer {
-  background: $grey;
-  color: $white;
-  text-transform: uppercase;
+  background: $light-grey;
   text-align: center;
 
-  h5 {
-    font-weight: normal;
+  a {
+    color: $blue;
+    text-decoration: none;
   }
 
-  a {
-    color: $green;
-    text-decoration: none;
+  .email {
+    font-weight: bold;
+  }
+
+  .button-block, p.credit {
+    margin-top: 1em;
+  }
+
+  a .fa {
+    -webkit-transition: all .33s ease;
+    -moz-transition: all .33s ease;
+    -ms-transition: all .33s ease;
+    -o-transition: all .33s ease;
+    transition: all .33s ease;
+  }
+
+  a:hover, a:hover .fa-circle {
+    color: $logo-blue;
+  }
+  a:hover .fa-stack-1x {
+    color: $white;
+    font-size: 1.1em; // make the icons pop out a bit
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+  }
+
+  // font awesome's envelope logo is a little too big, so we resize.
+  .fa-envelope {
+    font-size: .8em;
+  }
+  a:hover .fa-envelope {
+    font-size: .9em;
+  }
+
+  // add a little bit of motion, for fun.
+  .fa-twitter {
+
+    -o-animation-name: sway;
+    -o-animation-duration: 3.5s;
+    -o-animation-iteration-count: infinite;
+    -o-animation-direction: alternate;
+
+    -ms-animation-name: sway;
+    -ms-animation-duration: 3.5s;
+    -ms-animation-iteration-count: infinite;
+    -ms-animation-direction: alternate;
+
+    -moz-animation-name: sway;
+    -moz-animation-duration: 3.5s;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-direction: alternate;
+
+    -webkit-animation-name: sway;
+    -webkit-animation-duration: 3.5s;
+    -webkit-animation-iteration-count: infinite;
+    -webki-animation-direction: alternate;
+
+    animation-name: sway;
+    animation-duration: 3.5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+  }
+}
+
+@-webkit-keyframes sway {
+  0% {
+    margin-left: -1px;
+    -webkit-transform: rotate(-3deg);
+    -moz-transform: rotate(-3deg);
+    -o-transform: rotate(-3deg);
+    -ms-transform: rotate(-3deg);
+    transform: rotate(-3deg);
+  }
+  50% {
+    margin-left: 1px;
+    -webkit-transform: rotate(3deg);
+    -moz-transform: rotate(3deg);
+    -o-transform: rotate(3deg);
+    -ms-transform: rotate(3deg);
+    transform: rotate(3deg);
+  }
+  100% {
+    margin-left: -1px;
+    -webkit-transform: rotate(-3deg);
+    -moz-transform: rotate(-3deg);
+    -o-transform: rotate(-3deg);
+    -ms-transform: rotate(-3deg);
+    transform: rotate(-3deg);
   }
 }
 
