@@ -8,6 +8,7 @@ $black: #000000;
 $white: #ffffff;
 $light-blue: #29a9e1;
 $logo-blue: #29a8e0;
+$border-grey: lighten($grey, 15%);
 
 // Fonts
 $font-family: "proxima-nova", Helvetica, Arial, sans-serif;
@@ -235,7 +236,7 @@ $center-header-text: 3em;
   	padding: 0.5em;
   	background: $white;
     width: 98%;
-    border: solid 2px lighten($grey, 15%);
+    border: solid 2px $border-grey;
     border-radius: 8px;
     outline: none;
   }
@@ -468,6 +469,7 @@ p.descript {
 .footer {
   background: $light-grey;
   text-align: center;
+  border-top: solid 1px $border-grey;
 
   a {
     color: $blue;
