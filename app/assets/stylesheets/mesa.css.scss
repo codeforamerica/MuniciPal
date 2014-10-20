@@ -473,7 +473,7 @@ p.descript {
 
   a {
     color: $blue;
-    text-decoration: none;
+    text-decoration: underline;
   }
 
   .email {
@@ -482,6 +482,9 @@ p.descript {
 
   .button-block, p.credit {
     margin-top: 1em;
+  }
+  .button-block a {
+    text-decoration: none;
   }
 
   a .fa {
