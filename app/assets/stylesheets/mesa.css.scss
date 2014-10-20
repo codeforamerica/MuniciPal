@@ -503,7 +503,7 @@ p.descript {
   a:hover .fa-stack-1x {
     color: $white;
     font-size: 1.1em; // make the icons pop out a bit
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
   }
 
   // font awesome's envelope logo is a little too big, so we resize.
