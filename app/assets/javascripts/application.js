@@ -24,3 +24,4 @@
 //= require disqus.js
 //= require application_onload.js
 //= require dropdown-menu.js
+//= require person.js
