@@ -1,14 +1,14 @@
 Zone::Application.routes.draw do
-  resources :event_items
+  get '/event_items/:id', to: 'event_items#show'
 
   resources :matters
 
-  resources :events do 
-    resources :event_items
+  namespace :events do
+    resources :event_items, :only => [:index, :show], constraints: { format: 'json' }
   end
 
-  resources :council_districts do
-    resources :event_items
+  namespace :council_districts do
+    resources :event_items, :only => [:index, :show], constraints: { format: 'json' }
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

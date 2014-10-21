@@ -12,54 +12,6 @@ class CouncilDistrictsController < ApplicationController
   def show
   end
 
-  # GET /council_districts/new
-  def new
-    @council_district = CouncilDistrict.new
-  end
-
-  # GET /council_districts/1/edit
-  def edit
-  end
-
-  # POST /council_districts
-  # POST /council_districts.json
-  def create
-    @council_district = CouncilDistrict.new(council_district_params)
-
-    respond_to do |format|
-      if @council_district.save
-        format.html { redirect_to @council_district, notice: 'Council district was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @council_district }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @council_district.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /council_districts/1
-  # PATCH/PUT /council_districts/1.json
-  def update
-    respond_to do |format|
-      if @council_district.update(council_district_params)
-        format.html { redirect_to @council_district, notice: 'Council district was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @council_district.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /council_districts/1
-  # DELETE /council_districts/1.json
-  def destroy
-    @council_district.destroy
-    respond_to do |format|
-      format.html { redirect_to council_districts_url }
-      format.json { head :no_content }
-    end
-  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
