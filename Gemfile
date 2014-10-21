@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.1.2'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.2'
+gem 'rails', '4.1'
 
 group :development, :test do
   gem 'awesome_print'
@@ -19,6 +19,8 @@ end
 
 gem 'faraday'
 gem 'faraday_middleware'
+
+gem 'geoservices', :git => 'git://github.com/ajturner/geoservices-ruby.git'
 
 # Use postgresql as the database for Active Record
 gem 'pg', '0.17.1'
@@ -46,12 +48,6 @@ group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
 end
-
-# GIS
-gem 'rgeo', '0.3.20'
-gem 'rgeo-geojson', '0.2.3'
-gem 'activerecord-postgis-adapter', '0.6.5'
-gem 'rgeo-shapefile', '0.2.3'
 
 # Geocoding
 gem 'geokit', '1.8.4'
