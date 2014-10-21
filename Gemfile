@@ -7,13 +7,8 @@ gem 'rails', '4.0.2'
 group :development, :test do
   gem 'awesome_print'
   gem 'debugger'
-end
-
-group :development, :test, :production do
   gem 'rspec-rails', '2.14.2'
   gem 'shoulda-matchers', '2.6.1'
-  gem 'faraday'
-  gem 'faraday_middleware'
 end
 
 group :test do
@@ -21,6 +16,9 @@ group :test do
   gem 'capybara', '2.1.0'
   gem 'factory_girl_rails', '4.2.1'
 end
+
+gem 'faraday'
+gem 'faraday_middleware'
 
 # Use postgresql as the database for Active Record
 gem 'pg', '0.17.1'
