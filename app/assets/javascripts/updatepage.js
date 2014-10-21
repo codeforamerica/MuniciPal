@@ -69,7 +69,7 @@ Example of item from event_items Array:
 
 
 // Request new data from the server and update the page based on the result.
-// params should be a hash with keys like `address` or `lat` & `long`.
+// params should be a hash with keys like `address` or `lat` & `lng`.
 function updatePage(params) {
   $.ajax({
     type: 'GET',
@@ -80,6 +80,22 @@ function updatePage(params) {
   });
 }
 
+
+// function getDistrictGeom(district_id) {
+//   $.ajax({
+//     type: 'GET',
+//     url: 'https://services2.arcgis.com/1gVyYKfYgW5Nxb1V/ArcGIS/rest/services/MesaCouncilDistricts/FeatureServer/0/query?where=DISTRICT%3D'+district_id+'&f=json',
+//     dataType: 'json',
+//     success: function(geom) {
+//       var geoJSON = $.parseJSON(geom);
+//       geoJSON.properties = { fill: config.map.district_fill };
+//       districtLayer.setGeoJSON(geoJSON);
+//       districtLayer.setFilter(function() { return true; });
+//     }
+//   });
+// }
+
+
 function update_with_new( data ) {
 
   if (!data.event_items) { return; } // must be at root w/ no data yet
@@ -89,13 +105,10 @@ function update_with_new( data ) {
   if (data.in_district) {
 
     if (data.person_title == "councilmember") {
-      history.pushState({}, "", "?address=" + data.address + "&lat=" + data.lat + "&long=" + data.lng);
+      history.pushState({}, "?lat=" + data.lat + "&lng=" + data.lng);
       marker.setLatLng(new L.LatLng(data.lat, data.lng));
-      var district = _.find(districts, { id: data.district_id });
-      var geoJSON = $.parseJSON(district.geom);
-      geoJSON.properties = { fill: config.map.district_fill };
-      districtLayer.setGeoJSON(geoJSON);
-      districtLayer.setFilter(function() { return true; });
+      var district = _.find(districts, { id: data.district });
+      // getDistrictGeom(data.district);
     }
 
     updatePageContent(data);
@@ -110,7 +123,8 @@ function update_with_new( data ) {
 
   }
 
-  $( "#address").val(data.address);
+  var showaddress = ((data.address) ? data.address : "");
+  $("#address").val(showaddress);
   map.setView([data.lat, data.lng], config.map.start_zoom);
   document.getElementById('results').scrollIntoView();
 }

@@ -51,7 +51,7 @@ function mapInitialize() {
 
 function onDragEnd() {
     var ll = marker.getLatLng();
-    updatePage({'lat': ll.lat, 'long': ll.lng});
+    updatePage({'lat': ll.lat, 'lng': ll.lng});
 }
 
 /* Expects an object of type tomsline which is what the tom-geocoder service returns.
@@ -115,7 +115,7 @@ function resetHighlight(e) {
 
 
 function jumpToFeature(e) {
-  updatePage({'lat': e.latlng.lat, 'long': e.latlng.lng});
+  updatePage({'lat': e.latlng.lat, 'lng': e.latlng.lng});
   console.log("jumping to district ");
 }
 
