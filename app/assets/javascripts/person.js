@@ -61,7 +61,7 @@ Person.prototype.render = function(container) {
   if (facebook) {
     $('#facebook-card').html(Mustache.render(facebookTemplate, who_view));
   } else {
-    $('#facebook-card').html(Mustache.render(facebookTemplateNoFacebook));
+    $('#facebook-card').html(Mustache.render(noFacebookTemplate));
   }
 
   $('#twitter-card').html(Mustache.render(twitterTemplate, who_view));
