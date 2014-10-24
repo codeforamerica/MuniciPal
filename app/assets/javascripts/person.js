@@ -56,9 +56,7 @@ Person.prototype.render = function(container) {
     }
   };
 
-  var facebook;
-  facebook = this.socialDetails('facebook')
-  if (facebook) {
+  if (this.socialDetails('facebook')) {
     $('#facebook-card').html(Mustache.render(facebookTemplate, who_view));
   } else {
     $('#facebook-card').html(Mustache.render(noFacebookTemplate));
