@@ -7,6 +7,9 @@ $(document).ready(function() {
 	facebookTemplate = $('#facebook-template').html();
 	Mustache.parse (facebookTemplate);
 
+	facebookTemplateNoFacebook = $('#facebook-template-no-facebook').html();
+	Mustache.parse (facebookTemplateNoFacebook);
+
 	twitterTemplate = $('#twitter-template').html();
 	Mustache.parse (twitterTemplate);
 

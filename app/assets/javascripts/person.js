@@ -9,6 +9,11 @@ Person.prototype.title = function() {
   }
 }
 
+// takes a platform name ('twitter', etc) and returns the platform details.
+Person.prototype.socialDetails = function(platform) {
+  return _.find(this.person.social, {platform: platform});
+}
+
 // render the Person and attach it to the element found at `container`, a CSS selector (e.g. an #id)
 //
 Person.prototype.render = function(container) {
@@ -32,26 +37,33 @@ Person.prototype.render = function(container) {
     bio: that.person.bio,
     facebook: function() {
       // try to find social network if it exists in data
-      social = _.find(that.person.social, {platform: "facebook"});
+      social = that.socialDetails('facebook');
       if (typeof social != 'undefined') {
         return social.name;
       }
     },
     twitterName: function() {
-      social = _.find(that.person.social, {platform: "twitter"});
+      social = that.socialDetails('twitter');
       if (typeof social != 'undefined') {
         return social.name
       }
     },
     twitterWidget: function() {
-      social = _.find(that.person.social, {platform: "twitter"});
+      social = that.socialDetails('twitter');
       if (typeof social != 'undefined') {
         return social.widget;
       }
     }
   };
 
-  $('#facebook-card').html(Mustache.render(facebookTemplate, who_view));
+  var facebook;
+  facebook = this.socialDetails('facebook')
+  if (facebook) {
+    $('#facebook-card').html(Mustache.render(facebookTemplate, who_view));
+  } else {
+    $('#facebook-card').html(Mustache.render(facebookTemplateNoFacebook));
+  }
+
   $('#twitter-card').html(Mustache.render(twitterTemplate, who_view));
 
 
