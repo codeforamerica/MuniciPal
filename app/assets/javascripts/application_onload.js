@@ -13,6 +13,9 @@ $(document).ready(function() {
 	twitterTemplate = $('#twitter-template').html();
 	Mustache.parse (twitterTemplate);
 
+	noTwitterTemplate = $('#no-twitter-template').html();
+	Mustache.parse (noTwitterTemplate);
+
 	legislationTemplate = $('#legislation-template').html();
 	Mustache.parse (legislationTemplate);  // optional, speeds up future uses
 

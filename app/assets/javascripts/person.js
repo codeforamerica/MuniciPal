@@ -62,7 +62,11 @@ Person.prototype.render = function(container) {
     $('#facebook-card').html(Mustache.render(noFacebookTemplate));
   }
 
-  $('#twitter-card').html(Mustache.render(twitterTemplate, who_view));
+  if (this.socialDetails('twitter')) {
+    $('#twitter-card').html(Mustache.render(twitterTemplate, who_view));
+  } else {
+    $('#twitter-card').html(Mustache.render(noTwitterTemplate));
+  }
 
 
   $('.person-title').empty().append(this.title()).removeClass("no-district").show(); // TODO remove no-district stuff
