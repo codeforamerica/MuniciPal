@@ -56,7 +56,7 @@ Person.prototype.render = function(container) {
 
 
   $('.person-title').empty().append(this.title()).removeClass("no-district").show(); // TODO remove no-district stuff
-  $('#results').show();
+  $('#results, #person').show();
 
   $('#person-picture').attr({
     'src': this.person.photo_url,

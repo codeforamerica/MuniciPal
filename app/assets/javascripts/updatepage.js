@@ -183,6 +183,8 @@ function updatePageContent(data) {
 
   });
 
+  $('#results, #legislative').show();
+
   setPageClickHandlers();
 
   // When necessary, force twitter and facebook widgets to reload.
