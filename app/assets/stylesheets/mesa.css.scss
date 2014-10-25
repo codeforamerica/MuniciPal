@@ -466,6 +466,22 @@ p.descript {
   margin-top:0;
 }
 
+.disclaimer {
+  padding: 2em 0;
+
+  p {
+    text-align: center;
+
+    border-top: 1px dashed rgba(96, 125, 139, 0.34);
+    border-bottom: 1px dashed rgba(96, 125, 139, 0.34);
+
+    padding: 2em 0;
+    margin: 0 auto;
+    max-width: 55em;
+  }
+}
+
+
 .footer {
   background: $light-grey;
   text-align: center;
