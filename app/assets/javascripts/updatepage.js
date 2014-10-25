@@ -162,11 +162,12 @@ requests to the legistar REST API.
 function updatePageContent(data) {
 
   $('body').removeClass('initial');
-  var district = data.district_id;
-  var member = find_person(data.person_title, district);
 
-  var person = new Person(member).render('#person');
-
+  if (data.district_id != 'all') {
+    var district = data.district_id;
+    var member = find_person(data.person_title, district);
+    var person = new Person(member).render('#person');
+  }
 
   $(".legislative-items").empty();
 
