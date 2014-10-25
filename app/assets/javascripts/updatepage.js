@@ -167,9 +167,6 @@ function updatePageContent(data) {
 
   var person = new Person(member).render('#person');
 
-  // $(".twit-widget").hide();
-  // $(".twit-widget#person-" + district).show(); // still needed?? I don't think so, now that we render these individually --peter
-//  $(".twit-widget#mention-" + district).show();
 
   $(".legislative-items").empty();
 
