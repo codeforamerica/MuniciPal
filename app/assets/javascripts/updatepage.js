@@ -180,7 +180,7 @@ function updatePageContent(data) {
 
       // get and populate event details section
       var api_event = _.find(data.events, {id: item.event_id});
-      event = new Event(api_event).render('#event-details-' + event_item.matter_id);
+      event = new Event(api_event).render('#event-details-' + event_item.item.source_id);
 
   });
 
