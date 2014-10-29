@@ -46,7 +46,7 @@ Person.prototype.render = function(container) {
     twitterWidget: function() {
       social = _.find(that.person.social, {platform: "twitter"});
       if (typeof social != 'undefined') {
-        return social.widget;
+        return social.widget || "465935532589993984"; // provide default if none given
       }
     }
   };
