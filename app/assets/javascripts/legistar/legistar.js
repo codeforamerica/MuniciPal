@@ -9,7 +9,7 @@ function Event(event) {
 
 function EventItem(item, attachments) {
 
-  console.log("constructing legislative item, id: " + item.matter_id);
+  console.log("constructing eventItem: event_item_id:  " + item.id + ", matter_id: " + item.matter_id + ", event_id " + item.event_id);
 
   // set properties
   this.item = item;
