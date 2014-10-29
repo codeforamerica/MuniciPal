@@ -8,7 +8,9 @@ class AddressesController < ApplicationController
     @in_district = false
     @lat = nil, @lng = nil, @address = nil
 
-    if params[:mayor]
+    if params[:district] == "all"
+      @person_title = nil
+    elsif params[:mayor]
       @person_title = "mayor"
     elsif params[:manager]
       @person_title = "manager"
@@ -29,6 +31,7 @@ class AddressesController < ApplicationController
         # use lat/lon at center of Mesa
         @lat = 33.42
         @lng = -111.835
+        @district_id = "all"
       else
         # find lat/lon at center of polygon
         any_point = CouncilDistrict.point_in_district params[:district]
@@ -62,7 +65,7 @@ class AddressesController < ApplicationController
       @addr = @address.full_address
       @district_polygon = CouncilDistrict.getDistrict @lat, @lng
       if @district_polygon and @district_polygon.id
-        @district_id = @district_polygon.id
+        @district_id = @district_id || @district_polygon.id
         @event_items = EventItem.current.with_matters.in_district(@district_polygon.id).order('date DESC') +
                        EventItem.current.with_matters.no_district.order('date DESC')
       else
@@ -70,9 +73,9 @@ class AddressesController < ApplicationController
       end
     end
 
-    if @person_title == "mayor" or @person_title == "manager"
+    if @person_title == "mayor" or @person_title == "manager" or @district_id == "all"
       @event_items = EventItem.current.with_matters.order('date DESC') #all
-      @district_id = nil
+      @district_id = "all"
       if !@lat or !@lng
         @lat = 33.42
         @lng = -111.835

@@ -162,14 +162,12 @@ requests to the legistar REST API.
 function updatePageContent(data) {
 
   $('body').removeClass('initial');
-  var district = data.district_id;
-  var member = find_person(data.person_title, district);
 
-  var person = new Person(member).render('#person');
-
-  // $(".twit-widget").hide();
-  // $(".twit-widget#person-" + district).show(); // still needed?? I don't think so, now that we render these individually --peter
-//  $(".twit-widget#mention-" + district).show();
+  if (data.district_id != 'all') {
+    var district = data.district_id;
+    var member = find_person(data.person_title, district);
+    var person = new Person(member).render('#person');
+  }
 
   $(".legislative-items").empty();
 
@@ -185,6 +183,8 @@ function updatePageContent(data) {
       event = new Event(api_event).render('#event-details-' + event_item.matter_id);
 
   });
+
+  $('#results, #legislative').show();
 
   setPageClickHandlers();
 

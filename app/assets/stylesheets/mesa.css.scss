@@ -144,6 +144,9 @@ $center-header-text: 3em;
 	display: none;
 }
 
+#person {
+  display: none; //hide until ready
+}
 .person-title {
   font-size: 40px;
   padding: 0 10px;
@@ -303,6 +306,7 @@ $center-header-text: 3em;
 
 #legislative {
   padding: 0 2em;
+  display: none; // hide until ready
 
 	.legislative-header {
     text-align: center;
