@@ -120,6 +120,11 @@ EventItem.prototype.render = function(container) {
     return this.renderAttachments()
 }
 
+function toggleAttachments(event) {
+  var $container = $(this).closest('.matter-attachments').find('ul.attachments').toggle();
+  event.preventDefault();
+}
+
 EventItem.prototype.renderAttachments = function () {
   // get and populate matter attachments section
   var list = _.map(this.attachments, function(attachment) {
@@ -135,13 +140,19 @@ EventItem.prototype.renderAttachments = function () {
       attachments: list,
     };
     var attachmentsHtml = Mustache.render(attachmentsTemplate, view);
-    $('#attachments-' + this.matter_id).html(attachmentsHtml);
-    $('#attachments-' + this.matter_id + ' a.attachments').click(function(event) {
-      var matterId = $(this).attr('data-matter-id');
-      console.log("setting link handler for attachments on matter " + matterId + "(matter " + this.matter_id + ")");
-      $('#attachments-' + matterId + ' ul.attachments').toggle();
-      event.preventDefault();
-    }).click();
+
+    $('#attachments-' + this.item.id).html(attachmentsHtml);
+    $('#attachments-' + this.item.id + ' a.attachments').click(toggleAttachments).click();
+    // $('#attachments-' + this.matter_id).html(attachmentsHtml);
+    // $('#attachments-' + this.matter_id + ' a.attachments').click(toggleAttachments).click();
+
+
+    //   function(event) {
+    //   var matterId = $(this).attr('data-matter-id');
+    //   console.log("setting link handler for attachments on matter " + matterId + "(matter " + this.matter_id + ")");
+    //   $('#attachments-' + matterId + ' ul.attachments').toggle(); //problem: potential for multiple items with same ID here
+    //   event.preventDefault();
+    // }).click();
   } else {
     $('#attachments-' + this.matter_id).html('<div class="attachments">No attachments</div>');
   }
