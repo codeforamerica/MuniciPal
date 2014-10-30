@@ -142,12 +142,8 @@ function setPageClickHandlers() {
       element = $('#disqus_thread').detach();
     }
 
-    var selectedCommentDiv = $('#' + matter).find('div.comments');
     // append either the element if it exists or a new disqus_thread element.
-    // selectedCommentDiv.append(element.length > 0 ? element : "<div id='disqus_thread'></div>");
-    selectedCommentDiv.append(element);
-
-    selectedCommentDiv.show();
+    $(this).closest('.legislation').find('div.comments').append(element).show();
 
     disqusInitialize(matter);
   });
