@@ -11,7 +11,7 @@
     "tool"
   ],
   "region": "us",
-  "stack": "cedar",
+  "stack": { "name": "cedar" },
   "scripts": {
     "postdeploy": "bundle exec rake app:deploy"
   },
