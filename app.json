@@ -10,7 +10,6 @@
     "tool"
   ],
   "addons": [
-    "heroku-postgresql:hobby-dev",
     "heroku-postgresql:standard-0",
     "pgbackups:plus",
     "scheduler:standard"
