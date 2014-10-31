@@ -11,7 +11,6 @@
   ],
   "addons": [
     "heroku-postgresql:hobby-dev",
-    "deployhooks:http",
     "heroku-postgresql:standard-0",
     "pgbackups:plus",
     "scheduler:standard"
