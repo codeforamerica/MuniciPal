@@ -10,7 +10,6 @@
     "govtech",
     "tool"
   ],
-  "region": "us",
   "scripts": {
     "postdeploy": "bundle exec rake app:deploy"
   },
