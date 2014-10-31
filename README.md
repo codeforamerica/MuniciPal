@@ -59,7 +59,7 @@ Deploy automatically:
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
-Or deploy manually: 
+Or deploy manually:
 
 	heroku create
 	heroku config:set BUILDPACK_URL=https://github.com/ddollar/heroku-buildpack-multi.git
