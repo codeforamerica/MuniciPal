@@ -29,9 +29,7 @@ Created for the city of Mesa, AZ. Please feel free to post in the "Issues" secti
 #### Create the database:
 
     bundle exec rake db:create
-    bundle exec rake db:migrate
-    bundle exec rake legistar_all:load
-    bundle exec rake council_districts:load
+    bundle exec rake app:deploy
 
 *If you want to update or change these specific shapefiles, they exist in the lib/asset folder in the application.*
 
@@ -62,9 +60,7 @@ The EPSG for this shapefile must be 4326.
 	heroku addons:add heroku-postgresql:standard-0
 	heroku pg:info
 	git push heroku master
-	heroku run rake db:migrate
-	heroku run bundle exec rake council_districts:load
-	heroku run bundle exec rake legistar_all:refresh
+	heroku run bundle exec rake app:deploy
 
 # Copyright
 

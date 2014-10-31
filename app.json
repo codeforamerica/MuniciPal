@@ -9,6 +9,9 @@
     "govtech",
     "tool"
   ],
+  "scripts": {
+    "postdeploy": "bundle exec rake app:deploy"
+  },
   "addons": [
     "heroku-postgresql:standard-0",
     "pgbackups:plus",
