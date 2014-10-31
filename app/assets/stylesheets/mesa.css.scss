@@ -569,13 +569,67 @@ p.descript {
   }
 }
 
+// prefixing all the things is a bit of a pain (quite verbose)
+// see also: http://www.impressivewebs.com/mixing-css3-keyframe-animations/
+// note: IE first supported @keyframe in IE10, and in IE10 the -ms prefix isn't
+// needed on `transform`, hence that prefix missing from the @keyframe rule (caniuse.com).
+@-moz-keyframes sway {
+  0% {
+    margin-left: -1px;
+    -moz-transform: rotate(-3deg);
+    transform: rotate(-3deg);
+  }
+  50% {
+    margin-left: 1px;
+    -moz-transform: rotate(3deg);
+    transform: rotate(3deg);
+  }
+  100% {
+    margin-left: -1px;
+    -moz-transform: rotate(-3deg);
+    transform: rotate(-3deg);
+  }
+}
+@-o-keyframes sway {
+  0% {
+    margin-left: -1px;
+    -o-transform: rotate(-3deg);
+    transform: rotate(-3deg);
+  }
+  50% {
+    margin-left: 1px;
+    -o-transform: rotate(3deg);
+    transform: rotate(3deg);
+  }
+  100% {
+    margin-left: -1px;
+    -o-transform: rotate(-3deg);
+    transform: rotate(-3deg);
+  }
+}
 @-webkit-keyframes sway {
+  0% {
+    margin-left: -1px;
+    -webkit-transform: rotate(-3deg);
+    transform: rotate(-3deg);
+  }
+  50% {
+    margin-left: 1px;
+    -webkit-transform: rotate(3deg);
+    transform: rotate(3deg);
+  }
+  100% {
+    margin-left: -1px;
+    -webkit-transform: rotate(-3deg);
+    transform: rotate(-3deg);
+  }
+}
+@keyframes sway {
   0% {
     margin-left: -1px;
     -webkit-transform: rotate(-3deg);
     -moz-transform: rotate(-3deg);
     -o-transform: rotate(-3deg);
-    -ms-transform: rotate(-3deg);
     transform: rotate(-3deg);
   }
   50% {
@@ -583,7 +637,6 @@ p.descript {
     -webkit-transform: rotate(3deg);
     -moz-transform: rotate(3deg);
     -o-transform: rotate(3deg);
-    -ms-transform: rotate(3deg);
     transform: rotate(3deg);
   }
   100% {
@@ -591,7 +644,6 @@ p.descript {
     -webkit-transform: rotate(-3deg);
     -moz-transform: rotate(-3deg);
     -o-transform: rotate(-3deg);
-    -ms-transform: rotate(-3deg);
     transform: rotate(-3deg);
   }
 }
