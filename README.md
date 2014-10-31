@@ -54,18 +54,18 @@ The EPSG for this shapefile must be 4326.
 
 #### Notes on deploying to heroku:
 
-heroku create
-heroku config:set BUILDPACK_URL=https://github.com/ddollar/heroku-buildpack-multi.git
-heroku addons:add heroku-postgresql:standard-tengu
-heroku pg:info
-heroku pg:promote NAME_OF_DATABASE
-git push heroku master
-heroku run rake db:migrate
-heroku run bundle exec rake mesa_councils:load
-heroku run bundle exec rake legistar_events:load
-heroku run bundle exec rake legistar_event_items:load
-heroku run bundle exec rake legistar_event_items:load
-heroku run bundle exec rake legistar_event_items_districts:load
+    heroku create
+    heroku config:set BUILDPACK_URL=https://github.com/ddollar/heroku-buildpack-multi.git
+    heroku addons:add heroku-postgresql:standard-tengu
+    heroku pg:info
+    heroku pg:promote NAME_OF_DATABASE
+    git push heroku master
+    heroku run rake db:migrate
+    heroku run bundle exec rake mesa_councils:load
+    heroku run bundle exec rake legistar_events:load
+    heroku run bundle exec rake legistar_event_items:load
+    heroku run bundle exec rake legistar_event_items:load
+    heroku run bundle exec rake legistar_event_items_districts:load
 
 # Copyright
 
