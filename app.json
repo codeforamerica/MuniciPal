@@ -10,6 +10,8 @@
     "govtech",
     "tool"
   ],
+  "region": "us",
+  "stack": "cedar",
   "scripts": {
     "postdeploy": "bundle exec rake app:deploy"
   },
