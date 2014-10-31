@@ -1,12 +1,12 @@
 [![Stories in Ready](https://badge.waffle.io/codeforamerica/municipal.png?label=ready&title=Ready)](https://waffle.io/codeforamerica/municipal)
 
-[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
-
 # Municipal
 
 Consulting city-dwellers about legislation near them.
 
 Created for the city of Mesa, AZ. Please feel free to post in the "Issues" section with any questions or comments.
+
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
 # Prerequisites
 
@@ -55,12 +55,19 @@ The EPSG for this shapefile must be 4326.
 
 #### Notes on deploying to heroku:
 
+Deploy automatically:
+
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
+Or deploy manually: 
+
 	heroku create
 	heroku config:set BUILDPACK_URL=https://github.com/ddollar/heroku-buildpack-multi.git
 	heroku addons:add heroku-postgresql:standard-0
 	heroku pg:info
 	git push heroku master
 	heroku run bundle exec rake app:deploy
+
 
 # Copyright
 
