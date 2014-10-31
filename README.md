@@ -50,7 +50,7 @@ Now you can access your application at http://0.0.0.0:3000
 
 The council_districts:load rake task loads a "Councils.shp" file in the Mesa/assets directory.
 
-The EPSG for this shapefile must be 4326. 
+The EPSG for this shapefile must be 4326.
 
 #### Notes on deploying to heroku:
 
