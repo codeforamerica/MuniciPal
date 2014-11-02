@@ -32,7 +32,7 @@ function EventItem(item, attachments) {
 // render the view and add it to the DOM
 // container: a jQuery selector string to which the rendered output should be attached
 Event.prototype.render = function(container) {
-  that = this
+  var that = this
   var view = {
     date: function() {
       var months = [ "January", "February", "March", "April", "May", "June",
@@ -82,7 +82,7 @@ EventItem.prototype.improve_readability = function() {
 // render the view and add it to the DOM
 // container: a jQuery selector string to which the rendered output should be attached
 EventItem.prototype.render = function(container) {
-  that = this;
+  var that = this;
   var view = {
       title: function() {
         if (that.matter_type == 'Ordinance' &&
