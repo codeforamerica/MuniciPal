@@ -1,8 +1,12 @@
+// These need to be globals for Disqus to find and use them.
+var disqus_shortname;
+var disqus_identifier;
+var disqus_url;
 var disqusInitialize = function (identifier) {
 
-  var disqus_shortname = config.disqus.shortname;
-  var disqus_identifier = identifier;
-  var disqus_url = config.disqus.base_url + identifier;
+  disqus_shortname = config.disqus.shortname;
+  disqus_identifier = identifier;
+  disqus_url = config.disqus.base_url + identifier;
 
   if(typeof DISQUS === "undefined") {
     /* * * DON'T EDIT THIS BLOCK PROVIDED BY DISQUS * * */
