@@ -1,7 +1,7 @@
 // Legistar Classes
 
 function Event(event) {
-  this.event = event
+  this.event = event;
 }
 
 function EventItem(item, attachments) {
@@ -9,24 +9,24 @@ function EventItem(item, attachments) {
   console.log("constructing legislative item, id: " + item.matter_id);
 
   // set properties
-  this.item = item
-  this.title = item.title
-  this.matter_type = item.matter_type
-  this.matter_name = item.matter_name
-  this.matter_id = item.matter_id
-  this.council_district = item.council_district_id
-  this.attachments = attachments
+  this.item = item;
+  this.title = item.title;
+  this.matter_type = item.matter_type;
+  this.matter_name = item.matter_name;
+  this.matter_id = item.matter_id;
+  this.council_district = item.council_district_id;
+  this.attachments = attachments;
 
   var icons = {
     'Contract': 'fa-pencil',
     'Resolution': 'fa-legal',
     'Liquor License': 'fa-glass',
     'miscellaneous': 'fa-cog'
-  }
-  this.icon = icons[this.matter_type] ? icons[this.matter_type] : icons['miscellaneous']
+  };
+  this.icon = icons[this.matter_type] ? icons[this.matter_type] : icons['miscellaneous'];
 
 
-  this.improve_readability()
+  this.improve_readability();
 }
 
 // render the view and add it to the DOM
@@ -51,9 +51,9 @@ Event.prototype.render = function(container) {
   console.log(view);
   var eventHtml = Mustache.render(eventTemplate, view);
   console.log("adding details to: " + container);
-  $(container).html(eventHtml)
-  return this
-}
+  $(container).html(eventHtml);
+  return this;
+};
 
 
 /* text transforms on fields to improve readability of event items.
@@ -117,8 +117,8 @@ EventItem.prototype.render = function(container) {
 
     var itemHtml = Mustache.render(legislationTemplate, view);
     $(container).append(itemHtml);
-    return this.renderAttachments()
-}
+    return this.renderAttachments();
+};
 
 EventItem.prototype.renderAttachments = function () {
   // get and populate matter attachments section
@@ -127,7 +127,7 @@ EventItem.prototype.renderAttachments = function () {
           link: attachment.hyperlink,
           name: attachment.name,
         };
-  })
+  });
   if (list.length) {
     var view = {
       matterId: this.matter_id,
@@ -145,8 +145,8 @@ EventItem.prototype.renderAttachments = function () {
   } else {
     $('#attachments-' + this.matter_id).html('<div class="attachments">No attachments</div>');
   }
-  return this
-}
+  return this;
+};
 
 
 
