@@ -2,6 +2,9 @@
 var disqus_shortname;
 var disqus_identifier;
 var disqus_url;
+
+var DISQUS, config;
+
 var disqusInitialize = function (identifier) {
 
   disqus_shortname = config.disqus.shortname;
