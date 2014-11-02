@@ -11,10 +11,12 @@ var disqusInitialize = function (identifier) {
   disqus_identifier = identifier;
   disqus_url = config.disqus.base_url + '/matters/' + identifier;
 
-  if(typeof DISQUS === "undefined") {
+  if (typeof DISQUS === "undefined") {
     /* * * DON'T EDIT THIS BLOCK PROVIDED BY DISQUS * * */
     (function() {
-      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
       dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
