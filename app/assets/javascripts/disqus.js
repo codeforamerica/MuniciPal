@@ -6,7 +6,7 @@ var disqusInitialize = function (identifier) {
 
   disqus_shortname = config.disqus.shortname;
   disqus_identifier = identifier;
-  disqus_url = config.disqus.base_url + identifier;
+  disqus_url = config.disqus.base_url + '/matters/' + identifier;
 
   if(typeof DISQUS === "undefined") {
     /* * * DON'T EDIT THIS BLOCK PROVIDED BY DISQUS * * */
