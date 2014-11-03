@@ -1,7 +1,7 @@
 
 var config = {
 	map: {
-		prj:'codeforamerica.hmebo8ll', // Mapbox map id string
+		prj:'tombuckley.k4gpdbjg', // Mapbox map id string
 		center_location: [33.4019, -111.78],
 		marker_location: [33.42, -111.835],
 		start_zoom: 12,
