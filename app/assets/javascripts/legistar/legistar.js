@@ -40,7 +40,7 @@ Event.prototype.render = function (container) {
     date: function () {
       var months = [ "January", "February", "March", "April", "May", "June",
           "July", "August", "September", "October", "November", "December" ],
-        date = that.event.date.replace(/T[\d,:]*Z/, '').split('-'); //YYYY-MM-DDT00:00:00Z -> [yyyy,mm,dd]
+        date = that.event.date.replace(/T[\d:\.]*Z/, '').split('-'); //YYYY-MM-DDT00:00:00Z -> [yyyy,mm,dd]
 
       // EventDate doesn't come in the right format (timezone is 0 instead of -7), so we fix it
       var correctDate = new Date(date[0], date[1] - 1, date[2]);
