@@ -9,6 +9,6 @@ var config = {
 	},
 	disqus: {
 		shortname: 'yerhere', // required: replace example with your forum shortname
-		base_url: 'http://yerhere.herokuapp.com/'
+		base_url: 'http://municipal.codeforamerica.org'
 	}
 }
