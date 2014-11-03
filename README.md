@@ -1,9 +1,12 @@
 [![Stories in Ready](https://badge.waffle.io/codeforamerica/municipal.png?label=ready&title=Ready)](https://waffle.io/codeforamerica/municipal)
+
 # Municipal
 
 Consulting city-dwellers about legislation near them.
 
 Created for the city of Mesa, AZ. Please feel free to post in the "Issues" section with any questions or comments.
+
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
 # Prerequisites
 
@@ -26,9 +29,7 @@ Created for the city of Mesa, AZ. Please feel free to post in the "Issues" secti
 #### Create the database:
 
     bundle exec rake db:create
-    bundle exec rake db:migrate
-    bundle exec rake legistar_all:load
-    bundle exec rake council_districts:load
+    bundle exec rake app:deploy
 
 *If you want to update or change these specific shapefiles, they exist in the lib/asset folder in the application.*
 
@@ -54,14 +55,19 @@ The EPSG for this shapefile must be 4326.
 
 #### Notes on deploying to heroku:
 
+Deploy automatically:
+
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
+Or deploy manually:
+
 	heroku create
 	heroku config:set BUILDPACK_URL=https://github.com/ddollar/heroku-buildpack-multi.git
 	heroku addons:add heroku-postgresql:standard-0
 	heroku pg:info
 	git push heroku master
-	heroku run rake db:migrate
-	heroku run bundle exec rake council_districts:load
-	heroku run bundle exec rake legistar_all:refresh
+	heroku run bundle exec rake app:deploy
+
 
 # Copyright
 

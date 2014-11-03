@@ -1,0 +1,27 @@
+{
+  "name": "Code for America MuniciPal",
+  "description": "public meetings, in the cloud",
+  "website": "https://github.com/codeforamerica/MuniciPal",
+  "repository": "https://github.com/codeforamerica/MuniciPal",
+  "logo": "https://raw.githubusercontent.com/codeforamerica/MuniciPal/49c7dc0151ffe5547c8b899c8d73bbd05d93defd/app/assets/images/logo-beta-bottom-black.png",
+  "keywords": [
+    "civic",
+    "engagement",
+    "govtech",
+    "tool"
+  ],
+  "scripts": {
+    "postdeploy": "bundle exec rake app:deploy"
+  },
+  "addons": [
+    "heroku-postgresql:standard-0",
+    "pgbackups:plus",
+    "scheduler:standard"
+  ],
+  "env": {
+    "BUILDPACK_URL": "https://github.com/ddollar/heroku-buildpack-multi.git",
+    "LANG": "en_US.UTF-8",
+    "RAILS_ENV": "production",
+    "RACK_ENV": "production"
+  }
+}
