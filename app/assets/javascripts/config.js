@@ -8,7 +8,7 @@ var config = {
 		district_fill: 'white'
 	},
 	disqus: {
-		shortname: 'yerhere', // required: replace example with your forum shortname
-		base_url: 'http://municipal.codeforamerica.org'
+		shortname: 'mesamunicipal', // required: replace example with your forum shortname
+		base_url: 'http://mesaazmunicipal.herokuapp.com'
 	}
 }
