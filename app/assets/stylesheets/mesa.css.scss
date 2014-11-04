@@ -324,13 +324,19 @@ $center-header-text: 3em;
     border-bottom: none;
   }
 
-  .distance, .geo-scope {
+  .distance {
   	text-transform: uppercase;
   	text-align: right;
   	font-size: 0.75rem;
-	  color: #808080;
+  	color: #808080;
   }
 
+.geo-scope {
+  	text-transform: uppercase;
+  	text-align: right;
+  	font-size: 0.75rem;
+	color: black;
+  }
 	.type,.like,.comment {
 	    text-align: center;
 	}
