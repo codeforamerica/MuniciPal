@@ -142,12 +142,8 @@ function setPageClickHandlers() {
       element = $('#disqus_thread').detach();
     }
 
-    var selectedCommentDiv = $('#' + matter).find('div.comments');
     // append either the element if it exists or a new disqus_thread element.
-    // selectedCommentDiv.append(element.length > 0 ? element : "<div id='disqus_thread'></div>");
-    selectedCommentDiv.append(element);
-
-    selectedCommentDiv.show();
+    $(this).closest('.legislation').find('div.comments').append(element).show();
 
     disqusInitialize(matter);
   });
@@ -180,7 +176,7 @@ function updatePageContent(data) {
 
       // get and populate event details section
       var api_event = _.find(data.events, {id: item.event_id});
-      event = new Event(api_event).render('#event-details-' + event_item.matter_id);
+      event = new Event(api_event).render('#event-details-' + event_item.item.source_id);
 
   });
 
