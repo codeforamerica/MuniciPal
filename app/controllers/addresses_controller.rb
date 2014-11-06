@@ -20,7 +20,7 @@ class AddressesController < ApplicationController
                 }
 
     #SET THE VALUES IN THE RESPONSE TO THEIR VALUES IN THE PARAMS
-    @response.each_key{|key| @response[key.to_sym] = params[key.to_sym]}
+    params.each_key{|key| @response[key.to_sym] = params[key.to_sym]}
 
     #move block below to own route? - seem like params' key should be :title, not :title.value?
     # /people/byTitle/:title (title = mayor, manager, councilmember, all)
@@ -58,8 +58,7 @@ class AddressesController < ApplicationController
     # address given; geocode to get lat/lon
 # /districts/byAddress/:address -> lat,lon
 
-
-    if not @response[:address].blank?
+    if not @response[:address].empty?
     #if address is given:
       @geocoded_address = Geokit::Geocoders::MultiGeocoder.geocode @response[:address]
       @response[:lat] = @geocoded_address.lat
