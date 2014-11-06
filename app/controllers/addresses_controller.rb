@@ -5,7 +5,7 @@ class AddressesController < ApplicationController
   respond_to :html, :json
 
   def index
-  #index taxes a lat/lng pair, an address, a district, or a person, 
+  #index taxes a lat/lng pair, an address, a district, or a person,
   #and returns details about representatives, events, items, and attachments
   #as well as the original data
     @response = { :lat                    => nil,
@@ -21,7 +21,6 @@ class AddressesController < ApplicationController
 
     #SET THE VALUES IN THE RESPONSE TO THEIR VALUES IN THE PARAMS
     params.each_key{|key| @response[key.to_sym] = params[key.to_sym]}
-
     #move block below to own route? - seem like params' key should be :title, not :title.value?
     # /people/byTitle/:title (title = mayor, manager, councilmember, all)
     if params[:mayor]
@@ -32,45 +31,26 @@ class AddressesController < ApplicationController
       @response[:person_title] = "councilmember"
     end
 
-    # district given
-#/districts/byId/:id/ -> { person + things}, where things = event_items (including attachments), and events
-    if not @response[:district].blank?
-
-      @response[:in_district] = true
-
-      if @response[:district] == "all"
-        # use lat/lon at center of Mesa
-        @response[:lat] = 33.42
-        @response[:lng] = -111.835
-        @location = { lat: @response[:lat], lng: @response[:lng] }
-      else
-        # NEED TO REPLACE THIS
-        # find lat/lon at center of polygon
-        # any_point = CouncilDistrict.point_in_district params[:district]
-        # @lat = any_point["lat"]
-        # @lng = any_point["lng"]
-      end
-
-      # find address at given lat/lon
-      # @address = Geokit::Geocoders::MultiGeocoder.reverse_geocode "#{@lat}, #{@lng}"
-    end
-
     # address given; geocode to get lat/lon
-# /districts/byAddress/:address -> lat,lon
+    # /districts/byAddress/:address -> lat,lon
+
+    if @response[:lat] and @response[:lng]
+      @userlocation = { lat: @response[:lat], lng: @response[:lng] }
+    end
 
     if not @response[:address].empty?
     #if address is given:
       @geocoded_address = Geokit::Geocoders::MultiGeocoder.geocode @response[:address]
       @response[:lat] = @geocoded_address.lat
       @response[:lng]  = @geocoded_address.lng
-      @location = { lat: @response[:lat], lng: @response[:lng] }
-    elsif (not @response[:lat].blank? and not @response[:lng].blank?)
-    #if lat and lng are given or geocoded from address
-      @location = { lat: @response[:lat], lng: @response[:lng] }
+      @userlocation = { lat: @response[:lat], lng: @response[:lng] }
+    # elsif (not @response[:lat].blank? and not @response[:lng].blank?)
+    # #if lat and lng are given or geocoded from address
+    #   @location = { lat: @response[:lat], lng: @response[:lng] }
     end
 
-    if @location
-      @district_number = CouncilDistrict.getDistrict @location[:lat], @location[:lng] #@lat, @lng
+    if @userlocation
+      @district_number = CouncilDistrict.getDistrict @response[:lat], @response[:lng] #@lat, @lng
       @response[:in_district] = !@district_data.nil?
 
       @response[:district] = @district_number
@@ -82,10 +62,20 @@ class AddressesController < ApplicationController
     #   @response[:in_district] = true
     # end
 
+
     if @response[:district]
       @response[:in_district] = true
-      @response[:event_items] = EventItem.current.with_matters.in_district(@response[:district]).order('date DESC') +
+
+      if @response[:district] == "all"
+        # use lat/lon at center of Mesa
+        @response[:lat] = 33.42
+        @response[:lng] = -111.835
+      elsif [1, 2, 3, 4, 5, 6].include? @response[:district].to_i
+        @response[:event_items] = EventItem.current.with_matters.in_district(@response[:district]).order('date DESC') +
                      EventItem.current.with_matters.no_district.order('date DESC') if @response[:in_district]
+        @response[:lat] = 33.42
+        @response[:lng] = -111.835
+      end
     end
 
 #    @addr = @geocoded_address.full_address if @geocoded_address
