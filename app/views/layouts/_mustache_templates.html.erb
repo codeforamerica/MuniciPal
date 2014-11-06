@@ -4,15 +4,23 @@
   </div>
 </script>
 
+<script id="no-facebook-template" type="x-tmpl-mustache">
+  <p>This person has no known Facebook page.</p>
+</script>
+
 <script id="twitter-template" type="x-tmpl-mustache">
   <div class="twit-widget" id="council-{{district}}">
     <a class="twitter-timeline" href="https://twitter.com/{{twitterName}}" data-screen-name="{{twitterName}}" data-widget-id="{{twitterWidget}}" data-chrome="noheader">Tweets by @{{twitter-name}}</a>
   </div>
 </script>
 
+<script id="no-twitter-template" type="x-tmpl-mustache">
+  <p>This person has no known Twitter account.</p>
+</script>
+
 <script id="legislation-template" type="x-tmpl-mustache">
 
-  <article class="legislation pure-g" id={{matterId}}>
+  <article class="legislation pure-g">
 
 <!-- ICON COLUMN -->
     <div class="pure-u-md-1-24 hide-sm">
@@ -25,7 +33,7 @@
         <div class="pure-u-md-3-4 pure-u-1">
           <div class="agenda-basics">
             <h4 class="text"><a href="/event_items/{{eventItemId}}">{{title}}</a></h4>
-            <div id="event-details-{{matterId}}"></div>
+            <div id="event-details-{{eventItemId}}"></div>
           </div>
         </div>
         <div class="distance pure-u-md-1-4 pure-u-1">
@@ -43,7 +51,7 @@
 <!-- ATTACHMENTS COLUMN -->
 
       <div class="pure-u-md-5-24 pure-u-1">
-        <div class="matter-attachments" id="attachments-{{matterId}}"></div>
+        <div class="matter-attachments" id="attachments-{{eventItemId}}"></div>
       </div>
     </div>
 

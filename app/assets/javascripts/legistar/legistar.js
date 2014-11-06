@@ -9,7 +9,7 @@ function Event(event) {
 
 function EventItem(item, attachments) {
 
-  console.log("constructing legislative item, id: " + item.matter_id);
+  console.log("constructing eventItem: event_item_id:  " + item.id + ", matter_id: " + item.matter_id + ", event_id " + item.event_id);
 
   // set properties
   this.item = item;
@@ -40,7 +40,7 @@ Event.prototype.render = function (container) {
     date: function () {
       var months = [ "January", "February", "March", "April", "May", "June",
           "July", "August", "September", "October", "November", "December" ],
-        date = that.event.date.replace(/T[\d,:]*Z/, '').split('-'); //YYYY-MM-DDT00:00:00Z -> [yyyy,mm,dd]
+        date = that.event.date.replace(/T[\d:\.]*Z/, '').split('-'); //YYYY-MM-DDT00:00:00Z -> [yyyy,mm,dd]
 
       // EventDate doesn't come in the right format (timezone is 0 instead of -7), so we fix it
       var correctDate = new Date(date[0], date[1] - 1, date[2]);
@@ -127,6 +127,11 @@ EventItem.prototype.render = function (container) {
   return this.renderAttachments();
 };
 
+function toggleAttachments(event) {
+  $(this).closest('.matter-attachments').find('ul.attachments').toggle();
+  event.preventDefault();
+}
+
 EventItem.prototype.renderAttachments = function () {
   // get and populate matter attachments section
   var list = _.map(this.attachments, function (attachment) {
@@ -142,15 +147,10 @@ EventItem.prototype.renderAttachments = function () {
       attachments: list,
     };
     var attachmentsHtml = Mustache.render(attachmentsTemplate, view);
-    $('#attachments-' + this.matter_id).html(attachmentsHtml);
-    $('#attachments-' + this.matter_id + ' a.attachments').click(function (event) {
-      var matterId = $(this).attr('data-matter-id');
-      console.log("setting link handler for attachments on matter " + matterId + "(matter " + this.matter_id + ")");
-      $('#attachments-' + matterId + ' ul.attachments').toggle();
-      event.preventDefault();
-    }).click();
+    $('#attachments-' + this.item.id).html(attachmentsHtml);
+    $('#attachments-' + this.item.id + ' a.attachments').click(toggleAttachments).click();
   } else {
-    $('#attachments-' + this.matter_id).html('<div class="attachments">No attachments</div>');
+    $('#attachments-' + this.item.id).html('<div class="attachments">No attachments</div>');
   }
   return this;
 };
