@@ -67,9 +67,10 @@ Example of item from event_items Array:
 
 */
 
+var app = app || {};
 
 // Request new data from the server and update the page based on the result.
-// params should be a hash with keys like `address` or `lat` & `long`.
+// params should be a hash with keys like `address` or `lat` & `lng`.
 function updatePage(params) {
   $.ajax({
     type: 'GET',
@@ -80,6 +81,7 @@ function updatePage(params) {
   });
 }
 
+
 function update_with_new( data ) {
 
   if (!data.event_items) { return; } // must be at root w/ no data yet
@@ -89,13 +91,19 @@ function update_with_new( data ) {
   if (data.in_district) {
 
     if (data.person_title == "councilmember") {
-      history.pushState({}, "", "?address=" + data.address + "&lat=" + data.lat + "&long=" + data.lng);
+      history.pushState({}, "", "?lat=" + data.lat + "&lng=" + data.lng);
       marker.setLatLng(new L.LatLng(data.lat, data.lng));
-      var district = _.find(districts, { id: data.district_id });
-      var geoJSON = $.parseJSON(district.geom);
-      geoJSON.properties = { fill: config.map.district_fill };
-      districtLayer.setGeoJSON(geoJSON);
-      districtLayer.setFilter(function() { return true; });
+
+      // highlight the selected district
+      if (typeof app.districts != "undefined") {
+        var district = _.find(
+          app.districts.features,
+          function (f) { return f.properties.DISTRICTS === "DISTRICT " + data.district; }
+          );
+        district.properties = { fill: config.map.district_fill };
+        districtLayer.setGeoJSON(district);
+        districtLayer.setFilter(function() { return true; });
+      }
     }
 
     updatePageContent(data);
@@ -110,7 +118,8 @@ function update_with_new( data ) {
 
   }
 
-  $( "#address").val(data.address);
+  var showaddress = ((data.address) ? data.address : "");
+  $("#address").val(showaddress);
   map.setView([data.lat, data.lng], config.map.start_zoom);
   document.getElementById('results').scrollIntoView();
 }
@@ -159,8 +168,8 @@ function updatePageContent(data) {
 
   $('body').removeClass('initial');
 
-  if (data.district_id != 'all') {
-    var district = data.district_id;
+  if (data.district != 'all') {
+    var district = data.district;
     var member = find_person(data.person_title, district);
     var person = new Person(member).render('#person');
   }

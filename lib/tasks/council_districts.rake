@@ -1,5 +1,3 @@
-require 'rgeo/shapefile'
-
 namespace :council_districts do
   desc "Load council district into database"
   task :load => :environment do

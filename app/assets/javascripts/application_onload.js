@@ -1,5 +1,7 @@
 // stuff we want to happen on load for every page
 
+var app = app || {};
+
 var legislationTemplate, eventTemplate, attachmentsTemplate;
 
 $(document).ready(function() {

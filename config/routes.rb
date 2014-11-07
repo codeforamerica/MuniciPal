@@ -18,6 +18,10 @@ Zone::Application.routes.draw do
   # root 'welcome#index'
   root 'addresses#index'
 
+#  get 'addresses/index', to: 'addresses#index'
+
+  get 'district/bypoint', to: 'council_district#bypoint'
+
   get 'mayor', to: 'addresses#index', defaults: { mayor: true }
   get 'manager', to: 'addresses#index', defaults: { manager: true }
 

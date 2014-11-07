@@ -12,6 +12,10 @@ class CouncilDistrictsController < ApplicationController
   def show
   end
 
+  def bypoint
+    @council_district = CouncilDistrict.bypoint(params[:lat],params[:lng])
+    print @council_district.inspect
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

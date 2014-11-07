@@ -9,7 +9,7 @@ function Event(event) {
 
 function EventItem(item, attachments) {
 
-  console.log("constructing eventItem: event_item_id:  " + item.id + ", matter_id: " + item.matter_id + ", event_id " + item.event_id);
+  // console.log("constructing eventItem: event_item_id:  " + item.id + ", matter_id: " + item.matter_id + ", event_id " + item.event_id);
 
   // set properties
   this.item = item;
@@ -51,9 +51,9 @@ Event.prototype.render = function (container) {
     name: that.event.body_name,
     d: that.event.date,
   };
-  console.log(view);
+  // console.log(view);
   var eventHtml = Mustache.render(eventTemplate, view);
-  console.log("adding details to: " + container);
+  // console.log("adding details to: " + container);
   $(container).html(eventHtml);
   return this;
 };
@@ -69,7 +69,7 @@ EventItem.prototype.improve_readability = function () {
   // Contract Matters tend to look like "C12345 Something Human Friendly". Let's save & remove that contract #.
   if (this.item.matter_type === 'Contract') {
     contract = this.item.matter_name.split(' ')[0]; // save it
-    console.log("Got contract: " + contract);
+    // console.log("Got contract: " + contract);
     if (/C\d+/.test(contract)) {
       this.matter_name = this.item.matter_name.substr(this.item.matter_name.indexOf(' ') + 1); // remove it
     } else {
