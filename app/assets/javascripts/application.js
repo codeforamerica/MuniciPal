@@ -25,3 +25,4 @@
 //= require application_onload.js
 //= require dropdown-menu.js
 //= require person.js
+//= require google_places.js
