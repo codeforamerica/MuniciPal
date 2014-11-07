@@ -32,7 +32,7 @@
         <div id="search-btn-container" class="pure-u-xl-5-24 pure-u-lg-7-24 pure-u-1">
           <button id="search-btn" class="pure-button pure-button-primary">Search</button>
         </div>
-        <p class="descript pure-u-1">example: <a href="?address=455%20West%20Baseline%20Road,%20Mesa,%20AZ%2085210,%20USA&lat=33.3781827&long=-111.8430414">455 W Baseline Rd, Mesa, AZ</a></p>
+        <p class="descript pure-u-1">example: <a href="?address=455%20West%20Baseline%20Road,%20Mesa,%20AZ%2085210,%20USA&lat=33.3781827&lng=-111.8430414">455 W Baseline Rd, Mesa, AZ</a></p>
       </div>
     </div>
   </div>
@@ -56,12 +56,8 @@
 <script>
 
 $(document).ready(function() {
-  districts = <%= raw @districts.to_json %>
-  addDistrictsToMap(districts);
-
   response = <%= raw @response.to_json %>
   update_with_new(response)
 })
 
 </script>
-

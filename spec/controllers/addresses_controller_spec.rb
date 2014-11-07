@@ -34,8 +34,8 @@ describe AddressesController do
       it { should respond_with 200 }
     end
 
-    context "when in district lat/long is passed in" do
-      before { get :index, :format => 'json', :lat => "29.414432", :long => "-98.491916" }
+    context "when in district lat/lng is passed in" do
+      before { get :index, :format => 'json', :lat => "29.414432", :lng => "-98.491916" }
 
       it { expect(json['lat']).to eq("29.414432") }
       it { expect(json['lng']).to eq("-98.491916")}
@@ -49,8 +49,8 @@ describe AddressesController do
       it { should respond_with 200 }
     end
 
-    context "when out of district lat/long is passed in" do
-      before { get :index, :format => 'json', :lat => "37.775518", :long => "-122.413821" }
+    context "when out of district lat/lng is passed in" do
+      before { get :index, :format => 'json', :lat => "37.775518", :lng => "-122.413821" }
 
       it { expect(json['lat']).to eq("37.775518") }
       it { expect(json['lng']).to eq("-122.413821")}

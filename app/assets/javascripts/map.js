@@ -3,6 +3,8 @@
 // g_districts contains district information
 var g_data, g_districts;
 
+var app = app || {};
+
 /*
 ==========================================
 ==========================================
@@ -30,7 +32,6 @@ function mapInitialize() {
   );
 
   districtLayer = L.mapbox.featureLayer(null, {}).addTo(map);
-  otherDistrictsLayer;
 
   marker = L.marker(config.map.marker_location, {
         icon: L.mapbox.marker.icon({'marker-color': 'CC0033'}),
@@ -39,6 +40,8 @@ function mapInitialize() {
   marker.addTo(map);
   marker.bindPopup("<b>Click and drag me!</b>").openPopup();
   marker.on('dragend', onDragEnd);
+
+  fetchDistricts();
 }
 
 
@@ -51,7 +54,7 @@ function mapInitialize() {
 
 function onDragEnd() {
     var ll = marker.getLatLng();
-    updatePage({'lat': ll.lat, 'long': ll.lng});
+    updatePage({'lat': ll.lat, 'lng': ll.lng});
 }
 
 /* Expects an object of type tomsline which is what the tom-geocoder service returns.
@@ -115,31 +118,42 @@ function resetHighlight(e) {
 
 
 function jumpToFeature(e) {
-  updatePage({'lat': e.latlng.lat, 'long': e.latlng.lng});
+  updatePage({'lat': e.latlng.lat, 'lng': e.latlng.lng});
   console.log("jumping to district ");
 }
 
+var convertESRItoGeoJSON = function (esriJSON) {
+  var geoJSON = { type: "FeatureCollection", features: [] };
+  _.each(esriJSON.features, function(feature) {
+    geoJSON.features.push(Terraformer.ArcGIS.parse(feature /* {sr: 4326 } */))
+  });
+  return geoJSON;
+}
+
+// fetch districts, then add them to map
+function fetchDistricts() {
+   $.ajax({
+    type: 'POST',
+    crossDomain: true,
+    url: config.map.districtsQueryESRIurl,
+    dataType: 'json',
+    success: addDistrictsToMap,
+  });
+}
 
 function addDistrictsToMap(districts) {
 
-  g_districts = otherDistrictsJSON = {
-    type: "FeatureCollection",
-    features: _.map(districts, function(district) {
-      return {
-        type: "Feature",
-        geometry: jQuery.parseJSON(district.geom),
-        properties: {
-          name: district.name,
-          twit_name: district.twit_name,
-          twit_wdgt: district.twit_wdgt,
-        },
-        id: district.id,
-      }
-    }),
-  };
+  // if it looks like districts is in ESRI JSON, convert it first
+  var geoJSONdistricts;
+  if (typeof districts.geometryType != "undefined" &&
+      districts.geometryType === "esriGeometryPolygon") {
+    geoJSONdistricts = convertESRItoGeoJSON(districts);
+  } else {
+    geoJSONdistricts = districts;
+  }
+  app.districts = geoJSONdistricts;
 
-
-  otherDistrictsLayer = L.geoJson(otherDistrictsJSON, {
+  otherDistrictsLayer = L.geoJson(geoJSONdistricts, {
     style: function (feature) {
       return {
           fillColor: config.map.district_fill,
