@@ -68,6 +68,8 @@ Or deploy manually:
 	git push heroku master
 	heroku run bundle exec rake app:deploy
 
+#Tests
+We are working on developing tests right now. 
 
 # Copyright
 
