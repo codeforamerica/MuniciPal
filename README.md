@@ -13,7 +13,6 @@ Created for the city of Mesa, AZ. Please feel free to post in the "Issues" secti
 * This application requires Ruby. If you don't have it, [download and install here](https://www.ruby-lang.org/en/installation/).
 * This application requires Rails.
 * This application also requires Postgres SQL. If you don't have it, [download and install here](http://postgresapp.com/).
-* This application also requires PostGIS.
 
 # Installation instructions
 
@@ -47,11 +46,9 @@ Make sure the postgis extension is properly loaded.
 
 Now you can access your application at http://0.0.0.0:3000
 
-#### Notes on loading your own Boundary Data:
+#### Notes on loading your own Council Districts:
 
-The council_districts:load rake task loads a "Councils.shp" file in the Mesa/assets directory.
-
-The EPSG for this shapefile must be 4326.
+The map component of this application is based around Mesa's Council Districts. It searches through legislative text for Districts and then associates them with those districts so that they can be pulled up through the map and through address search. 
 
 #### Notes on deploying to heroku:
 
@@ -69,7 +66,7 @@ Or deploy manually:
 	heroku run bundle exec rake app:deploy
 
 ##Tests
- Current tests may be stale. 
+ Current tests may be stale.
 
 # Copyright
 
