@@ -3,6 +3,8 @@
 // g_districts contains district information
 var g_data, g_districts;
 
+var app = app || {};
+
 /*
 ==========================================
 ==========================================
@@ -149,6 +151,7 @@ function addDistrictsToMap(districts) {
   } else {
     geoJSONdistricts = districts;
   }
+  app.districts = geoJSONdistricts;
 
   otherDistrictsLayer = L.geoJson(geoJSONdistricts, {
     style: function (feature) {

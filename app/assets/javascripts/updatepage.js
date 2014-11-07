@@ -67,6 +67,7 @@ Example of item from event_items Array:
 
 */
 
+var app = app || {};
 
 // Request new data from the server and update the page based on the result.
 // params should be a hash with keys like `address` or `lat` & `lng`.
