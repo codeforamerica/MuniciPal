@@ -1,4 +1,4 @@
-Zone::Application.routes.draw do
+Municipal::Application.routes.draw do
   get '/event_items/:id', to: 'event_items#show'
 
   resources :matters
