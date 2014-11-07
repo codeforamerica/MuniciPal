@@ -71,8 +71,10 @@ class AddressesController < ApplicationController
       elsif @response[:district].to_i.between?(1,6) # Valid districts in Mesa are 1-6 (inclusive)
         @response[:event_items] = EventItem.current.with_matters.in_district(@response[:district]).order('date DESC') +
                      EventItem.current.with_matters.no_district.order('date DESC') if @response[:in_district]
-        @response[:lat] = 33.42
-        @response[:lng] = -111.835
+        if !@response[:lat] or !@response[:lng]
+          @response[:lat] = 33.42
+          @response[:lng] = -111.835
+        end
       end
     end
 
