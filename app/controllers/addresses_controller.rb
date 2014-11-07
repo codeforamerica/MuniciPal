@@ -51,8 +51,6 @@ class AddressesController < ApplicationController
 
     if @userlocation
       @district_number = CouncilDistrict.getDistrict @response[:lat], @response[:lng] #@lat, @lng
-      @response[:in_district] = !@district_data.nil?
-
       @response[:district] = @district_number
     end
 
