@@ -108,8 +108,17 @@ function update_with_new( data ) {
     if (data.person_title == "councilmember") {
       history.pushState({}, "?lat=" + data.lat + "&lng=" + data.lng);
       marker.setLatLng(new L.LatLng(data.lat, data.lng));
-      var district = _.find(districts, { id: data.district });
-      // getDistrictGeom(data.district);
+
+      // highlight the selected district
+      if (typeof app.districts != "undefined") {
+        var district = _.find(
+          app.districts.features,
+          function (f) { return f.properties.DISTRICTS === "DISTRICT " + data.district; }
+          );
+        district.properties = { fill: config.map.district_fill };
+        districtLayer.setGeoJSON(district);
+        districtLayer.setFilter(function() { return true; });
+      }
     }
 
     updatePageContent(data);
