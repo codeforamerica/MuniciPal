@@ -34,24 +34,18 @@ class AddressesController < ApplicationController
     # address given; geocode to get lat/lon
     # /districts/byAddress/:address -> lat,lon
 
-    if @response[:lat] and @response[:lng]
-      @userlocation = { lat: @response[:lat], lng: @response[:lng] }
-    end
-
     if not @response[:address].empty?
     #if address is given:
       @geocoded_address = Geokit::Geocoders::MultiGeocoder.geocode @response[:address]
       @response[:lat] = @geocoded_address.lat
       @response[:lng]  = @geocoded_address.lng
-      @userlocation = { lat: @response[:lat], lng: @response[:lng] }
     # elsif (not @response[:lat].blank? and not @response[:lng].blank?)
     # #if lat and lng are given or geocoded from address
     #   @location = { lat: @response[:lat], lng: @response[:lng] }
     end
 
-    if @userlocation
-      @district_number = CouncilDistrict.getDistrict @response[:lat], @response[:lng] #@lat, @lng
-      @response[:district] = @district_number
+    if @response[:lat] && @response[:lng]
+      @response[:district] = CouncilDistrict.getDistrict @response[:lat], @response[:lng] #@lat, @lng
     end
 
     # if not @response[:district].blank?
@@ -61,38 +55,20 @@ class AddressesController < ApplicationController
     # end
 
 
-    if @response[:district]
-      @response[:in_district] = true
-
-      if @response[:district] == "all"
-        # use lat/lon at center of Mesa
-        @response[:lat] = 33.42
-        @response[:lng] = -111.835
-      elsif @response[:district].to_i.between?(1,6) # Valid districts in Mesa are 1-6 (inclusive)
+    if @response[:district] and @response[:district].to_i.between?(1,6) # Valid districts in Mesa are 1-6 (inclusive)
+        @response[:in_district] = true
         @response[:event_items] = EventItem.current.with_matters.in_district(@response[:district]).order('date DESC') +
                      EventItem.current.with_matters.no_district.order('date DESC') if @response[:in_district]
-        if !@response[:lat] or !@response[:lng]
-          @response[:lat] = 33.42
-          @response[:lng] = -111.835
-        end
-      end
-    end
-
-#    @addr = @geocoded_address.full_address if @geocoded_address
-
-    if @response[:person_title] == "mayor" or @response[:person_title] == "manager"
+    elsif (@response[:district] and @response[:district] == "all") or
+           @response[:person_title] == "mayor" or
+           @response[:person_title] == "manager"
       @response[:event_items] = EventItem.current.with_matters.order('date DESC') #all
-      @response[:district] = nil
-        if !@response[:lat] or !@response[:lng]
-          @response[:lat] = 33.42
-          @response[:lng] = -111.835
-          #the following line is a legacy thing from a variable in JS that flags whether a user was in the city
-          @response[:in_district] = true;
+      #the following line is a legacy thing from a variable in JS that flags whether a user was in the city
+      @response[:in_district] = true;
           # @district_polygon = CouncilDistrict.getDistrict @lat, @lng
           # if @district_polygon and @district_polygon.id
           #   @district_id = @district_id.id
           # end
-        end
     end
 
     if @response[:event_items]
