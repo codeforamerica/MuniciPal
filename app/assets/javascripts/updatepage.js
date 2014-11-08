@@ -93,8 +93,8 @@ function update_with_new( data ) {
     if (data.person_title == "councilmember") {
       history.pushState({}, "", "?lat=" + data.lat + "&lng=" + data.lng);
       marker.setLatLng(new L.LatLng(data.lat, data.lng));
-      var district = _.find(districts, { id: data.district });
-      // getDistrictGeom(data.district);
+      app.district = data.district;
+      highlightCurrentDistrict();
     }
 
     updatePageContent(data);

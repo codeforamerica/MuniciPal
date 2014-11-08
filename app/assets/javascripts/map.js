@@ -141,6 +141,23 @@ function fetchDistricts() {
   });
 }
 
+
+// after the districts have been fetched, if a particular district was set, highlight it
+var highlightCurrentDistrict = function () {
+  // highlight the selected district
+  if (typeof app.districts != "undefined" &&
+      typeof app.district != "undefined" && app.district != null) {
+    var district = _.find(
+        app.districts.features,
+        function (f) { return f.properties.DISTRICTS === "DISTRICT " + app.district; }
+      );
+    district.properties.fill = config.map.district_fill;
+    districtLayer.setGeoJSON(district);
+    districtLayer.setFilter(function() { return true; });
+  }
+}
+
+
 function addDistrictsToMap(districts) {
 
   // if it looks like districts is in ESRI JSON, convert it first
@@ -172,6 +189,10 @@ function addDistrictsToMap(districts) {
       });
     }
   }).addTo(map);
+
+  highlightCurrentDistrict();
+
+
 
   // How to add static label at center of polygon (from web example)
   // label = new L.Label()
