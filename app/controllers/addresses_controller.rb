@@ -35,25 +35,15 @@ class AddressesController < ApplicationController
     # /districts/byAddress/:address -> lat,lon
 
     if not @response[:address].empty?
-    #if address is given:
+      #if address is given:
       @geocoded_address = Geokit::Geocoders::MultiGeocoder.geocode @response[:address]
       @response[:lat] = @geocoded_address.lat
       @response[:lng]  = @geocoded_address.lng
-    # elsif (not @response[:lat].blank? and not @response[:lng].blank?)
-    # #if lat and lng are given or geocoded from address
-    #   @location = { lat: @response[:lat], lng: @response[:lng] }
     end
 
     if @response[:lat] && @response[:lng]
       @response[:district] = CouncilDistrict.getDistrict @response[:lat], @response[:lng] #@lat, @lng
     end
-
-    # if not @response[:district].blank?
-    #   #NOT SURE WE NEED THIS LINE BELOW - THE JSON ISN'T USED FOR ANYTHING
-    #   @district_json = CouncilDistrict.find(@response[:district])
-    #   @response[:in_district] = true
-    # end
-
 
     if @response[:district] and @response[:district].to_i.between?(1,6) # Valid districts in Mesa are 1-6 (inclusive)
         @response[:in_district] = true
@@ -65,10 +55,6 @@ class AddressesController < ApplicationController
       @response[:event_items] = EventItem.current.with_matters.order('date DESC') #all
       #the following line is a legacy thing from a variable in JS that flags whether a user was in the city
       @response[:in_district] = true;
-          # @district_polygon = CouncilDistrict.getDistrict @lat, @lng
-          # if @district_polygon and @district_polygon.id
-          #   @district_id = @district_id.id
-          # end
     end
 
     if @response[:event_items]
