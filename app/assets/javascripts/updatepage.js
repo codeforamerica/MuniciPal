@@ -94,9 +94,13 @@ function update_with_new( data ) {
       app.district = data.district;
       highlightCurrentDistrict();
 
-      if (data.lat && data.lng && (typeof data.address === "undefined" || !data.address)) {
-        history.pushState({}, "", "?lat=" + data.lat + "&lng=" + data.lng);
+      var url;
+      if (typeof data.address !== "undefined" && data.address) {
+        url = "/?address=" + data.address;
+      } else if (data.lat && data.lng) {
+        url = "/?lat=" + data.lat + "&lng=" + data.lng;
       }
+      history.pushState({}, "", url);
     }
 
     updatePageContent(data);
