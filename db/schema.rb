@@ -15,7 +15,6 @@ ActiveRecord::Schema.define(version: 20140727091138) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "postgis"
 
   create_table "council_districts", force: true do |t|
     t.string   "name"
@@ -23,7 +22,6 @@ ActiveRecord::Schema.define(version: 20140727091138) do
     t.string   "twit_wdgt"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.spatial  "geom",       limit: {:srid=>0, :type=>"geometry"}
   end
 
   create_table "event_items", force: true do |t|
