@@ -160,7 +160,8 @@ function updatePageContent(data) {
 
   $('body').removeClass('initial');
 
-  if (data.district != 'all') {
+  if (typeof data.district !== "undefined" &&
+      data.district != 'all') {
     var district = data.district;
     var member = find_person(data.person_title, district);
     var person = new Person(member).render('#person');
