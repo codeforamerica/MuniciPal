@@ -86,12 +86,11 @@ function update_with_new( data ) {
 
   if (!data.event_items) { return; } // must be at root w/ no data yet
 
-  g_data = data;
+  app.data = data;
 
   if (data.in_district) {
 
     if (data.person_title == "councilmember") {
-      marker.setLatLng(new L.LatLng(data.lat, data.lng));
       app.district = data.district;
       highlightCurrentDistrict();
 
@@ -114,7 +113,6 @@ function update_with_new( data ) {
 
   var showaddress = ((data.address) ? data.address : "");
   $("#address").val(showaddress);
-  map.setView([data.lat, data.lng], config.map.start_zoom);
   document.getElementById('results').scrollIntoView();
 }
 

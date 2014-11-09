@@ -154,6 +154,13 @@ var highlightCurrentDistrict = function () {
     district.properties.fill = config.map.district_fill;
     districtLayer.setGeoJSON(district);
     districtLayer.setFilter(function() { return true; });
+    if ((typeof app.data.lat === "undefined" || !app.data.lat) &&
+        (typeof app.data.address === "undefined" || !app.data.address)) {
+      var center = districtLayer.getBounds().getCenter();
+      marker.setLatLng(center);
+      map.setView(center);
+    }
+
   }
 }
 
