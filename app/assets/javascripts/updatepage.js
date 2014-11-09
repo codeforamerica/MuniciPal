@@ -91,10 +91,13 @@ function update_with_new( data ) {
   if (data.in_district) {
 
     if (data.person_title == "councilmember") {
-      history.pushState({}, "", "?lat=" + data.lat + "&lng=" + data.lng);
       marker.setLatLng(new L.LatLng(data.lat, data.lng));
       app.district = data.district;
       highlightCurrentDistrict();
+
+      if (data.lat && data.lng && (typeof data.address === "undefined" || !data.address)) {
+        history.pushState({}, "", "?lat=" + data.lat + "&lng=" + data.lng);
+      }
     }
 
     updatePageContent(data);
