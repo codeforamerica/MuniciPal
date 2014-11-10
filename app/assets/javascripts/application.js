@@ -12,8 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require fittext
-//= require text
 //= require getparam.js
 //= require analytics
 //= require vendor/underscore.js
