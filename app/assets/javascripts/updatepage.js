@@ -117,7 +117,9 @@ function update_with_new( data ) {
 
   var showaddress = ((data.address) ? data.address : "");
   $("#address").val(showaddress);
-  document.getElementById('results').scrollIntoView();
+  $('body').animate({
+      scrollTop: $('#results').offset().top
+    }, 250);
 }
 
 
