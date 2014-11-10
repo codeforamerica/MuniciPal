@@ -69,6 +69,15 @@ Example of item from event_items Array:
 
 var app = app || {};
 
+var loadState = function (state) {
+  if (state) {
+    console.log('loading existing state: ');
+    console.log(state);
+    update_with_new(state.data);
+  }
+}
+
+
 // Request new data from the server and update the page based on the result.
 // params should be a hash with keys like `address` or `lat` & `lng`.
 function updatePage(params) {
@@ -77,7 +86,7 @@ function updatePage(params) {
     url: '/',
     data: params,
     dataType: 'json',
-    success: update_with_new
+    success: update_from_ajax
   });
 }
 
@@ -94,13 +103,9 @@ function update_with_new( data ) {
       app.district = data.district;
       highlightCurrentDistrict();
 
-      var url;
-      if (typeof data.address !== "undefined" && data.address) {
-        url = "/?address=" + data.address;
-      } else if (data.lat && data.lng) {
-        url = "/?lat=" + data.lat + "&lng=" + data.lng;
+      if (typeof data.lat !== "undefined" && data.lat) {
+        marker.setLatLng([data.lat, data.lng]);
       }
-      history.pushState({}, "", url);
     }
 
     updatePageContent(data);
@@ -119,6 +124,24 @@ function update_with_new( data ) {
   $("#address").val(showaddress);
   document.getElementById('results').scrollIntoView();
 }
+
+
+var update_from_ajax = function (data) {
+
+  var url;
+  if (typeof data.address !== "undefined" && data.address) {
+    url = "/?address=" + data.address;
+  } else if (typeof data.lat !== "undefined" && data.lat && data.lng) {
+    url = "/?lat=" + data.lat + "&lng=" + data.lng;
+  }
+  if (url) {
+    // only when update_with_new is called from updatePage do we pushState.
+    // all other times, history should be handled by the browser.
+    history.pushState({'data': data}, "", url);
+  }
+
+  update_with_new(data);
+};
 
 
 function setPageClickHandlers() {
