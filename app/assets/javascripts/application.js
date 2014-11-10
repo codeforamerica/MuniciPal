@@ -12,7 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require getparam.js
 //= require analytics
 //= require vendor/underscore.js
 //= require vendor/mustache.js
