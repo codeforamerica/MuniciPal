@@ -86,15 +86,21 @@ function update_with_new( data ) {
 
   if (!data.event_items) { return; } // must be at root w/ no data yet
 
-  g_data = data;
+  app.data = data;
 
   if (data.in_district) {
 
     if (data.person_title == "councilmember") {
-      history.pushState({}, "", "?lat=" + data.lat + "&lng=" + data.lng);
-      marker.setLatLng(new L.LatLng(data.lat, data.lng));
       app.district = data.district;
       highlightCurrentDistrict();
+
+      var url;
+      if (typeof data.address !== "undefined" && data.address) {
+        url = "/?address=" + data.address;
+      } else if (data.lat && data.lng) {
+        url = "/?lat=" + data.lat + "&lng=" + data.lng;
+      }
+      history.pushState({}, "", url);
     }
 
     updatePageContent(data);
@@ -111,7 +117,6 @@ function update_with_new( data ) {
 
   var showaddress = ((data.address) ? data.address : "");
   $("#address").val(showaddress);
-  map.setView([data.lat, data.lng], config.map.start_zoom);
   document.getElementById('results').scrollIntoView();
 }
 
@@ -159,7 +164,8 @@ function updatePageContent(data) {
 
   $('body').removeClass('initial');
 
-  if (data.district != 'all') {
+  if (typeof data.district !== "undefined" &&
+      data.district != 'all') {
     var district = data.district;
     var member = find_person(data.person_title, district);
     var person = new Person(member).render('#person');
