@@ -35,7 +35,21 @@ module Legistar
   # given the URL of one of the Legistar documentation pages,
   # return the documented structure of the endpoint in a format
   # that is compatible with the Rails model creation migrations.
+  #
+  # Example for getting the structure of the Event endpoint:
+  # rake legistar_all:structure[http://webapi.legistar.com/Help/Api/GET-v1-Client-Events]
+  # but the output will be like
+  # t.integer :event_id
+  # t.string :event_guid
+  # ...
+  # so you might want to strip off 'event':
+  # rake legistar_all:structure[http://webapi.legistar.com/Help/Api/GET-v1-Client-Events,"Event"]:
+  # t.integer :id
+  # t.string :guid
+  # ...
+  # Note! Make sure not to have a space between the arguments to the rake task.
   def fetch_structure(url, endpoint_prefix_to_strip)
+    endpoint_prefix_to_strip = endpoint_prefix_to_strip || ""
     log = Logger.new('log/faraday.log')
     connection = Faraday.new(:url => "https://api.import.io") do |conn|
       conn.request  :url_encoded             # form-encode POST params
