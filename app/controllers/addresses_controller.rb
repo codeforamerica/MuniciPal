@@ -5,7 +5,7 @@ class AddressesController < ApplicationController
   respond_to :html, :json
 
   def index
-  #index taxes a lat/lng pair, an address, a district, or a person,
+  #index takes a lat/lng pair, an address, a district, or a person,
   #and returns details about representatives, events, items, and attachments
   #as well as the original data
     @response = { :lat                    => nil,

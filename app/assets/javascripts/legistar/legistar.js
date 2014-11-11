@@ -72,9 +72,10 @@ EventItem.prototype.improve_readability = function () {
     // console.log("Got contract: " + contract);
     if (/C\d+/.test(contract)) {
       this.matter_name = this.item.matter_name.substr(this.item.matter_name.indexOf(' ') + 1); // remove it
-    } else {
-      console.log("Weird. Expected " + contract + " to look like 'C' followed by some numbers.");
     }
+    // else {
+    //   console.log("Weird. Expected " + contract + " to look like 'C' followed by some numbers.");
+    // }
   }
 
   // We don't want to duplicate the MatterName (used as a title) as the first line of the text, so remove if found.
