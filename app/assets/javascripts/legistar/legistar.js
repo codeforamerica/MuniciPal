@@ -103,9 +103,8 @@ EventItem.prototype.render = function (container) {
         }
         return title;
       },
-      distance: function () {
-        return Math.floor(Math.random() * (6 - 2)) + 2; //TODO fixme
-      },
+      // distance:to do--calculate distance of legislation from address entered - using streetsear.ch
+      // },
       body: function () {
         return EventItem.summarize(that.title);
       },
@@ -188,7 +187,3 @@ EventItem.summarize = function (text) {
   }
   return result;
 };
-
-
-
-

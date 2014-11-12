@@ -328,11 +328,15 @@ $center-header-text: 3em;
     border-bottom: none;
   }
 
-  .distance, .geo-scope {
+  .place {
   	text-transform: uppercase;
   	text-align: right;
-  	font-size: 0.75rem;
-	  color: #808080;
+  	color: #808080;
+  }
+
+  .geo-scope {
+  color: black;
+  font-size: 1.25rem;
   }
 
 	.type,.like,.comment {
@@ -693,4 +697,3 @@ p.descript {
     display: none;
   }
 }
-
