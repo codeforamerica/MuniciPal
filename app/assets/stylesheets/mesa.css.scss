@@ -86,21 +86,9 @@ $center-header-text: 3em;
       }
     }
 
-    // Pull right menu hack
-    // =======================================
-    // https://github.com/yahoo/pure/issues/56
-    // http://jsfiddle.net/xUwCw/
-    &.pure-menu-pull-right {
-      display: table;
-      width: 100%;
-    }
-    &.pure-menu-pull-right .pure-menu-heading,
     &.pure-menu-pull-right > ul {
-      display: table-cell;
-      vertical-align: middle;
-    }
-    &.pure-menu-pull-right > ul {
-      text-align: right;
+      float: right;
+      padding: 13px 0;
     }
 
     // Dropdown styles
@@ -693,4 +681,3 @@ p.descript {
     display: none;
   }
 }
-
