@@ -12,14 +12,14 @@ $(document).ready(function(){
                 sub.css('left', 0);
             return false;
         });
-     
+
         $(document).mousedown(function(e) {
             if (pure_menu &&!pure_menu.is(e.target) &&!pure_menu.has(e.target).length) {
                 $('.pure-dropdown').removeClass('pure-menu-open');
                 pure_menu = false;
             }
         });
-     
+
     } else {
         $('.pure-dropdown>a').mouseenter(function(e) {
             pure_menu = $(this).parent();
@@ -35,4 +35,11 @@ $(document).ready(function(){
             pure_menu = false;
         });
     }
+});
+
+// Dropbown for mobile
+$(document).ready(function(){
+    $('.mobile-menu-toggle a').click(function(e) {
+        $('.mobile-menu').toggleClass('hide-sm');
+    });
 });
