@@ -74,6 +74,8 @@ var loadState = function (state) {
     console.log('loading existing state: ');
     console.log(state);
     update_with_new(state.data);
+  } else {
+    window.location.reload(); // reload from cache
   }
 }
 
