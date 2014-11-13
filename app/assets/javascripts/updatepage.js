@@ -134,7 +134,19 @@ var update_from_ajax = function (data) {
   if (typeof data.address !== "undefined" && data.address) {
     url = "/?address=" + data.address;
   } else if (typeof data.lat !== "undefined" && data.lat && data.lng) {
-    url = "/?lat=" + data.lat + "&lng=" + data.lng;
+    // note that we specify these in lng,lat order (not vice versa) to workaround
+    // an apparent chrome bug very similar to the one described here:
+    // https://code.google.com/p/chromium/issues/detail?id=108766#c5
+    // and https://groups.google.com/forum/#!topic/angular/N4etYJwL63c
+    // For us, the bug was:
+    // 1. Go to homepage.
+    // 2. Drag the marker to a district on the map (ex: District 1)
+    // 3. Select a different district from the menu (ex: District 2)
+    // 4. Click back. You should see District 1 but instead you'd see a js object.
+    // Basically this workaround's strategy is to make the url look different
+    // for the page than for the REST request, so Chrome doesn't request the REST object
+    // and stick it in the browser's window.
+    url = "/?lng=" + data.lng + "&lat=" + data.lat;
   }
   if (url) {
     // only when update_with_new is called from updatePage do we pushState.
