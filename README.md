@@ -8,11 +8,11 @@ Created for the city of Mesa, AZ. Please feel free to post in the "Issues" secti
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
-# Prerequisites
+# Prerequisites:
 
-* This application requires Ruby. If you don't have it, [download and install here](https://www.ruby-lang.org/en/installation/).
-* This application requires Rails.
-* This application also requires Postgres SQL. If you don't have it, [download and install here](http://postgresapp.com/).
+* Ruby
+* Rails
+* PostgreSQL 
 
 # Installation instructions
 
