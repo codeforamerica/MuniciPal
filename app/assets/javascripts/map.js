@@ -154,13 +154,15 @@ var highlightCurrentDistrict = function () {
     district.properties.fill = config.map.district_fill;
     districtLayer.setGeoJSON(district);
     districtLayer.setFilter(function() { return true; });
+    var center;
     if ((typeof app.data.lat === "undefined" || !app.data.lat) &&
         (typeof app.data.address === "undefined" || !app.data.address)) {
-      var center = districtLayer.getBounds().getCenter();
-      marker.setLatLng(center);
-      map.setView(center);
+      center = districtLayer.getBounds().getCenter();
+    } else {
+      center = L.latLng(app.data.lat, app.data.lng);
     }
-
+    marker.setLatLng(center).closePopup();
+    map.setView(center);
   }
 }
 
