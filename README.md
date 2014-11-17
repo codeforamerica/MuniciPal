@@ -34,8 +34,6 @@ Municipal is a Ruby on Rails application using PostgreSQL and PostGIS.
         bundle exec rake db:create
         bundle exec rake app:deploy
 
-    *If you want to update or change these specific shapefiles, they exist in the lib/asset folder in the application.*
-
 #### Run your application
 
         rails server
