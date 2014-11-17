@@ -8,7 +8,7 @@ Created for the city of Mesa, AZ. Please feel free to post in the "Issues" secti
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
-# Installation instructions
+## Installation instructions
 
 Municipal is a Ruby on Rails application using PostgreSQL and PostGIS.
 
@@ -67,7 +67,7 @@ Or deploy manually:
 
 Current tests [may be stale](https://github.com/codeforamerica/MuniciPal/issues/110).
 
-# Copyright
+## Copyright
 
 Copyright (c) 2014 Code for America. BSD License.
 Based on [sa-zone](https://github.com/codeforamerica/sa-zone), created by Amy Mok, Maya Benari, and David Leonard.
