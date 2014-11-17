@@ -46,6 +46,8 @@ Now you can access your application at http://0.0.0.0:3000
 
 The map component of this application is based around Mesa's Council Districts. It searches through legislative text for Districts and then associates them with those districts so that they can be pulled up through the map and through address search.
 
+More information about where we get the district boundaries can be found [on the wiki](https://github.com/codeforamerica/MuniciPal/wiki/Getting-Council-Data).
+
 #### Notes on deploying to heroku:
 
 Deploy automatically:
