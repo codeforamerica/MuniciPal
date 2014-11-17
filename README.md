@@ -65,7 +65,7 @@ Or deploy manually:
 
 ## Tests
 
-Current tests may be stale.
+Current tests [may be stale](https://github.com/codeforamerica/MuniciPal/issues/110).
 
 # Copyright
 
