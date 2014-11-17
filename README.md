@@ -56,7 +56,7 @@ Or deploy manually:
 
         heroku create
         heroku config:set BUILDPACK_URL=https://github.com/ddollar/heroku-buildpack-multi.git
-        heroku addons:add heroku-postgresql:standard-0
+        heroku addons:add heroku-postgresql:hobby-dev
         heroku pg:info
         git push heroku master
         heroku run bundle exec rake app:deploy
