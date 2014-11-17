@@ -67,9 +67,10 @@ Example of item from event_items Array:
 
 */
 
+var app = app || {};
 
 // Request new data from the server and update the page based on the result.
-// params should be a hash with keys like `address` or `lat` & `long`.
+// params should be a hash with keys like `address` or `lat` & `lng`.
 function updatePage(params) {
   $.ajax({
     type: 'GET',
@@ -77,25 +78,30 @@ function updatePage(params) {
     data: params,
     dataType: 'json',
     success: update_with_new
-  })
+  });
 }
+
 
 function update_with_new( data ) {
 
-  if (!data.event_items) return; // must be at root w/ no data yet
+  if (!data.event_items) { return; } // must be at root w/ no data yet
 
-  g_data = data;
-
-  history.pushState({}, "", "?address=" + data.address + "&lat=" + data.lat + "&long=" + data.lng);
-  marker.setLatLng(new L.LatLng(data.lat, data.lng));
+  app.data = data;
 
   if (data.in_district) {
 
-    var geoJSON = $.parseJSON(data.district_polygon.geom);
+    if (data.person_title == "councilmember") {
+      app.district = data.district;
+      highlightCurrentDistrict();
 
-    geoJSON.properties = { fill: config.map.district_fill };
-    districtLayer.setGeoJSON(geoJSON);
-    districtLayer.setFilter(function() { return true; });
+      var url;
+      if (typeof data.address !== "undefined" && data.address) {
+        url = "/?address=" + data.address;
+      } else if (data.lat && data.lng) {
+        url = "/?lat=" + data.lat + "&lng=" + data.lng;
+      }
+      history.pushState({}, "", url);
+    }
 
     updatePageContent(data);
 
@@ -104,14 +110,13 @@ function update_with_new( data ) {
     districtLayer.setFilter(function() { return false; });
     $('.person-position').empty().append(
       'It looks like you\'re outside of Mesa.<br>' +
-      'Maybe you want the <a href="http://www.mesaaz.gov/Council/">council and mayor webpage</a>?'
-    ).addClass("no-district").show();
+      'Maybe you want the <a href="http://www.mesaaz.gov/Council/">council and mayor webpage</a>?').addClass("no-district").show();
     $('#results').hide();
 
   }
 
-  $( "#address").val(data.address);
-  map.setView([data.lat, data.lng], config.map.start_zoom);
+  var showaddress = data.address || "";
+  $("#address").val(showaddress);
   document.getElementById('results').scrollIntoView();
 }
 
@@ -127,27 +132,23 @@ function setPageClickHandlers() {
   });
 
   $('a.comments').click(function(event) {
-    event.preventDefault()
+    event.preventDefault();
     // get the matter id
-    var matter = $(this).attr('data-matter-id')
-    console.log("clicked matter: " + matter)
+    var matter = $(this).attr('data-matter-id');
+    console.log("clicked matter: " + matter);
 
     var element;
-    if ($('#disqus_thread').length == 0) {
+    if ($('#disqus_thread').length === 0) {
       // element = document.create("div").attr('id', 'disqus_thread');
       element = document.createElement('div');
-      element.setAttribute('id', 'disqus_thread')
+      element.setAttribute('id', 'disqus_thread');
     } else {
-      $('#disqus_thread').parent().hide()
+      $('#disqus_thread').parent().hide();
       element = $('#disqus_thread').detach();
     }
 
-    var selectedCommentDiv = $('#' + matter).find('div.comments');
     // append either the element if it exists or a new disqus_thread element.
-    // selectedCommentDiv.append(element.length > 0 ? element : "<div id='disqus_thread'></div>");
-    selectedCommentDiv.append(element);
-
-    selectedCommentDiv.show();
+    $(this).closest('.legislation').find('div.comments').append(element).show();
 
     disqusInitialize(matter);
   });
@@ -162,63 +163,30 @@ requests to the legistar REST API.
 function updatePageContent(data) {
 
   $('body').removeClass('initial');
-  var district = data.district_id;
 
-  var member = find_member(district);
-  // var mayor = find_member(0); // 0 = mayor. for now anyway.
-
-  var who_view = {
-    district: district,
-    pic: {
-      src: 'http://tomcfa.s3.amazonaws.com/district'+district+'.jpg'
-    },
-    name: member.name,
-    phone: member.phone,
-    email: member.email,
-    website: member.website,
-    address: member.address,
-    bio: member.bio,
-    facebook: member.facebook,
-    twitterName: member.twitterName,
-    twitterWidget: member.twitterWidget,
+  if (typeof data.district !== "undefined" &&
+      data.district != 'all') {
+    var district = data.district;
+    var member = find_person(data.person_title, district);
+    var person = new Person(member).render('#person');
   }
-
-  $('#facebook-card').html(Mustache.render(facebookTemplate, who_view));
-  $('#twitter-card').html(Mustache.render(twitterTemplate, who_view));
-
-  $('.person-position').empty().append('District ' + district).removeClass("no-district").show();
-  $('#results').show();
-
-  $('#council-picture').attr({
-    'src': 'http://tomcfa.s3.amazonaws.com/district'+district+'.jpg',
-    'alt': 'Councilmember for District ' + district
-  });
-  $('#council-member').text(data.district_polygon.name);
-  $('#council-phone').text(member.phone);
-  $('#council-email').text(member.email);
-  $('#council-website').text(member.website);
-  $('#council-address').text(member.address);
-  $('#bio-card .bio').text(member.bio);
-
-
-  $(".twit-widget").hide();
-  $(".twit-widget#council-" + district).show();
-//  $(".twit-widget#mention-" + district).show();
 
   $(".legislative-items").empty();
 
   // stick some event items in the frontend
   _.map(data.event_items, function(item, i) {
 
-      textToGeo(item.title);
+      // textToGeo(item.title);
 
-      var event_item = new EventItem(item, data.attachments[i]).render('.legislative-items')
+      var event_item = new EventItem(item, data.attachments[i]).render('.legislative-items');
 
       // get and populate event details section
-      var api_event = _.find(data.events, {id: item.event_id})
-      event = new Event(api_event).render('#event-details-' + event_item.matter_id)
+      var api_event = _.find(data.events, {id: item.event_id});
+      event = new Event(api_event).render('#event-details-' + event_item.item.source_id);
 
   });
+
+  $('#results, #legislative').show();
 
   setPageClickHandlers();
 

@@ -1,14 +1,14 @@
-Zone::Application.routes.draw do
-  resources :event_items
+Municipal::Application.routes.draw do
+  get '/event_items/:id', to: 'event_items#show'
 
   resources :matters
 
-  resources :events do 
-    resources :event_items
+  namespace :events do
+    resources :event_items, :only => [:index, :show], constraints: { format: 'json' }
   end
 
-  resources :council_districts do
-    resources :event_items
+  namespace :council_districts do
+    resources :event_items, :only => [:index, :show], constraints: { format: 'json' }
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
@@ -17,7 +17,14 @@ Zone::Application.routes.draw do
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
   root 'addresses#index'
-  
+
+#  get 'addresses/index', to: 'addresses#index'
+
+  get 'district/bypoint', to: 'council_district#bypoint'
+
+  get 'mayor', to: 'addresses#index', defaults: { mayor: true }
+  get 'manager', to: 'addresses#index', defaults: { manager: true }
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

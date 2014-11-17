@@ -1,22 +1,22 @@
   <div id="person" class="pure-g">
-    <h1 class="person-position pure-u-1" id="answer">We don't yet know where you live.</h1>
+    <h1 class="person-title pure-u-1" id="answer">{{title}}</h1>
 
     <!-- Picture and contact info -->
     <div class="pure-u-md-1-2 pure-u-1 l-box">
-      <img id="council-picture" class="pure-img hide-sm" src="http://placehold.it/650x450/607d8b/ffffff&text=loading" alt="Placeholder">
+      <img id="person-picture" class="pure-img hide-sm" src="" alt="Photo of {{fullname}}">
       <div class="contact-info">
         <div class="contact-method">
-          <span class="fa fa-phone fa-lg fa-fw"></span><span id="council-phone">555-555-1234</span>
+          <span class="fa fa-phone fa-lg fa-fw"></span><span id="person-phone">{{phone}}</span>
         </div>
         <div class="contact-method">
-          <span class="fa fa-envelope fa-lg fa-fw"></span><span id="council-email">?@mesaaz.gov</span>
+          <span class="fa fa-envelope fa-lg fa-fw"></span><span id="person-email">{{email}}</span>
         </div>
       </div>
     </div>
 
     <!-- Details box -->
     <div class="pure-u-md-1-2 pure-u-1 l-box">
-      <h2 id="council-member">Some Person</h2>
+      <h2 id="person-name">{{fullname}}</h2>
       <div id="results-area">
         <div id="controls" class="pure-menu pure-menu-open pure-menu-horizontal">
           <ul>
@@ -30,7 +30,6 @@
           <div id="cards">
 
             <div class="card" id="bio-card">
-              <span class="bio">foo bar</span>
             </div>
 
             <div class="card" id="facebook-card">

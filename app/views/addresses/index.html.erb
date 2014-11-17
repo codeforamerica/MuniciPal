@@ -27,12 +27,12 @@
       <div class="address-box pure-g">
         <label for="address" class="pure-u-1">Tell Me About My Council District:</label>
         <div id="address-container" class="pure-u-xl-19-24 pure-u-lg-17-24 pure-u-1">
-          <input id="address" name="address" type="text" placeholder="Your Mesa Address"/>
+          <input id="address" name="address" type="text" placeholder="Your Mesa Address" data-google-places=true/>
         </div>
         <div id="search-btn-container" class="pure-u-xl-5-24 pure-u-lg-7-24 pure-u-1">
           <button id="search-btn" class="pure-button pure-button-primary">Search</button>
         </div>
-        <p class="descript pure-u-1">example: <a href="?address=455%20West%20Baseline%20Road,%20Mesa,%20AZ%2085210,%20USA&lat=33.3781827&long=-111.8430414">455 W Baseline Rd, Mesa, AZ</a></p>
+        <p class="descript pure-u-1">example: <a href="/?address=455%20West%20Baseline%20Road,%20Mesa,%20AZ%2085210,%20USA&lat=33.3781827&lng=-111.8430414">455 W Baseline Rd, Mesa, AZ</a></p>
       </div>
     </div>
   </div>
@@ -50,17 +50,14 @@
 
 <%= render "layouts/mustache_templates" %>
 
+<%= javascript_include_tag "http://techieshark.github.io/council-info/people.js" %>
 <%= javascript_include_tag "addresses", "data-turbolinks-track" => true %>
 
 <script>
 
 $(document).ready(function() {
-  districts = <%= raw @districts.to_json %>
-  addDistrictsToMap(districts);
-
-  response = <%= raw @response.to_json %>
-  update_with_new(response)
+  var response = <%= raw @response.to_json %>;
+  indexDocReady(response);
 })
 
 </script>
-

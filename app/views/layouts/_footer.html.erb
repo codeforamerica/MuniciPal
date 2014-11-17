@@ -1,8 +1,32 @@
-<div class="footer inverted pure-g l-box">
-  <div class="pure-u-1">
-    <h5> A project by Code for America in partnership with the City of Mesa</h5>
-    <h5><a href="mailto:mesa@codeforamerica.org">mesa@codeforamerica.org</a></h5>
+<% if @event_items %>
+  <%= render "layouts/disclaimer" %>
+<% end %>
+
+<div class="footer l-box-2x">
+  Say hello at <a class="email" href="mailto:mesa@codeforamerica.org">mesa@codeforamerica.org</a>.
+
+  <div class="button-block">
+    <a href="mailto:mesa@codeforamerica.org" title="Questions? Comments? Email us!">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x fa-inverse"></i>
+        <i class="fa fa-envelope fa-stack-1x "></i>
+      </span>
+    </a>
+    <a href="http://github.com/codeforamerica/MuniciPal" title="Our Open Source project code on GitHub">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x fa-inverse"></i>
+        <i class="fa fa-github-alt fa-stack-1x "></i>
+      </span>
+    </a>
+    <a href="http://twitter.com/mesaazgov" title="The city of Mesa, AZ on Twitter">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x fa-inverse"></i>
+        <i class="fa fa-twitter fa-stack-1x "></i>
+      </span>
+    </a>
   </div>
+
+  <p class="credit"> A project by the <a href="http://www.codeforamerica.org/governments/mesa/">2014 Fellows</a> at <a href="http://codeforamerica.org">Code for America</a> in partnership with the <a href="http://mesaaz.gov">City of Mesa</a>.</p>
 </div>
 
 <script>

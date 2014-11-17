@@ -13,8 +13,10 @@ $(document).ready(function() {
   var event_item = new EventItem(api_event_item, attachments).render('.legislative-items');
 
   // get and populate event details section
-  event = new Event(api_event).render('#event-details-' + event_item.matter_id);
+  event = new Event(api_event).render('#event-details-' + event_item.item.source_id);
+  $('#results, #legislative').show();
 
   setPageClickHandlers();
+  $('a.comments').click();
 });
 </script>

@@ -1,19 +1,14 @@
 source 'https://rubygems.org'
 
-ruby '2.1.1'
+ruby '2.1.2'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.2'
+gem 'rails', '4.1'
 
 group :development, :test do
   gem 'awesome_print'
-  gem 'debugger'
-end
-
-group :development, :test, :production do
+  gem 'byebug'
   gem 'rspec-rails', '2.14.2'
   gem 'shoulda-matchers', '2.6.1'
-  gem 'faraday'
-  gem 'faraday_middleware'
 end
 
 group :test do
@@ -21,6 +16,11 @@ group :test do
   gem 'capybara', '2.1.0'
   gem 'factory_girl_rails', '4.2.1'
 end
+
+gem 'faraday'
+gem 'faraday_middleware'
+
+gem 'geoservices', :git => 'git://github.com/ajturner/geoservices-ruby.git'
 
 # Use postgresql as the database for Active Record
 gem 'pg', '0.17.1'
@@ -49,17 +49,8 @@ group :doc do
   gem 'sdoc', require: false
 end
 
-# GIS
-gem 'rgeo', '0.3.20'
-gem 'rgeo-geojson', '0.2.3'
-gem 'activerecord-postgis-adapter', '0.6.5'
-gem 'rgeo-shapefile', '0.2.3'
-
 # Geocoding
 gem 'geokit', '1.8.4'
-
-# Fittext JS plugin
-gem 'fittextjs_rails'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
@@ -70,5 +61,3 @@ gem 'unicorn'
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development
 
-# Use debugger
-# gem 'debugger', group: [:development, :test]

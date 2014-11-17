@@ -17,6 +17,7 @@
 
   <script src="//use.typekit.net/sgf6alb.js"></script>
   <script>try{Typekit.load();}catch(e){}</script>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
   <%= stylesheet_link_tag     "application", media: "all", "data-turbolinks-track" => true %>
@@ -30,21 +31,26 @@
   <div class="pure-menu-heading">
     <a href="/"><img src="/assets/logo-beta-bottom.png" alt="MuniciPal"></a>
   </div>
-    <ul>
-      <li><a href="#">Mayor</a></li>
-      <li><a href="#">City Manager</a></li>
+
+    <ul class="mobile-menu-toggle">
+      <li><a href="#">MENU</a></li>
+    </ul>
+
+    <ul class="hide-sm mobile-menu">
+      <li><a href="/mayor">Mayor</a></li>
       <li class="pure-dropdown">
-        <a href="#">Your District <span class="arrow"></span></a>
+        <a href="#">Councilmembers<span class="arrow"></span></a>
         <ul class="pure-menu-children">
-          <li><a href="/?district=1">District 1</a></li>
-          <li><a href="/?district=2">District 2</a></li>
-          <li><a href="/?district=3">District 3</a></li>
-          <li><a href="/?district=4">District 4</a></li>
-          <li><a href="/?district=5">District 5</a></li>
-          <li><a href="/?district=6">District 6</a></li>
+          <li><a href="/?district=1">Dave Richins - 1</a></li>
+          <li><a href="/?district=2">Alex Finter - 2</a></li>
+          <li><a href="/?district=3">Dennis Kavanaugh - 3</a></li>
+          <li><a href="/?district=4">Chris Glover - 4</a></li>
+          <li><a href="/?district=5">David Luna - 5</a></li>
+          <li><a href="/?district=6">Scott Somers - 6</a></li>
+          <li><a href="/?district=all">View All Agenda Items</a></li>
         </ul>
       </li>
-      <li><a href="#">About</a></li>
+      <li><a href="/manager">City Manager</a></li>
     </ul>
 </div>
 
