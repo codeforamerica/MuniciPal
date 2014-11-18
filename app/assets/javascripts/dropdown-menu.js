@@ -41,5 +41,6 @@ $(document).ready(function(){
 $(document).ready(function(){
     $('.mobile-menu-toggle a').click(function(e) {
         $('.mobile-menu').toggleClass('hide-sm');
+        return false;
     });
 });
