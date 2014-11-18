@@ -133,7 +133,7 @@ var convertESRItoGeoJSON = function (esriJSON) {
 // fetch districts, then add them to map
 function fetchDistricts() {
    $.ajax({
-    type: 'POST',
+    type: 'GET',
     crossDomain: true,
     url: config.map.districtsQueryESRIurl,
     dataType: 'json',
