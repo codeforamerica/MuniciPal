@@ -14,7 +14,7 @@
     "postdeploy": "bundle exec rake app:deploy"
   },
   "addons": [
-    "heroku-postgresql:standard-0",
+    "heroku-postgresql:hobby-dev",
     "pgbackups:plus",
     "scheduler:standard"
   ],

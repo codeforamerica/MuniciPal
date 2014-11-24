@@ -1,3 +1,29 @@
+
+function find_person(title, district) {
+  if (title == 'mayor') {
+    return find_mayor();
+  } else if (title == 'manager') {
+    return find_manager();
+  } else {
+    return find_councilmember('' + district);
+  }
+}
+
+// function find_member(district) {
+//   return _.find(people, { 'district': district });
+// }
+function find_councilmember(district) {
+  return _.find(people, { 'district': district });
+}
+
+function find_mayor() {
+  return _.find(people, { 'title': 'Mayor' })
+}
+
+function find_manager() {
+  return _.find(people, { 'title': 'City Manager' })
+}
+
 function Person(person) {
   this.person = person;
 }

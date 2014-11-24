@@ -1,6 +1,6 @@
 // start point for the index page.
 
-$(document).ready(function() {
+var indexDocReady = function (response) {
 	$( "#address" ).keyup(function(e) {
 	  if (e.keyCode == 13) { // enter pressed
 	    $( "#search-btn").click();
@@ -21,6 +21,14 @@ $(document).ready(function() {
 	$('#cards .card').hide();
 	$('#cards #bio-card').show();
 
-	mapInitialize()
+  // Revert to a previously saved state
+  window.addEventListener('popstate', function(event) {
+    console.log('popstate fired!');
+    console.log(event);
+    loadState(event.state);
+  });
 
-})
+  app.district = response.district;
+	mapInitialize();
+	update_with_new(response);
+}

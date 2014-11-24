@@ -3,4 +3,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Zone::Application.load_tasks
+Municipal::Application.load_tasks

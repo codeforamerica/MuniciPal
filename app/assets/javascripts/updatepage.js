@@ -67,35 +67,47 @@ Example of item from event_items Array:
 
 */
 
+var app = app || {};
+
+var loadState = function (state) {
+  if (state) {
+    console.log('loading existing state: ');
+    console.log(state);
+    update_with_new(state.data);
+  } else {
+    window.location.reload(); // reload from cache
+  }
+}
+
 
 // Request new data from the server and update the page based on the result.
-// params should be a hash with keys like `address` or `lat` & `long`.
+// params should be a hash with keys like `address` or `lat` & `lng`.
 function updatePage(params) {
   $.ajax({
     type: 'GET',
     url: '/',
     data: params,
     dataType: 'json',
-    success: update_with_new
+    success: update_from_ajax
   });
 }
+
 
 function update_with_new( data ) {
 
   if (!data.event_items) { return; } // must be at root w/ no data yet
 
-  g_data = data;
+  app.data = data;
 
   if (data.in_district) {
 
     if (data.person_title == "councilmember") {
-      history.pushState({}, "", "?address=" + data.address + "&lat=" + data.lat + "&long=" + data.lng);
-      marker.setLatLng(new L.LatLng(data.lat, data.lng));
-      var district = _.find(districts, { id: data.district_id });
-      var geoJSON = $.parseJSON(district.geom);
-      geoJSON.properties = { fill: config.map.district_fill };
-      districtLayer.setGeoJSON(geoJSON);
-      districtLayer.setFilter(function() { return true; });
+      app.district = data.district;
+      highlightCurrentDistrict();
+
+      if (typeof data.lat !== "undefined" && data.lat) {
+        marker.setLatLng([data.lat, data.lng]);
+      }
     }
 
     updatePageContent(data);
@@ -110,10 +122,40 @@ function update_with_new( data ) {
 
   }
 
-  $( "#address").val(data.address);
-  map.setView([data.lat, data.lng], config.map.start_zoom);
+  var showaddress = data.address || "";
+  $("#address").val(showaddress);
   document.getElementById('results').scrollIntoView();
 }
+
+
+var update_from_ajax = function (data) {
+
+  var url;
+  if (typeof data.address !== "undefined" && data.address) {
+    url = "/?address=" + data.address;
+  } else if (typeof data.lat !== "undefined" && data.lat && data.lng) {
+    // note that we specify these in lng,lat order (not vice versa) to workaround
+    // an apparent chrome bug very similar to the one described here:
+    // https://code.google.com/p/chromium/issues/detail?id=108766#c5
+    // and https://groups.google.com/forum/#!topic/angular/N4etYJwL63c
+    // For us, the bug was:
+    // 1. Go to homepage.
+    // 2. Drag the marker to a district on the map (ex: District 1)
+    // 3. Select a different district from the menu (ex: District 2)
+    // 4. Click back. You should see District 1 but instead you'd see a js object.
+    // Basically this workaround's strategy is to make the url look different
+    // for the page than for the REST request, so Chrome doesn't request the REST object
+    // and stick it in the browser's window.
+    url = "/?lng=" + data.lng + "&lat=" + data.lat;
+  }
+  if (url) {
+    // only when update_with_new is called from updatePage do we pushState.
+    // all other times, history should be handled by the browser.
+    history.pushState({'data': data}, "", url);
+  }
+
+  update_with_new(data);
+};
 
 
 function setPageClickHandlers() {
@@ -159,8 +201,9 @@ function updatePageContent(data) {
 
   $('body').removeClass('initial');
 
-  if (data.district_id != 'all') {
-    var district = data.district_id;
+  if (typeof data.district !== "undefined" &&
+      data.district != 'all') {
+    var district = data.district;
     var member = find_person(data.person_title, district);
     var person = new Person(member).render('#person');
   }

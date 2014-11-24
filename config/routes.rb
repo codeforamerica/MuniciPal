@@ -1,4 +1,4 @@
-Zone::Application.routes.draw do
+Municipal::Application.routes.draw do
   get '/event_items/:id', to: 'event_items#show'
 
   resources :matters
@@ -17,6 +17,10 @@ Zone::Application.routes.draw do
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
   root 'addresses#index'
+
+#  get 'addresses/index', to: 'addresses#index'
+
+  get 'district/bypoint', to: 'council_district#bypoint'
 
   get 'mayor', to: 'addresses#index', defaults: { mayor: true }
   get 'manager', to: 'addresses#index', defaults: { manager: true }

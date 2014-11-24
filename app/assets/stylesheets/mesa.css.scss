@@ -14,11 +14,14 @@ $border-grey: lighten($grey, 15%);
 $font-family: "proxima-nova", Helvetica, Arial, sans-serif;
 
 body {
-  margin-top: 76px; // For fixed top bar
   color: $grey;
+
+  @media screen and (min-width: 48em) {
+    margin-top: 76px; // For fixed top bar
+  }
 }
 
-html, 
+html,
 button,
 input,
 select,
@@ -46,63 +49,64 @@ $center-header-text: 3em;
 
 // The styles
 #topbar.pure-menu {
-  
+
   &.pure-menu-horizontal {
 
   	background: $blue;
-    position: fixed;
-    top: 0;
-    z-index: 1010; // z-index fight with leaflet
+
+    // Fixed to top on wider screens
+    @media screen and (min-width: 48em) {
+      position: fixed;
+      top: 0;
+      z-index: 1010; // z-index fight with leaflet
+    }
 
     a {
       color: $white;
     }
 
     .pure-menu-heading {
-    
+
       a {
         display: inline-block;
         padding: 0;
+
+        @media screen and (max-width: 48em) {
+          padding: 10px 0;
+        }
       }
 
       img {
         height: 60px;
         width: auto;
+
+        @media screen and (max-width: 48em) {
+          height: 40px;
+        }
       }
     }
-    
+
     // Header menu styles
     ul {
       li {
-        a { 
+        a {
           text-transform: uppercase;
           color: $white;
         }
 
-        a:hover, a:focus { 
+        a:hover, a:focus {
           background: none;
           color: darken($white, 15%);
         }
       }
     }
 
-    // Pull right menu hack
-    // =======================================
-    // https://github.com/yahoo/pure/issues/56
-    // http://jsfiddle.net/xUwCw/
-    &.pure-menu-pull-right {
-      display: table;
-      width: 100%;
+    &.pure-menu-pull-right > ul,
+    .mobile-menu-toggle {
+      float: right;
+      padding: 13px 0;
     }
-    &.pure-menu-pull-right .pure-menu-heading,
-    &.pure-menu-pull-right > ul {
-      display: table-cell;
-      vertical-align: middle;
-    }
-    &.pure-menu-pull-right > ul {
-      text-align: right;
-    }
-    
+
     // Dropdown styles
     li ul {
       border: 1px solid darken($blue, 10%) !important;
@@ -130,9 +134,42 @@ $center-header-text: 3em;
     .pure-menu-open {
       background: $blue;
     }
+    .mobile-menu-toggle {
+      display: none;
+    }
+
+    // Responsive dropdown
+    @media screen and (max-width: 48em) {
+      .mobile-menu-toggle {
+        display: block;
+
+        li a {
+          border: solid 1px $white;
+          border-radius: 8px;
+          padding: 10px !important;
+          margin: 3px 10px !important;
+        }
+      }
+
+      &.pure-menu-pull-right > ul.mobile-menu {
+        display: block;
+        clear: both;
+        float: none;
+      }
+
+      li {
+        display: block;
+      }
+      li .pure-menu-children a {
+        padding: 10px 25px 10px 2.5em!important;
+      }
+      li .pure-menu-children {
+        width: 100%;
+      }
+    }
   }
 }
- 
+
 .arrow {
   margin-left:2px;
   display: inline-block; zoom: 1; *display: inline;
@@ -197,7 +234,7 @@ $center-header-text: 3em;
 
 .header-container {
   background: darken($white, 2%);
-  
+
   .header {
     margin-top: 60px;
   }
@@ -227,7 +264,7 @@ $center-header-text: 3em;
 
 .address-box {
   margin-top: $center-header-text;
-  
+
   label {
     color: $blue;
     font-weight: 400;
@@ -560,7 +597,7 @@ p.descript {
     -webkit-animation-name: sway;
     -webkit-animation-duration: 3.3s;
     -webkit-animation-iteration-count: infinite;
-    -webki-animation-direction: alternate;
+    -webkit-animation-direction: alternate;
 
     animation-name: sway;
     animation-duration: 3.3s;
@@ -669,28 +706,27 @@ p.descript {
 // sm
 @media screen and (max-width: 35.5em) {
   .hide-xs {
-    display: none;
+    display: none !important;
   }
 }
 
 // md
 @media screen and (max-width: 48em) {
   .hide-sm {
-    display: none;
+    display: none !important;
   }
 }
 
 // lg
 @media screen and (max-width: 64em) {
   .hide-md {
-    display: none;
+    display: none !important;
   }
 }
 
 // xl
 @media screen and (max-width: 80em) {
   .hide-lg {
-    display: none;
+    display: none !important;
   }
 }
-
