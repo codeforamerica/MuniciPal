@@ -71,6 +71,7 @@ var app = app || {};
 
 var loadState = function (state) {
   if (state && state.firstState === true) {
+    console.log("page reload");
     window.location.reload(); // reload from cache if user navigates back to first page
   } else if (state) {
     console.log('loading existing state: ');
