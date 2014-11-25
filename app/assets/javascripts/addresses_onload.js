@@ -21,6 +21,7 @@ var indexDocReady = function (response) {
 	$('#cards .card').hide();
 	$('#cards #bio-card').show();
 
+  history.replaceState({'firstState': true}, "", document.URL);
   // Revert to a previously saved state
   window.addEventListener('popstate', function(event) {
     console.log('popstate fired!');

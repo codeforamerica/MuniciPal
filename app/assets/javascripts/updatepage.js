@@ -70,12 +70,15 @@ Example of item from event_items Array:
 var app = app || {};
 
 var loadState = function (state) {
-  if (state) {
+  if (state && state.firstState === true) {
+    window.location.reload(); // reload from cache if user navigates back to first page
+  } else if (state) {
     console.log('loading existing state: ');
     console.log(state);
     update_with_new(state.data);
   } else {
-    window.location.reload(); // reload from cache
+    // Safari and pre v34 Chrome always emit popstate event on page load; ignore it
+    // https://developer.mozilla.org/en-US/docs/Web/Events/popstate
   }
 }
 
