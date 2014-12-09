@@ -1,7 +1,7 @@
 
 var config = {
 	map: {
-		prj:'codeforamerica.hmebo8ll', // Mapbox map id string
+		prj:'mesaappstorepublic.kam9jb46', // Mapbox map id string
 		center_location: [33.4019, -111.78], //lat, lng
 		marker_location: [33.42, -111.835], //lat, lng
 		start_zoom: 12,
