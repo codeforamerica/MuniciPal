@@ -26,6 +26,7 @@
   <%= csrf_meta_tags %>
   <%= yield :head %>
 </head>
+<body class="initial">
 
 <div id="topbar" class="pure-menu pure-menu-open pure-menu-horizontal pure-menu-pull-right">
   <div class="pure-menu-heading">
@@ -54,8 +55,9 @@
     </ul>
 </div>
 
-<body class="initial">
 	<%= yield %>
+
+  <%= render "layouts/footer"%>
+
 </body>
-<%= render "layouts/footer"%>
 </html>
