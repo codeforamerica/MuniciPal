@@ -171,7 +171,7 @@ var people = [
    "phone": "480-644-4003",
    "email": "councilmember.thompson@Mesaaz.gov",
    "website_url": "http://www.mesaaz.gov/council/thompson/default.aspx",
-   "photo_url": "https://techieshark.github.io/council-info/img/Scott_Somers_sm.jpg"
+   "photo_url": "http://www.mesaaz.gov/council/thompson/images/KevinThompson_sm.jpg"
  },
  {
    "title": "City Manager",
