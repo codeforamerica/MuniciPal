@@ -21,7 +21,7 @@ var people = [
    "phone": "480-644-2388",
    "email": "mayor@Mesaaz.gov",
    "website_url": "http://www.mesaaz.gov/mayor/",
-   "photo_url": "https://techieshark.github.io/council-info/img/John_Giles_sm.jpg"
+   "photo_url": "http://www.mesaaz.gov/mayor/images/giles_sm.jpg"
  },
  {
    "title": "City Councilmember",
@@ -46,7 +46,7 @@ var people = [
    "phone": "480-644-4002",
    "email": "District1@mesaaz.gov",
    "website_url": "http://www.mesaaz.gov/council/richins/default.aspx",
-   "photo_url": "https://techieshark.github.io/council-info/img/Dave_Richins_sm.jpg"
+   "photo_url": "http://www.mesaaz.gov/council/richins/images/Dave_Richins_sm.jpg"
  },
  {
    "title": "City Councilmember",
@@ -71,7 +71,7 @@ var people = [
    "phone": "480-644-3772",
    "email": "councilmember.finter@Mesaaz.gov",
    "website_url": "http://www.mesaaz.gov/council/finter/",
-   "photo_url": "https://techieshark.github.io/council-info/img/Alex_Finter_sm.jpg"
+   "photo_url": "http://www.mesaaz.gov/council/finter/images/Alex_Finter_sm.jpg"
  },
  {
    "title": "City Councilmember",
@@ -96,7 +96,7 @@ var people = [
    "phone": "480-644-3003",
    "email": "District3@mesaaz.gov",
    "website_url": "http://www.mesaaz.gov/council/kavanaugh/default.aspx",
-   "photo_url": "https://techieshark.github.io/council-info/img/Dennis_Kavanaugh_sm.jpg"
+   "photo_url": "http://www.mesaaz.gov/council/kavanaugh/images/Dennis_Kavanaugh_sm.jpg"
  },
  {
    "title": "City Councilmember",
@@ -121,7 +121,7 @@ var people = [
    "phone": "480-644- 3004",
    "email": "councilmember.glover@Mesaaz.gov",
    "website_url": "http://www.mesaaz.gov/council/glover/",
-   "photo_url": "https://techieshark.github.io/council-info/img/Chris_Glover_sm.jpg"
+   "photo_url": "http://www.mesaaz.gov/council/glover/images/Chris_Glover_sm.jpg"
  },
  {
    "title": "City Councilmember",
@@ -146,7 +146,7 @@ var people = [
    "phone": "480-644-3771",
    "email": "councilmember.luna@Mesaaz.gov",
    "website_url": "http://www.mesaaz.gov/council/luna/default.aspx",
-   "photo_url": "https://techieshark.github.io/council-info/img/David_Luna_sm.jpg"
+   "photo_url": "http://www.mesaaz.gov/council/luna/images/David_Luna_sm.jpg"
  },
  {
    "title": "City Councilmember",
@@ -156,7 +156,7 @@ var people = [
      "last": "Thompson",
      "fullname": "Kevin Thompson"
    },
-   "bio": "Elected to the Mesa City Council in August 2014, Councilmember Kevin Thompson began his first term representing District 6 in January of 2015. His term on the Council runs until January of 2019. Thompson is very active in the community, serving on the Board of Directors for the Mesa Chamber of Commerce and the Centers for Habilitation. He was a member of the Military and Veterans Affairs Committee at the Arizona Chamber of Commerce, is the past chair of the Government Affairs Committee for the American Public Works Association and the chair of the National Utility Contractors Association.  He is also the secretary of the Tonto Recreation Alliance and is a 2012 graduate of the Mesa Leadership Training and Development program. A veteran of the United States Air Force, Thompson spent eight years in the service, including serving in Operation Storm. Kevin and his wife Donna have two children.",
+   "bio": "Elected to the Mesa City Council in August 2014, Councilmember Kevin Thompson began his first term representing District 6 in January of 2015. His term on the Council runs until January of 2019.  Thompson is very active in the community, serving on the Board of Directors for the Mesa Chamber of Commerce and the Centers for Habilitation. He was a member of the Military and Veterans Affairs Committee at the Arizona Chamber of Commerce, is the past chair of the Government Affairs Committee for the American Public Works Association and the chair of the National Utility Contractors Association. He is also the secretary of the Tonto Recreation Alliance and is a 2012 graduate of the Mesa Leadership Training and Development program.  A veteran of the United States Air Force, Thompson spent eight years in the service, including serving in Operation Desert Storm. He earned a bachelor’s degree in Mechanical Engineering from the University of Nevada-Las Vegas. Kevin and his wife Donna have two children.",
    "social": [
      {
        "platform": "facebook",
@@ -195,6 +195,6 @@ var people = [
    "phone": "480-644-2066",
    "email": "COMmanager@Mesaaz.gov",
    "website_url": "http://www.mesaaz.gov/mayor/",
-   "photo_url": "https://techieshark.github.io/council-info/img/Chris_Brady_sm.jpg"
+   "photo_url": "http://www.mesaaz.gov/citymgt/images/Chris_Brady_sm.jpg"
   },
 ]
