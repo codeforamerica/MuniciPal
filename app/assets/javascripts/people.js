@@ -81,7 +81,7 @@ var people = [
      "last": "Kavanaugh ",
      "fullname": "Dennis Kavanaugh "
    },
-   "bio": "Dennis Kavanaugh was elected to serve as the Mesa City Councilmember for District 3 in June of 2008 and was re-elected in August of 2012. Kavanaugh also was a member of the City Council from 1996 until 2004, serving as Vice Mayor from 2002 to 2004. Kavanaugh sits on several different committees and boards, including serving as the chairperson of the Council Public Safety committee. He currently sits on the Mesa Community College Commission on Excellence in Education and is the Vice Chair of the Valley Metro Rail board.  Councilmember Kavanaugh received his J.D. degree in from Arizona State University and a B.A. in Political Science from St. Louis University.",
+   "bio": "Dennis Kavanaugh was elected to serve as the Mesa City Councilmember for District 3 in June of 2008 and was re-elected in August of 2012.  He was named the Vice Mayor of Mesa in January of 2015.  Kavanaugh also was a member of the City Council from 1996 until 2004, serving as Vice Mayor from 2002 to 2004.  Kavanaugh sits on several different committees and boards, including serving as the chairperson of the Council Public Safety committee. He currently sits on the Mesa Community College Commission on Excellence in Education and is the Vice Chair of the Valley Metro Rail board. Councilmember Kavanaugh received his J.D. degree in from Arizona State University and a B.A. in Political Science from St. Louis University.",
    "social": [
      {
        "platform": "facebook",
@@ -106,7 +106,7 @@ var people = [
      "last": "Glover",
      "fullname": "Chris Glover"
    },
-   "bio": "Serving his first term representing Mesa's District 4, Vice Mayor Chris Glover became the youngest person ever to serve on the Mesa City Council following his election in 2011. Glover is a native of Mesa, attending Mesa Public Schools, graduating with honors from Mesa High School and he was a member of the Mayor's Youth Committee.  Vice Mayor Glover earned a degree in Political Science with minors in  History and Spanish and a Master of Science in Management from   Arizona State University.",
+   "bio": "Serving his first term representing Mesa's District 4, Chris Glover became the youngest person ever to serve on the Mesa City Council following his election in 2011.  He was named Vice Mayor in April 2014, serving in the position until January of 2015. Glover is a native of Mesa, attending Mesa Public Schools, graduating with honors from Mesa High School and he was a member of the Mayor's Youth Committee. Vice Mayor Glover earned a degree in Political Science with minors in History and Spanish and a Master of Science in Management from Arizona State University.",
    "social": [
      {
        "platform": "facebook",
