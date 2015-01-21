@@ -26,36 +26,9 @@
   <%= csrf_meta_tags %>
   <%= yield :head %>
 </head>
-
-<div id="topbar" class="pure-menu pure-menu-open pure-menu-horizontal pure-menu-pull-right">
-  <div class="pure-menu-heading">
-    <a href="/"><img src="/assets/logo-beta-bottom.png" alt="MuniciPal"></a>
-  </div>
-
-    <ul class="mobile-menu-toggle">
-      <li><a href="#">MENU</a></li>
-    </ul>
-
-    <ul class="hide-sm mobile-menu">
-      <li><a href="/mayor">Mayor</a></li>
-      <li class="pure-dropdown">
-        <a href="#">Councilmembers<span class="arrow"></span></a>
-        <ul class="pure-menu-children">
-          <li><a href="/?district=1">Dave Richins - 1</a></li>
-          <li><a href="/?district=2">Alex Finter - 2</a></li>
-          <li><a href="/?district=3">Dennis Kavanaugh - 3</a></li>
-          <li><a href="/?district=4">Chris Glover - 4</a></li>
-          <li><a href="/?district=5">David Luna - 5</a></li>
-          <li><a href="/?district=6">Scott Somers - 6</a></li>
-          <li><a href="/?district=all">View All Agenda Items</a></li>
-        </ul>
-      </li>
-      <li><a href="/manager">City Manager</a></li>
-    </ul>
-</div>
-
 <body class="initial">
+  <%= render "layouts/topbar"%>
 	<%= yield %>
+  <%= render "layouts/footer"%>
 </body>
-<%= render "layouts/footer"%>
 </html>
