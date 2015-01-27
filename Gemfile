@@ -9,6 +9,7 @@ group :development, :test do
   gem 'byebug'
   gem 'rspec-rails', '2.14.2'
   gem 'shoulda-matchers', '2.6.1'
+  gem 'thin'
 end
 
 group :test do
