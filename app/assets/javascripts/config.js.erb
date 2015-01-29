@@ -1,0 +1,15 @@
+
+var config = {
+	map: {
+		prj: '<%= ENV['MAPBOX_ID'] %>', // Mapbox map id string
+		center_location: <%= ENV['MAP_CENTER'] %>, //lat,lng
+		marker_location: <%= ENV['MAP_MARKER'] %>, //lat, lng
+		start_zoom: 12,
+		district_fill: 'white',
+		districtsQueryESRIurl: '<%= ENV['ESRI_DISTRICTS_QUERY_URL'] %>',
+	},
+	disqus: {
+		shortname: '<%= ENV['DISQUS_SHORTNAME'] %>',
+		base_url: '<%= ENV['DISQUS_BASE_URL'] %>',
+	}
+}
