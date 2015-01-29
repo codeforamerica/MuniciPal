@@ -34,6 +34,8 @@ Municipal is a Ruby on Rails application using PostgreSQL and PostGIS.
         bundle exec rake db:create
         bundle exec rake app:deploy
 
+6. Edit your deployment-specific configuration. For dev/test environments, copy the file `.env.sample` to `.env` and edit the configuration settings in it. For Heroku production environments, the configuration can be set with `heroku config` or via the app dashboard (see [heroku's configuration documentation](https://devcenter.heroku.com/articles/config-vars) for details). If you are deploying via the 'Deploy to Heroku' button, you'll be able to set the configuration during the deployment process through a web form. 
+
 #### Run your application
 
         rails server
