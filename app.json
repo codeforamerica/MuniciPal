@@ -22,6 +22,16 @@
     "BUILDPACK_URL": "https://github.com/ddollar/heroku-buildpack-multi.git",
     "LANG": "en_US.UTF-8",
     "RAILS_ENV": "production",
-    "RACK_ENV": "production"
+    "RACK_ENV": "production",
+
+    "GOOGLE_ANALYTICS_ID": "UA-54645336-1",
+    "DISQUS_SHORTNAME": "yerhere",
+    "DISQUS_BASE_URL": "http://municipal.codeforamerica.org",
+    "COUNCIL_INFO_JS": "https://techieshark.github.io/council-info/people.js",
+
+    "MAPBOX_ID": "codeforamerica.hmebo8ll",
+    "MAP_CENTER": "[33.4019, -111.78]",
+    "MAP_MARKER": "[33.42, -111.835]",
+    "ESRI_DISTRICTS_QUERY_URL": "https://services2.arcgis.com/1gVyYKfYgW5Nxb1V/ArcGIS/rest/services/MesaCouncilDistricts/FeatureServer/0/query?where=DISTRICT+IS+NOT+NULL&outSR=4326&f=json"
   }
 }
