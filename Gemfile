@@ -7,6 +7,7 @@ gem 'rails', '4.1'
 group :development, :test do
   gem 'awesome_print'
   gem 'byebug'
+  gem 'dotenv-rails'
   gem 'rspec-rails', '2.14.2'
   gem 'shoulda-matchers', '2.6.1'
   gem 'thin'

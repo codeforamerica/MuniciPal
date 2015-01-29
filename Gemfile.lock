@@ -59,6 +59,9 @@ GEM
     daemons (1.1.9)
     debugger-linecache (1.2.0)
     diff-lcs (1.2.5)
+    dotenv (1.0.2)
+    dotenv-rails (1.0.2)
+      dotenv (= 1.0.2)
     erubis (2.7.0)
     eventmachine (1.0.4)
     execjs (2.2.2)
@@ -193,6 +196,7 @@ DEPENDENCIES
   byebug
   capybara (= 2.1.0)
   coffee-rails (= 4.0.1)
+  dotenv-rails
   factory_girl_rails (= 4.2.1)
   faraday
   faraday_middleware
