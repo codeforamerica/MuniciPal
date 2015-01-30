@@ -1,15 +1,23 @@
 
 var config = {
 	map: {
-		prj: '<%= ENV['MAPBOX_ID'] %>', // Mapbox map id string
-		center_location: <%= ENV['MAP_CENTER'] %>, //lat,lng
-		marker_location: <%= ENV['MAP_MARKER'] %>, //lat, lng
+		prj: '<%= ENV['MAPBOX_ID'] || raise('no MAPBOX_ID env var provided') %>', // Mapbox map id string
+		center_location: <%= ENV['MAP_CENTER'] || raise('no MAP_CENTER env var provided') %>, //lat, lng
+		marker_location: <%= ENV['MAP_MARKER'] || raise('no MAP_MARKER env var provided') %>, //lat, lng
 		start_zoom: 12,
 		district_fill: 'white',
-		districtsQueryESRIurl: '<%= ENV['ESRI_DISTRICTS_QUERY_URL'] %>',
+		districtsQueryESRIurl: '<%= ENV['ESRI_DISTRICTS_QUERY_URL'] || raise('no ESRI_DISTRICTS_QUERY_URL env var provided') %>',
 	},
 	disqus: {
-		shortname: '<%= ENV['DISQUS_SHORTNAME'] %>',
-		base_url: '<%= ENV['DISQUS_BASE_URL'] %>',
+		shortname: '<%= ENV['DISQUS_SHORTNAME'] || raise('no DISQUS_SHORTNAME env var provided') %>',
+		base_url: '<%= ENV['DISQUS_BASE_URL'] || raise('no DISQUS_BASE_URL env var provided') %>',
+	},
+	google: {
+		analytics_id: '<%= ENV['GOOGLE_ANALYTICS_ID'] || raise('no GOOGLE_ANALYTICS_ID env var provided') %>',
+	},
+	extras: {
+		<%# currently we don't use 'council_data_source' (COUNCIL_INFO_JS is called in a template instead),
+		    but putting it here forces an error early on, during precompilation, if it is unset. %>
+		council_data_source: '<%= ENV['COUNCIL_INFO_JS'] || raise('no COUNCIL_INFO_JS env var provided') %>'
 	}
 }

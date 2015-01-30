@@ -50,7 +50,7 @@
 
 <%= render "layouts/mustache_templates" %>
 
-<%= javascript_include_tag ENV['COUNCIL_INFO_JS'] %>
+<%= javascript_include_tag ENV['COUNCIL_INFO_JS'] || raise('no COUNCIL_INFO_JS env var provided') %>
 <%= javascript_include_tag "addresses", "data-turbolinks-track" => true %>
 
 <script>
