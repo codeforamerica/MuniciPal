@@ -98,6 +98,7 @@ function updatePage(params) {
 
 
 function update_with_new( data ) {
+  console.debug("rendering page via update_with_new()");
 
   if (!data.event_items) { return; } // must be at root w/ no data yet
 

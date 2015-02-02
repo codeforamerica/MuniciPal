@@ -29,6 +29,7 @@ $(document).ready(function() {
 
 
 	$.ajaxSetup({ cache: true });
+	console.debug("fetching Facebook API");
 	$.getScript('//connect.facebook.net/en_US/sdk.js', function(){
 		FB.init({
 		  appId: '612274872174090',
@@ -36,6 +37,7 @@ $(document).ready(function() {
 		  xfbml: false,
 		});
 		FB.XFBML.parse();
+		console.debug('finished fetching Facebook API');
 	});
 
 });
