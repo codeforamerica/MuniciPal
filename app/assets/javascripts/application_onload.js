@@ -27,4 +27,15 @@ $(document).ready(function() {
 	attachmentsTemplate = $('#template-attachments').html();
 	Mustache.parse (attachmentsTemplate);
 
+
+	$.ajaxSetup({ cache: true });
+	$.getScript('//connect.facebook.net/en_US/sdk.js', function(){
+		FB.init({
+		  appId: '612274872174090',
+		  version: 'v2.2',
+		  xfbml: false,
+		});
+		FB.XFBML.parse();
+	});
+
 });
