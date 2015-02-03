@@ -69,6 +69,22 @@ Example of item from event_items Array:
 
 var app = app || {};
 
+
+app.maybeRenderFacebook = function() {
+
+  if ('renderedFacebook' in app) {
+    console.debug("Facebook widget already rendered; skipping re-render");
+  } else if ((('FB' in window) && ('XFBML' in FB)) && ($('#facebook-card .fb-widget').length > 0))
+  {
+    // we know now that FB API is loaded & the necessary DOM element exists
+    console.debug("attempting to render Facebook widget");
+    FB.XFBML.parse($('#facebook-card')[0]);
+    app.renderedFacebook = true;
+  } else {
+    console.debug("not quite ready to render Facebook widget; skipping for now");
+  }
+};
+
 var loadState = function (state) {
   if (state && state.firstState === true) {
     console.log("page reload");
@@ -242,10 +258,6 @@ function updatePageContent(data) {
   if ('twttr' in window && 'widgets' in twttr) {
     twttr.widgets.load();
   }
-  if ('FB' in window && 'XFBML' in FB) {
-    FB.XFBML.parse(); // pass document.getElementById('legislative') for efficiency.
-  }
-
 
   $('#results-area').show();
 }

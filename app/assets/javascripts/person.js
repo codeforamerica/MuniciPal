@@ -85,6 +85,7 @@ Person.prototype.render = function(container) {
   if (this.socialDetails('facebook')) {
     $('#facebook-card').html(Mustache.render(facebookTemplate, who_view));
     console.debug("added Facebook html5 stub, ready for widget rendering");
+    app.maybeRenderFacebook();
   } else {
     $('#facebook-card').html(Mustache.render(noFacebookTemplate));
   }

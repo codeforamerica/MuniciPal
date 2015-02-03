@@ -36,8 +36,8 @@ $(document).ready(function() {
 		  version: 'v2.2',
 		  xfbml: false,
 		});
-		FB.XFBML.parse();
 		console.debug('finished fetching Facebook API');
+		app.maybeRenderFacebook();
 	});
 
 });
