@@ -73,15 +73,16 @@ var app = app || {};
 app.maybeRenderFacebook = function() {
 
   if ('renderedFacebook' in app) {
-    console.debug("Facebook widget already rendered; skipping re-render");
+    // console.debug("Facebook widget already rendered; skipping re-render");
   } else if ((('FB' in window) && ('XFBML' in FB)) && ($('#facebook-card .fb-widget').length > 0))
+    // console.debug("Facebook widget already rendered; skipping re-render");
   {
     // we know now that FB API is loaded & the necessary DOM element exists
-    console.debug("attempting to render Facebook widget");
+    // console.debug("attempting to render Facebook widget");
     FB.XFBML.parse($('#facebook-card')[0]);
     app.renderedFacebook = true;
   } else {
-    console.debug("not quite ready to render Facebook widget; skipping for now");
+    // console.debug("not quite ready to render Facebook widget; skipping for now");
   }
 };
 
@@ -114,7 +115,7 @@ function updatePage(params) {
 
 
 function update_with_new( data ) {
-  console.debug("rendering page via update_with_new()");
+  // console.debug("rendering page via update_with_new()");
 
   if (!data.event_items) { return; } // must be at root w/ no data yet
 

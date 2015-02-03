@@ -29,14 +29,14 @@ $(document).ready(function() {
 
 
 	$.ajaxSetup({ cache: true });
-	console.debug("fetching Facebook API");
+	// console.debug("fetching Facebook API");
 	$.getScript('//connect.facebook.net/en_US/sdk.js', function(){
 		FB.init({
 		  appId: '612274872174090',
 		  version: 'v2.2',
 		  xfbml: false,
 		});
-		console.debug('finished fetching Facebook API');
+		// console.debug('finished fetching Facebook API');
 		app.maybeRenderFacebook();
 	});
 
