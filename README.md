@@ -69,6 +69,9 @@ Or deploy manually:
 
 Running `rake legistar_all:refresh` (locally), or `heroku run rake legistar_all:refresh` on heroku will fetch the recent agenda items. You may also want to learn how to [schedule Legistar updates on Heroku](https://github.com/codeforamerica/MuniciPal/wiki/Scheduling-Legistar-Updates-on-Heroku).
 
+#### Further documentation
+
+Please see the [wiki](https://github.com/codeforamerica/MuniciPal/wiki).
 
 ## Tests
 
