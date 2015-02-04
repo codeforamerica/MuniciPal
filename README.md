@@ -65,6 +65,11 @@ Or deploy manually:
         git push heroku master
         heroku run bundle exec rake app:deploy
 
+#### Keeping your Legistar agenda items up to date
+
+Running `rake legistar_all:refresh` (locally), or `heroku run rake legistar_all:refresh` on heroku will fetch the recent agenda items. You may also want to learn how to [schedule Legistar updates on Heroku](https://github.com/codeforamerica/MuniciPal/wiki/Scheduling-Legistar-Updates-on-Heroku).
+
+
 ## Tests
 
 Current tests [may be stale](https://github.com/codeforamerica/MuniciPal/issues/110).
