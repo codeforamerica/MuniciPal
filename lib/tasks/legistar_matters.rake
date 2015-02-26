@@ -3,8 +3,8 @@ require 'legistar'
 namespace :legistar_matters do
   desc "Load Legistar matters into database from REST API"
   task :load => :environment do
-    # DEBUG: filter items returned for quicker development cycles
-    filter = "?$filter=MatterIntroDate+ge+datetime'2014-09-01'+and+MatterIntroDate+lt+datetime'2015-01-01'"
+    # Limit the date range of data returned since we need only show things near to now.
+    filter = "?$filter=MatterIntroDate+ge+datetime'"+(Date.today - 120).to_s+"'+and+MatterIntroDate+lt+datetime'"+(Date.today + 120).to_s+"'"
     Legistar.initialize()
     Legistar.fetch_collection('Matters', filter, 'Matter', Matter)
   end
