@@ -15,7 +15,6 @@
   },
   "addons": [
     "heroku-postgresql:hobby-dev",
-    "pgbackups:plus",
     "scheduler:standard"
   ],
   "env": {
