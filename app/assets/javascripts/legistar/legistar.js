@@ -85,17 +85,16 @@ EventItem.prototype.improve_readability = function () {
 
 // render the view and add it to the DOM
 // container: a jQuery selector string to which the rendered output should be attached
-/* jct - 05/2015 - change the title to use File Type instead of File Name - commented out orifinal fuction below */
+// jct - 05/2015 - change the title to use File Type instead of File Name - commented out orifinal fuction below
 EventItem.prototype.render = function (container) {
   var that = this;
-  var view = {
+      var view = {
       title: function () {
         var title;
           title = that.matter_type;
-        }
-        return title;
+          return title;
       },
-      //jct beg of old one 
+      //jct beg of old one
       /*
       var view = {
       title: function () {
