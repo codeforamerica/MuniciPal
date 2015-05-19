@@ -61,7 +61,32 @@ Event.prototype.render = function (container) {
 
 /* text transforms on fields to improve readability of event items.
    Note that this works specifically with the way Mesa records things. */
+/* jct - 05/2015 - Changed the EventItem.prototype.improve_readability function
+to use the item.matter.type instead of the item.matter.name - put the type as the name - commented out old one */
 EventItem.prototype.improve_readability = function () {
+  // Simplify text by removing "(District X)" since we have that info elsewhere
+  this.title = this.item.title.replace(/\(District \d\)/, '');
+
+  var contract;
+  // Contract Matters tend to look like "C12345 Something Human Friendly". Let's save & remove that contract #.
+  if (this.item.matter_type === 'Contract') {
+    this.matter_name = this.item.matter_type // put in the type as the name
+    //contract = this.item.matter_name.split(' ')[0]; // save it
+    // console.log("Got contract: " + contract);
+    //if (/C\d+/.test(contract)) {
+      //this.matter_name = this.item.matter_name.substr(this.item.matter_name.indexOf(' ') + 1); // remove it
+    //}
+    // else {
+    //   console.log("Weird. Expected " + contract + " to look like 'C' followed by some numbers.");
+    // }
+  }
+
+  // We don't want to duplicate the MatterName (used as a title) as the first line of the text, so remove if found.
+  var re = new RegExp('^' + this.item.matter_name + '[\n\r]*');
+  this.title = this.item.title.replace(re, '');
+};
+//jct beg of old one
+/*EventItem.prototype.improve_readability = function () {
   // Simplify text by removing "(District X)" since we have that info elsewhere
   this.title = this.item.title.replace(/\(District \d\)/, '');
 
@@ -81,8 +106,8 @@ EventItem.prototype.improve_readability = function () {
   // We don't want to duplicate the MatterName (used as a title) as the first line of the text, so remove if found.
   var re = new RegExp('^' + this.item.matter_name + '[\n\r]*');
   this.title = this.item.title.replace(re, '');
-};
-
+};*/
+//jct end of old one
 // render the view and add it to the DOM
 // container: a jQuery selector string to which the rendered output should be attached
 EventItem.prototype.render = function (container) {
