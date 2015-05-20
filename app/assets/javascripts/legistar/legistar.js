@@ -23,7 +23,7 @@ function EventItem(item, attachments) {
   var icons = {
     'Contract': 'fa-pencil',
     'Resolution': 'fa-legal',
-    'Liquor License': 'fa-glass',
+    'Liquor License Application': 'fa-glass',
     'miscellaneous': 'fa-cog'
   };
   this.icon = icons[this.matter_type] || icons.miscellaneous;
