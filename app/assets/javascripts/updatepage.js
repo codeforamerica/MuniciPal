@@ -72,7 +72,7 @@ var app = app || {};
 
 app.maybeRenderFacebook = function() {
 
-  if ('renderedFacebook' in app) {
+  if (app.renderedFacebook) {
     // console.debug("Facebook widget already rendered; skipping re-render");
   } else if ((('FB' in window) && ('XFBML' in FB)) && ($('#facebook-card .fb-widget').length > 0))
     // console.debug("Facebook widget already rendered; skipping re-render");
@@ -118,6 +118,8 @@ function update_with_new( data ) {
   // console.debug("rendering page via update_with_new()");
 
   if (!data.event_items) { return; } // must be at root w/ no data yet
+
+  app.renderedFacebook = false; // try rerendering on page updates
 
   app.data = data;
 
