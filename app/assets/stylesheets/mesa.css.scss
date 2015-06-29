@@ -685,6 +685,14 @@ p.descript {
   }
 }
 
+// iPhone 2G-4S in portrait; see stephen.io/mediaqueries
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px)
+{
+  #map {
+    height: 310px; /* small enough to grab outside the map when we need to scroll past it */
+  }
+}
+
 /*  Responsive helpers where Pure blew it  */
 
 // Above size
