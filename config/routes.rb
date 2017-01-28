@@ -1,7 +1,7 @@
 Municipal::Application.routes.draw do
   get '/event_items/:id', to: 'event_items#show'
 
-  resources :matters
+  resources :matters, :only => [:index, :show]
 
   namespace :events do
     resources :event_items, :only => [:index, :show], constraints: { format: 'json' }
