@@ -22,7 +22,7 @@ end
 gem 'faraday'
 gem 'faraday_middleware'
 
-gem 'geoservices', :git => 'git://github.com/ajturner/geoservices-ruby.git'
+gem 'geoservices', :git => 'https://github.com/ajturner/geoservices-ruby.git'
 
 # Use postgresql as the database for Active Record
 gem 'pg', '0.17.1'
