@@ -1,6 +1,7 @@
 GIT
   remote: https://github.com/ajturner/geoservices-ruby.git
-  revision: 32aa336e24e639eea86b955242c12197df20fc4e
+  revision: e996bb7dcbe75ad202cf964ba57ee95d54beeaab
+  ref: e996bb7d
   specs:
     geoservices (0.0.9)
 

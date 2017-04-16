@@ -22,7 +22,8 @@ end
 gem 'faraday'
 gem 'faraday_middleware'
 
-gem 'geoservices', :git => 'https://github.com/ajturner/geoservices-ruby.git'
+# set explicit git commit (e996bb7d - version 0.0.9) because immediate following ref 32aa336e2 breaks (CfA MunciPal GH issue #165)
+gem 'geoservices', :git => 'https://github.com/ajturner/geoservices-ruby.git', :ref => 'e996bb7d'
 
 # Use postgresql as the database for Active Record
 gem 'pg', '0.17.1'
