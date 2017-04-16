@@ -1,8 +1,8 @@
 GIT
-  remote: git://github.com/ajturner/geoservices-ruby.git
-  revision: c738ffc31cbc9460159a1c4fb66c3e5ca9de6916
+  remote: https://github.com/ajturner/geoservices-ruby.git
+  revision: 32aa336e24e639eea86b955242c12197df20fc4e
   specs:
-    geoservices (0.0.6)
+    geoservices (0.0.9)
 
 GEM
   remote: https://rubygems.org/
@@ -215,3 +215,9 @@ DEPENDENCIES
   thin
   uglifier (= 2.5.0)
   unicorn
+
+RUBY VERSION
+   ruby 2.1.2p95
+
+BUNDLED WITH
+   1.14.6
