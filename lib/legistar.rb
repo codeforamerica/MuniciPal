@@ -78,17 +78,15 @@ module Legistar
     @@log.info("Connection opened to #{base_url} and extended logging to #{logfile}")
 
     which_api = '4c1ec1ba-762d-421d-9da0-a399be0919d0'
-    query_params = { _apikey: 'c/XK9NG0FdIXYH7VxUSqWPhXa9oJZN0NLuuGic7duphtqaesQJHzL/V4Z73vuSpIaPGa8z4it1O+jwoFxT2scQ==',
-                     _user: 'c4296b63-fe04-499c-b437-11f00cb2a721' }.to_query
-    query_url = "/store/data/#{which_api}/_query?#{query_params}"
+    query_params = { input: "webpage/url:#{url}",
+                     _apikey: 'c4296b63fe04499cb43711f00cb2a72173f5caf4d1b415d217607ed5c544aa58f8576bda0964dd0d2eeb8689ceddba986da9a7ac4091f32ff57867bdefb92a4868f19af33e22b753be8f0a05c53dac71',
+                    }.to_query
+    query_url = "/store/connector/#{which_api}/_query?#{query_params}"
 
     begin
-      # post payload as JSON
-      body = '{ "input": { "webpage/url": "' + url + '"}}'
-      response = connection.post do |req|
+      response = connection.get do |req|
         req.url query_url
         req.headers['Content-Type'] = 'application/json'
-        req.body = body
       end
       raise http_response_mismatch('GET', 200, response.status) unless response.status == 200 # Net::HTTPOK
 
