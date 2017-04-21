@@ -2,7 +2,20 @@ require 'pp'
 
 module Legistar
 
+  @@log = Logger.new(STDOUT)
+  # @@log.level = Logger::INFO
+  @@log.level = Logger::WARN
+
+  class LegistarHTTPmismatch < StandardError
+  end
+
 	module_function
+
+  def http_response_mismatch(http_method, expected, got)
+    # try to give the user somewhat human friendly responses (NET::HTTPOK is as close as we can easily get to 'HTTP OK')
+    msg = "#{http_method} expected status #{expected} (#{Net::HTTPResponse::CODE_TO_OBJ[expected.to_s]}), but got #{got} (#{Net::HTTPResponse::CODE_TO_OBJ[got.to_s]})"
+    return LegistarHTTPmismatch.new(msg)
+  end
 
 	# hack. This should go in a config file. TODO.
 	def city
@@ -12,7 +25,6 @@ module Legistar
 	# set up logging and Legistar base settings
   def initialize
     logfile = "log/fetch-legistar.log"
-  	@@log = Logger.new(STDOUT)
     @@fileLog = Logger.new(logfile)
     @@log.level = Logger::DEBUG
     @@fileLog.level = Logger::DEBUG
@@ -29,7 +41,7 @@ module Legistar
       conn.request :retry, max: 5, interval: 0.05, interval: 0.05, interval_randomness: 0.5, backoff_factor: 2
 	  end
 
-    @@log.info("Connection opened to #{@@base_url} and logging to #{logfile}")
+    @@log.info("Connection opened to #{@@base_url} and extended logging to #{logfile}")
 	end
 
   # given the URL of one of the Legistar documentation pages,
@@ -50,13 +62,20 @@ module Legistar
   # Note! Make sure not to have a space between the arguments to the rake task.
   def fetch_structure(url, endpoint_prefix_to_strip)
     endpoint_prefix_to_strip = endpoint_prefix_to_strip || ""
-    log = Logger.new('log/faraday.log')
-    connection = Faraday.new(:url => "https://api.import.io") do |conn|
+    base_url = 'https://api.import.io'
+    logfile = 'log/fetch-structure.log'
+
+    @@fileLog = Logger.new(logfile)
+    @@fileLog.level = Logger::WARN # Or use Logger::INFO or Logger::DEBUG for more info
+
+    connection = Faraday.new(:url => base_url) do |conn|
       conn.request  :url_encoded             # form-encode POST params
-      # conn.response :logger                  # log requests to STDOUT
-      conn.use Faraday::Response::Logger, log
+      conn.response :logger, @@log # log requests to STDOUT
+      conn.use Faraday::Response::Logger, @@fileLog
       conn.adapter  Faraday.default_adapter  # make requests with Net::HTTP
     end
+
+    @@log.info("Connection opened to #{base_url} and extended logging to #{logfile}")
 
     which_api = '4c1ec1ba-762d-421d-9da0-a399be0919d0'
     query_params = { _apikey: 'c/XK9NG0FdIXYH7VxUSqWPhXa9oJZN0NLuuGic7duphtqaesQJHzL/V4Z73vuSpIaPGa8z4it1O+jwoFxT2scQ==',
@@ -71,16 +90,23 @@ module Legistar
         req.headers['Content-Type'] = 'application/json'
         req.body = body
       end
-      raise unless response.status == 200
-      log.info response.body
+      raise http_response_mismatch('GET', 200, response.status) unless response.status == 200 # Net::HTTPOK
+
+      @@log.info response.body
       structure = ActiveSupport::JSON.decode(response.body)
       structure_string = PP.pp structure, dump = ""
-      log.info(structure_string)
+      @@log.info(structure_string)
       print_migration(structure, endpoint_prefix_to_strip)
+
     rescue Faraday::Error::ConnectionFailed => e
       log_error "Connection failed for #{url}: #{e}"
+    rescue ActiveSupport::JSON.parse_error => e
+      log_error "Attempted to decode invalid JSON: #{response.body}"
+    rescue Legistar::LegistarHTTPmismatch => e
+      msg = "Failed fetching #{base_url}#{query_url}. #{e}"
+      log_error(msg)
     rescue => e
-      msg = "Failed fetching for query_url: #{url}, body: #{body}; status: #{response.status}, error: #{e}"
+      msg = "Unexpected error caught by line #{__LINE__}: #{e}, Trace:\n#{e.backtrace.join "\n"}"
       log_error(msg)
     end
   end
@@ -162,7 +188,7 @@ module Legistar
     rescue Faraday::Error::ConnectionFailed => e
       log_error "Connection failed for #{full_url}: #{e}"
     rescue => e
-      msg = "Failed fetching #{full_url}, error: #{e}"
+      msg = "Failed fetching #{full_url}, error: #{e}, near #{__FILE__}:#{__LINE__}"
       if response
         msg << ", status: #{response.status}"
       end

@@ -17,7 +17,6 @@ namespace :legistar_attachments do
 
   desc "Display structure of any REST endpoint"
   task :structure, [:url, :prefix_to_strip] => [:environment] do |t, args|
-    Legistar.initialize()
     Legistar.fetch_structure(args.url, args.prefix_to_strip)
   end
 

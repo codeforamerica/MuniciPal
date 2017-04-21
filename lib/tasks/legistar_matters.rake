@@ -11,7 +11,6 @@ namespace :legistar_matters do
 
   desc "Display structure of REST endpoint"
   task :structure => :environment do
-    Legistar.initialize()
     Legistar.fetch_structure('http://webapi.legistar.com/Help/Api/GET-v1-Client-Matters', 'Matter')
   end
 
