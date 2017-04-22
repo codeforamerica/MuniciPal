@@ -1,4 +1,4 @@
-require 'pp'
+require "pp"
 
 module Legistar
 
@@ -13,7 +13,7 @@ module Legistar
 
   def http_response_mismatch(http_method, expected, got)
     # try to give the user somewhat human friendly responses
-    # (NET::HTTPOK is as close as we can easily get to 'HTTP OK')
+    # (NET::HTTPOK is as close as we can easily get to "HTTP OK")
     msg = "#{http_method} expected status #{expected}"\
           " (#{Net::HTTPResponse::CODE_TO_OBJ[expected.to_s]}),"\
           " but got #{got}"\
@@ -23,7 +23,7 @@ module Legistar
 
 	# hack. This should go in a config file. TODO.
 	def city
-		'Mesa'
+		"Mesa"
 	end
 
 	# set up logging and Legistar base settings
@@ -32,13 +32,13 @@ module Legistar
     @file_log = Logger.new(logfile)
     @log.level = Logger::DEBUG
     @file_log.level = Logger::DEBUG
-    @@base_url = 'http://webapi.legistar.com'
+    @@base_url = "http://webapi.legistar.com"
     # extras: any additional parameters that should be set on each object (optional)
     @@extras = nil
     @@wait = 0.5 #seconds to wait between fetching
 
 		@@connection = Faraday.new(url: @@base_url) do |conn|
-			conn.headers['Accept'] = 'text/json'
+			conn.headers["Accept"] = "text/json"
 			conn.request :instrumentation
 			conn.response :json
       conn.adapter Faraday.default_adapter
@@ -58,7 +58,7 @@ module Legistar
   # t.integer :event_id
   # t.string :event_guid
   # ...
-  # so you might want to strip off 'event':
+  # so you might want to strip off "event":
   # rake legistar_all:structure[http://webapi.legistar.com/Help/Api/GET-v1-Client-Events,"Event"]:
   # t.integer :id
   # t.string :guid
@@ -81,7 +81,7 @@ module Legistar
 
     @log.info("Connection opened to #{base_url} and logging to #{logfile}")
 
-    which_api = '4c1ec1ba-762d-421d-9da0-a399be0919d0'
+    which_api = "4c1ec1ba-762d-421d-9da0-a399be0919d0"
     query_params = {
       input: "webpage/url:#{url}",
       _apikey: "c4296b63fe04499cb43711f00cb2a72173f5caf4d1b415d217607ed5c544"\
@@ -93,7 +93,7 @@ module Legistar
     begin
       response = connection.get do |req|
         req.url query_url
-        req.headers['Content-Type'] = 'application/json'
+        req.headers["Content-Type"] = "application/json"
       end
       if response.status != 200 # Net::HTTPOK
         raise http_response_mismatch("GET", 200, response.status)
@@ -122,11 +122,11 @@ module Legistar
 	# fetches items from an endpoint nested within a nesting_endpoint.
 	# example from Legistar API:
 		# /v1/{client}/Events/{id}/EventItems
-		# endpoint is 'EventItems'
+		# endpoint is "EventItems"
 		# endpoint_filter is nil
-		# endpoint_prefix_to_strip is 'EventItem'
+		# endpoint_prefix_to_strip is "EventItem"
 		# endpoint_class is EventItem
-		# nesting_endpoint is 'Events'
+		# nesting_endpoint is "Events"
 		# nesting_class is Event
   # By default, the endpoints within every item of nesting class will be fetched;
   # the set can be overridden by passing in nesting_collection though.
@@ -138,8 +138,8 @@ module Legistar
 															nesting_class,
                               nesting_collection=nil)
 
-    @@endpoint = endpoint # 'EventItems'
-    @@prefix_to_strip = endpoint_prefix_to_strip #'EventItem'
+    @@endpoint = endpoint # "EventItems"
+    @@prefix_to_strip = endpoint_prefix_to_strip #"EventItem"
 		@@endpoint_class = endpoint_class #EventItem
 
     log_info("fetching from endpoint: #{endpoint} (nesting_endpoint: #{nesting_endpoint}), filter: #{endpoint_filter}, prefix: #{endpoint_prefix_to_strip}, class: #{endpoint_class}")
@@ -153,7 +153,7 @@ module Legistar
       # we want to keep a reference to the nesting object's id.
       # note that this is more important for Attachments, which don't
       # have an MatterId field, while EventItems do have an EventId.
-      @@extras = { nesting_class.to_s.underscore + '_id' => nesting_item.source_id}
+      @@extras = { nesting_class.to_s.underscore + "_id" => nesting_item.source_id}
 
       go_fetch()
     end
@@ -162,7 +162,7 @@ module Legistar
 
 
 	# endpoint: which endpoint in the Legistar API to fetch
-	#          example: 'events' for fetching from /v1/#{Legistar.city}/events
+	#          example: "events" for fetching from /v1/#{Legistar.city}/events
 	# endpoint_class: the Class of structure to create with the data retrieved from API
 	#          example: Event
 	def fetch_collection(endpoint,
@@ -208,17 +208,17 @@ module Legistar
   def self.to_objects(collection)
     collection.each do |item|
       attrs = rubify_object(item, @@prefix_to_strip)
-      attrs['source_id'] = attrs.delete('id')
+      attrs["source_id"] = attrs.delete("id")
       @@extras.each { |k,v| attrs[k] = v } if @@extras
 
       if @@endpoint_class == Event
         # strip EventItems from Event before creating
-        attrs.delete('items')
+        attrs.delete("items")
       end
 
       if @@endpoint_class == EventItem
         # strip MatterAttachements from EventItems before creating
-        attrs.delete('matter_attachments') # TODO? link Attachment -> EventItem?
+        attrs.delete("matter_attachments") # TODO? link Attachment -> EventItem?
       end
 
       pretty_attributes = PP.pp attrs, dump = ""
@@ -243,21 +243,21 @@ module Legistar
   # Take the structure described in the Legistar API and
   # output it in a format useful for a migration file.
   def self.print_migration(structure, prefix_to_strip)
-    # structure.results is an array of objects with 'name' and
-    # 'type' fields. Note that the name will be in PascalCase,
+    # structure.results is an array of objects with "name" and
+    # "type" fields. Note that the name will be in PascalCase,
     # not snake_case. It will also have the RestEndpointName
     # prepended to each.
     # We need to convert that into lines like: t.integer :source_id
-    structure['results'].each do |field|
-      puts 't.' + rubify_type(field['type']) + ' :' + rubify_name(field['name'], prefix_to_strip)
+    structure["results"].each do |field|
+      puts "t." + rubify_type(field["type"]) + " :" + rubify_name(field["name"], prefix_to_strip)
     end
   end
 
   # convert types from Legistar documentation to ruby appropriate types
   def self.rubify_type(type)
     case type
-    when 'Collection of byte' then 'string'
-    when 'date' then 'datetime'
+    when "Collection of byte" then "string"
+    when "date" then "datetime"
     else type
     end
   end
@@ -266,11 +266,11 @@ module Legistar
   # to ruby format.
   # camelcase_object: just SomeObject object which needs to have
   #       SomeObjectPropertyNames changed to property_names
-  # prefix_to_strip: any CamelCase part like 'SomeObject' which should be
+  # prefix_to_strip: any CamelCase part like "SomeObject" which should be
   #        removed before converting the rest of the name to snake_case
   # Example:
-  # camel = { 'CamelFirstName' => 'Ed', 'CamelLastName' => 'Jones' }
-  # rubify_object(camel, 'Camel')
+  # camel = { "CamelFirstName" => "Ed", "CamelLastName" => "Jones" }
+  # rubify_object(camel, "Camel")
   # => {"first_name"=>"Ed", "last_name"=>"Jones"}
   #
   def self.rubify_object(camelcase_object, prefix_to_strip)
@@ -281,9 +281,9 @@ module Legistar
   end
 
   # Convert prefixed PascalCase to snake_case, sans prefix
-  # ex: rubyify_name('PrefixedFieldName', 'Prefixed') => 'field_name'
+  # ex: rubyify_name("PrefixedFieldName", "Prefixed") => "field_name"
   def self.rubify_name(camelcase_name, prefix_to_strip)
-    camelcase_name.sub(prefix_to_strip, '').underscore
+    camelcase_name.sub(prefix_to_strip, "").underscore
   end
 
 
