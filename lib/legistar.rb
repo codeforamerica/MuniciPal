@@ -211,6 +211,16 @@ module Legistar
 		  attrs['source_id'] = attrs.delete('id')
       @@extras.each { |k,v| attrs[k] = v } if @@extras
 
+      if @@endpoint_class == Event
+        # strip EventItems from Event before creating
+        attrs.delete('items')
+      end
+
+      if @@endpoint_class == EventItem
+        # strip MatterAttachements from EventItems before creating
+        attrs.delete('matter_attachments') # TODO? link Attachment -> EventItem?
+      end
+
 		  pretty_attributes = PP.pp attrs, dump = ""
 		  msg = "Attempting creation of #{@@endpoint_class.to_s} with attrs: #{pretty_attributes}"
 		  log_info(msg)
