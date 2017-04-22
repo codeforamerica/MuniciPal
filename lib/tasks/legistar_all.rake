@@ -1,4 +1,4 @@
-require 'legistar'
+require "legistar"
 
 namespace :legistar_all do
   desc "Wipe our database, then rebuild it by recopying content via Legistar API"
@@ -22,5 +22,9 @@ namespace :legistar_all do
   desc "Display structure of any REST endpoint"
   task :structure, [:url, :prefix_to_strip] => [:environment] do |t, args|
     Legistar.fetch_structure(args.url, args.prefix_to_strip)
+  end
+
+  desc "Display Legistar stats (number of items in each database table)"
+  task :stats => ["legistar_stats:print"] do
   end
 end
