@@ -2,9 +2,9 @@ require 'pp'
 
 module Legistar
 
-  @@log = Logger.new(STDOUT)
-  # @@log.level = Logger::INFO
-  @@log.level = Logger::WARN
+  @log = Logger.new(STDOUT)
+  # @log.level = Logger::INFO
+  @log.level = Logger::WARN
 
   class LegistarHTTPmismatch < StandardError
   end
@@ -12,9 +12,13 @@ module Legistar
 	module_function
 
   def http_response_mismatch(http_method, expected, got)
-    # try to give the user somewhat human friendly responses (NET::HTTPOK is as close as we can easily get to 'HTTP OK')
-    msg = "#{http_method} expected status #{expected} (#{Net::HTTPResponse::CODE_TO_OBJ[expected.to_s]}), but got #{got} (#{Net::HTTPResponse::CODE_TO_OBJ[got.to_s]})"
-    return LegistarHTTPmismatch.new(msg)
+    # try to give the user somewhat human friendly responses
+    # (NET::HTTPOK is as close as we can easily get to 'HTTP OK')
+    msg = "#{http_method} expected status #{expected}"\
+          " (#{Net::HTTPResponse::CODE_TO_OBJ[expected.to_s]}),"\
+          " but got #{got}"\
+          " (#{Net::HTTPResponse::CODE_TO_OBJ[got.to_s]})"
+    LegistarHTTPmismatch.new(msg)
   end
 
 	# hack. This should go in a config file. TODO.
@@ -25,9 +29,9 @@ module Legistar
 	# set up logging and Legistar base settings
   def initialize
     logfile = "log/fetch-legistar.log"
-    @@fileLog = Logger.new(logfile)
-    @@log.level = Logger::DEBUG
-    @@fileLog.level = Logger::DEBUG
+    @file_log = Logger.new(logfile)
+    @log.level = Logger::DEBUG
+    @file_log.level = Logger::DEBUG
     @@base_url = 'http://webapi.legistar.com'
     # extras: any additional parameters that should be set on each object (optional)
     @@extras = nil
@@ -41,7 +45,7 @@ module Legistar
       conn.request :retry, max: 5, interval: 0.05, interval: 0.05, interval_randomness: 0.5, backoff_factor: 2
 	  end
 
-    @@log.info("Connection opened to #{@@base_url} and extended logging to #{logfile}")
+    @log.info("Connection opened to #{@@base_url} and logging to #{logfile}")
 	end
 
   # given the URL of one of the Legistar documentation pages,
@@ -62,25 +66,28 @@ module Legistar
   # Note! Make sure not to have a space between the arguments to the rake task.
   def fetch_structure(url, endpoint_prefix_to_strip)
     endpoint_prefix_to_strip = endpoint_prefix_to_strip || ""
-    base_url = 'https://api.import.io'
-    logfile = 'log/fetch-structure.log'
+    base_url = "https://api.import.io"
+    logfile = "log/fetch-structure.log"
 
-    @@fileLog = Logger.new(logfile)
-    @@fileLog.level = Logger::WARN # Or use Logger::INFO or Logger::DEBUG for more info
+    @file_log = Logger.new(logfile)
+    @file_log.level = Logger::WARN # Or use ::INFO or ::DEBUG for more info
 
     connection = Faraday.new(:url => base_url) do |conn|
       conn.request  :url_encoded             # form-encode POST params
-      conn.response :logger, @@log # log requests to STDOUT
-      conn.use Faraday::Response::Logger, @@fileLog
+      conn.response :logger, @log # log requests to STDOUT
+      conn.use Faraday::Response::Logger, @file_log
       conn.adapter  Faraday.default_adapter  # make requests with Net::HTTP
     end
 
-    @@log.info("Connection opened to #{base_url} and extended logging to #{logfile}")
+    @log.info("Connection opened to #{base_url} and logging to #{logfile}")
 
     which_api = '4c1ec1ba-762d-421d-9da0-a399be0919d0'
-    query_params = { input: "webpage/url:#{url}",
-                     _apikey: 'c4296b63fe04499cb43711f00cb2a72173f5caf4d1b415d217607ed5c544aa58f8576bda0964dd0d2eeb8689ceddba986da9a7ac4091f32ff57867bdefb92a4868f19af33e22b753be8f0a05c53dac71',
-                    }.to_query
+    query_params = {
+      input: "webpage/url:#{url}",
+      _apikey: "c4296b63fe04499cb43711f00cb2a72173f5caf4d1b415d217607ed5c544"\
+               "aa58f8576bda0964dd0d2eeb8689ceddba986da9a7ac4091f32ff57867bd"\
+               "efb92a4868f19af33e22b753be8f0a05c53dac71",
+    }.to_query
     query_url = "/store/connector/#{which_api}/_query?#{query_params}"
 
     begin
@@ -88,23 +95,26 @@ module Legistar
         req.url query_url
         req.headers['Content-Type'] = 'application/json'
       end
-      raise http_response_mismatch('GET', 200, response.status) unless response.status == 200 # Net::HTTPOK
+      if response.status != 200 # Net::HTTPOK
+        raise http_response_mismatch("GET", 200, response.status)
+      end
 
-      @@log.info response.body
+      @log.info response.body
       structure = ActiveSupport::JSON.decode(response.body)
       structure_string = PP.pp structure, dump = ""
-      @@log.info(structure_string)
+      @log.info(structure_string)
       print_migration(structure, endpoint_prefix_to_strip)
 
     rescue Faraday::Error::ConnectionFailed => e
       log_error "Connection failed for #{url}: #{e}"
-    rescue ActiveSupport::JSON.parse_error => e
+    rescue ActiveSupport::JSON.parse_error
       log_error "Attempted to decode invalid JSON: #{response.body}"
     rescue Legistar::LegistarHTTPmismatch => e
       msg = "Failed fetching #{base_url}#{query_url}. #{e}"
       log_error(msg)
     rescue => e
-      msg = "Unexpected error caught by line #{__LINE__}: #{e}, Trace:\n#{e.backtrace.join "\n"}"
+      msg = "Unexpected error caught by line #{__LINE__}: #{e}, "\
+            "Trace:\n#{e.backtrace.join "\n"}"
       log_error(msg)
     end
   end
@@ -210,13 +220,13 @@ module Legistar
 	end
 
 	def self.log_info(msg)
-		@@log.info(msg) if not Rails.env.production?
-		@@fileLog.info(msg)
+    @log.info(msg) unless Rails.env.production?
+    @file_log.info(msg)
 	end
 
   def self.log_error(msg)
-    @@log.error(msg)
-    @@fileLog.error(msg)
+    @log.error(msg)
+    @file_log.error(msg)
   end
 
   # Take the structure described in the Legistar API and
