@@ -35,7 +35,7 @@ module Legistar
     @@base_url = "http://webapi.legistar.com"
     # extras: any additional parameters that should be set on each object (optional)
     @@extras = nil
-    @@wait = 0.5 #seconds to wait between fetching
+    @@wait = 0.5 # seconds to wait between fetching
 
     @@connection = Faraday.new(url: @@base_url) do |conn|
       conn.headers["Accept"] = "text/json"
@@ -139,8 +139,8 @@ module Legistar
                               nesting_collection=nil)
 
     @@endpoint = endpoint # "EventItems"
-    @@prefix_to_strip = endpoint_prefix_to_strip #"EventItem"
-    @@endpoint_class = endpoint_class #EventItem
+    @@prefix_to_strip = endpoint_prefix_to_strip # "EventItem"
+    @@endpoint_class = endpoint_class # EventItem
 
     log_info("fetching from endpoint: #{endpoint} (nesting_endpoint: #{nesting_endpoint}), filter: #{endpoint_filter}, prefix: #{endpoint_prefix_to_strip}, class: #{endpoint_class}")
 
@@ -153,7 +153,9 @@ module Legistar
       # we want to keep a reference to the nesting object's id.
       # note that this is more important for Attachments, which don't
       # have an MatterId field, while EventItems do have an EventId.
-      @@extras = { nesting_class.to_s.underscore + "_id" => nesting_item.source_id}
+      @@extras = {
+        nesting_class.to_s.underscore + "_id" => nesting_item.source_id
+      }
 
       go_fetch()
     end
@@ -249,7 +251,8 @@ module Legistar
     # prepended to each.
     # We need to convert that into lines like: t.integer :source_id
     structure["results"].each do |field|
-      puts "t." + rubify_type(field["type"]) + " :" + rubify_name(field["name"], prefix_to_strip)
+      puts "t." + rubify_type(field["type"]) +
+           " :" + rubify_name(field["name"], prefix_to_strip)
     end
   end
 
