@@ -23,4 +23,8 @@ namespace :legistar_all do
   task :structure, [:url, :prefix_to_strip] => [:environment] do |t, args|
     Legistar.fetch_structure(args.url, args.prefix_to_strip)
   end
+
+  desc "Display Legistar stats (number of items in each database table)"
+  task :stats => ['legistar_stats:print'] do
+  end
 end
