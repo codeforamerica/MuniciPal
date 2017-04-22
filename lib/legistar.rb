@@ -206,9 +206,9 @@ module Legistar
 
 	# collection: array of items returned from a Legistar collection endpoint
   def self.to_objects(collection)
-		collection.each do |item|
-		  attrs = rubify_object(item, @@prefix_to_strip)
-		  attrs['source_id'] = attrs.delete('id')
+    collection.each do |item|
+      attrs = rubify_object(item, @@prefix_to_strip)
+      attrs['source_id'] = attrs.delete('id')
       @@extras.each { |k,v| attrs[k] = v } if @@extras
 
       if @@endpoint_class == Event
@@ -221,13 +221,14 @@ module Legistar
         attrs.delete('matter_attachments') # TODO? link Attachment -> EventItem?
       end
 
-		  pretty_attributes = PP.pp attrs, dump = ""
-		  msg = "Attempting creation of #{@@endpoint_class.to_s} with attrs: #{pretty_attributes}"
-		  log_info(msg)
+      pretty_attributes = PP.pp attrs, dump = ""
+      msg = "Attempting creation of #{@@endpoint_class.to_s} "\
+            "with attrs: #{pretty_attributes}"
+      log_info(msg)
 
-		  @@endpoint_class.find_or_create_by(attrs)
-		end
-	end
+      @@endpoint_class.find_or_create_by(attrs)
+    end
+  end
 
 	def self.log_info(msg)
     @log.info(msg) unless Rails.env.production?

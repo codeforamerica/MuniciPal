@@ -1,9 +1,8 @@
-require 'legistar'
+require "legistar"
 
 namespace :legistar_stats do
   desc "Display Legistar stats (number of items in each database table)"
   task :print => :environment do
-
     dev_null = Logger.new("/dev/null")
     # Rails.logger = dev_null
     ActiveRecord::Base.logger = dev_null
