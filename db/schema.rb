@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140727091138) do
+ActiveRecord::Schema.define(version: 20161031034733) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 20140727091138) do
     t.string   "matter_status"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "accela_record_id"
   end
 
   create_table "events", force: true do |t|
@@ -81,6 +82,10 @@ ActiveRecord::Schema.define(version: 20140727091138) do
     t.string   "location"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "agenda_file"
+    t.string   "minutes_file"
+    t.datetime "agenda_last_published_utc"
+    t.datetime "minutes_last_published_utc"
   end
 
   create_table "matter_attachments", force: true do |t|
@@ -98,6 +103,9 @@ ActiveRecord::Schema.define(version: 20140727091138) do
     t.string   "binary"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "show_on_internet_page"
+    t.boolean  "is_minute_order"
+    t.boolean  "is_board_letter"
   end
 
   create_table "matters", force: true do |t|

@@ -23,7 +23,7 @@ function EventItem(item, attachments) {
   var icons = {
     'Contract': 'fa-pencil',
     'Resolution': 'fa-legal',
-    'Liquor License': 'fa-glass',
+    'Liquor License Application': 'fa-glass',
     'miscellaneous': 'fa-cog'
   };
   this.icon = icons[this.matter_type] || icons.miscellaneous;
@@ -85,9 +85,18 @@ EventItem.prototype.improve_readability = function () {
 
 // render the view and add it to the DOM
 // container: a jQuery selector string to which the rendered output should be attached
+// jct - 05/2015 - change the title to use File Type instead of File Name - commented out orifinal fuction below
 EventItem.prototype.render = function (container) {
   var that = this;
-  var view = {
+      var view = {
+      title: function () {
+        var title;
+          title = that.matter_type;
+          return title;
+      },
+      //jct beg of old one
+      /*
+      var view = {
       title: function () {
         var title;
         if (that.matter_type === 'Ordinance' &&
@@ -103,6 +112,9 @@ EventItem.prototype.render = function (container) {
         }
         return title;
       },
+      */
+      //jct end of old one
+      
       distance: function () {
         return Math.floor(Math.random() * (6 - 2)) + 2; //TODO fixme
       },
