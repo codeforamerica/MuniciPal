@@ -9,7 +9,7 @@ module Legistar
   class LegistarHTTPmismatch < StandardError
   end
 
-	module_function
+  module_function
 
   def http_response_mismatch(http_method, expected, got)
     # try to give the user somewhat human friendly responses
@@ -21,12 +21,12 @@ module Legistar
     LegistarHTTPmismatch.new(msg)
   end
 
-	# hack. This should go in a config file. TODO.
-	def city
-		"Mesa"
-	end
+  # hack. This should go in a config file. TODO.
+  def city
+    "Mesa"
+  end
 
-	# set up logging and Legistar base settings
+  # set up logging and Legistar base settings
   def initialize
     logfile = "log/fetch-legistar.log"
     @file_log = Logger.new(logfile)
@@ -37,16 +37,16 @@ module Legistar
     @@extras = nil
     @@wait = 0.5 #seconds to wait between fetching
 
-		@@connection = Faraday.new(url: @@base_url) do |conn|
-			conn.headers["Accept"] = "text/json"
-			conn.request :instrumentation
-			conn.response :json
+    @@connection = Faraday.new(url: @@base_url) do |conn|
+      conn.headers["Accept"] = "text/json"
+      conn.request :instrumentation
+      conn.response :json
       conn.adapter Faraday.default_adapter
       conn.request :retry, max: 5, interval: 0.05, interval: 0.05, interval_randomness: 0.5, backoff_factor: 2
-	  end
+    end
 
     @log.info("Connection opened to #{@@base_url} and logging to #{logfile}")
-	end
+  end
 
   # given the URL of one of the Legistar documentation pages,
   # return the documented structure of the endpoint in a format
@@ -119,35 +119,35 @@ module Legistar
     end
   end
 
-	# fetches items from an endpoint nested within a nesting_endpoint.
-	# example from Legistar API:
-		# /v1/{client}/Events/{id}/EventItems
-		# endpoint is "EventItems"
-		# endpoint_filter is nil
-		# endpoint_prefix_to_strip is "EventItem"
-		# endpoint_class is EventItem
-		# nesting_endpoint is "Events"
-		# nesting_class is Event
+  # fetches items from an endpoint nested within a nesting_endpoint.
+  # example from Legistar API:
+    # /v1/{client}/Events/{id}/EventItems
+    # endpoint is "EventItems"
+    # endpoint_filter is nil
+    # endpoint_prefix_to_strip is "EventItem"
+    # endpoint_class is EventItem
+    # nesting_endpoint is "Events"
+    # nesting_class is Event
   # By default, the endpoints within every item of nesting class will be fetched;
   # the set can be overridden by passing in nesting_collection though.
-	def fetch_nested_collection(endpoint,
-															endpoint_filter,
-															endpoint_prefix_to_strip,
-															endpoint_class,
-															nesting_endpoint,
-															nesting_class,
+  def fetch_nested_collection(endpoint,
+                              endpoint_filter,
+                              endpoint_prefix_to_strip,
+                              endpoint_class,
+                              nesting_endpoint,
+                              nesting_class,
                               nesting_collection=nil)
 
     @@endpoint = endpoint # "EventItems"
     @@prefix_to_strip = endpoint_prefix_to_strip #"EventItem"
-		@@endpoint_class = endpoint_class #EventItem
+    @@endpoint_class = endpoint_class #EventItem
 
     log_info("fetching from endpoint: #{endpoint} (nesting_endpoint: #{nesting_endpoint}), filter: #{endpoint_filter}, prefix: #{endpoint_prefix_to_strip}, class: #{endpoint_class}")
 
     nesting_collection ||= nesting_class.all
     nesting_collection.each do |nesting_item|
-    	# url = "/Events/#{event.source_id}/EventItems"
-		  @@url_path = "/v1/#{Legistar.city}/#{nesting_endpoint}/#{nesting_item.source_id}/#{endpoint}#{endpoint_filter}"
+      # url = "/Events/#{event.source_id}/EventItems"
+      @@url_path = "/v1/#{Legistar.city}/#{nesting_endpoint}/#{nesting_item.source_id}/#{endpoint}#{endpoint_filter}"
 
       # for nested items (like Attachments or EventItems),
       # we want to keep a reference to the nesting object's id.
@@ -161,24 +161,24 @@ module Legistar
 
 
 
-	# endpoint: which endpoint in the Legistar API to fetch
-	#          example: "events" for fetching from /v1/#{Legistar.city}/events
-	# endpoint_class: the Class of structure to create with the data retrieved from API
-	#          example: Event
-	def fetch_collection(endpoint,
+  # endpoint: which endpoint in the Legistar API to fetch
+  #          example: "events" for fetching from /v1/#{Legistar.city}/events
+  # endpoint_class: the Class of structure to create with the data retrieved from API
+  #          example: Event
+  def fetch_collection(endpoint,
                        filter,
                        prefix_to_strip,
                        endpoint_class)
-		@@endpoint = endpoint
+    @@endpoint = endpoint
     @@prefix_to_strip = prefix_to_strip
-		@@endpoint_class = endpoint_class
+    @@endpoint_class = endpoint_class
     @@url_path = "/v1/#{Legistar.city}/#{endpoint}#{filter}"
 
     log_info("fetching from endpoint: #{endpoint}, filter: #{filter}, prefix: #{prefix_to_strip}, class: #{endpoint_class}")
     go_fetch()
-	end
+  end
 
-	protected
+  protected
 
   def self.go_fetch
     begin
@@ -204,7 +204,7 @@ module Legistar
     end
   end
 
-	# collection: array of items returned from a Legistar collection endpoint
+  # collection: array of items returned from a Legistar collection endpoint
   def self.to_objects(collection)
     collection.each do |item|
       attrs = rubify_object(item, @@prefix_to_strip)
@@ -230,10 +230,10 @@ module Legistar
     end
   end
 
-	def self.log_info(msg)
+  def self.log_info(msg)
     @log.info(msg) unless Rails.env.production?
     @file_log.info(msg)
-	end
+  end
 
   def self.log_error(msg)
     @log.error(msg)
